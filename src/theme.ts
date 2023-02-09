@@ -1,3 +1,5 @@
+import { PaletteMode } from "@mui/material";
+
 // color design tokens export
 interface IGrey {
   0: string;
@@ -108,7 +110,7 @@ function reverseTokens(tokensDark: ITokens) {
 export const tokensLight = reverseTokens(tokensDark);
 
 // mui theme settings
-export const themeSettings = (mode : string) => {
+export const themeSettings = (mode : PaletteMode) => {
   return {
     palette: {
       mode: mode,
