@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import { InferGetServerSidePropsType } from 'next'
+import Link from 'next/link'
 type Props = {}
 export default function Home(props: Props) {
   return (
@@ -12,6 +13,7 @@ export default function Home(props: Props) {
       </Head>
       <main className={""}>
         <h1>Hello world!</h1>
+        <Link href="dashboard">Dashboard</Link>
       </main>
     </>
   )

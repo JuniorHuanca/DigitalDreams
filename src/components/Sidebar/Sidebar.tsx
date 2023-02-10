@@ -22,6 +22,7 @@ import profileImage from "@/assets/profile.jpeg";
 import FlexBetween from "../FlexBetween";
 import { useRouter } from "next/router";
 import { navItems } from "@/shared/util/data";
+import { ITheme } from "@/shared/util/types";
 
 type Props = {
     user: any,
@@ -46,13 +47,10 @@ const Sidebar = ({
     const router = useRouter();
     const { pathname } = router;
     const [active, setActive] = useState("");
-    // const navigate = useNavigate();
-    const theme: any = useTheme();
-
+    const theme: ITheme = useTheme();
     useEffect(() => {
         setActive(pathname.substring(1));
     }, [pathname]);
-    console.log(theme)
     return (
         <Box component="nav">
             {isSidebarOpen && (
@@ -77,7 +75,7 @@ const Sidebar = ({
                             <FlexBetween color={theme.palette.secondary.main}>
                                 <Box display="flex" alignItems="center" gap="0.5rem">
                                     <Typography variant="h4" fontWeight="bold">
-                                        ECOMVISION
+                                        BAYMAX 
                                     </Typography>
                                 </Box>
                                 {!isNonMobile && (
