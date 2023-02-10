@@ -24,14 +24,18 @@ import {
     useTheme,
 } from "@mui/material";
 type Props = {
-    user: {},
+    user: any,
+    // {
+    //     name:string,
+    //     occupation: string,
+    // },
     isSidebarOpen: boolean,
     setIsSidebarOpen: (value: boolean) => void;
 }
 
 const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }: Props) => {
     const dispatch = useDispatch();
-    const theme = useTheme();
+    const theme: any = useTheme();
 
     const [anchorEl, setAnchorEl] = useState(null);
     const isOpen = Boolean(anchorEl);
@@ -92,7 +96,7 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }: Props) => {
                             <Box
                                 component="img"
                                 alt="profile"
-                                src={profileImage}
+                                src={profileImage as unknown as string}
                                 height="32px"
                                 width="32px"
                                 borderRadius="50%"

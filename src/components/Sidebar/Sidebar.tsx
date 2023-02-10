@@ -16,89 +16,25 @@ import {
     SettingsOutlined,
     ChevronLeft,
     ChevronRightOutlined,
-    HomeOutlined,
-    ShoppingCartOutlined,
-    Groups2Outlined,
-    ReceiptLongOutlined,
-    PublicOutlined,
-    PointOfSaleOutlined,
-    TodayOutlined,
-    CalendarMonthOutlined,
-    AdminPanelSettingsOutlined,
-    TrendingUpOutlined,
-    PieChartOutlined,
 } from "@mui/icons-material";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
 import profileImage from "@/assets/profile.jpeg";
 import FlexBetween from "../FlexBetween";
 import { useRouter } from "next/router";
+import { navItems } from "@/shared/util/data";
 
 type Props = {
     user: any,
+    // {
+    //     name:string,
+    //     occupation: string,
+    // },
     drawerWidth: any,
     isSidebarOpen: any,
     setIsSidebarOpen: any,
     isNonMobile: any,
 }
-const navItems = [
-    {
-        text: "Dashboard",
-        icon: <HomeOutlined />,
-    },
-    {
-        text: "Client Facing",
-        icon: null,
-    },
-    {
-        text: "Products",
-        icon: <ShoppingCartOutlined />,
-    },
-    {
-        text: "Customers",
-        icon: <Groups2Outlined />,
-    },
-    {
-        text: "Transactions",
-        icon: <ReceiptLongOutlined />,
-    },
-    {
-        text: "Geography",
-        icon: <PublicOutlined />,
-    },
-    {
-        text: "Sales",
-        icon: null,
-    },
-    {
-        text: "Overview",
-        icon: <PointOfSaleOutlined />,
-    },
-    {
-        text: "Daily",
-        icon: <TodayOutlined />,
-    },
-    {
-        text: "Monthly",
-        icon: <CalendarMonthOutlined />,
-    },
-    {
-        text: "Breakdown",
-        icon: <PieChartOutlined />,
-    },
-    {
-        text: "Management",
-        icon: null,
-    },
-    {
-        text: "Admin",
-        icon: <AdminPanelSettingsOutlined />,
-    },
-    {
-        text: "Performance",
-        icon: <TrendingUpOutlined />,
-    },
-];
+
 
 const Sidebar = ({
     user,
@@ -111,12 +47,12 @@ const Sidebar = ({
     const { pathname } = router;
     const [active, setActive] = useState("");
     // const navigate = useNavigate();
-    const theme = useTheme();
+    const theme: any = useTheme();
 
     useEffect(() => {
         setActive(pathname.substring(1));
     }, [pathname]);
-
+    console.log(theme)
     return (
         <Box component="nav">
             {isSidebarOpen && (
@@ -160,13 +96,13 @@ const Sidebar = ({
                                         </Typography>
                                     );
                                 }
-                                const lcText = text.toLowerCase();
+                                const lcText = text === "Dashboard" ? "" : text.toLowerCase();
 
                                 return (
                                     <ListItem key={text} disablePadding>
                                         <ListItemButton
                                             onClick={() => {
-                                                router.push(`/${lcText}`);
+                                                router.push(`/dashboard/${lcText}`);
                                                 setActive(lcText);
                                             }}
                                             sx={{
@@ -202,13 +138,13 @@ const Sidebar = ({
                         </List>
                     </Box>
 
-                    <Box position="" bottom="2rem">
+                    <Box bottom="2rem">
                         <Divider />
                         <FlexBetween textTransform="none" gap="1rem" m="1.5rem 2rem 0 3rem">
                             <Box
                                 component="img"
                                 alt="profile"
-                                src={profileImage}
+                                src={profileImage as unknown as string}
                                 height="40px"
                                 width="40px"
                                 borderRadius="50%"
