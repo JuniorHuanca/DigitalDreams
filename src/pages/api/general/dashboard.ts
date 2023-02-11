@@ -10,9 +10,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         case 'GET':
             try {
                 // hardcoded values
-                const currentMonth = "November";
-                const currentYear = 2021;
-                const currentDay = "2021-11-15";
+                const currentMonth = "December";
+                const currentYear = 2022;
+                const currentDay = "2022-12-15";
 
                 /* Recent Transactions */
                 const transactions = await Transaction.find()
@@ -30,11 +30,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     salesByCategory,
                 } = overallStat[0];
 
-                const thisMonthStats = overallStat[0].monthlyData.find(({ month }) => {
+                const thisMonthStats = overallStat[0].monthlyData.find(({ month }: { month: string }) => {
                     return month === currentMonth;
                 });
 
-                const todayStats = overallStat[0].dailyData.find(({ date }) => {
+                const todayStats = overallStat[0].dailyData.find(({ date }: { date: string }) => {
                     return date === currentDay;
                 });
 
