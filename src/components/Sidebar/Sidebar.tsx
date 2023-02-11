@@ -49,7 +49,8 @@ const Sidebar = ({
     const [active, setActive] = useState("");
     const theme: ITheme = useTheme();
     useEffect(() => {
-        setActive(pathname.substring(1));
+        const parts = pathname.split("/");
+        setActive(parts[parts.length - 1]);
     }, [pathname]);
     return (
         <Box component="nav">
@@ -75,7 +76,7 @@ const Sidebar = ({
                             <FlexBetween color={theme.palette.secondary.main}>
                                 <Box display="flex" alignItems="center" gap="0.5rem">
                                     <Typography variant="h4" fontWeight="bold">
-                                        BAYMAX 
+                                        BAYMAX
                                     </Typography>
                                 </Box>
                                 {!isNonMobile && (
@@ -94,13 +95,13 @@ const Sidebar = ({
                                         </Typography>
                                     );
                                 }
-                                const lcText = text === "Dashboard" ? "" : text.toLowerCase();
+                                const lcText = text.toLowerCase();
 
                                 return (
                                     <ListItem key={text} disablePadding>
                                         <ListItemButton
                                             onClick={() => {
-                                                router.push(`/dashboard/${lcText}`);
+                                                lcText === "dashboard" ? router.push(`/dashboard`) : router.push(`/dashboard/${lcText}`);
                                                 setActive(lcText);
                                             }}
                                             sx={{

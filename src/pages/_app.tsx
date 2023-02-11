@@ -33,12 +33,13 @@ export default function App({ Component, pageProps }: AppProps) {
     <Provider store={store}>
       <Wrapper>
         {pathname.startsWith('/dashboard') ? (
-          <Layout>
-            {pathname === '/dashboard' && <Dashboard />}
-            {pathname === '/dashboard/products' && <Products />}
+          <>
+            <Layout />
+            {pathname === '/dashboard'}
+            {pathname === '/dashboard/products'}
             {/* {pathname === '/dashboard/customers' && <Customers />} */}
             <Component {...pageProps} />
-          </Layout>
+          </>
         ) : (
           <Component {...pageProps} />
         )}

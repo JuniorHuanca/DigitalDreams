@@ -6,7 +6,7 @@ import Sidebar from '../Sidebar/Sidebar';
 import { useState } from 'react';
 
 interface Props {
-    children: React.ReactNode;
+    // children: React.ReactNode;
 }
 
 const Layout = (props: Props) => {

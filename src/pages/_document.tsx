@@ -5,8 +5,10 @@ export default function Document() {
     <Html lang="en">
       <Head />
       <body>
+        <div className="app">
         <Main />
         <NextScript />
+        </div>
       </body>
     </Html>
   )
