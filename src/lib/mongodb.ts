@@ -1,7 +1,12 @@
 
 import mongoose, { ConnectOptions } from 'mongoose'
-import { dataUser } from './data'
+import { dataAffiliateStat, dataOverallStat, dataProduct, dataProductStat, dataTransaction, dataUser } from './data'
 import User from './models/User'
+import AffiliateStat from './models/AffiliateStat'
+import OverallStat from './models/OverallStat'
+import Product from './models/Product'
+import ProductStat from './models/ProductStat'
+import Transaction from './models/Transaction'
 
 const MONGODB_URL = process.env.MONGODB_URL || ""
 if (!MONGODB_URL) {
