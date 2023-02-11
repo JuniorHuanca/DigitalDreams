@@ -34,11 +34,11 @@ export default function App({ Component, pageProps }: AppProps) {
       <Wrapper>
         {pathname.startsWith('/dashboard') ? (
           <>
-            <Layout />
-            {pathname === '/dashboard'}
-            {pathname === '/dashboard/products'}
-            {/* {pathname === '/dashboard/customers' && <Customers />} */}
-            <Component {...pageProps} />
+            <Layout >
+              {pathname === '/dashboard' && <Dashboard />}
+              {pathname === '/dashboard/products'}
+              {/* {pathname === '/dashboard/customers' && <Customers />} */}
+            </Layout>
           </>
         ) : (
           <Component {...pageProps} />
