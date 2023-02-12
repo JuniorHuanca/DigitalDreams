@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-const url = process.env.REACT_APP_BASE_URL || "http://localhost:3000/api"
+const url = process.env.REACT_APP_BASE_URL || "/api/"
 export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: url }),
   reducerPath: "adminApi",
@@ -16,7 +16,7 @@ export const api = createApi({
   ],
   endpoints: (build) => ({
     getUser: build.query({
-      query: (id) => `general/user/${id}`,
+      query: (id: string) => `general/user/${id}`,
       providesTags: ["User"],
     }),
     getProducts: build.query({
@@ -40,7 +40,7 @@ export const api = createApi({
       providesTags: ["Geography"],
     }),
     getSales: build.query({
-      query: () => "sales/sales",
+      query: () => "sales",
       providesTags: ["Sales"],
     }),
     getAdmins: build.query({
@@ -48,11 +48,11 @@ export const api = createApi({
       providesTags: ["Admins"],
     }),
     getUserPerformance: build.query({
-      query: (id) => `management/performance/${id}`,
+      query: (id: string) => `management/performance/${id}`,
       providesTags: ["Performance"],
     }),
     getDashboard: build.query({
-      query: () => "general/dashboard",
+      query: (_) => "general/dashboard",
       providesTags: ["Dashboard"],
     }),
   }),

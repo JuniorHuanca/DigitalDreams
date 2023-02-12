@@ -10,9 +10,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         case 'GET':
             try {
                 // hardcoded values
-                const currentMonth = "December";
-                const currentYear = 2022;
-                const currentDay = "2022-12-15";
+                // const currentMonth = "December";
+                // const currentYear = 2022;
+                // const currentDay = "2022-12-15";
+                const currentMonth = "November";
+                const currentYear = 2021;
+                const currentDay = "2021-01-31";
 
                 /* Recent Transactions */
                 const transactions = await Transaction.find()

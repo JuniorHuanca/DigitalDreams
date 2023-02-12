@@ -162,3 +162,26 @@ export interface ITheme {
     transitions: any;
     zIndex: any;
 }
+
+
+
+
+// OverviewChart:
+export interface MonthlyData {
+    month: string;
+    totalSales: number;
+    totalUnits: number;
+}
+export interface Acc {
+    sales: number;
+    units: number;
+}
+export interface DataPoint {
+    x: string;
+    y: number;
+}
+export interface ILine {
+    id: string;
+    color: string;
+    data: DataPoint[];
+}

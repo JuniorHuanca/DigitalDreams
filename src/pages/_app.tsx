@@ -15,13 +15,14 @@ import { useRouter } from 'next/router';
 import Dashboard from './dashboard'
 import Layout from '@/components/Layout/Layout'
 import Products from './dashboard/products'
+import { api } from '@/state/api'
 
 const store = configureStore({
   reducer: {
     global: globalReducer,
-    // [api.reducerPath]: api.reducer,
+    [api.reducerPath]: api.reducer,
   },
-  // middleware: (getDefault) => getDefault().concat(api.middleware),
+  middleware: (getDefault) => getDefault().concat(api.middleware),
 });
 setupListeners(store.dispatch);
 
