@@ -1,7 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-const url = process.env.NODE_ENV === "production"
-  ? "https://jh-personal-app.netlify.app/api/"
-  : "/api/";
+const url = process.env.REACT_APP_BASE_URL || "/api/"
+
+// const url = process.env.NODE_ENV === "production"
+//   ? "https://jh-personal-app.netlify.app/api/"
+//   : "/api/";
 export const api = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: url }),
   reducerPath: "adminApi",
@@ -54,7 +56,7 @@ export const api = createApi({
       providesTags: ["Performance"],
     }),
     getDashboard: build.query({
-      query: (_) => "general/dashboard",
+      query: () => "general/dashboard",
       providesTags: ["Dashboard"],
     }),
   }),
