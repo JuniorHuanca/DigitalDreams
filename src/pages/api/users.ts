@@ -1,11 +1,11 @@
-import dbConnect from "@/lib/mongodb"
+import db from "@/lib/mongodb"
 import User from "@/lib/models/User"
 import { NextApiRequest, NextApiResponse } from "next"
 
-export default async function handler (req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req
 
-  await dbConnect()
+  await db.dbConnect()
 
   switch (method) {
     case 'GET':
@@ -28,4 +28,5 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
       res.status(400).json({ success: false })
       break
   }
+  await db.dbDisconnect()
 }

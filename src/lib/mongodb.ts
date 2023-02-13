@@ -33,7 +33,7 @@ async function dbConnect() {
     return cached.conn
   }
 
-  if (!cached.promise) {    
+  if (!cached.promise) {
     const mongooseOptions: ExtendedConnectOptions = {
       useNewUrlParser: true,
       useUnifiedTopology: true
@@ -55,5 +55,11 @@ async function dbConnect() {
   cached.conn = await cached.promise
   return cached.conn
 }
+async function dbDisconnect() {
+  return mongoose.disconnect()
+}
 
-export default dbConnect
+export default {
+  dbConnect,
+  dbDisconnect
+};

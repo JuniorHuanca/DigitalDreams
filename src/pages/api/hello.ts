@@ -11,12 +11,12 @@ export default function handler(
 ) {
   res.status(200).json({ name: 'John Doe' })
 }
-// import dbConnect from "@/lib/mongodb"
+// import db from "@/lib/mongodb"
 // import { NextApiRequest, NextApiResponse } from "next"
 
 // export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 //     const { method } = req
-//     await dbConnect()
+//     await db.dbConnect()
 //     switch (method) {
 //         case 'GET':
             
