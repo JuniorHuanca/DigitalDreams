@@ -40,7 +40,7 @@ async function dbConnect() {
     };
     mongoose.set("strictQuery", false);
 
-    cached.promise = mongoose.connect(MONGODB_URL, mongooseOptions)
+    cached.promise = mongoose.connect('mongodb+srv://jhuanca:junior9464@cluster0.vnzyekm.mongodb.net/?retryWrites=true&w=majority', mongooseOptions)
       .then(mongoose => {
         // AffiliateStat.insertMany(dataAffiliateStat);
         // OverallStat.insertMany(dataOverallStat);
