@@ -16,6 +16,10 @@ import Dashboard from './dashboard'
 import Layout from '@/components/Layout/Layout'
 import Products from './dashboard/products'
 import { api } from '@/state/api'
+import Customers from './dashboard/customers'
+import Transactions from './dashboard/transactions'
+import Geography from './dashboard/geography'
+import Overview from './dashboard/overview'
 
 const store = configureStore({
   reducer: {
@@ -37,8 +41,16 @@ export default function App({ Component, pageProps }: AppProps) {
           <>
             <Layout >
               {pathname === '/dashboard' && <Dashboard />}
-              {pathname === '/dashboard/products'}
-              {/* {pathname === '/dashboard/customers' && <Customers />} */}
+              {pathname === '/dashboard/products' && <Products />}
+              {pathname === '/dashboard/customers' && <Customers />}
+              {pathname === '/dashboard/transactions' && <Transactions />}
+              {pathname === '/dashboard/geography' && <Geography />}
+              {pathname === '/dashboard/overview' && <Overview />}
+              {/* {pathname === '/dashboard/daily' && <Daily />} */}
+              {/* {pathname === '/dashboard/monthly' && <Monthly />} */}
+              {/* {pathname === '/dashboard/breakdown' && <Breakdown />} */}
+              {/* {pathname === '/dashboard/admin' && <Admin />} */}
+              {/* {pathname === '/dashboard/performance' && <Performance />} */}
             </Layout>
           </>
         ) : (

@@ -128,7 +128,7 @@ interface IPOptions {
     mode: string;
     primary: IPPrimary;
     secondary: IPSecondary;
-    neutral?: IPNeutral;
+    neutral: IPNeutral;
     background: { default: string, alt: string, paper: string };
     common: { black: string, white: string };
     error: { main: string, light: string, dark: string, contrastText: string };
