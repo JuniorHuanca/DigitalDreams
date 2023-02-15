@@ -50,7 +50,7 @@ async function dbConnect() {
         // User.insertMany(dataUser);
         return mongoose
       })
-      // .catch((error) => console.log(`${error} did not connect`));
+      .catch((error) => console.log(`${error} did not connect`));
   }
   cached.conn = await cached.promise
   return cached.conn

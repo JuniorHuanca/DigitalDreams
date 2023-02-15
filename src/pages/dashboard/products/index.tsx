@@ -2,6 +2,7 @@ import { Box, Card, CardActions, CardContent, Collapse, Button, Typography, Rati
 import { useGetProductsQuery } from "@/state/api"
 import Header from "@/components/Header";
 import Product from "./Product";
+import Loader from "@/components/Loaders/Loader";
 
 interface IData {
   _id: string;
@@ -58,7 +59,11 @@ const Products = (props: Props) => {
           />
         ))}
       </Box>
-        : <>loading...</>
+        : <Box
+          height="80vh"
+        >
+          <Loader />
+        </Box>
       }
     </Box>
   )

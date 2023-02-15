@@ -2,6 +2,7 @@ import { ResponsivePie } from "@nivo/pie";
 import { Box, Typography, useTheme } from "@mui/material";
 import { useGetSalesQuery } from "@/state/api";
 import { ITheme } from "@/shared/util/types";
+import Loader from "./Loaders/Loader";
 
 type Props = {
   isDashboard: boolean
@@ -10,7 +11,7 @@ const BreakdownChart = ({ isDashboard = false }: Props) => {
   const { data, isLoading } = useGetSalesQuery(null);
   const theme: ITheme = useTheme();
 
-  if (!data || isLoading) return <h1>Loading...</h1>;
+  if (!data || isLoading) return <Loader />;
 
   const colors = [
     theme.palette.secondary[500],

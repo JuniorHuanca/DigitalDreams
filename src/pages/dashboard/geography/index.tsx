@@ -1,4 +1,5 @@
 import Header from "@/components/Header";
+import Loader from "@/components/Loaders/Loader";
 import { ITheme } from "@/shared/util/types";
 import { useGetGeographyQuery } from "@/state/api";
 import { geoData } from "@/state/geoData";
@@ -92,7 +93,7 @@ const Geography = (props: Props) => {
                         ]}
                     />
                 ) : (
-                    <>Loading...</>
+                    <Loader />
                 )}
             </Box>
         </Box>
