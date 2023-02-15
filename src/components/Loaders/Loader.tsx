@@ -1,5 +1,5 @@
 import FlexCenter from '../FlexCenter';
-import styles from './loader.module.css';
+import styles from './Loader.module.css';
 
 type Props = {}
 
