@@ -9,6 +9,7 @@
 // export default Dashboard
 
 import BreakdownChart from "@/components/BreakdownChart";
+import DataGridCustom from "@/components/DataGridCustom";
 import FlexBetween from "@/components/FlexBetween";
 import Header from "@/components/Header";
 import OverviewChart from "@/components/OverviewChart";
@@ -162,6 +163,7 @@ const Dashboard = (props: Props) => {
             getRowId={(row) => row._id}
             rows={(data && data.transactions) || []}
             columns={(columns) as any}
+            components={{ Toolbar: DataGridCustom }}
           />
         </Box>
         <Box

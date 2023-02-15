@@ -1,3 +1,4 @@
+import DataGridCustom from "@/components/DataGridCustom";
 import Header from "@/components/Header";
 import { ITheme } from "@/shared/util/types";
 import { useGetCustomersQuery } from "@/state/api";
@@ -87,6 +88,7 @@ const Customers = (props: Props) => {
                     getRowId={(row) => row._id}
                     rows={data || []}
                     columns={(columns) as any}
+                    components={{ Toolbar: DataGridCustom }}
                 />
             </Box>
         </Box>
