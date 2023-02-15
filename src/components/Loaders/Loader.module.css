@@ -78,8 +78,6 @@
     border: 2px solid transparent;
     -webkit-animation: rotate1076 linear 3.5s infinite;
     animation: rotate1076 linear 3.5s infinite;
-    border-top-color: #00000080;
-    border-bottom-color: #cca752;
 }
 
 .loader,

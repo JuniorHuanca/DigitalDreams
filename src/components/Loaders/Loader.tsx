@@ -1,9 +1,13 @@
+import { ITheme } from '@/shared/util/types';
 import FlexCenter from '../FlexCenter';
 import styles from './Loader.module.css';
+import { Box, useTheme } from "@mui/material";
 
 type Props = {}
 
 const Loader = (props: Props) => {
+    const theme: ITheme = useTheme();
+
     return (
         <FlexCenter>
             {/* <div className={styles.loader}>
@@ -17,12 +21,18 @@ const Loader = (props: Props) => {
                 <div className={styles.bar + ' ' + styles.bar8}></div>
             </div> */}
             <div className={`${styles.loader} ${styles.loader1}`}>
-                <div>
-                    <div>
-                        <div>
-                            <div>
-                                <div>
-                                    <div></div>
+                <div
+                    style={{ borderTopColor: theme.palette.secondary[500], borderBottomColor: theme.palette.primary[100] }}>
+                    <div
+                    style={{ borderTopColor: theme.palette.secondary[500], borderBottomColor: theme.palette.primary[100] }}>
+                        <div
+                        style={{ borderTopColor: theme.palette.secondary[500], borderBottomColor: theme.palette.primary[100] }}>
+                            <div
+                            style={{ borderTopColor: theme.palette.secondary[500], borderBottomColor: theme.palette.primary[100] }}>
+                                <div
+                                style={{ borderTopColor: theme.palette.secondary[500], borderBottomColor: theme.palette.primary[100] }}>
+                                    <div
+                                    style={{ borderTopColor: theme.palette.secondary[500], borderBottomColor: theme.palette.primary[100] }}></div>
                                 </div>
                             </div>
                         </div>
