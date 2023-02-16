@@ -1,4 +1,5 @@
 import '@/styles/globals.css'
+import "react-datepicker/dist/react-datepicker.css";
 import type { AppProps } from 'next/app'
 import { configureStore } from '@reduxjs/toolkit'
 import globalReducer from '@/state'
@@ -20,6 +21,11 @@ import Customers from './dashboard/customers'
 import Transactions from './dashboard/transactions'
 import Geography from './dashboard/geography'
 import Overview from './dashboard/overview'
+import Daily from './dashboard/daily'
+import Monthly from './dashboard/monthly'
+import Breakdown from './dashboard/breakdown'
+import Admin from './dashboard/admin'
+import Performance from './dashboard/performance'
 
 const store = configureStore({
   reducer: {
@@ -46,11 +52,11 @@ export default function App({ Component, pageProps }: AppProps) {
               {pathname === '/dashboard/transactions' && <Transactions />}
               {pathname === '/dashboard/geography' && <Geography />}
               {pathname === '/dashboard/overview' && <Overview />}
-              {/* {pathname === '/dashboard/daily' && <Daily />} */}
-              {/* {pathname === '/dashboard/monthly' && <Monthly />} */}
-              {/* {pathname === '/dashboard/breakdown' && <Breakdown />} */}
-              {/* {pathname === '/dashboard/admin' && <Admin />} */}
-              {/* {pathname === '/dashboard/performance' && <Performance />} */}
+              {pathname === '/dashboard/daily' && <Daily />}
+              {pathname === '/dashboard/monthly' && <Monthly />}
+              {pathname === '/dashboard/breakdown' && <Breakdown />}
+              {pathname === '/dashboard/admin' && <Admin />}
+              {pathname === '/dashboard/performance' && <Performance />}
             </Layout>
           </>
         ) : (

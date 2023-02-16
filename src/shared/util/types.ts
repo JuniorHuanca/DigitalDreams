@@ -185,3 +185,8 @@ export interface ILine {
     color: string;
     data: DataPoint[];
 }
+export interface SalesData {
+    date: Date;
+    totalSales: number;
+    totalUnits: number;
+}

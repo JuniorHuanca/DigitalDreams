@@ -23,6 +23,7 @@ import {
     MenuItem,
     useTheme,
 } from "@mui/material";
+import Image from "next/image";
 type Props = {
     user: any,
     // {
@@ -94,14 +95,14 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }: Props) => {
                             }}
                         >
                             <Box
-                                component="img"
-                                alt="profile"
-                                src={profileImage as unknown as string}
                                 height="32px"
                                 width="32px"
                                 borderRadius="50%"
                                 sx={{ objectFit: "cover" }}
-                            />
+                                overflow= "hidden"
+                            >
+                                <Image alt="profile" src={profileImage} height={32} width={32}/>
+                            </Box>
                             <Box textAlign="left">
                                 <Typography
                                     fontWeight="bold"

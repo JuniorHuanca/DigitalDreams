@@ -1,6 +1,7 @@
 import Transaction from "@/lib/models/Transaction";
 import User from "@/lib/models/User";
 import dbConnect from "@/lib/mongodb"
+import mongoose from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -10,9 +11,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         case 'GET':
             try {
                 const { id } = req.query;
-
+                console.log(id)
                 const userWithStats = await User.aggregate([
-                    { $match: { _id: new mongoose.Types.ObjectId(id) } },
+                    { $match: { _id: new mongoose.Types.ObjectId((id) as string) } },
                     {
                         $lookup: {
                             from: "affiliatestats",
@@ -36,7 +37,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 res
                     .status(200)
                     .json({ user: userWithStats[0], sales: filteredSaleTransactions });
-            } catch (error :any) {
+            } catch (error: any) {
                 res.status(404).json({ message: error.message });
             }
     }

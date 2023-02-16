@@ -23,6 +23,7 @@ import FlexBetween from "../FlexBetween";
 import { useRouter } from "next/router";
 import { navItems } from "@/shared/util/data";
 import { ITheme } from "@/shared/util/types";
+import Image from "next/image";
 
 type Props = {
     user: any,
@@ -137,18 +138,18 @@ const Sidebar = ({
                         </List>
                     </Box>
 
-                    <Box bottom="2rem">
+                    <Box bottom="2rem" mb="1.5rem">
                         <Divider />
                         <FlexBetween textTransform="none" gap="1rem" m="1.5rem 2rem 0 3rem">
-                            <Box
-                                component="img"
-                                alt="profile"
-                                src={profileImage as unknown as string}
-                                height="40px"
-                                width="40px"
+                        <Box
+                                height="32px"
+                                width="32px"
                                 borderRadius="50%"
                                 sx={{ objectFit: "cover" }}
-                            />
+                                overflow= "hidden"
+                            >
+                                <Image alt="profile" src={profileImage} height={32} width={32}/>
+                            </Box>
                             <Box textAlign="left">
                                 <Typography
                                     fontWeight="bold"
