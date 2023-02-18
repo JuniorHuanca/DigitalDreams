@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import { InferGetServerSidePropsType } from 'next'
 import Link from 'next/link'
+import Login from '@/components/Login'
 type Props = {}
 export default function Home(props: Props) {
   return (
@@ -14,6 +15,7 @@ export default function Home(props: Props) {
       <main className={""}>
         <h1>Hello world!</h1>
         <Link href="dashboard">Dashboard</Link>
+        <Login/>
       </main>
     </>
   )

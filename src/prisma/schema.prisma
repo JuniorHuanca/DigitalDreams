@@ -1,0 +1,88 @@
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model Account {
+    id                String  @id @default(cuid())
+    userId            String
+    type              String
+    provider          String
+    providerAccountId String
+    refresh_token     String? @db.Text
+    access_token      String? @db.Text
+    expires_at        Int?
+    token_type        String?
+    scope             String?
+    id_token          String? @db.Text
+    session_state     String?
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([provider, providerAccountId])
+}
+
+model User {
+    id            String        @id @default(cuid())
+    name          String?
+    email         String?       @unique
+    emailVerified DateTime?
+    image         String?
+    password      String
+    city          String
+    state         String
+    country       String
+    // occupation    String
+    // phoneNumber   String
+    transactions  Transaction[]
+    roleId        String        @default("1")
+    role          Role?         @relation(fields: [roleId], references: [id], onDelete: Cascade)
+    accounts      Account[]
+    sessions      Session[]
+}
+
+model Role {
+    id    String @id @default(cuid())
+    name  String
+    users User[]
+}
+
+model Transaction {
+    id       String    @id @default(cuid())
+    user     User?     @relation(fields: [userId], references: [id])
+    userId   String?
+    cost     String
+    products Product[]
+}
+
+model Session {
+    id           String   @id @default(cuid())
+    sessionToken String   @unique
+    userId       String
+    expires      DateTime
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+    identifier String
+    token      String   @unique
+    expires    DateTime
+
+    @@unique([identifier, token])
+}
+
+model Product {
+    id            String       @id @default(cuid())
+    Transaction   Transaction? @relation(fields: [transactionId], references: [id])
+    transactionId String?
+    name          String
+    price         Float?
+    description   String
+    category      String
+    rating        Float
+    supply        Int          @default(25)
+}

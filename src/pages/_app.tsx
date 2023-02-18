@@ -1,5 +1,6 @@
 import '@/styles/globals.css'
 import "react-datepicker/dist/react-datepicker.css";
+import { SessionProvider } from "next-auth/react"
 import type { AppProps } from 'next/app'
 import { configureStore } from '@reduxjs/toolkit'
 import globalReducer from '@/state'
@@ -37,32 +38,34 @@ const store = configureStore({
 setupListeners(store.dispatch);
 
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const router = useRouter();
   const { pathname } = router;
   return (
-    <Provider store={store}>
-      <Wrapper>
-        {pathname.startsWith('/dashboard') ? (
-          <>
-            <Layout >
-              {pathname === '/dashboard' && <Dashboard />}
-              {pathname === '/dashboard/products' && <Products />}
-              {pathname === '/dashboard/customers' && <Customers />}
-              {pathname === '/dashboard/transactions' && <Transactions />}
-              {pathname === '/dashboard/geography' && <Geography />}
-              {pathname === '/dashboard/overview' && <Overview />}
-              {pathname === '/dashboard/daily' && <Daily />}
-              {pathname === '/dashboard/monthly' && <Monthly />}
-              {pathname === '/dashboard/breakdown' && <Breakdown />}
-              {pathname === '/dashboard/admin' && <Admin />}
-              {pathname === '/dashboard/performance' && <Performance />}
-            </Layout>
-          </>
-        ) : (
-          <Component {...pageProps} />
-        )}
-      </Wrapper>
-    </Provider>
+    <SessionProvider session={session}>
+      <Provider store={store}>
+        <Wrapper>
+          {pathname.startsWith('/dashboard') ? (
+            <>
+              <Layout >
+                {pathname === '/dashboard' && <Dashboard />}
+                {pathname === '/dashboard/products' && <Products />}
+                {pathname === '/dashboard/customers' && <Customers />}
+                {pathname === '/dashboard/transactions' && <Transactions />}
+                {pathname === '/dashboard/geography' && <Geography />}
+                {pathname === '/dashboard/overview' && <Overview />}
+                {pathname === '/dashboard/daily' && <Daily />}
+                {pathname === '/dashboard/monthly' && <Monthly />}
+                {pathname === '/dashboard/breakdown' && <Breakdown />}
+                {pathname === '/dashboard/admin' && <Admin />}
+                {pathname === '/dashboard/performance' && <Performance />}
+              </Layout>
+            </>
+          ) : (
+            <Component {...pageProps} />
+          )}
+        </Wrapper>
+      </Provider>
+    </SessionProvider>
   );
 }
