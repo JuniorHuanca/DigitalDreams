@@ -48,7 +48,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
           {pathname.startsWith('/dashboard') ? (
             <>
               <Layout >
-                {pathname === '/dashboard' && <Dashboard />}
+                {/* {pathname === '/dashboard' && <Dashboard />}
                 {pathname === '/dashboard/products' && <Products />}
                 {pathname === '/dashboard/customers' && <Customers />}
                 {pathname === '/dashboard/transactions' && <Transactions />}
@@ -58,7 +58,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
                 {pathname === '/dashboard/monthly' && <Monthly />}
                 {pathname === '/dashboard/breakdown' && <Breakdown />}
                 {pathname === '/dashboard/admin' && <Admin />}
-                {pathname === '/dashboard/performance' && <Performance />}
+                {pathname === '/dashboard/performance' && <Performance />} */}
               </Layout>
             </>
           ) : (

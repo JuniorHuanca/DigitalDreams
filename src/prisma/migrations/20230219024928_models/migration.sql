@@ -23,10 +23,10 @@ CREATE TABLE "User" (
     "email" TEXT,
     "emailVerified" TIMESTAMP(3),
     "image" TEXT,
-    "password" TEXT NOT NULL,
-    "city" TEXT NOT NULL,
-    "state" TEXT NOT NULL,
-    "country" TEXT NOT NULL,
+    "password" TEXT,
+    "city" TEXT,
+    "state" TEXT,
+    "country" TEXT,
     "roleId" TEXT NOT NULL DEFAULT '1',
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")

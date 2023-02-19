@@ -15,6 +15,8 @@ export default function Home(props: Props) {
       <main className={""}>
         <h1>Hello world!</h1>
         <Link href="dashboard">Dashboard</Link>
+        <Link href="/api/auth/signin">Login</Link>
+        
         <Login/>
       </main>
     </>
