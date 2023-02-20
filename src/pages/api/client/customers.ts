@@ -7,7 +7,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     switch (method) {
         case 'GET':
             try {
-                const users = await prisma.user.findMany()
+                const users = await prisma.user.findMany({
+                    where: {
+                        role: 'User'
+                    },
+                })
                 res.status(200).json(users)
             } catch (error) {
                 res.status(400).json({ success: false })
