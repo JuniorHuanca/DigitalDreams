@@ -1,7 +1,7 @@
 import { Box, useMediaQuery } from '@mui/material';
 import Navbar from '../Dashboard/Navbar/Navbar';
 import { useSelector } from 'react-redux';
-import Sidebar from '../dashboard/Sidebar/Sidebar';
+import Sidebar from '../Dashboard/Sidebar/Sidebar';
 import { useState } from 'react';
 
 interface Props {
