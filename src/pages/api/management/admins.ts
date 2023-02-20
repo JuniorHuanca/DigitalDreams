@@ -9,7 +9,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       try {
         const users = await prisma.user.findMany({
           where: {
-            role: { not: 'User' as any }
+            NOT: {
+              role: {
+                equals: 'User',
+              },
+            },
           },
         })
         res.status(200).json(users)
