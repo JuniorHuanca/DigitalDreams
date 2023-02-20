@@ -58,6 +58,14 @@ export default NextAuth({
             clientSecret: process.env.GITHUB_SECRET
         } as IProvider)
     ],
+    callbacks: {
+        session: async ({ token, session }: { token: any, session: any }) => {
+            if (session?.user && token?.sub) {
+                session.user.id = token.sub
+            }
+            return session
+        },
+    },
     pages: {
         // signIn: '/auth/SignIn',
         // signOut: '/auth/SignOut',
