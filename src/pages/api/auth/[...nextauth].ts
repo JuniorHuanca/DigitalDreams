@@ -59,12 +59,13 @@ export default NextAuth({
         } as IProvider)
     ],
     callbacks: {
-        async session({ session, token }: { token: any, session: any }) {
-            // Send properties to the client, like an access_token and user id from a provider.
-            session.accessToken = token.accessToken
-            session.user.id = token.id
-
-            return session
+        async session({ session, token, user }: { session: any, token: any, user: any }) {
+            session.user.username = session.user.name
+                .split(" ")
+                .join("")
+                .toLocaleLowerCase();
+            session.user.uid = token.sub;
+            return session;
         }
     },
     pages: {
@@ -72,5 +73,6 @@ export default NextAuth({
         // signOut: '/auth/SignOut',
         // error: '/auth/Error', // Error code passed in query string as ?error=
         // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
-    }
+    },
+    secret: process.env.SECRET
 })
