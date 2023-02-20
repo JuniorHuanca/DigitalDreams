@@ -8,12 +8,12 @@
 
 // export default Dashboard
 
-import BreakdownChart from "@/components/BreakdownChart";
+import BreakdownChart from "@/components/Dashboard/BreakdownChart";
 import DataGridCustom from "@/components/DataGridCustom";
 import FlexBetween from "@/components/FlexBetween";
 import Header from '@/components/Dashboard/Header';
-import OverviewChart from "@/components/OverviewChart";
-import StatBox from "@/components/StatBox";
+import OverviewChart from "@/components/Dashboard/OverviewChart";
+import StatBox from "@/components/Dashboard/StatBox";
 import { columns } from "@/shared/util/data";
 import { ITheme } from "@/shared/util/types";
 import { useGetDashboardQuery } from "@/state/api";

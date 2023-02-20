@@ -3,9 +3,11 @@ import DataGridCustom from '@/components/DataGridCustom';
 import Header from '@/components/Dashboard/Header';
 import { ITheme } from '@/shared/util/types';
 import { useGetAdminsQuery } from '@/state/api';
-import { Box, useTheme } from '@mui/material';
+import { Box, useTheme, Typography} from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import React from 'react'
+import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
+import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
+import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 
 type Props = {}
 
@@ -15,7 +17,7 @@ const Admin = (props: Props) => {
 
   const columns = [
     {
-      field: "_id",
+      field: "id",
       headerName: "ID",
       flex: 1,
     },
@@ -29,14 +31,14 @@ const Admin = (props: Props) => {
       headerName: "Email",
       flex: 1,
     },
-    {
-      field: "phoneNumber",
-      headerName: "Phone Number",
-      flex: 0.5,
-      renderCell: (params: any) => {
-        return params.value.replace(/^(\d{3})(\d{3})(\d{4})/, "($1)$2-$3");
-      },
-    },
+    // {
+    //   field: "phoneNumber",
+    //   headerName: "Phone Number",
+    //   flex: 0.5,
+    //   renderCell: (params: any) => {
+    //     return params.value.replace(/^(\d{3})(\d{3})(\d{4})/, "($1)$2-$3");
+    //   },
+    // },
     {
       field: "country",
       headerName: "Country",
@@ -51,6 +53,32 @@ const Admin = (props: Props) => {
       field: "role",
       headerName: "Role",
       flex: 0.5,
+      renderCell: ({ row: { role }}: { row: { role: string } }) => {
+        return (
+          <Box
+            // width="60%"
+            m="0 auto"
+            p="5px"
+            display="flex"
+            justifyContent="center"
+            bgcolor={
+              role === "admin"
+                ? theme.palette.primary[600]
+                : role === "manager"
+                  ? theme.palette.primary[700]
+                  : theme.palette.primary[700]
+            }
+            borderRadius="4px"
+          >
+            {role === "Admin" && <AdminPanelSettingsOutlinedIcon />}
+            {role === "manager" && <SecurityOutlinedIcon />}
+            {role === "USER" && <LockOpenOutlinedIcon />}
+            <Typography color={theme.palette.grey[100]} sx={{ ml: "5px" }}>
+              {role}
+            </Typography>
+          </Box>
+        );
+      },
     },
   ];
 
@@ -87,7 +115,7 @@ const Admin = (props: Props) => {
       >
         <DataGrid
           loading={isLoading || !data}
-          getRowId={(row: any) => row._id}
+          getRowId={(row: any) => row.id}
           rows={data || []}
           columns={columns}
           components={{

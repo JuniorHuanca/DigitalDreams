@@ -1,7 +1,7 @@
 import {
     LightModeOutlined,
     DarkModeOutlined,
-    Menu as MenuIcon,
+    AccountCircle,
     Search,
     SettingsOutlined,
     ArrowDropDownOutlined
@@ -25,6 +25,7 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import { ITheme } from "@/shared/util/types";
+import Link from "next/link";
 type Props = {
     user: any
     // isSidebarOpen: boolean,
@@ -91,30 +92,40 @@ const Navbar = ({ user }: Props) => {
                                 gap: "1rem",
                             }}
                         >
-                            <Box
-                                height="32px"
-                                width="32px"
-                                borderRadius="50%"
-                                sx={{ objectFit: "cover" }}
-                                overflow="hidden"
-                            >
-                                <img alt="profile" src={user?.image} height={32} width={32} />
-                            </Box>
-                            <Box textAlign="left">
-                                <Typography
-                                    fontWeight="bold"
-                                    fontSize="0.85rem"
-                                    sx={{ color: theme.palette.secondary[100] }}
-                                >
-                                    {user?.name}
-                                </Typography>
-                                {/* <Typography
+                            {!user &&
+                                <IconButton>
+                                    <AccountCircle />
+                                </IconButton>
+                            }
+                            {user &&
+                                <>
+                                    <Box
+                                        height="32px"
+                                        width="32px"
+                                        borderRadius="50%"
+                                        sx={{ objectFit: "cover" }}
+                                        overflow="hidden"
+                                    >
+                                        <img alt="profile" src={user?.image} height={32} width={32} />
+                                    </Box>
+                                    <Box textAlign="left">
+                                        <Typography
+                                            fontWeight="bold"
+                                            fontSize="0.85rem"
+                                            sx={{ color: theme.palette.secondary[100] }}
+                                        >
+                                            {user?.name}
+                                        </Typography>
+                                        {/* <Typography
                                     fontSize="0.75rem"
                                     sx={{ color: theme.palette.secondary[200] }}
                                 >
                                     {user.occupation}
                                 </Typography> */}
-                            </Box>
+                                    </Box>
+                                </>
+
+                            }
                             <ArrowDropDownOutlined
                                 sx={{ color: theme.palette.secondary[300], fontSize: "25px" }}
                             />
@@ -125,7 +136,8 @@ const Navbar = ({ user }: Props) => {
                             onClose={handleClose}
                             anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                         >
-                            <MenuItem onClick={handleClose}>Log Out</MenuItem>
+                            {user && <MenuItem><Link href="/api/auth/signout">Log Out</Link></MenuItem>}
+                            {!user && <MenuItem><Link href="/api/auth/signin">Log In</Link></MenuItem>}
                         </Menu>
                     </FlexBetween>
                 </FlexBetween>

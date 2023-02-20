@@ -39,14 +39,14 @@ model User {
     // occupation    String
     // phoneNumber   String
     transactions  Transaction[]
-    role          Role          @default(USER)
+    role          Role          @default(User)
     accounts      Account[]
     sessions      Session[]
 }
 
 enum Role {
-    USER
-    ADMIN
+    User
+    Admin
 }
 
 model Transaction {
