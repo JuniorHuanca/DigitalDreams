@@ -3,20 +3,27 @@ import Navbar from '../Dashboard/Navbar/Navbar';
 import { useSelector } from 'react-redux';
 import Sidebar from '../Dashboard/Sidebar/Sidebar';
 import { useState } from 'react';
-
+import { useSession } from 'next-auth/react'
+import Loader from '../Loaders/Loader';
+interface ISession {
+    data: any;
+    status: string;
+}
 interface Props {
     children: React.ReactNode;
 }
 
-const LayoutDashboard = ({children}: Props) => {
+const LayoutDashboard = ({ children }: Props) => {
     const isNonMobile = useMediaQuery("(min-width: 600px)");
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-    // const userId = useSelector((state) => state.global.userId);
-    // const { data } = useGetUserQuery(userId);
+    const { data: session, status }: ISession = useSession()
+    if (status === "loading") {
+        <Loader />
+    }
     return (
         <Box display={isNonMobile ? "flex" : "block"} width="100%" height="100%">
             <Sidebar
-                user={{}}
+                user={session?.user}
                 isNonMobile={isNonMobile}
                 drawerWidth="250px"
                 isSidebarOpen={isSidebarOpen}
@@ -24,7 +31,7 @@ const LayoutDashboard = ({children}: Props) => {
             />
             <Box flexGrow={1}>
                 <Navbar
-                    user={{}}
+                    user={session?.user}
                     isSidebarOpen={isSidebarOpen}
                     setIsSidebarOpen={setIsSidebarOpen}
                 />

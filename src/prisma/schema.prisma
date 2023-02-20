@@ -46,7 +46,7 @@ model User {
 
 enum Role {
     User
-    Admin
+    admin
 }
 
 model Transaction {

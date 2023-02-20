@@ -60,7 +60,9 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
                 {pathname === '/dashboard/breakdown' && <Breakdown />}
                 {pathname === '/dashboard/admin' && <Admin />}
                 {pathname === '/dashboard/performance' && <Performance />} */}
+                {pathname === '/dashboard/customers' && <Customers />}
                 {pathname === '/dashboard/admin' && <Admin />}
+
               </LayoutDashboard>
             </>
           ) : (

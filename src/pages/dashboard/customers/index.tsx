@@ -2,9 +2,9 @@ import DataGridCustom from "@/components/DataGridCustom";
 import Header from '@/components/Dashboard/Header';
 import { ITheme } from "@/shared/util/types";
 import { useGetCustomersQuery } from "@/state/api";
-import { Box, useTheme } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
-
+import { Box, useTheme, Typography } from "@mui/material";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { AdminPanelSettingsOutlined, LockOpenOutlined, SecurityOutlined } from "@mui/icons-material";
 type Props = {}
 
 const Customers = (props: Props) => {
@@ -13,7 +13,7 @@ const Customers = (props: Props) => {
 
     const columns = [
         {
-            field: "_id",
+            field: "id",
             headerName: "ID",
             flex: 1,
         },
@@ -27,14 +27,14 @@ const Customers = (props: Props) => {
             headerName: "Email",
             flex: 1,
         },
-        {
-            field: "phoneNumber",
-            headerName: "Phone Number",
-            flex: 0.5,
-            renderCell: (params: { value: string; }) => {
-                return params.value.replace(/^(\d{3})(\d{3})(\d{4})/, "($1)$2-$3");
-            },
-        },
+        // {
+        //     field: "phoneNumber",
+        //     headerName: "Phone Number",
+        //     flex: 0.5,
+        //     renderCell: (params: { value: string; }) => {
+        //         return params.value.replace(/^(\d{3})(\d{3})(\d{4})/, "($1)$2-$3");
+        //     },
+        // },
         {
             field: "country",
             headerName: "Country",
@@ -49,6 +49,32 @@ const Customers = (props: Props) => {
             field: "role",
             headerName: "Role",
             flex: 0.5,
+            renderCell: ({ row: { role } }: { row: { role: string } }) => {
+                return (
+                    <Box
+                        // width="60%"
+                        m="0 auto"
+                        p="5px"
+                        display="flex"
+                        justifyContent="center"
+                        bgcolor={
+                            role === "Admin"
+                                ? theme.palette.primary[600]
+                                : role === "Manager"
+                                    ? theme.palette.primary[700]
+                                    : theme.palette.primary[800]
+                        }
+                        borderRadius="4px"
+                    >
+                        {role === "Admin" && <AdminPanelSettingsOutlined />}
+                        {role === "Manager" && <SecurityOutlined />}
+                        {role === "User" && <LockOpenOutlined />}
+                        <Typography color={theme.palette.grey[100]} sx={{ ml: "5px" }}>
+                            {role}
+                        </Typography>
+                    </Box>
+                );
+            },
         },
     ];
 
@@ -85,10 +111,10 @@ const Customers = (props: Props) => {
             >
                 <DataGrid
                     loading={isLoading || !data}
-                    getRowId={(row) => row._id}
+                    getRowId={(row) => row.id}
                     rows={data || []}
                     columns={(columns) as any}
-                    components={{ Toolbar: DataGridCustom }}
+                    components={{ Toolbar: GridToolbar }}
                 />
             </Box>
         </Box>

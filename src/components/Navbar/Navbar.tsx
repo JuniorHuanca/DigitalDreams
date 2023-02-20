@@ -6,7 +6,7 @@ import {
     SettingsOutlined,
     ArrowDropDownOutlined
 } from "@mui/icons-material"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FlexBetween from "../FlexBetween";
 import { setMode } from "@/state"
 import profileImage from "@/assets/profile.jpeg"
@@ -35,12 +35,15 @@ type Props = {
 const Navbar = ({ user }: Props) => {
     const dispatch = useDispatch();
     const theme: ITheme = useTheme();
-
+    const [mounted, setMounted] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const isOpen = Boolean(anchorEl);
     const handleClick = (event: any) => setAnchorEl(event.currentTarget);
     const handleClose = () => setAnchorEl(null);
-
+    useEffect(() => {
+        setMounted(true)
+    }, [])
+    if (!mounted) return null
     return (
         <AppBar
             sx={{

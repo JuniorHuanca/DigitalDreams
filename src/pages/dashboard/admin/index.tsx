@@ -4,7 +4,7 @@ import Header from '@/components/Dashboard/Header';
 import { ITheme } from '@/shared/util/types';
 import { useGetAdminsQuery } from '@/state/api';
 import { Box, useTheme, Typography} from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
@@ -62,17 +62,17 @@ const Admin = (props: Props) => {
             display="flex"
             justifyContent="center"
             bgcolor={
-              role === "admin"
+              role === "Admin"
                 ? theme.palette.primary[600]
-                : role === "manager"
+                : role === "Manager"
                   ? theme.palette.primary[700]
-                  : theme.palette.primary[700]
+                  : theme.palette.primary[800]
             }
             borderRadius="4px"
           >
             {role === "Admin" && <AdminPanelSettingsOutlinedIcon />}
-            {role === "manager" && <SecurityOutlinedIcon />}
-            {role === "USER" && <LockOpenOutlinedIcon />}
+            {role === "Manager" && <SecurityOutlinedIcon />}
+            {role === "User" && <LockOpenOutlinedIcon />}
             <Typography color={theme.palette.grey[100]} sx={{ ml: "5px" }}>
               {role}
             </Typography>
@@ -119,7 +119,7 @@ const Admin = (props: Props) => {
           rows={data || []}
           columns={columns}
           components={{
-            Toolbar: DataGridCustom,
+            Toolbar: GridToolbar,
             ColumnMenu: CustomColumnMenu,
           }}
         />

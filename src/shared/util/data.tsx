@@ -10,6 +10,7 @@ import {
     AdminPanelSettingsOutlined,
     TrendingUpOutlined,
     PieChartOutlined,
+    People
 } from "@mui/icons-material";
 
 export const navItems = [

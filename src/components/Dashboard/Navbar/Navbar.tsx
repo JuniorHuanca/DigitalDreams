@@ -102,7 +102,7 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }: Props) => {
                                 sx={{ objectFit: "cover" }}
                                 overflow= "hidden"
                             >
-                                <Image alt="profile" src={profileImage} height={32} width={32}/>
+                                <img alt="profile" src={user?.image} height={32} width={32}/>
                             </Box>
                             <Box textAlign="left">
                                 <Typography
@@ -110,13 +110,13 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }: Props) => {
                                     fontSize="0.85rem"
                                     sx={{ color: theme.palette.secondary[100] }}
                                 >
-                                    {user.name}
+                                    {user?.name}
                                 </Typography>
                                 <Typography
                                     fontSize="0.75rem"
                                     sx={{ color: theme.palette.secondary[200] }}
                                 >
-                                    {user.occupation}
+                                    {user?.occupation}
                                 </Typography>
                             </Box>
                             <ArrowDropDownOutlined
