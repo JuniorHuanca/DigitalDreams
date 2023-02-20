@@ -59,12 +59,13 @@ export default NextAuth({
         } as IProvider)
     ],
     callbacks: {
-        session: async ({ token, session }: { token: any, session: any }) => {
-            if (session?.user && token?.sub) {
-                session.user.id = token.sub
-            }
+        async session({ session, token }: { token: any, session: any }) {
+            // Send properties to the client, like an access_token and user id from a provider.
+            session.accessToken = token.accessToken
+            session.user.id = token.id
+
             return session
-        },
+        }
     },
     pages: {
         // signIn: '/auth/SignIn',
