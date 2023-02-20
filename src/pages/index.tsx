@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Login from '@/components/Login'
 type Props = {}
 export default function Home(props: Props) {
+
   return (
     <>
       <Head>
@@ -16,8 +17,8 @@ export default function Home(props: Props) {
         <h1>Hello world!</h1>
         <Link href="dashboard">Dashboard</Link>
         <Link href="/api/auth/signin">Login</Link>
-        
-        <Login/>
+
+        <Login />
       </main>
     </>
   )

@@ -15,7 +15,7 @@ import { themeSettings } from '@/theme';
 import { Wrapper } from '@/shared/components/Wrapper/Wrapper'
 import { useRouter } from 'next/router';
 import Dashboard from './dashboard'
-import Layout from '@/components/Layout/Layout'
+import LayoutDashboard from '@/components/Layouts/LayoutDashboard'
 import Products from './dashboard/products'
 import { api } from '@/state/api'
 import Customers from './dashboard/customers'
@@ -27,6 +27,7 @@ import Monthly from './dashboard/monthly'
 import Breakdown from './dashboard/breakdown'
 import Admin from './dashboard/admin'
 import Performance from './dashboard/performance'
+import Layout from '@/components/Layouts/Layout';
 
 const store = configureStore({
   reducer: {
@@ -47,7 +48,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
         <Wrapper>
           {pathname.startsWith('/dashboard') ? (
             <>
-              <Layout >
+              <LayoutDashboard >
                 {/* {pathname === '/dashboard' && <Dashboard />}
                 {pathname === '/dashboard/products' && <Products />}
                 {pathname === '/dashboard/customers' && <Customers />}
@@ -59,10 +60,14 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
                 {pathname === '/dashboard/breakdown' && <Breakdown />}
                 {pathname === '/dashboard/admin' && <Admin />}
                 {pathname === '/dashboard/performance' && <Performance />} */}
-              </Layout>
+              </LayoutDashboard>
             </>
           ) : (
-            <Component {...pageProps} />
+            <>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </>
           )}
         </Wrapper>
       </Provider>

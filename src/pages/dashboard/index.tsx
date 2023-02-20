@@ -11,7 +11,7 @@
 import BreakdownChart from "@/components/BreakdownChart";
 import DataGridCustom from "@/components/DataGridCustom";
 import FlexBetween from "@/components/FlexBetween";
-import Header from "@/components/Header";
+import Header from '@/components/Dashboard/Header';
 import OverviewChart from "@/components/OverviewChart";
 import StatBox from "@/components/StatBox";
 import { columns } from "@/shared/util/data";

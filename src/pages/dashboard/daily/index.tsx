@@ -1,4 +1,4 @@
-import Header from '@/components/Header';
+import Header from '@/components/Dashboard/Header';
 import { ILine, ITheme, SalesData } from '@/shared/util/types';
 import { useGetSalesQuery } from '@/state/api';
 import { Box, useTheme } from '@mui/material';

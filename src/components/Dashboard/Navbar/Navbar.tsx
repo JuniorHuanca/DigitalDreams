@@ -7,7 +7,7 @@ import {
     ArrowDropDownOutlined
 } from "@mui/icons-material"
 import { useState } from "react";
-import FlexBetween from "../FlexBetween";
+import FlexBetween from "../../FlexBetween"
 import { setMode } from "@/state"
 import profileImage from "@/assets/profile.jpeg"
 import { useDispatch } from "react-redux"
@@ -26,12 +26,16 @@ import {
 import Image from "next/image";
 import { ITheme } from "@/shared/util/types";
 type Props = {
-    user: any
-    // isSidebarOpen: boolean,
-    // setIsSidebarOpen: (value: boolean) => void;
+    user: any,
+    // {
+    //     name:string,
+    //     occupation: string,
+    // },
+    isSidebarOpen: boolean,
+    setIsSidebarOpen: (value: boolean) => void;
 }
 
-const Navbar = ({ user }: Props) => {
+const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }: Props) => {
     const dispatch = useDispatch();
     const theme: ITheme = useTheme();
 
@@ -51,9 +55,9 @@ const Navbar = ({ user }: Props) => {
             <Toolbar sx={{ justifyContent: "space-between" }}>
                 {/* LEFT SIDE */}
                 <FlexBetween>
-                    {/* <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+                    <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
                         <MenuIcon />
-                    </IconButton> */}
+                    </IconButton>
                     <FlexBetween
                         backgroundColor={theme.palette.background.alt}
                         borderRadius="9px"
@@ -96,9 +100,9 @@ const Navbar = ({ user }: Props) => {
                                 width="32px"
                                 borderRadius="50%"
                                 sx={{ objectFit: "cover" }}
-                                overflow="hidden"
+                                overflow= "hidden"
                             >
-                                <img alt="profile" src={user?.image} height={32} width={32} />
+                                <Image alt="profile" src={profileImage} height={32} width={32}/>
                             </Box>
                             <Box textAlign="left">
                                 <Typography
@@ -106,14 +110,14 @@ const Navbar = ({ user }: Props) => {
                                     fontSize="0.85rem"
                                     sx={{ color: theme.palette.secondary[100] }}
                                 >
-                                    {user?.name}
+                                    {user.name}
                                 </Typography>
-                                {/* <Typography
+                                <Typography
                                     fontSize="0.75rem"
                                     sx={{ color: theme.palette.secondary[200] }}
                                 >
                                     {user.occupation}
-                                </Typography> */}
+                                </Typography>
                             </Box>
                             <ArrowDropDownOutlined
                                 sx={{ color: theme.palette.secondary[300], fontSize: "25px" }}
@@ -131,7 +135,7 @@ const Navbar = ({ user }: Props) => {
                 </FlexBetween>
             </Toolbar>
         </AppBar>
-    )
+    );
 }
 
 export default Navbar

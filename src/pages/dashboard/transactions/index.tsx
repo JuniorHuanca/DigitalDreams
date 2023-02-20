@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useGetTransactionsQuery } from "@/state/api";
-import Header from "@/components/Header";
+import Header from '@/components/Dashboard/Header';
 import { ITheme } from "@/shared/util/types";
 import DataGridCustomToolbar from "@/components/DataGridCustomToolbar";
 

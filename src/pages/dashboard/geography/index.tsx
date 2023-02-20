@@ -1,4 +1,4 @@
-import Header from "@/components/Header";
+import Header from '@/components/Dashboard/Header';
 import Loader from "@/components/Loaders/Loader";
 import { ITheme } from "@/shared/util/types";
 import { useGetGeographyQuery } from "@/state/api";

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FormControl, MenuItem, InputLabel, Box, Select } from "@mui/material";
-import Header from "@/components/Header";
-import OverviewChart from "@/components/OverviewChart";
+import Header from '@/components/Dashboard/Header';
+import OverviewChart from "@/components/Dashboard/OverviewChart";
 
 type Props = {}
 const Overview = (props: Props) => {

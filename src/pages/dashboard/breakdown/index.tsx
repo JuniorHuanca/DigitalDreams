@@ -1,5 +1,5 @@
-import BreakdownChart from '@/components/BreakdownChart'
-import Header from '@/components/Header'
+import BreakdownChart from '@/components/Dashboard/BreakdownChart';
+import Header from '@/components/Dashboard/Header';
 import { Box } from '@mui/material'
 
 type Props = {}

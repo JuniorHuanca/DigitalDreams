@@ -19,7 +19,7 @@ import {
 } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import profileImage from "@/assets/profile.jpeg";
-import FlexBetween from "../FlexBetween";
+import FlexBetween from "@/components/FlexBetween";
 import { useRouter } from "next/router";
 import { navItems } from "@/shared/util/data";
 import { ITheme } from "@/shared/util/types";

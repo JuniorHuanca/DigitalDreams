@@ -39,16 +39,14 @@ model User {
     // occupation    String
     // phoneNumber   String
     transactions  Transaction[]
-    roleId        String        @default("cleaurwd00002t36c38krhs4o")
-    role          Role?         @relation(fields: [roleId], references: [id], onDelete: Cascade)
+    role          Role          @default(USER)
     accounts      Account[]
     sessions      Session[]
 }
 
-model Role {
-    id    String @id @default(cuid())
-    name  String
-    users User[]
+enum Role {
+    USER
+    ADMIN
 }
 
 model Transaction {

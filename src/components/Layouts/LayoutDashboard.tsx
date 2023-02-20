@@ -1,14 +1,14 @@
 import { Box, useMediaQuery } from '@mui/material';
-import Navbar from '../Navbar/Navbar';
+import Navbar from '../Dashboard/Navbar/Navbar';
 import { useSelector } from 'react-redux';
-import Sidebar from '../Sidebar/Sidebar';
+import Sidebar from '../dashboard/Sidebar/Sidebar';
 import { useState } from 'react';
 
 interface Props {
     children: React.ReactNode;
 }
 
-const Layout = ({children}: Props) => {
+const LayoutDashboard = ({children}: Props) => {
     const isNonMobile = useMediaQuery("(min-width: 600px)");
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     // const userId = useSelector((state) => state.global.userId);
@@ -34,4 +34,4 @@ const Layout = ({children}: Props) => {
     );
 };
 
-export default Layout
+export default LayoutDashboard

@@ -2,7 +2,7 @@ import { ResponsivePie } from "@nivo/pie";
 import { Box, Typography, useTheme } from "@mui/material";
 import { useGetSalesQuery } from "@/state/api";
 import { ITheme } from "@/shared/util/types";
-import Loader from "./Loaders/Loader";
+import Loader from "../Loaders/Loader";
 
 type Props = {
   isDashboard: boolean

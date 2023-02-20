@@ -3,7 +3,7 @@ import { ResponsiveLine } from "@nivo/line";
 import { useTheme } from "@mui/material";
 import { useGetSalesQuery } from "@/state/api";
 import { Acc, ILine, ITheme, MonthlyData } from "@/shared/util/types";
-import Loader from "./Loaders/Loader";
+import Loader from "../Loaders/Loader";
 type Props = {
     isDashboard: boolean;
     view: string

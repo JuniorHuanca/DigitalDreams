@@ -1,5 +1,5 @@
 import DataGridCustom from "@/components/DataGridCustom";
-import Header from "@/components/Header";
+import Header from '@/components/Dashboard/Header';
 import { ITheme } from "@/shared/util/types";
 import { useGetCustomersQuery } from "@/state/api";
 import { Box, useTheme } from "@mui/material";
