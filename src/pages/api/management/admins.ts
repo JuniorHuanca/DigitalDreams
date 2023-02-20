@@ -9,7 +9,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       try {
         const users = await prisma.user.findMany({
           where: {
-            role: "Admin" || "Manager" as any
+            role: { not: 'User' as any }
           },
         })
         res.status(200).json(users)
