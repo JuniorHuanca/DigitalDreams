@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import NextAuth from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import GitHubProvider from "next-auth/providers/github";
@@ -7,44 +10,6 @@ interface IProvider {
     clientId: string,
     clientSecret: string,
 }
-// export const authOptions = {
-//     // Configure one or more authentication providers
-//     providers: [
-//         GithubProvider({
-//             clientId: process.env.GITHUB_ID,
-//             clientSecret: process.env.GITHUB_SECRET,
-//         } as provider),
-//         // ...add more providers hereF
-//     ],
-//     callbacks: {
-//         session: async({ token, session }: { token: any, session: any }) => {
-//     if (session?.user && token?.sub) {
-//         session.user.id = token.sub
-//     }
-//     //
-//     return session
-// },
-//         // jwt: async (params) => {
-//         //     // update token
-//         //     const { admin } = await prisma.user.findUnique({
-//         //         where: {
-//         //             email: params.token.email,
-//         //         },
-//         //         select: {
-//         //             admin: true,
-//         //         },
-//         //     })
-//         //     params.token.admin = admin
-//         //     if (params.isNewUser === true) {
-//         //         emailProvider(params.token.email, params.token.email)
-//         //     }
-//         //     return params.token
-//         // },
-//     }
-// }
-
-// export default NextAuth(authOptions)
-
 
 export default NextAuth({
     adapter: PrismaAdapter(prisma),
@@ -59,14 +24,29 @@ export default NextAuth({
         } as IProvider)
     ],
     callbacks: {
-        async session({ session, token, user }: { session: any, token: any, user: any }) {
-            session.user.username = session.user.name
-                .split(" ")
-                .join("")
-                .toLocaleLowerCase();
-            session.user.id = token?.sub;
-            return session;
-        }
+        session: async ({ token, session }: { token: any, session: any }) => {
+            if (session?.user && token?.sub) {
+                session.user.id = token.sub
+            }
+            //
+            return session
+        },
+        async jwt(params) {
+            console.log(params)
+            const { role } = await prisma.user.findUnique({
+                where: {
+                    email: params.token.email,
+                },
+                select: {
+                    role: true,
+                },
+            })
+            params.token.role = role
+            // if (params.isNewUser === true) {
+            //     emailProvider(params.token.email, params.token.email)
+            // }
+            return params.token
+        },
     },
     pages: {
         // signIn: '/auth/SignIn',
@@ -74,5 +54,5 @@ export default NextAuth({
         // error: '/auth/Error', // Error code passed in query string as ?error=
         // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
     },
-    secret: process.env.SECRET
+    secret: process.env.NEXTAUTH_SECRET
 })
