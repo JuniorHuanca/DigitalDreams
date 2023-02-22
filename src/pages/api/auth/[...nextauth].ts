@@ -53,5 +53,5 @@ export default NextAuth({
         // error: '/auth/Error', // Error code passed in query string as ?error=
         // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
     },
-    secret: process.env.NEXTAUTH_SECRET
+    secret: process.env.NEXT_PUBLIC_SECRET
 })
