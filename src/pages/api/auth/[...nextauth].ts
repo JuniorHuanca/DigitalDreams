@@ -20,6 +20,9 @@ export default NextAuth({
             clientSecret: process.env.GITHUB_SECRET
         } as IProvider)
     ],
+    session: {
+        strategy: 'jwt',
+    },
     callbacks: {
         session: async ({ token, session }: { token: any, session: any }) => {
             if (session?.user && token?.sub) {
@@ -29,7 +32,6 @@ export default NextAuth({
             return session
         },
         async jwt(params: any) {
-            console.log(params)
             const { role }: any = await prisma.user.findUnique({
                 where: {
                     email: params.token.email,
