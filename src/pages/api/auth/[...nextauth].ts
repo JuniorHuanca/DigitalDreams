@@ -15,16 +15,18 @@ export default NextAuth({
             clientId: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
         } as IProvider),
-        // GitHubProvider({
-        //     clientId: process.env.GITHUB_ID,
-        //     clientSecret: process.env.GITHUB_SECRET
-        // } as IProvider)
+        GitHubProvider({
+            clientId: process.env.GITHUB_ID,
+            clientSecret: process.env.GITHUB_SECRET
+        } as IProvider)
     ],
+    secret: process.env.NEXTAUTH_SECRET,
     session: {
         strategy: 'jwt',
     },
     callbacks: {
         session: async ({ token, session }: { token: any, session: any }) => {
+            // console.log(token, session)
             if (session?.user && token?.sub) {
                 session.user.id = token.sub
             }
@@ -53,5 +55,4 @@ export default NextAuth({
         // error: '/auth/Error', // Error code passed in query string as ?error=
         // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
     },
-    secret: process.env.NEXT_PUBLIC_SECRET
 })
