@@ -1,6 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
 import NextAuth from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import GitHubProvider from "next-auth/providers/github";
@@ -31,9 +28,9 @@ export default NextAuth({
             //
             return session
         },
-        async jwt(params) {
+        async jwt(params: any) {
             console.log(params)
-            const { role } = await prisma.user.findUnique({
+            const { role }: any = await prisma.user.findUnique({
                 where: {
                     email: params.token.email,
                 },
