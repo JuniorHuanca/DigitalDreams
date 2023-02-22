@@ -15,10 +15,10 @@ export default NextAuth({
             clientId: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
         } as IProvider),
-        GitHubProvider({
-            clientId: process.env.GITHUB_ID,
-            clientSecret: process.env.GITHUB_SECRET
-        } as IProvider)
+        // GitHubProvider({
+        //     clientId: process.env.GITHUB_ID,
+        //     clientSecret: process.env.GITHUB_SECRET
+        // } as IProvider)
     ],
     session: {
         strategy: 'jwt',
