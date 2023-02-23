@@ -9,8 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@babel/preset-react": "^7.18.6",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
+    "@fullcalendar/core": "^5.11.3",
+    "@fullcalendar/daygrid": "^5.11.3",
+    "@fullcalendar/interaction": "^5.11.3",
+    "@fullcalendar/list": "^5.11.3",
+    "@fullcalendar/react": "^5.11.2",
+    "@fullcalendar/timegrid": "^5.11.3",
     "@mui/icons-material": "^5.10.15",
     "@mui/material": "^5.10.15",
     "@mui/x-data-grid": "^5.17.13",
@@ -33,6 +40,7 @@
     "mongoose": "^6.9.1",
     "next": "^13.1.6",
     "next-auth": "^4.19.2",
+    "next-transpile-modules": "^10.0.0",
     "react": "^18.2.0",
     "react-datepicker": "^4.10.0",
     "react-dom": "^18.2.0",

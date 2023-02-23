@@ -28,6 +28,8 @@ import Breakdown from './dashboard/breakdown'
 import Admin from './dashboard/admin'
 import Performance from './dashboard/performance'
 import Layout from '@/components/Layouts/Layout';
+import Calendar from './dashboard/calendar';
+
 
 const store = configureStore({
   reducer: {
@@ -62,6 +64,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
                 {pathname === '/dashboard/performance' && <Performance />} */}
                 {pathname === '/dashboard/customers' && <Customers />}
                 {pathname === '/dashboard/admin' && <Admin />}
+                {pathname === '/dashboard/calendar' && <Calendar />}
 
               </LayoutDashboard>
             </>
