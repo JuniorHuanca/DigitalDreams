@@ -50,7 +50,7 @@ export default NextAuth({
         },
     },
     pages: {
-        // signIn: '/auth/SignIn',
+        signIn: '/auth/SignIn',
         // signOut: '/auth/SignOut',
         // error: '/auth/Error', // Error code passed in query string as ?error=
         // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)

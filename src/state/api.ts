@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-const url = process.env.REACT_APP_BASE_URL 
+const url = process.env.REACT_APP_BASE_URL || '/api'
 
 // const url = process.env.NODE_ENV === "production"
 //   ? "https://jh-personal-app.netlify.app/api/"

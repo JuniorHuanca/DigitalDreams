@@ -27,3 +27,7 @@ body,
 ::-webkit-scrollbar-track:hover {
   background: #21295c;
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
