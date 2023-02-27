@@ -14,6 +14,7 @@ import { HiAtSymbol, HiFingerPrint, HiUser } from 'react-icons/hi'
 import Logo from '@/assets/img/Avatar.png'
 import useInfoProviders from "@/shared/util/providers"
 import SvgGoogle from "@/components/Icons/Google"
+import Github from "@/components/Icons/Github"
 
 type Props = {}
 function SignIn(props: Props) {
@@ -103,6 +104,16 @@ function SignIn(props: Props) {
                                         }}
                                     >
                                         <SvgGoogle />
+                                    </button>
+                                )}
+                                {providers?.github && (
+                                    <button
+                                        className="border border-gray-500 rounded-full bg-white hover:scale-125 transition-transform p-1"
+                                        onClick={async () => {
+                                            await signIn(providers.github.id)
+                                        }}
+                                    >
+                                        <Github />
                                     </button>
                                 )}
                             </div>

@@ -2,7 +2,7 @@ import NextAuth from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import GitHubProvider from "next-auth/providers/github";
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
-import prisma from "../../../lib/prismadb"
+import prisma from "@/lib/prismadb"
 interface IProvider {
     clientId: string,
     clientSecret: string,
@@ -15,10 +15,10 @@ export default NextAuth({
             clientId: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
         } as IProvider),
-        GitHubProvider({
-            clientId: process.env.GITHUB_ID,
-            clientSecret: process.env.GITHUB_SECRET
-        } as IProvider)
+        // GitHubProvider({
+        //     clientId: process.env.GITHUB_ID,
+        //     clientSecret: process.env.GITHUB_SECRET
+        // } as IProvider)
     ],
     secret: process.env.NEXTAUTH_SECRET,
     session: {
