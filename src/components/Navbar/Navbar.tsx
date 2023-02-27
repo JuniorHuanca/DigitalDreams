@@ -51,6 +51,7 @@ const Navbar = ({ user }: Props) => {
                 background: "none",
                 boxShadow: "none",
             }}
+            className="h-[10vh]"
         >
             <Toolbar sx={{ justifyContent: "space-between" }}>
                 {/* LEFT SIDE */}

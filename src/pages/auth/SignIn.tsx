@@ -10,19 +10,31 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { toast, Toaster } from 'react-hot-toast'
+import { HiAtSymbol, HiFingerPrint, HiUser } from 'react-icons/hi'
 import Logo from '@/assets/img/Avatar.png'
-// import { HiAtSymbol, HiFingerPrint } from 'react-icons/hi'
-// import useInfoProviders from '../hook/providers'
+import useInfoProviders from "@/shared/util/providers"
+import SvgGoogle from "@/components/Icons/Google"
 
-
-type Props = {
-    providers: any
-}
-function SignIn({ providers }: Props) {
+type Props = {}
+function SignIn(props: Props) {
     const [mounted, setMounted] = useState(false)
+    const [containerClass, setContainerClass] = useState('');
+    const { providers } = useInfoProviders()
+
     useEffect(() => {
         setMounted(true)
     }, [])
+
+    useEffect(() => {
+        const container = document.getElementById('container');
+        containerClass ? container?.classList.add(containerClass) : container?.classList.remove('rightPanelActive')
+    }, [containerClass]);
+    const handleSignUp = () => {
+        setContainerClass(styles.rightPanelActive);
+    };
+    const handleSignIn = () => {
+        setContainerClass('');
+    };
     if (!mounted) return null
     const stylesCenter = "flex flex-col justify-center items-center"
     return (
@@ -30,39 +42,109 @@ function SignIn({ providers }: Props) {
             <Head>
                 <title>APP | Log in</title>
             </Head>
-            <div className={`${stylesCenter} min-h-[90vh] min-w-screen`}>
-                <div className={`${stylesCenter} p-2 w-[50%] bg-indigo-600`}>
-                    <form className={`${stylesCenter} gap-4`}>
-                        <p className="text-xl">Login</p>
-                        <Image src={Logo} alt="Logo" className="w-[12%] h-[12%] rounded-full" />
-                        <input className="bg-slate-600 focus:outline-none text-gray-600 p-4 rounded-full dark:text-gray-400" placeholder="Username" type="text" />
-                        <input className="bg-slate-600 focus:outline-none text-gray-600 p-4 rounded-full dark:text-gray-400" placeholder="Password" type="text" />
-                        <button className="bg-emerald-500 py-4 px-8 rounded-3xl">Submit</button>
-                    </form>
-                    <h3>or</h3>
-                    <div className={`${stylesCenter} gap-4`}>
-                        {Object.values(providers).map((provider: any) => (
-                            <div key={provider.name} className={styles.container}>
-                                <button className="bg-rose-900 p-4 rounded-3xl" onClick={() => SignIntoProvider(provider.id, { callbackUrl: "/dashboard" })}>
-                                    Sign in with {provider.name}
-                                </button>
+            <div className={`${stylesCenter} min-h-[100vh] min-w-screen`}>
+                
+                <div className={`flex w-[95%] h-[80vh] rounded-xl overflow-hidden ${styles.container} ${containerClass}`} id="container">
+                    <div className={`flex flex-col gap-4 p-4 w-4/6 h-full bg-white absolute transition-all duration-700 ease-in-out ${styles.signUpContainer}`}>
+                        <div className="flex w-full h-[12%] items-center">
+                            <Image src={Logo} alt="Logo" className="rounded-full w-[10%] p-2" />
+                            <p className="text-black">DigitalDreams</p>
+                        </div>
+                        <form className={`${stylesCenter} gap-4 py-6`}>
+                            <h2 className="font-bold text-3xl text-sky-900">Sing in to DigitalDreams</h2>
+                            <div className="flex flex-row justify-evenly items-center gap-4">
+                                {providers?.google && (
+                                    <button
+                                        className="border border-gray-500 rounded-full bg-white hover:scale-125 transition-transform p-1"
+                                        onClick={async () => {
+                                            await signIn(providers.google.id)
+                                        }}
+                                    >
+                                        <SvgGoogle />
+                                    </button>
+                                )}
                             </div>
-                        ))}
+                            <p className="text-black">or use your email account</p>
+                            <div className="flex justify-center w-full ">
+                                <span className="icon flex items-center pl-2 bg-gray-400/30">
+                                    <HiUser size={28} className="fill-gray-800/30" />
+                                </span>
+                                <input className="w-2/4 bg-gray-400/30 focus:outline-none text-gray-800/30 p-4 rounded-sm" placeholder="Username" type="text" />
+                            </div>
+                            <div className="flex justify-center w-full ">
+                                <span className="icon flex items-center pl-2 bg-gray-400/30">
+                                    <HiAtSymbol size={28} className="fill-gray-800/30" />
+                                </span>
+                                <input className="w-2/4 bg-gray-400/30 focus:outline-none text-gray-800/30 p-4 rounded-sm" placeholder="Email" type="text" />
+                            </div>
+                            <div className="flex justify-center w-full ">
+                                <span className="icon flex items-center pl-2 bg-gray-400/30">
+                                    <HiFingerPrint size={28} /*className={`${hola ? 'fill-[#6366f1]' : 'fill-gray-800/30'}`}*/ className="fill-gray-800/30" />
+                                </span>
+                                <input className="w-2/4 bg-gray-400/30 focus:outline-none text-gray-800/30 p-4 rounded-sm" placeholder="Password" type="text" />
+                            </div>
+                            <button className="bg-sky-900 py-4 px-10 rounded-3xl border">Sign Up</button>
+
+                        </form>
+                    </div>
+                    <div className={`flex flex-col gap-4 p-4 w-4/6 h-full bg-white absolute transition-all duration-700 ease-in-out ${styles.signInContainer}`}>
+                        <div className="flex w-full h-[12%] items-center">
+                            <Image src={Logo} alt="Logo" className="rounded-full w-[10%] p-2" />
+                            <p className="text-black">DigitalDreams</p>
+                        </div>
+                        <form className={`${stylesCenter} gap-4 py-6`}>
+                            <h2 className="font-bold text-3xl text-sky-900">Sing in to DigitalDreams</h2>
+                            <div className="flex flex-row justify-evenly items-center gap-4">
+                                {providers?.google && (
+                                    <button
+                                        className="border border-gray-500 rounded-full bg-white hover:scale-125 transition-transform p-1"
+                                        onClick={async () => {
+                                            await signIn(providers.google.id)
+                                        }}
+                                    >
+                                        <SvgGoogle />
+                                    </button>
+                                )}
+                            </div>
+                            <p className="text-black">or use your email account</p>
+                            <div className="flex justify-center w-full ">
+                                <span className="icon flex items-center pl-2 bg-gray-400/30">
+                                    <HiAtSymbol size={28} className="fill-gray-800/30" />
+                                </span>
+                                <input className="w-2/4 bg-gray-400/30 focus:outline-none text-gray-800/30 p-4 rounded-sm" placeholder="Username" type="text" />
+                            </div>
+                            <div className="flex justify-center w-full ">
+                                <span className="icon flex items-center pl-2 bg-gray-400/30">
+                                    <HiFingerPrint size={28} /*className={`${hola ? 'fill-[#6366f1]' : 'fill-gray-800/30'}`}*/ className="fill-gray-800/30" />
+                                </span>
+                                <input className="w-2/4 bg-gray-400/30 focus:outline-none text-gray-800/30 p-4 rounded-sm" placeholder="Password" type="text" />
+                            </div>
+                            <Link href="" className="border-b-2 border-white text-black">Forgot your password?</Link>
+                            <button className="bg-sky-900 py-4 px-10 rounded-3xl border">Sign Up</button>
+
+                        </form>
+                    </div>
+
+                    <div className={`w-2/6 h-full left-[66.666667%] ${styles.overlayContainer}`}>
+                        <div className={`${styles.overlay}`}>
+                            <div className={`${styles.overlayPanel} ${styles.overlayLeft} gap-4`}>
+                                <h2 className="font-bold text-3xl">Welcome Back!</h2>
+                                <p>To keep connected with us please login with your personal info</p>
+                                <button className="py-4 px-10 rounded-3xl border border-white" id="signIn" onClick={handleSignIn}>Sign In</button>
+                                <Link href="/" className="absolute top-2 left-2 text-5xl hover:scale-125 transition-transform">X</Link>
+                            </div>
+                            <div className={`${styles.overlayPanel} ${styles.overlayRight} gap-4`}>
+                                <h2 className="font-bold text-3xl">Hello, Friend!</h2>
+                                <p>Enter your personal details and start journey with us</p>
+                                <button className="py-4 px-10 rounded-3xl border border-white" id="signUp" onClick={handleSignUp}>Sign Up</button>
+                                <Link href="/" className="absolute top-2 right-2 text-5xl hover:scale-125 transition-transform">X</Link>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </>
     )
-}
-
-export async function getServerSideProps() {
-    const providers = await getProviders();
-
-    return {
-        props: {
-            providers
-        }
-    }
 }
 
 export default SignIn

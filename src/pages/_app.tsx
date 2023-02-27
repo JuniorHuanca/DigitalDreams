@@ -68,7 +68,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
 
               </LayoutDashboard>
             </>
-          ) : (
+          ) : pathname.startsWith('/auth') ? <Component {...pageProps} /> : (
             <>
               <Layout>
                 <Component {...pageProps} />

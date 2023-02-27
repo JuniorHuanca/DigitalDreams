@@ -1,0 +1,116 @@
+.container {
+    border-radius: 10px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+        0 10px 10px rgba(0, 0, 0, 0.22);
+    position: relative;
+    overflow: hidden;
+    max-width: 100%;
+    min-height: 480px;
+}
+
+.form-container {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    transition: all 0.7s ease-in-out;
+}
+
+.signInContainer {
+    z-index: 2;
+}
+
+.container.rightPanelActive .signInContainer {
+    /* opacity: 0; */
+    transform: translateX(50%);
+}
+
+.signUpContainer {
+    opacity: 0;
+    z-index: 1;
+}
+
+.container.rightPanelActive .signUpContainer {
+    transform: translateX(50%);
+    opacity: 1;
+    z-index: 5;
+    animation: show .5s;
+}
+
+@keyframes show {
+
+    0%,
+    49% {
+        opacity: 0;
+        z-index: 1;
+    }
+
+    50%,
+    100% {
+        opacity: 1;
+        z-index: 5;
+    }
+}
+
+.overlayContainer {
+    position: absolute;
+    overflow: hidden;
+    transition: transform 0.7s ease-in-out;
+    z-index: 100;
+}
+
+.container.rightPanelActive .overlayContainer {
+    transform: translateX(-200%);
+}
+
+.overlay {
+    background: #0c4a6e;
+    background: -webkit-linear-gradient(to right, #147ab5, #0c4a6e);
+    background: linear-gradient(to right, #147ab5, #0c4a6e);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 0 0;
+    color: #FFFFFF;
+    position: relative;
+    left: -100%;
+    height: 100%;
+    width: 200%;
+    transform: translateX(0);
+    transition: transform 0.7s ease-in-out;
+}
+
+.container.rightPanelActive .overlay {
+    transform: translateX(50%);
+}
+
+.overlayPanel {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 40px;
+    text-align: center;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    transform: translateX(0);
+    transition: transform 0.7s ease-in-out;
+}
+
+.overlayLeft {
+    transform: translateX(-20%);
+}
+
+.container.rightPanelActive .overlayLeft {
+    transform: translateX(0);
+}
+
+.overlayRight {
+    right: 0;
+    transform: translateX(0);
+}
+
+.container.rightPanelActive .overlayRight {
+    transform: translateX(20%);
+}
+
