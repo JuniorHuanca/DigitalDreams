@@ -1,4 +1,4 @@
-import { getProviders, signIn as SignIntoProvider } from "next-auth/react"
+// import { getProviders, signIn as SignIntoProvider } from "next-auth/react"
 import styles from "./SignIn.module.css"
 
 import { useFormik } from 'formik'
@@ -38,6 +38,7 @@ function SignIn(props: Props) {
     };
     if (!mounted) return null
     const stylesCenter = "flex flex-col justify-center items-center"
+    // console.log(providers)
     return (
         <>
             <Head>
