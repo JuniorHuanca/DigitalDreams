@@ -25,12 +25,10 @@ export default NextAuth({
         strategy: 'jwt',
     },
     callbacks: {
-        session: async ({ token, session }: { token: any, session: any }) => {
-            // console.log(token, session)
+        async session({ session, token, user }: { session: any, token: any, user: any }) {
             if (session?.user && token?.sub) {
                 session.user.id = token.sub
             }
-            //
             return session
         },
         async jwt(params: any) {
@@ -50,7 +48,7 @@ export default NextAuth({
         },
     },
     pages: {
-        signIn: '/auth/SignIn',
+        // signIn: '/auth/SignIn',
         // signOut: '/auth/SignOut',
         // error: '/auth/Error', // Error code passed in query string as ?error=
         // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
