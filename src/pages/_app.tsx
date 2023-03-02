@@ -18,6 +18,7 @@ import Dashboard from './dashboard'
 import LayoutDashboard from '@/components/Layouts/LayoutDashboard'
 import Products from './dashboard/products'
 import { api } from '@/state/api'
+import type { Session } from 'next-auth'
 import Customers from './dashboard/customers'
 import Transactions from './dashboard/transactions'
 import Geography from './dashboard/geography'
@@ -41,7 +42,7 @@ const store = configureStore({
 setupListeners(store.dispatch);
 
 
-export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps<{ session: Session }>) {
   const router = useRouter();
   const { pathname } = router;
   return (
