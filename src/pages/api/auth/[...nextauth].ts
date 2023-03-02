@@ -1,24 +1,20 @@
-import NextAuth from "next-auth"
+import NextAuth, { NextAuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import GitHubProvider from "next-auth/providers/github";
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import prisma from "@/lib/prismadb"
-interface IProvider {
-    clientId: string,
-    clientSecret: string,
-}
 
-export default NextAuth({
+export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma),
     providers: [
         GoogleProvider({
-            clientId: process.env.GOOGLE_CLIENT_ID,
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        } as IProvider),
+            clientId: process.env.GOOGLE_ID,
+            clientSecret: process.env.GOOGLE_SECRET,
+        }),
         GitHubProvider({
             clientId: process.env.GITHUB_ID,
             clientSecret: process.env.GITHUB_SECRET
-        } as IProvider)
+        })
     ],
     secret: process.env.NEXTAUTH_SECRET,
     session: {
@@ -31,10 +27,10 @@ export default NextAuth({
             }
             return session
         },
-        async jwt(params: any) {
+        async jwt(params) {
             const { role }: any = await prisma.user.findUnique({
                 where: {
-                    email: params.token.email,
+                    email: params.token.email as string,
                 },
                 select: {
                     role: true,
@@ -47,10 +43,12 @@ export default NextAuth({
             return params.token
         },
     },
-    pages: {
-        // signIn: '/auth/SignIn',
-        // signOut: '/auth/SignOut',
-        // error: '/auth/Error', // Error code passed in query string as ?error=
-        // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
-    },
-})
+    // pages: {
+    // signIn: '/auth/SignIn',
+    // signOut: '/auth/SignOut',
+    // error: '/auth/Error', // Error code passed in query string as ?error=
+    // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
+    // },
+}
+
+export default NextAuth(authOptions)

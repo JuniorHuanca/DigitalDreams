@@ -1,6 +1,7 @@
 import Head from 'next/head'
-import { InferGetServerSidePropsType } from 'next'
 import Link from 'next/link'
+import { signIn } from "next-auth/react"
+
 type Props = {}
 export default function Home(props: Props) {
 
@@ -15,7 +16,16 @@ export default function Home(props: Props) {
       <main className={""}>
         <h1>Hello world!</h1>
         <Link href="dashboard">Dashboard</Link>
-        <Link href="/api/auth/signin">Login</Link>
+        <a
+          href={`/api/auth/signin`}
+          // className={styles.buttonPrimary}
+          onClick={(e) => {
+            e.preventDefault()
+            signIn()
+          }}
+        >
+          Sign in
+        </a>
       </main>
     </>
   )

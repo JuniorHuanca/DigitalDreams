@@ -9,7 +9,7 @@ export default withAuth(
     },
     {
         callbacks: {
-            authorized({ req, token }: { req: any, token: any }) {
+            authorized({ req, token }) {
                 const { pathname } = req.nextUrl;
                 // `/dashboard` requires admin role
                 if (pathname.startsWith("/dashboard")) {

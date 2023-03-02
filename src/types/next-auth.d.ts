@@ -1,5 +1,5 @@
 import { DefaultSession } from 'next-auth'
-
+import "next-auth/jwt"
 declare module 'next-auth' {
   /**
    * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
@@ -16,5 +16,12 @@ declare module 'next-auth' {
       name: string
       role: string
     } & DefaultSession['user']
+  }
+}
+
+declare module "next-auth/jwt" {
+  interface JWT {
+    /** The user's role. */
+    role?: "Admin"
   }
 }
