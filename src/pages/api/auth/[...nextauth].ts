@@ -27,20 +27,24 @@ export const authOptions: NextAuthOptions = {
             }
             return session
         },
-        async jwt(params) {
-            const { role }: any = await prisma.user.findUnique({
-                where: {
-                    email: params.token.email as string,
-                },
-                select: {
-                    role: true,
-                },
-            })
-            params.token.role = role
-            // if (params.isNewUser === true) {
-            //     emailProvider(params.token.email, params.token.email)
-            // }
-            return params.token
+        // async jwt(params) {
+        //     const { role }: any = await prisma.user.findUnique({
+        //         where: {
+        //             email: params.token.email as string,
+        //         },
+        //         select: {
+        //             role: true,
+        //         },
+        //     })
+        //     params.token.role = role
+        //     // if (params.isNewUser === true) {
+        //     //     emailProvider(params.token.email, params.token.email)
+        //     // }
+        //     return params.token
+        // },
+        async jwt({ token }) {
+            token.role = "Admin"
+            return token
         },
     },
     // pages: {
