@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import FlexBetween from "../FlexBetween";
 import { setMode } from "@/state"
 import profileImage from "@/assets/profile.jpeg"
+import { signIn, signOut } from "next-auth/react"
 import { useDispatch } from "react-redux"
 import {
     AppBar,
@@ -140,8 +141,26 @@ const Navbar = ({ user }: Props) => {
                             onClose={handleClose}
                             anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                         >
-                            {user && <MenuItem><Link href="/api/auth/signout">Log Out</Link></MenuItem>}
-                            {!user && <MenuItem><Link href="/api/auth/signin">Log In</Link></MenuItem>}
+                            {user && <MenuItem>
+                                <Link href="/api/auth/signout"
+                                    onClick={(e) => {
+                                        e.preventDefault()
+                                        signIn()
+                                    }}
+                                >
+                                    Log Out
+                                </Link>
+                            </MenuItem>}
+                            {!user && <MenuItem>
+                                <Link href="/api/auth/signin"
+                                    onClick={(e) => {
+                                        e.preventDefault()
+                                        signOut()
+                                    }}
+                                >
+                                    Log In
+                                </Link>
+                            </MenuItem>}
                         </Menu>
                     </FlexBetween>
                 </FlexBetween>
