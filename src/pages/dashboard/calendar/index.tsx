@@ -81,6 +81,7 @@ import {
 } from "@mui/material";
 import Header from "@/components/Dashboard/Header";
 import { ITheme } from "@/shared/util/types";
+import LayoutDashboard from "@/components/Layouts/LayoutDashboard";
 const Calendar = () => {
     const theme: ITheme = useTheme();
     const [currentEvents, setCurrentEvents] = useState([]);
@@ -112,29 +113,30 @@ const Calendar = () => {
     };
 
     return (
-        <Box m="20px">
-            <Header title="Calendar" subtitle="Full Calendar Interactive Page" />
+        <LayoutDashboard>
+            <Box m="20px">
+                <Header title="Calendar" subtitle="Full Calendar Interactive Page" />
 
-            <Box display="flex" justifyContent="space-between">
-                {/* CALENDAR SIDEBAR */}
-                <Box
-                    flex="1 1 20%"
-                    // backgroundColor={theme.palette.primary[400]}
-                    p="15px"
-                    borderRadius="4px"
-                >
-                    <Typography variant="h5">Events</Typography>
-                    <List>
-                        {currentEvents.map((event: any) => (
-                            <ListItem
-                                key={event.id}
-                                sx={{
-                                    backgroundColor: theme.palette.secondary[500],
-                                    margin: "10px 0",
-                                    borderRadius: "2px",
-                                }}
-                            >
-                                {/* <ListItemText
+                <Box display="flex" justifyContent="space-between">
+                    {/* CALENDAR SIDEBAR */}
+                    <Box
+                        flex="1 1 20%"
+                        // backgroundColor={theme.palette.primary[400]}
+                        p="15px"
+                        borderRadius="4px"
+                    >
+                        <Typography variant="h5">Events</Typography>
+                        <List>
+                            {currentEvents.map((event: any) => (
+                                <ListItem
+                                    key={event.id}
+                                    sx={{
+                                        backgroundColor: theme.palette.secondary[500],
+                                        margin: "10px 0",
+                                        borderRadius: "2px",
+                                    }}
+                                >
+                                    {/* <ListItemText
                                     primary={event.title}
                                     secondary={
                                         <Typography>
@@ -146,14 +148,14 @@ const Calendar = () => {
                                         </Typography>
                                     }
                                 /> */}
-                            </ListItem>
-                        ))}
-                    </List>
-                </Box>
+                                </ListItem>
+                            ))}
+                        </List>
+                    </Box>
 
-                {/* CALENDAR */}
-                <Box flex="1 1 100%" ml="15px">
-                    {/* <FullCalendar
+                    {/* CALENDAR */}
+                    <Box flex="1 1 100%" ml="15px">
+                        {/* <FullCalendar
                         height="75vh"
                         plugins={[
                             dayGridPlugin,
@@ -187,9 +189,10 @@ const Calendar = () => {
                             },
                         ]}
                     /> */}
+                    </Box>
                 </Box>
             </Box>
-        </Box>
+        </LayoutDashboard>
     );
 };
 

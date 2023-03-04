@@ -5,6 +5,7 @@ import { useGetCustomersQuery } from "@/state/api";
 import { Box, useTheme, Typography } from "@mui/material";
 import { DataGrid, GridToolbar, GridColDef, GridValueGetterParams, GridEventListener, useGridApiEventHandler, GridCellEditStopParams, GridCellEditStopReasons, MuiEvent } from "@mui/x-data-grid";
 import { AdminPanelSettingsOutlined, LockOpenOutlined, SecurityOutlined } from "@mui/icons-material";
+import LayoutDashboard from "@/components/Layouts/LayoutDashboard";
 type Props = {}
 
 const Customers = (props: Props) => {
@@ -100,49 +101,51 @@ const Customers = (props: Props) => {
     //     return await response.json();
     // }
     return (
-        <Box m="1.5rem 2.5rem">
-            <Header title="CUSTOMERS" subtitle="List of Customers" />
-            <Box
-                mt="40px"
-                height="75vh"
-                sx={{
-                    "& .MuiDataGrid-root": {
-                        border: "none",
-                    },
-                    "& .MuiDataGrid-cell": {
-                        backgroundColor: theme.palette.background.alt,
-                        borderBottom: "none",
-                    },
-                    "& .MuiDataGrid-cell:hover": {
-                        backgroundColor: theme.palette.primary[700],
-                    },
-                    "& .MuiDataGrid-columnHeaders": {
-                        backgroundColor: theme.palette.primary[800],
-                        color: theme.palette.secondary[50],
-                        borderBottom: "none",
-                    },
-                    "& .MuiDataGrid-virtualScroller": {
-                        backgroundColor: theme.palette.primary.light,
-                    },
-                    "& .MuiDataGrid-footerContainer": {
-                        backgroundColor: theme.palette.background.alt,
-                        color: theme.palette.secondary[100],
-                        borderTop: "none",
-                    },
-                    "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-                        color: `${theme.palette.secondary[200]} !important`,
-                    },
-                }}
-            >
-                <DataGrid
-                    loading={isLoading || !data}
-                    getRowId={(row) => row.id}
-                    rows={data || []}
-                    columns={(columns) as any}
-                    components={{ Toolbar: GridToolbar }}
-                />
+        <LayoutDashboard>
+            <Box m="1.5rem 2.5rem">
+                <Header title="CUSTOMERS" subtitle="List of Customers" />
+                <Box
+                    mt="40px"
+                    height="75vh"
+                    sx={{
+                        "& .MuiDataGrid-root": {
+                            border: "none",
+                        },
+                        "& .MuiDataGrid-cell": {
+                            backgroundColor: theme.palette.background.alt,
+                            borderBottom: "none",
+                        },
+                        "& .MuiDataGrid-cell:hover": {
+                            backgroundColor: theme.palette.primary[700],
+                        },
+                        "& .MuiDataGrid-columnHeaders": {
+                            backgroundColor: theme.palette.primary[800],
+                            color: theme.palette.secondary[50],
+                            borderBottom: "none",
+                        },
+                        "& .MuiDataGrid-virtualScroller": {
+                            backgroundColor: theme.palette.primary.light,
+                        },
+                        "& .MuiDataGrid-footerContainer": {
+                            backgroundColor: theme.palette.background.alt,
+                            color: theme.palette.secondary[100],
+                            borderTop: "none",
+                        },
+                        "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
+                            color: `${theme.palette.secondary[200]} !important`,
+                        },
+                    }}
+                >
+                    <DataGrid
+                        loading={isLoading || !data}
+                        getRowId={(row) => row.id}
+                        rows={data || []}
+                        columns={(columns) as any}
+                        components={{ Toolbar: GridToolbar }}
+                    />
+                </Box>
             </Box>
-        </Box>
+        </LayoutDashboard>
     );
 };
 

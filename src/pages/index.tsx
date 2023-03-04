@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import { signIn } from "next-auth/react"
+import Layout from '@/components/Layouts/Layout'
 
 type Props = {}
 export default function Home(props: Props) {
@@ -13,20 +14,22 @@ export default function Home(props: Props) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={""}>
-        <h1>Hello world!</h1>
-        <Link href="dashboard">Dashboard</Link>
-        <a
-          href={`/api/auth/signin`}
-          // className={styles.buttonPrimary}
-          onClick={(e) => {
-            e.preventDefault()
-            signIn()
-          }}
-        >
-          Sign in
-        </a>
-      </main>
+      <Layout>
+        <main className={""}>
+          <h1>Hello world!</h1>
+          <Link href="dashboard">Dashboard</Link>
+          <a
+            href={`/api/auth/signin`}
+            // className={styles.buttonPrimary}
+            onClick={(e) => {
+              e.preventDefault()
+              signIn()
+            }}
+          >
+            Sign in
+          </a>
+        </main>
+      </Layout>
     </>
   )
 }

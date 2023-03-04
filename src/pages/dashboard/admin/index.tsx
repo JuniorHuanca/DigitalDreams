@@ -3,11 +3,12 @@ import DataGridCustom from '@/components/DataGridCustom';
 import Header from '@/components/Dashboard/Header';
 import { ITheme } from '@/shared/util/types';
 import { useGetAdminsQuery } from '@/state/api';
-import { Box, useTheme, Typography} from '@mui/material';
+import { Box, useTheme, Typography } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
+import LayoutDashboard from '@/components/Layouts/LayoutDashboard';
 
 type Props = {}
 
@@ -53,7 +54,7 @@ const Admin = (props: Props) => {
       field: "role",
       headerName: "Role",
       flex: 0.5,
-      renderCell: ({ row: { role }}: { row: { role: string } }) => {
+      renderCell: ({ row: { role } }: { row: { role: string } }) => {
         return (
           <Box
             // width="60%"
@@ -83,48 +84,50 @@ const Admin = (props: Props) => {
   ];
 
   return (
-    <Box m="1.5rem 2.5rem">
-      <Header title="ADMINS" subtitle="Managing admins and list of admins" />
-      <Box
-        mt="40px"
-        height="75vh"
-        sx={{
-          "& .MuiDataGrid-root": {
-            border: "none",
-          },
-          "& .MuiDataGrid-cell": {
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: theme.palette.background.alt,
-            color: theme.palette.secondary[100],
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: theme.palette.primary.light,
-          },
-          "& .MuiDataGrid-footerContainer": {
-            backgroundColor: theme.palette.background.alt,
-            color: theme.palette.secondary[100],
-            borderTop: "none",
-          },
-          "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-            color: `${theme.palette.secondary[200]} !important`,
-          },
-        }}
-      >
-        <DataGrid
-          loading={isLoading || !data}
-          getRowId={(row: any) => row.id}
-          rows={data || []}
-          columns={columns}
-          components={{
-            Toolbar: GridToolbar,
-            ColumnMenu: CustomColumnMenu,
+    <LayoutDashboard>
+      <Box m="1.5rem 2.5rem">
+        <Header title="ADMINS" subtitle="Managing admins and list of admins" />
+        <Box
+          mt="40px"
+          height="75vh"
+          sx={{
+            "& .MuiDataGrid-root": {
+              border: "none",
+            },
+            "& .MuiDataGrid-cell": {
+              borderBottom: "none",
+            },
+            "& .MuiDataGrid-columnHeaders": {
+              backgroundColor: theme.palette.background.alt,
+              color: theme.palette.secondary[100],
+              borderBottom: "none",
+            },
+            "& .MuiDataGrid-virtualScroller": {
+              backgroundColor: theme.palette.primary.light,
+            },
+            "& .MuiDataGrid-footerContainer": {
+              backgroundColor: theme.palette.background.alt,
+              color: theme.palette.secondary[100],
+              borderTop: "none",
+            },
+            "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
+              color: `${theme.palette.secondary[200]} !important`,
+            },
           }}
-        />
+        >
+          <DataGrid
+            loading={isLoading || !data}
+            getRowId={(row: any) => row.id}
+            rows={data || []}
+            columns={columns}
+            components={{
+              Toolbar: GridToolbar,
+              ColumnMenu: CustomColumnMenu,
+            }}
+          />
+        </Box>
       </Box>
-    </Box>
+    </LayoutDashboard>
   );
 };
 
