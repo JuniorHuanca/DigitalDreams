@@ -13,6 +13,8 @@ import {
     CalendarMonth
 } from "@mui/icons-material";
 
+import { BsKanban, BsBarChart, BsBoxSeam, BsCurrencyDollar, BsShield, BsChatLeft } from 'react-icons/bs';
+import { FiShoppingBag, FiEdit, FiPieChart, FiBarChart, FiCreditCard, FiStar, FiShoppingCart } from 'react-icons/fi';
 export const navItems = [
     {
         text: "Dashboard",
@@ -303,5 +305,28 @@ export const scheduleData = [
         StartTime: '2021-01-16T07:00:00.000Z',
         EndTime: '2021-01-16T09:00:00.000Z',
         CategoryColor: '#7fa900',
+    },
+];
+export const userProfileData = [
+    {
+        icon: <BsCurrencyDollar />,
+        title: 'My Profile',
+        desc: 'Account Settings',
+        iconColor: '#03C9D7',
+        iconBg: '#E5FAFB',
+    },
+    {
+        icon: <BsShield />,
+        title: 'My Inbox',
+        desc: 'Messages & Emails',
+        iconColor: 'rgb(0, 194, 146)',
+        iconBg: 'rgb(235, 250, 242)',
+    },
+    {
+        icon: <FiCreditCard />,
+        title: 'My Tasks',
+        desc: 'To-do and Daily Tasks',
+        iconColor: 'rgb(255, 244, 229)',
+        iconBg: 'rgb(254, 201, 15)',
     },
 ];

@@ -27,15 +27,23 @@ import {
 import Image from "next/image";
 import { ITheme } from "@/shared/util/types";
 import Link from "next/link";
+import UserProfile from "../Modals/UserProfile";
+import { useTheme as tailWindTheme } from 'next-themes'
+import NavButton from "./NavButton";
+import { WiSolarEclipse } from 'react-icons/wi';
+import { FiShoppingCart } from 'react-icons/fi';
+import { BsChatLeft, BsMoon, BsFilePersonFill } from 'react-icons/bs';
+import { RiNotification3Line } from 'react-icons/ri';
+import { MdKeyboardArrowDown } from "react-icons/md";
+
 type Props = {
     user: any
-    // isSidebarOpen: boolean,
-    // setIsSidebarOpen: (value: boolean) => void;
 }
 
 const Navbar = ({ user }: Props) => {
     const dispatch = useDispatch();
-    const theme: ITheme = useTheme();
+    const themeM: ITheme = useTheme();
+    const { theme, setTheme } = tailWindTheme()
     const [mounted, setMounted] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const isOpen = Boolean(anchorEl);
@@ -61,7 +69,7 @@ const Navbar = ({ user }: Props) => {
                         <MenuIcon />
                     </IconButton> */}
                     <FlexBetween
-                        backgroundColor={theme.palette.background.alt}
+                        backgroundColor={themeM.palette.background.alt}
                         borderRadius="9px"
                         gap="3rem"
                         p="0.1rem 1.5rem"
@@ -72,98 +80,49 @@ const Navbar = ({ user }: Props) => {
                         </IconButton>
                     </FlexBetween>
                 </FlexBetween>
+                <div className="flex">
+                    <NavButton title="Cart" customFunc={() => {
+                        dispatch(setMode())
+                        setTheme(theme === 'light' ? 'dark' : 'light')
+                    }} color={themeM.palette.secondary[200]} icon={themeM.palette.mode === "dark" ? (
+                        <BsMoon />
+                    ) : (
+                        <WiSolarEclipse />
+                    )} dotColor={undefined} />
+                    <NavButton title="Cart" customFunc={() => handleClick('cart')} color={themeM.palette.secondary[200]} icon={<FiShoppingCart />} dotColor={undefined} />
+                    <NavButton title="Chat" dotColor="#03C9D7" customFunc={() => handleClick('chat')} color={themeM.palette.secondary[200]} icon={<BsChatLeft />} />
+                    <NavButton title="Notification" dotColor="rgb(254, 201, 15)" customFunc={() => handleClick('notification')} color={themeM.palette.secondary[200]} icon={<RiNotification3Line />} />
+                    {!user &&
+                        <NavButton title="person" customFunc={() => handleClick('person')} color={themeM.palette.secondary[200]} icon={<BsFilePersonFill />} dotColor={undefined} />
+                    }
+                    <div
+                        className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded-lg"
+                        onClick={() => handleClick('userProfile')}
+                    >
+                        {user &&
+                            <>
+                                <img
+                                    className="rounded-full w-8 h-8"
+                                    src={user?.image}
+                                    alt="user-profile"
+                                />
+                                <p>
+                                    <span className={`text-[${themeM.palette.secondary[100]}] text-14`}>Hi,</span>{' '}
+                                    <span className={`text-[${themeM.palette.secondary[100]}] font-bold ml-1 text-14`}>
+                                        {user?.name}
+                                    </span>
+                                </p>
+                                <MdKeyboardArrowDown className="text-gray-400 text-14" />
+                            </>
 
-                {/* RIGHT SIDE */}
-                <FlexBetween gap="1.5rem">
-                    <IconButton onClick={() => dispatch(setMode())}>
-                        {theme.palette.mode === "dark" ? (
-                            <DarkModeOutlined sx={{ fontSize: "25px" }} />
-                        ) : (
-                            <LightModeOutlined sx={{ fontSize: "25px" }} />
-                        )}
-                    </IconButton>
-                    <IconButton>
-                        <SettingsOutlined sx={{ fontSize: "25px" }} />
-                    </IconButton>
-
-                    <FlexBetween>
-                        <Button
-                            onClick={handleClick}
-                            sx={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                textTransform: "none",
-                                gap: "1rem",
-                            }}
-                        >
-                            {!user &&
-                                <IconButton>
-                                    <AccountCircle />
-                                </IconButton>
-                            }
-                            {user &&
-                                <>
-                                    <Box
-                                        height="32px"
-                                        width="32px"
-                                        borderRadius="50%"
-                                        sx={{ objectFit: "cover" }}
-                                        overflow="hidden"
-                                    >
-                                        <img alt="profile" src={user?.image} height={32} width={32} />
-                                    </Box>
-                                    <Box textAlign="left">
-                                        <Typography
-                                            fontWeight="bold"
-                                            fontSize="0.85rem"
-                                            sx={{ color: theme.palette.secondary[100] }}
-                                        >
-                                            {user?.name}
-                                        </Typography>
-                                        {/* <Typography
-                                    fontSize="0.75rem"
-                                    sx={{ color: theme.palette.secondary[200] }}
-                                >
-                                    {user.occupation}
-                                </Typography> */}
-                                    </Box>
-                                </>
-
-                            }
-                            <ArrowDropDownOutlined
-                                sx={{ color: theme.palette.secondary[300], fontSize: "25px" }}
-                            />
-                        </Button>
-                        <Menu
-                            anchorEl={anchorEl}
-                            open={isOpen}
-                            onClose={handleClose}
-                            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-                        >
-                            {user && <MenuItem>
-                                <Link href="/api/auth/signout"
-                                    onClick={(e) => {
-                                        e.preventDefault()
-                                        signIn()
-                                    }}
-                                >
-                                    Log Out
-                                </Link>
-                            </MenuItem>}
-                            {!user && <MenuItem>
-                                <Link href="/api/auth/signin"
-                                    onClick={(e) => {
-                                        e.preventDefault()
-                                        signOut()
-                                    }}
-                                >
-                                    Log In
-                                </Link>
-                            </MenuItem>}
-                        </Menu>
-                    </FlexBetween>
-                </FlexBetween>
+                        }
+                    </div>
+                    {/* {isClicked.cart && (<Cart />)}
+                    {isClicked.chat && (<Chat />)}
+                    {isClicked.notification && (<Notification />)}
+                    {isClicked.userProfile && (<UserProfile />)} */}
+                    <UserProfile user={user} />
+                </div>
             </Toolbar>
         </AppBar>
     )

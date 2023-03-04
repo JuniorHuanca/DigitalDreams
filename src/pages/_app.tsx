@@ -7,7 +7,7 @@ import globalReducer from '@/state'
 import { Provider } from 'react-redux'
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { InferGetServerSidePropsType } from 'next'
-import { CssBaseline, PaletteMode, ThemeProvider } from '@mui/material';
+import { CssBaseline, PaletteMode } from '@mui/material';
 import { createTheme } from '@mui/material/styles'
 import { useSelector } from 'react-redux';
 import { useMemo } from 'react';
@@ -30,6 +30,7 @@ import Admin from './dashboard/admin'
 import Performance from './dashboard/performance'
 import Layout from '@/components/Layouts/Layout';
 import Calendar from './dashboard/calendar';
+import { ThemeProvider } from 'next-themes'
 
 
 const store = configureStore({
@@ -48,9 +49,11 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
   return (
     <SessionProvider session={session}>
       <Provider store={store}>
-        <Wrapper>
-          <Component {...pageProps} />
-        </Wrapper>
+        <ThemeProvider attribute='class'>
+          <Wrapper>
+            <Component {...pageProps} />
+          </Wrapper>
+        </ThemeProvider>
       </Provider>
     </SessionProvider>
   );
