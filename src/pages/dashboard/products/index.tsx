@@ -1,7 +1,7 @@
 import { Box, Card, CardActions, CardContent, Collapse, Button, Typography, Rating, useTheme, useMediaQuery } from "@mui/material";
 import { useGetProductsQuery } from "@/state/api"
 import Header from '@/components/Dashboard/Header';
-import Product from "./Product";
+import Product from "@/components/Product/Product";
 import Loader from "@/components/Loaders/Loader";
 import LayoutDashboard from "@/components/Layouts/LayoutDashboard";
 
