@@ -3,10 +3,16 @@ import globalReducer from '@/state/globalSlice'
 import { api } from '@/state/api'
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { rootReducer } from './rootReducer';
+import { useDispatch } from 'react-redux';
 const store = configureStore({
     reducer: rootReducer,
     middleware: (getDefault) => getDefault().concat(api.middleware),
 });
 setupListeners(store.dispatch);
-
+// Infer the RootState and AppDispatch types from the store itself
+export type RootState = ReturnType<typeof store.getState>
+// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
+export type AppDispatch = typeof store.dispatch
+// Export a hook that can be reused to resolve types
+export const useAppDispatch = () => useDispatch<AppDispatch>()
 export default store;

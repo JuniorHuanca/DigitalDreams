@@ -15,6 +15,7 @@ import {
 
 import { BsKanban, BsBarChart, BsBoxSeam, BsCurrencyDollar, BsShield, BsChatLeft } from 'react-icons/bs';
 import { FiShoppingBag, FiEdit, FiPieChart, FiBarChart, FiCreditCard, FiStar, FiShoppingCart } from 'react-icons/fi';
+import avatar from '@/assets/profile.jpeg'
 export const navItems = [
     {
         text: "Dashboard",
@@ -328,5 +329,52 @@ export const userProfileData = [
         desc: 'To-do and Daily Tasks',
         iconColor: 'rgb(255, 244, 229)',
         iconBg: 'rgb(254, 201, 15)',
+    },
+];
+export const chatData = [
+    {
+        image: avatar,
+        message: 'Roman Joined the Team!',
+        desc: 'Congratulate him',
+        time: '9:08 AM',
+    },
+    {
+        image: avatar,
+        message: 'New message received',
+        desc: 'Salma sent you new message',
+        time: '11:56 AM',
+    },
+    {
+        image: avatar,
+        message: 'New Payment received',
+        desc: 'Check your earnings',
+        time: '4:39 AM',
+    },
+    {
+        image: avatar,
+        message: 'Jolly completed tasks',
+        desc: 'Assign her new tasks',
+        time: '1:12 AM',
+    },
+];
+
+export const cartData = [
+    {
+        image: avatar,
+        name: 'butterscotch ice-cream',
+        category: 'Milk product',
+        price: '$250',
+    },
+    {
+        image: avatar,
+        name: 'Supreme fresh tomato',
+        category: 'Vegetable Item',
+        price: '$450',
+    },
+    {
+        image: avatar,
+        name: 'Red color candy',
+        category: 'Food Item',
+        price: '$190',
     },
 ];

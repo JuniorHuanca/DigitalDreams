@@ -8,10 +8,10 @@ import {
 } from "@mui/icons-material"
 import { useEffect, useState } from "react";
 import FlexBetween from "../FlexBetween";
-import { handleClickProfile, selectIsClicked, selectMode, setMode } from "@/state/globalSlice"
+import { handleClickModal, selectIsClicked, setMode, cleanupModals } from "@/state/globalSlice"
 import profileImage from "@/assets/profile.jpeg"
 import { signIn, signOut } from "next-auth/react"
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import {
     AppBar,
     Button,
@@ -35,14 +35,18 @@ import { FiShoppingCart } from 'react-icons/fi';
 import { BsChatLeft, BsMoon, BsFilePersonFill } from 'react-icons/bs';
 import { RiNotification3Line } from 'react-icons/ri';
 import { MdKeyboardArrowDown } from "react-icons/md";
+import { useAppDispatch } from "@/state/store";
+import Notification from "../Modals/Notification";
+import Cart from "../Modals/Cart";
+import Chat from "../Modals/Chat";
 
 type Props = {
     user: any
 }
 
 const Navbar = ({ user }: Props) => {
-    const isClicked = useSelector(selectIsClicked)
-    const dispatch = useDispatch();
+    const isClicked = useSelector(selectIsClicked);
+    const dispatch = useAppDispatch();
     const themeM: ITheme = useTheme();
     const { theme, setTheme } = tailWindTheme()
     const [mounted, setMounted] = useState(false);
@@ -50,11 +54,13 @@ const Navbar = ({ user }: Props) => {
     const isOpen = Boolean(anchorEl);
     const handleClick = (event: any) => setAnchorEl(event.currentTarget);
     const handleClose = () => setAnchorEl(null);
+    const handleModal = async (value: string) => {
+        dispatch(handleClickModal(value))
+    }
     useEffect(() => {
         setMounted(true)
     }, [isClicked])
     if (!mounted) return null
-    console.log(isClicked)
     return (
         <AppBar
             sx={{
@@ -91,15 +97,15 @@ const Navbar = ({ user }: Props) => {
                     ) : (
                         <WiSolarEclipse />
                     )} dotColor={undefined} />
-                    <NavButton title="Cart" customFunc={() => handleClick('cart')} color={themeM.palette.secondary[200]} icon={<FiShoppingCart />} dotColor={undefined} />
-                    <NavButton title="Chat" dotColor="#03C9D7" customFunc={() => handleClick('chat')} color={themeM.palette.secondary[200]} icon={<BsChatLeft />} />
-                    <NavButton title="Notification" dotColor="rgb(254, 201, 15)" customFunc={() => handleClick('notification')} color={themeM.palette.secondary[200]} icon={<RiNotification3Line />} />
+                    <NavButton title="Cart" customFunc={() => handleModal('cart')} color={themeM.palette.secondary[200]} icon={<FiShoppingCart />} dotColor={undefined} />
+                    <NavButton title="Chat" dotColor="#03C9D7" customFunc={() => handleModal('chat')} color={themeM.palette.secondary[200]} icon={<BsChatLeft />} />
+                    <NavButton title="Notification" dotColor="rgb(254, 201, 15)" customFunc={() => handleModal('notification')} color={themeM.palette.secondary[200]} icon={<RiNotification3Line />} />
                     {!user &&
-                        <NavButton title="person" customFunc={() => handleClick('person')} color={themeM.palette.secondary[200]} icon={<BsFilePersonFill />} dotColor={undefined} />
+                        <NavButton title="person" customFunc={() => handleModal('userProfile')} color={themeM.palette.secondary[200]} icon={<BsFilePersonFill />} dotColor={undefined} />
                     }
                     <div
                         className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded-lg"
-                        onClick={() => dispatch(handleClickProfile())}
+                        onClick={() => handleModal('userProfile')}
                     >
                         {user &&
                             <>
@@ -114,17 +120,17 @@ const Navbar = ({ user }: Props) => {
                                         {user?.name}
                                     </span>
                                 </p>
-                                <MdKeyboardArrowDown 
-                                className="text-gray-400 text-14" />
+                                <MdKeyboardArrowDown
+                                    className="text-gray-400 text-14" />
                             </>
 
                         }
                     </div>
-                    {/* {isClicked.cart && (<Cart />)}
+                    {isClicked.cart && (<Cart />)}
                     {isClicked.chat && (<Chat />)}
                     {isClicked.notification && (<Notification />)}
-                    {isClicked.userProfile && (<UserProfile />)} */}
-                    {isClicked?.userProfile && <UserProfile user={user} />}
+                    {isClicked.userProfile && (<UserProfile user={user} />)}
+
                 </div>
             </Toolbar>
         </AppBar>

@@ -1,16 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface IIsClicked {
-  chat: boolean,
-  cart: boolean,
-  userProfile: boolean,
-  notification: boolean,
+  chat?: boolean,
+  cart?: boolean,
+  userProfile?: boolean,
+  notification?: boolean,
 }
 
 interface IState {
   mode: string,
   userId: string,
-  isClicked: IIsClicked,
+  isClicked: any,
+  modalOpen: boolean,
 }
 
 const initialState = {
@@ -21,7 +22,8 @@ const initialState = {
     cart: false,
     userProfile: false,
     notification: false,
-  }
+  },
+  modalOpen: false
 } as IState;
 
 const globalSlice = createSlice({
@@ -31,9 +33,19 @@ const globalSlice = createSlice({
     setMode: (state) => {
       state.mode = state.mode === "light" ? "dark" : "light";
     },
-    handleClickProfile: (state) => {
-      state.isClicked.userProfile = true;
-      console.log(state)
+    handleClickModal: (state, items) => {
+      const { payload } = items
+      const isClicked = state.isClicked[payload];
+      Object.keys(state.isClicked).forEach(key => {
+        state.isClicked[key] = false;
+      });
+      if (!isClicked) {
+        state.isClicked[payload] = true;
+      }
+    },
+    cleanupModals: (state, item) => {
+      const { payload } = item
+      state.isClicked[payload] = false;
     }
   },
   extraReducers: (builder) => {
@@ -44,7 +56,7 @@ const globalSlice = createSlice({
 
 export default globalSlice.reducer;
 
-export const selectIsClicked = (state: { isClicked: any; }) => state.isClicked
-export const selectMode= (state: { mode: any; }) => state.mode
+export const selectIsClicked = (state: { global: { isClicked: any; }; }) => state.global.isClicked
 
-export const { setMode, handleClickProfile } = globalSlice.actions;
+
+export const { setMode, handleClickModal, cleanupModals } = globalSlice.actions;

@@ -18,9 +18,9 @@ const UserProfile = ({ user }: Props) => {
         <Button
           icon={<MdOutlineCancel />}
           color="rgb(153, 171, 180)"
-          bgHoverColor="light-gray"
-          size="2xl"
-          borderRadius="50%" bgColor={undefined} text={undefined} width={undefined} />
+          bgHoverColor="white"
+          size="3xl"
+          borderRadius="50%" bgColor={undefined} text={undefined} width={undefined} title='userProfile' />
       </div>
       <div className="flex gap-5 items-center border-color border-b-1">
         <div className="flex h-24 w-24 overflow-hidden">
@@ -57,10 +57,10 @@ const UserProfile = ({ user }: Props) => {
       <div className="mt-5">
         <Button
           color="white"
-          bgColor={theme.palette.primary[300]}
+          bgColor='#000000'
           text="Logout"
           borderRadius="10px"
-          width="full" icon={undefined} bgHoverColor={undefined} size={undefined} />
+          width="full" icon={undefined} bgHoverColor='white' size={undefined} title={undefined} />
       </div>
     </div>
 

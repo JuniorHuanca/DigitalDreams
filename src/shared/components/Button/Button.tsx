@@ -1,3 +1,5 @@
+import { cleanupModals } from "@/state/globalSlice";
+import { useAppDispatch } from "@/state/store";
 
 type Props = {
     icon: any,
@@ -7,16 +9,17 @@ type Props = {
     size: any,
     text: any,
     borderRadius: any,
-    width: any
+    width: any,
+    title: any,
 }
-const Button = ({ icon, bgColor, color, bgHoverColor, size, text, borderRadius, width }: Props) => {
-
+const Button = ({ icon, bgColor, color, bgHoverColor, size, text, borderRadius, width, title }: Props) => {
+    const dispatch = useAppDispatch()
     return (
         <button
             type="button"
-            // onClick={() => setIsClicked(initialState)}
             style={{ backgroundColor: bgColor, color, borderRadius }}
-            className={` text-${size} p-3 w-${width} hover:drop-shadow-xl hover:bg-${bgHoverColor}`}
+            className={`relative text-${size} p-3 w-${width} hover:drop-shadow-xl hover:bg-${bgHoverColor}`}
+            onClick={() => dispatch(cleanupModals(title))}
         >
             {icon} {text}
         </button>
