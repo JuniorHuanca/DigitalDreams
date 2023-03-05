@@ -8,7 +8,7 @@ import {
 } from "@mui/icons-material"
 import { useState } from "react";
 import FlexBetween from "../../FlexBetween"
-import { setMode } from "@/state"
+import { setMode } from "@/state/globalSlice"
 import profileImage from "@/assets/profile.jpeg"
 import { useDispatch } from "react-redux"
 import {

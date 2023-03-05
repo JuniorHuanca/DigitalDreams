@@ -2,10 +2,7 @@ import '@/styles/globals.css'
 import "react-datepicker/dist/react-datepicker.css";
 import { SessionProvider } from "next-auth/react"
 import type { AppProps } from 'next/app'
-import { configureStore } from '@reduxjs/toolkit'
-import globalReducer from '@/state'
 import { Provider } from 'react-redux'
-import { setupListeners } from "@reduxjs/toolkit/query";
 import { InferGetServerSidePropsType } from 'next'
 import { CssBaseline, PaletteMode } from '@mui/material';
 import { createTheme } from '@mui/material/styles'
@@ -17,7 +14,6 @@ import { useRouter } from 'next/router';
 import Dashboard from './dashboard'
 import LayoutDashboard from '@/components/Layouts/LayoutDashboard'
 import Products from './dashboard/products'
-import { api } from '@/state/api'
 import type { Session } from 'next-auth'
 import Customers from './dashboard/customers'
 import Transactions from './dashboard/transactions'
@@ -31,16 +27,9 @@ import Performance from './dashboard/performance'
 import Layout from '@/components/Layouts/Layout';
 import Calendar from './dashboard/calendar';
 import { ThemeProvider } from 'next-themes'
+import store from '@/state/store';
 
 
-const store = configureStore({
-  reducer: {
-    global: globalReducer,
-    [api.reducerPath]: api.reducer,
-  },
-  middleware: (getDefault) => getDefault().concat(api.middleware),
-});
-setupListeners(store.dispatch);
 
 
 export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps<{ session: Session }>) {

@@ -8,10 +8,10 @@ import {
 } from "@mui/icons-material"
 import { useEffect, useState } from "react";
 import FlexBetween from "../FlexBetween";
-import { setMode } from "@/state"
+import { handleClickProfile, selectIsClicked, selectMode, setMode } from "@/state/globalSlice"
 import profileImage from "@/assets/profile.jpeg"
 import { signIn, signOut } from "next-auth/react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import {
     AppBar,
     Button,
@@ -41,6 +41,7 @@ type Props = {
 }
 
 const Navbar = ({ user }: Props) => {
+    const isClicked = useSelector(selectIsClicked)
     const dispatch = useDispatch();
     const themeM: ITheme = useTheme();
     const { theme, setTheme } = tailWindTheme()
@@ -51,8 +52,9 @@ const Navbar = ({ user }: Props) => {
     const handleClose = () => setAnchorEl(null);
     useEffect(() => {
         setMounted(true)
-    }, [])
+    }, [isClicked])
     if (!mounted) return null
+    console.log(isClicked)
     return (
         <AppBar
             sx={{
@@ -97,7 +99,7 @@ const Navbar = ({ user }: Props) => {
                     }
                     <div
                         className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded-lg"
-                        onClick={() => handleClick('userProfile')}
+                        onClick={() => dispatch(handleClickProfile())}
                     >
                         {user &&
                             <>
@@ -112,7 +114,8 @@ const Navbar = ({ user }: Props) => {
                                         {user?.name}
                                     </span>
                                 </p>
-                                <MdKeyboardArrowDown className="text-gray-400 text-14" />
+                                <MdKeyboardArrowDown 
+                                className="text-gray-400 text-14" />
                             </>
 
                         }
@@ -121,7 +124,7 @@ const Navbar = ({ user }: Props) => {
                     {isClicked.chat && (<Chat />)}
                     {isClicked.notification && (<Notification />)}
                     {isClicked.userProfile && (<UserProfile />)} */}
-                    <UserProfile user={user} />
+                    {isClicked?.userProfile && <UserProfile user={user} />}
                 </div>
             </Toolbar>
         </AppBar>
