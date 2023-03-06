@@ -18,7 +18,7 @@ const Button = ({ icon, bgColor, color, bgHoverColor, size, text, borderRadius, 
         <button
             type="button"
             style={{ backgroundColor: bgColor, color, borderRadius }}
-            className={`relative text-${size} p-3 w-${width} hover:drop-shadow-xl hover:bg-${bgHoverColor}`}
+            className={`relative text-${size} p-1 w-${width} hover:drop-shadow-xl hover:scale-125 hover:bg-${bgHoverColor} transition-transform`}
             onClick={() => dispatch(cleanupModals(title))}
         >
             {icon} {text}

@@ -68,14 +68,10 @@ const Navbar = ({ user }: Props) => {
                 background: "none",
                 boxShadow: "none",
             }}
-            className="h-[10vh]"
+            className="h-[10vh] px-4"
         >
             <Toolbar sx={{ justifyContent: "space-between" }}>
-                {/* LEFT SIDE */}
                 <FlexBetween>
-                    {/* <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
-                        <MenuIcon />
-                    </IconButton> */}
                     <FlexBetween
                         backgroundColor={themeM.palette.background.alt}
                         borderRadius="9px"

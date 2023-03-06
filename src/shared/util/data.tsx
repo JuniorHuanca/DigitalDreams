@@ -13,8 +13,10 @@ import {
     CalendarMonth
 } from "@mui/icons-material";
 
-import { BsKanban, BsBarChart, BsBoxSeam, BsCurrencyDollar, BsShield, BsChatLeft } from 'react-icons/bs';
-import { FiShoppingBag, FiEdit, FiPieChart, FiBarChart, FiCreditCard, FiStar, FiShoppingCart } from 'react-icons/fi';
+import { BsKanban, BsBarChart, BsBoxSeam, BsShield, BsChatLeft } from 'react-icons/bs';
+import { AiOutlineMessage } from 'react-icons/ai';
+import { BiTask } from 'react-icons/bi';
+import { FiShoppingBag, FiEdit, FiPieChart, FiBarChart, FiCreditCard, FiStar, FiShoppingCart, FiSettings } from 'react-icons/fi';
 import avatar from '@/assets/profile.jpeg'
 export const navItems = [
     {
@@ -310,24 +312,24 @@ export const scheduleData = [
 ];
 export const userProfileData = [
     {
-        icon: <BsCurrencyDollar />,
+        icon: <FiSettings />,
         title: 'My Profile',
         desc: 'Account Settings',
         iconColor: '#03C9D7',
         iconBg: '#E5FAFB',
     },
     {
-        icon: <BsShield />,
+        icon: <AiOutlineMessage />,
         title: 'My Inbox',
         desc: 'Messages & Emails',
-        iconColor: 'rgb(0, 194, 146)',
+        iconColor: '#03C9D7',
         iconBg: 'rgb(235, 250, 242)',
     },
     {
-        icon: <FiCreditCard />,
+        icon: <BiTask />,
         title: 'My Tasks',
         desc: 'To-do and Daily Tasks',
-        iconColor: 'rgb(255, 244, 229)',
+        iconColor: '#03C9D7',
         iconBg: 'rgb(254, 201, 15)',
     },
 ];
