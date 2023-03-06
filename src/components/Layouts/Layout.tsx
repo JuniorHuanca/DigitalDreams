@@ -15,6 +15,7 @@ const Layout = ({ children }: Props) => {
     if (status === "loading") {
         <Loader />
     }
+    console.log(session)
     return (
         <Box display={isNonMobile ? "flex" : "block"} width="100%" height="100%">
             <Box flexGrow={1}>

@@ -16,18 +16,6 @@ export default function Home(props: Props) {
       </Head>
       <Layout>
         <main className={""}>
-          <h1>Hello world!</h1>
-          <Link href="dashboard">Dashboard</Link>
-          <a
-            href={`/api/auth/signin`}
-            // className={styles.buttonPrimary}
-            onClick={(e) => {
-              e.preventDefault()
-              signIn()
-            }}
-          >
-            Sign in
-          </a>
         </main>
       </Layout>
     </>
