@@ -12,8 +12,8 @@ const Cart = () => {
   const theme: ITheme = useTheme();
 
   return (
-    <div className="bg-half-transparent w-full fixed nav-item top-0 right-0 ">
-      <div className="float-right h-screen  duration-1000 ease-in-out dark:text-gray-200 transition-all dark:bg-[#484B52] bg-white md:w-400 p-8">
+    <div className="bg-black/60 w-full fixed nav-item top-0 right-0 ">
+      <div className="float-right h-screen  duration-1000 ease-in-out dark:text-gray-200 transition-all bg-slate-100 dark:bg-primary-500 md:w-400 p-8">
         <div className="flex justify-between items-center">
           <p className="font-semibold text-lg">Shopping Cart</p>
           <Button
@@ -21,12 +21,12 @@ const Cart = () => {
             color="rgb(153, 171, 180)"
             bgHoverColor="light-gray"
             size="3xl"
-            borderRadius="50%" bgColor={undefined} text={undefined} width={undefined} title='cart'            />
+            borderRadius="50%" bgColor={undefined} text={undefined} width={undefined} title='cart' />
         </div>
         {cartData?.map((item, index) => (
           <div key={index}>
             <div>
-              <div className="flex items-center   leading-8 gap-5 border-b-1 border-color dark:border-gray-600 p-4">
+              <div className="flex items-center  leading-8 gap-5 border-b-2 border-blue-500 dark:border-gray-600 dark:hover:bg-primary-600 p-4">
                 <div className="flex h-24 w-24 overflow-hidden">
                   <Image className="rounded-lg" src={item.image} alt="" />
                 </div>
@@ -57,12 +57,12 @@ const Cart = () => {
           </div>
         </div>
         <div className="mt-5">
-          <Button
-            color="white"
-            bgColor={theme.palette.primary[300]}
-            text="Place Order"
-            borderRadius="10px"
-            width="full" icon={undefined} bgHoverColor={undefined} size={undefined} title={undefined} />
+          <button
+            type="button"
+            className={`flex justify-center items-center gap-4 text-lg text-white p-1 w-full hover:bg-blue-600 bg-blue-500 dark:hover:bg-primary-400 dark:bg-primary-800 rounded-lg hover:scale-105 transition-transform`}
+          >
+            Place Order
+          </button>
         </div>
       </div>
     </div>

@@ -67,16 +67,15 @@ const UserProfile = ({ user }: Props) => {
       <div className="mt-5">
         {user && <button
           type="button"
-          className={`flex justify-center items-center gap-4 text-lg text-white p-3 w-full hover:bg-blue-600 bg-blue-500 dark:hover:bg-primary-900 dark:bg-primary-800 rounded-lg transition-transform`}
+          className={`flex justify-center items-center gap-4 text-lg text-white p-3 w-full hover:bg-blue-600 bg-blue-500 dark:hover:bg-primary-400 dark:bg-primary-800 rounded-lg hover:scale-105 transition-transform`}
           onClick={() => signOut()}
-
         >
           Logout <GiExitDoor />
         </button>
         }
         {!user && <button
           type="button"
-          className={`flex justify-center items-center gap-4 text-lg text-white p-3 w-full hover:bg-blue-600 bg-blue-500 dark:hover:bg-primary-900 dark:bg-primary-800 rounded-lg transition-transform`}
+          className={`flex justify-center items-center gap-4 text-lg text-white p-3 w-full hover:bg-blue-600 bg-blue-500 dark:hover:bg-primary-400 dark:bg-primary-800 rounded-lg hover:scale-105 transition-transform`}
           onClick={() => signIn()}
         >
           Login <GiEntryDoor />
