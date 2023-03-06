@@ -29,7 +29,7 @@ const Chat = () => {
       </div>
       <div className="mt-5 ">
         {chatData?.map((item, index) => (
-          <div key={index} className="flex items-center gap-5 border-b-1 border-color p-3 leading-8 cursor-pointer dark:hover:bg-primary-600">
+          <div key={index} className="flex items-center gap-5 border-b-1 border-color p-3 leading-8 cursor-pointer hover:bg-slate-300 dark:hover:bg-primary-600">
             <div className="relative">
               {/* <Image
                 className="rounded-full h-10 w-10"

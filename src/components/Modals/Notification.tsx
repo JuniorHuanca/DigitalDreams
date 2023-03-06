@@ -19,7 +19,7 @@ const Notification = () => {
       </div>
       <div className="mt-5 ">
         {chatData?.map((item, index) => (
-          <div key={index} className="flex items-center leading-8 gap-5 border-b-1 border-color p-3 dark:hover:bg-primary-600">
+          <div key={index} className="flex items-center leading-8 gap-5 border-b-1 border-color p-3 hover:bg-slate-300 dark:hover:bg-primary-600">
             <div className="relative">
               <div className='flex h-16 w-16'>
                 <Image className="rounded-3xl" src={item.image} alt={item.message} />

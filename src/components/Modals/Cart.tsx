@@ -26,7 +26,7 @@ const Cart = () => {
         {cartData?.map((item, index) => (
           <div key={index}>
             <div>
-              <div className="flex items-center  leading-8 gap-5 border-b-2 border-blue-500 dark:border-gray-600 dark:hover:bg-primary-600 p-4">
+              <div className="flex items-center leading-8 gap-5 border-b-2 hover:bg-slate-300 border-blue-500 dark:border-gray-600 dark:hover:bg-primary-600 p-4">
                 <div className="flex h-24 w-24 overflow-hidden">
                   <Image className="rounded-lg" src={item.image} alt="" />
                 </div>
