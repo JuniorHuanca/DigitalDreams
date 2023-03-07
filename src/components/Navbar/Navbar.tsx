@@ -32,6 +32,7 @@ import { useTheme as tailWindTheme } from 'next-themes'
 import NavButton from "./NavButton";
 import { WiSolarEclipse } from 'react-icons/wi';
 import { FiShoppingCart } from 'react-icons/fi';
+import { AiOutlineBars, AiOutlineClose } from 'react-icons/ai';
 import { BsChatLeft, BsMoon, BsFilePersonFill } from 'react-icons/bs';
 import { RiNotification3Line } from 'react-icons/ri';
 import { MdKeyboardArrowDown } from "react-icons/md";
@@ -39,6 +40,7 @@ import { useAppDispatch } from "@/state/store";
 import Notification from "../Modals/Notification";
 import Cart from "../Modals/Cart";
 import Chat from "../Modals/Chat";
+import useMediaQuery from "@/shared/util/useMediaQuery";
 
 type Props = {
     user: any
@@ -46,10 +48,12 @@ type Props = {
 
 const Navbar = ({ user }: Props) => {
     const isClicked = useSelector(selectIsClicked);
+    const isAboveMediumScreens = useMediaQuery("(min-width: 1060px)");
     const dispatch = useAppDispatch();
     const themeM: ITheme = useTheme();
     const { theme, setTheme } = tailWindTheme()
-    const [mounted, setMounted] = useState(false);
+    const [mounted, setMounted] = useState<boolean>(false);
+    const [isMenuToggled, setIsMenuToggled] = useState<boolean>(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const isOpen = Boolean(anchorEl);
     const handleClick = (event: any) => setAnchorEl(event.currentTarget);
@@ -70,7 +74,7 @@ const Navbar = ({ user }: Props) => {
             }}
             className="h-[10vh] px-4"
         >
-            <Toolbar sx={{ justifyContent: "space-between" }}>
+            {isAboveMediumScreens ? <Toolbar sx={{ justifyContent: "space-between" }}>
                 <FlexBetween>
                     <FlexBetween
                         backgroundColor={themeM.palette.background.alt}
@@ -128,7 +132,42 @@ const Navbar = ({ user }: Props) => {
                     {isClicked.userProfile && (<UserProfile user={user} />)}
 
                 </div>
-            </Toolbar>
+            </Toolbar> : (
+                <div className="flex justify-between p-3">
+                    <h2>Logo</h2>
+                    <button
+                        className="rounded-full bg-primary-500 dark:bg-secondary-200 p-2"
+                        onClick={() => setIsMenuToggled(!isMenuToggled)}
+                    >
+                        <AiOutlineBars className="h-6 w-6 dark:text-black text-white" />
+                    </button>
+                </div>
+            )
+            }
+
+            {!isAboveMediumScreens && isMenuToggled && (
+                <div className="fixed right-0 bottom-0 z-40 h-full w-[300px] bg-slate-200 dark:bg-primary-500 drop-shadow-xl shadow-slate-300 shadow-sm dark:shadow-primary-800">
+                    {/* CLOSE ICON */}
+                    <div className="flex justify-between p-12">
+                        <NavButton title="Cart" customFunc={() => {
+                            dispatch(setMode())
+                            setTheme(theme === 'light' ? 'dark' : 'light')
+                        }} color={themeM.palette.secondary[200]} icon={themeM.palette.mode === "dark" ? (
+                            <BsMoon />
+                        ) : (
+                            <WiSolarEclipse />
+                        )} dotColor={undefined} />
+                        <button onClick={() => { setIsMenuToggled(!isMenuToggled) }}>
+                            <AiOutlineClose color={themeM.palette.secondary[200]}
+                             className="h-6 w-6 text-primary-700 dark:text-slate-100" />
+                        </button>
+                    </div>
+
+                    {/* MENU ITEMS */}
+                    <div className="ml-[33%] flex flex-col gap-10 text-2xl">
+                    </div>
+                </div>
+            )}
         </AppBar>
     )
 }
