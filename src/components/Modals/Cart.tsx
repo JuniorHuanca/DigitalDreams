@@ -23,29 +23,33 @@ const Cart = () => {
             size="3xl"
             borderRadius="50%" bgColor={undefined} text={undefined} width={undefined} title='cart' />
         </div>
-        {cartData?.map((item, index) => (
-          <div key={index}>
-            <div>
-              <div className="flex items-center leading-8 gap-5 border-b-2 hover:bg-slate-300 border-blue-500 dark:border-gray-600 dark:hover:bg-primary-600 p-4">
-                <div className="flex h-24 w-24 overflow-hidden">
-                  <Image className="rounded-lg" src={item.image} alt="" />
-                </div>
+        <div className="ss:max-h-[70vh] h-[90%] max-h-[80.5vh] flex flex-col justify-start">
+          <div className="flex-1 overflow-y-auto hide-scrollbar">
+            {cartData?.map((item, index) => (
+              <div key={index}>
                 <div>
-                  <p className="font-semibold ">{item.name}</p>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm font-semibold">{item.category}</p>
-                  <div className="flex gap-4 mt-2 items-center">
-                    <p className="font-semibold text-lg">{item.price}</p>
-                    <div className="flex items-center border-1 border-r-0 border-color rounded">
-                      <p className="p-2 border-r-1 dark:border-gray-600 border-color text-red-600 "><AiOutlineMinus /></p>
-                      <p className="p-2 border-r-1 border-color dark:border-gray-600 text-green-600">0</p>
-                      <p className="p-2 border-r-1 border-color dark:border-gray-600 text-green-600"><AiOutlinePlus /></p>
+                  <div className="flex items-center leading-8 gap-5 border-b-2 hover:bg-slate-300 border-blue-500 dark:border-gray-600 dark:hover:bg-primary-600 p-4">
+                    <div className="flex h-24 w-24 overflow-hidden">
+                      <Image className="rounded-lg" src={item.image} alt="" />
+                    </div>
+                    <div>
+                      <p className="font-semibold ">{item.name}</p>
+                      <p className="text-gray-600 dark:text-gray-400 text-sm font-semibold">{item.category}</p>
+                      <div className="flex gap-4 mt-2 items-center">
+                        <p className="font-semibold text-lg">{item.price}</p>
+                        <div className="flex items-center border-1 border-r-0 border-color rounded">
+                          <p className="p-2 border-r-1 dark:border-gray-600 border-color text-red-600 "><AiOutlineMinus /></p>
+                          <p className="p-2 border-r-1 border-color dark:border-gray-600 text-green-600">0</p>
+                          <p className="p-2 border-r-1 border-color dark:border-gray-600 text-green-600"><AiOutlinePlus /></p>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            ))}
           </div>
-        ))}
+        </div>
         <div className="mt-3 mb-3">
           <div className="flex justify-between items-center">
             <p className="text-gray-500 dark:text-gray-200">Sub Total</p>

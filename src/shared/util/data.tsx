@@ -411,6 +411,24 @@ export const cartData = [
     },
     {
         image: avatar,
+        name: 'butterscotch ice-cream',
+        category: 'Milk product',
+        price: '$250',
+    },
+    {
+        image: avatar,
+        name: 'butterscotch ice-cream',
+        category: 'Milk product',
+        price: '$250',
+    },
+    {
+        image: avatar,
+        name: 'butterscotch ice-cream',
+        category: 'Milk product',
+        price: '$250',
+    },
+    {
+        image: avatar,
         name: 'Supreme fresh tomato',
         category: 'Vegetable Item',
         price: '$450',

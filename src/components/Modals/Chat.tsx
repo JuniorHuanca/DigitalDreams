@@ -27,29 +27,31 @@ const Chat = () => {
           size="3xl"
           borderRadius="50%" bgColor={undefined} text={undefined} width={undefined} title='chat' />
       </div>
-      <div className="mt-5 ">
-        {chatData?.map((item, index) => (
-          <div key={index} className="flex items-center gap-5 border-b-1 border-color p-3 leading-8 cursor-pointer hover:bg-slate-300 dark:hover:bg-primary-600">
-            <div className="relative">
-              {/* <Image
+      <div className="ss:max-h-[50vh] h-[90%] max-h-[80.5vh] flex flex-col justify-start">
+        <div className="flex-1 overflow-y-auto hide-scrollbar">
+          {chatData?.map((item, index) => (
+            <div key={index} className="flex items-center gap-5 border-b-1 border-color p-3 leading-8 cursor-pointer hover:bg-slate-300 dark:hover:bg-primary-600">
+              <div className="relative">
+                {/* <Image
                 className="rounded-full h-10 w-10"
                 src={item.image}
                 alt={item.message}
               /> */}
-              <div className='flex h-16 w-16'>
-                <Image className="rounded-3xl" src={item.image} alt={item.message} />
+                <div className='flex h-16 w-16'>
+                  <Image className="rounded-3xl" src={item.image} alt={item.message} />
+                </div>
+                <span
+                  className="absolute inline-flex rounded-full h-2 w-2 right-0 -top-1 bg-[#03C9D7]"
+                />
               </div>
-              <span
-                className="absolute inline-flex rounded-full h-2 w-2 right-0 -top-1 bg-[#03C9D7]"
-              />
+              <div>
+                <p className="font-semibold dark:text-gray-200 ">{item.message}</p>
+                <p className="text-gray-500 dark:text-gray-400 text-sm">{item.desc}</p>
+                <p className="text-gray-500 dark:text-gray-400 text-xs">{item.time}</p>
+              </div>
             </div>
-            <div>
-              <p className="font-semibold dark:text-gray-200 ">{item.message}</p>
-              <p className="text-gray-500 dark:text-gray-400 text-sm">{item.desc}</p>
-              <p className="text-gray-500 dark:text-gray-400 text-xs">{item.time}</p>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
         <div className="mt-5">
           <button
             type="button"
