@@ -30,6 +30,14 @@ body,
   background: #21295c;
 }
 
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  scrollbar-width: none;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

@@ -97,16 +97,16 @@ const Navbar = ({ user }: Props) => {
                     <NavButton title="" customFunc={() => {
                         dispatch(setMode());
                         setTheme(theme === 'light' ? 'dark' : 'light');
-                    } } color={themeM.palette.secondary[200]} icon={themeM.palette.mode === "dark" ? (
+                    }} color={themeM.palette.secondary[200]} icon={themeM.palette.mode === "dark" ? (
                         <BsMoon />
                     ) : (
                         <WiSolarEclipse />
                     )} dotColor={undefined} selected={undefined} />
-                    <NavButton title="Cart" customFunc={() => handleModal('cart')} color={themeM.palette.secondary[200]} icon={<FiShoppingCart />} dotColor={undefined} selected={isClicked.cart}/>
-                    <NavButton title="Chat" dotColor="#03C9D7" customFunc={() => handleModal('chat')} color={themeM.palette.secondary[200]} icon={<BsChatLeft />} selected={isClicked.chat}/>
-                    <NavButton title="Notification" dotColor="rgb(254, 201, 15)" customFunc={() => handleModal('notification')} color={themeM.palette.secondary[200]} icon={<RiNotification3Line />} selected={isClicked.notification}/>
+                    <NavButton title="Cart" customFunc={() => handleModal('cart')} color={themeM.palette.secondary[200]} icon={<FiShoppingCart />} dotColor={undefined} selected={isClicked.cart} />
+                    <NavButton title="Chat" dotColor="#03C9D7" customFunc={() => handleModal('chat')} color={themeM.palette.secondary[200]} icon={<BsChatLeft />} selected={isClicked.chat} />
+                    <NavButton title="Notification" dotColor="rgb(254, 201, 15)" customFunc={() => handleModal('notification')} color={themeM.palette.secondary[200]} icon={<RiNotification3Line />} selected={isClicked.notification} />
                     {!user &&
-                        <NavButton title="person" customFunc={() => handleModal('userProfile')} color={themeM.palette.secondary[200]} icon={<BsFilePersonFill />} dotColor={undefined} selected={isClicked.userProfile}/>
+                        <NavButton title="person" customFunc={() => handleModal('userProfile')} color={themeM.palette.secondary[200]} icon={<BsFilePersonFill />} dotColor={undefined} selected={isClicked.userProfile} />
                     }
                     <div
                         className="flex items-center gap-2 cursor-pointer p-1 rounded-lg"
@@ -157,11 +157,11 @@ const Navbar = ({ user }: Props) => {
                         <NavButton title="" customFunc={() => {
                             dispatch(setMode());
                             setTheme(theme === 'light' ? 'dark' : 'light');
-                        } } color={themeM.palette.secondary[200]} icon={themeM.palette.mode === "dark" ? (
+                        }} color={themeM.palette.secondary[200]} icon={themeM.palette.mode === "dark" ? (
                             <BsMoon />
                         ) : (
                             <WiSolarEclipse />
-                        )} dotColor={undefined} selected={undefined}/>
+                        )} dotColor={undefined} selected={undefined} />
                         <button onClick={() => { setIsMenuToggled(!isMenuToggled) }}>
                             <AiOutlineClose color={themeM.palette.secondary[200]}
                                 className="h-6 w-6 text-primary-700 dark:text-slate-100" />
@@ -170,21 +170,33 @@ const Navbar = ({ user }: Props) => {
 
                     {/* MENU ITEMS */}
                     <div className="flex w-3/4 flex-col gap-10 text-2xl">
-                        <div className={`${isClicked.cart ? selectModalColor : null} flex items-center cursor-pointer hover:scale-110 hover:bg-slate-300 hover:dark:bg-primary-600 rounded-lg`} onClick={() => handleModal('cart')}>
-                            <NavButton title="Cart" color={themeM.palette.secondary[200]} icon={<FiShoppingCart />} dotColor={undefined} customFunc={() => null} selected={undefined}/>
+                        <div className={`${isClicked.cart ? selectModalColor : null} flex items-center cursor-pointer hover:scale-110 hover:bg-slate-300 hover:dark:bg-primary-600 rounded-lg`} onClick={() => {
+                            handleModal('cart');
+                            setIsMenuToggled(!isMenuToggled);
+                        }}>
+                            <NavButton title="Cart" color={themeM.palette.secondary[200]} icon={<FiShoppingCart />} dotColor={undefined} customFunc={() => null} selected={undefined} />
                             <span style={{ color: themeM.palette.secondary[200] }}>Cart</span>
                         </div>
-                        <div className={`${isClicked.chat ? selectModalColor : null} flex items-center cursor-pointer hover:scale-110 hover:bg-slate-300 hover:dark:bg-primary-600 rounded-lg`} onClick={() => handleModal('chat')}>
-                            <NavButton title="Chat" dotColor="#03C9D7" color={themeM.palette.secondary[200]} icon={<BsChatLeft />} customFunc={() => null} selected={undefined}/>
+                        <div className={`${isClicked.chat ? selectModalColor : null} flex items-center cursor-pointer hover:scale-110 hover:bg-slate-300 hover:dark:bg-primary-600 rounded-lg`} onClick={() => {
+                            handleModal('chat');
+                            setIsMenuToggled(!isMenuToggled);
+                        }}>
+                            <NavButton title="Chat" dotColor="#03C9D7" color={themeM.palette.secondary[200]} icon={<BsChatLeft />} customFunc={() => null} selected={undefined} />
                             <span style={{ color: themeM.palette.secondary[200] }}>Chat</span>
                         </div>
-                        <div className={`${isClicked.notification ? selectModalColor : null} flex items-center cursor-pointer hover:scale-110 hover:bg-slate-300 hover:dark:bg-primary-600 rounded-lg`} onClick={() => handleModal('notification')}>
-                            <NavButton title="Notification" dotColor="rgb(254, 201, 15)" color={themeM.palette.secondary[200]} icon={<RiNotification3Line />} customFunc={() => null} selected={undefined}/>
+                        <div className={`${isClicked.notification ? selectModalColor : null} flex items-center cursor-pointer hover:scale-110 hover:bg-slate-300 hover:dark:bg-primary-600 rounded-lg`} onClick={() => {
+                            handleModal('notification');
+                            setIsMenuToggled(!isMenuToggled);
+                        }}>
+                            <NavButton title="Notification" dotColor="rgb(254, 201, 15)" color={themeM.palette.secondary[200]} icon={<RiNotification3Line />} customFunc={() => null} selected={undefined} />
                             <span style={{ color: themeM.palette.secondary[200] }}>Notification</span>
                         </div>
                         {!user &&
-                            <div className={`${isClicked.userProfile ? selectModalColor : null} flex items-center cursor-pointer hover:scale-110 hover:bg-slate-300 hover:dark:bg-primary-600 rounded-lg`} onClick={() => handleModal('userProfile')}>
-                                <NavButton title="Person" color={themeM.palette.secondary[200]} icon={<BsFilePersonFill />} dotColor={undefined} customFunc={() => null} selected={undefined}/>
+                            <div className={`${isClicked.userProfile ? selectModalColor : null} flex items-center cursor-pointer hover:scale-110 hover:bg-slate-300 hover:dark:bg-primary-600 rounded-lg`} onClick={() => {
+                                handleModal('userProfile');
+                                setIsMenuToggled(!isMenuToggled);
+                            }}>
+                                <NavButton title="Person" color={themeM.palette.secondary[200]} icon={<BsFilePersonFill />} dotColor={undefined} customFunc={() => null} selected={undefined} />
                                 <span style={{ color: themeM.palette.secondary[200] }}>Settings</span>
                             </div>
                         }
