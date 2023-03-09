@@ -161,13 +161,17 @@ function SignIn(props: Props) {
                                 <h2 className="font-bold text-3xl">Welcome Back!</h2>
                                 <p>To keep connected with us please login with your personal info</p>
                                 <button className="py-4 px-10 rounded-3xl border border-white hover:scale-125 transition-transform" id="signIn" onClick={handleSignIn}>Sign In</button>
-                                <a href="/" className="absolute top-2 left-2 text-5xl hover:scale-125 transition-transform">X</a>
+                                <div className="absolute top-2 left-2 text-5xl hover:scale-125 transition-transform">
+                                    <Link href={'/'} >X</Link>
+                                </div>
                             </div>
                             <div className={`${styles.overlayPanel} ${styles.overlayRight} gap-4`}>
                                 <h2 className="font-bold text-3xl">Hello, Friend!</h2>
                                 <p>Enter your personal details and start journey with us</p>
                                 <button className="py-4 px-10 rounded-3xl border border-white hover:scale-125 transition-transform" id="signUp" onClick={handleSignUp}>Sign Up</button>
-                                <a href="/" className="absolute top-2 right-2 text-5xl hover:scale-125 transition-transform">X</a>
+                                <div className="absolute top-2 right-2 text-5xl hover:scale-125 transition-transform">
+                                    <Link href={'/'} >X</Link>
+                                </div>
                             </div>
                         </div>
                     </div>
