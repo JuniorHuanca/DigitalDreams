@@ -45,12 +45,14 @@ function SignIn(props: Props) {
                 <title>APP | Log in</title>
             </Head>
             <div className={`${stylesCenter} min-h-[100vh] min-w-screen`}>
-                
+
                 <div className={`flex w-[95%] h-[80vh] rounded-xl overflow-hidden ${styles.container} ${containerClass}`} id="container">
                     <div className={`flex flex-col gap-4 p-4 w-4/6 h-full bg-white absolute transition-all duration-700 ease-in-out ${styles.signUpContainer}`}>
                         <div className="flex w-full h-[12%] items-center">
-                            <Image src={Logo} alt="Logo" className="rounded-full w-[10%] p-2" />
-                            <p className="text-black">DigitalDreams</p>
+                            <div className="w-12 h-12">
+                                <Image src={Logo} alt="Logo" className="rounded-full p-2" />
+                            </div>
+                            <p className="px-4  text-black">DigitalDreams</p>
                         </div>
                         <form className={`${stylesCenter} gap-4 py-6`}>
                             <h2 className="font-bold text-3xl text-sky-900">Sing in to DigitalDreams</h2>
@@ -58,11 +60,23 @@ function SignIn(props: Props) {
                                 {providers?.google && (
                                     <button
                                         className="border border-gray-500 rounded-full bg-white hover:scale-125 transition-transform p-1"
-                                        onClick={async () => {
+                                        onClick={async (e) => {
+                                            e.preventDefault();
                                             await signIn(providers.google.id)
                                         }}
                                     >
                                         <SvgGoogle />
+                                    </button>
+                                )}
+                                {providers?.github && (
+                                    <button
+                                        className="border border-gray-500 rounded-full bg-white hover:scale-125 transition-transform p-1"
+                                        onClick={async (e) => {
+                                            e.preventDefault();
+                                            await signIn(providers.github.id)
+                                        }}
+                                    >
+                                        <Github />
                                     </button>
                                 )}
                             </div>
@@ -85,14 +99,16 @@ function SignIn(props: Props) {
                                 </span>
                                 <input className="w-2/4 bg-gray-400/30 focus:outline-none text-gray-800/30 p-4 rounded-sm" placeholder="Password" type="text" />
                             </div>
-                            <button className="bg-sky-900 py-4 px-10 rounded-3xl border">Sign Up</button>
+                            <button className="bg-sky-900 py-4 px-10 rounded-3xl border hover:scale-125 transition-transform">Sign Up</button>
 
                         </form>
                     </div>
                     <div className={`flex flex-col gap-4 p-4 w-4/6 h-full bg-white absolute transition-all duration-700 ease-in-out ${styles.signInContainer}`}>
                         <div className="flex w-full h-[12%] items-center">
-                            <Image src={Logo} alt="Logo" className="rounded-full w-[10%] p-2" />
-                            <p className="text-black">DigitalDreams</p>
+                            <div className="w-12 h-12">
+                                <Image src={Logo} alt="Logo" className="rounded-full p-2" />
+                            </div>
+                            <p className="px-4  text-black">DigitalDreams</p>
                         </div>
                         <form className={`${stylesCenter} gap-4 py-6`}>
                             <h2 className="font-bold text-3xl text-sky-900">Sing in to DigitalDreams</h2>
@@ -100,7 +116,8 @@ function SignIn(props: Props) {
                                 {providers?.google && (
                                     <button
                                         className="border border-gray-500 rounded-full bg-white hover:scale-125 transition-transform p-1"
-                                        onClick={async () => {
+                                        onClick={async (e) => {
+                                            e.preventDefault();
                                             await signIn(providers.google.id)
                                         }}
                                     >
@@ -110,7 +127,8 @@ function SignIn(props: Props) {
                                 {providers?.github && (
                                     <button
                                         className="border border-gray-500 rounded-full bg-white hover:scale-125 transition-transform p-1"
-                                        onClick={async () => {
+                                        onClick={async (e) => {
+                                            e.preventDefault();
                                             await signIn(providers.github.id)
                                         }}
                                     >
@@ -132,7 +150,7 @@ function SignIn(props: Props) {
                                 <input className="w-2/4 bg-gray-400/30 focus:outline-none text-gray-800/30 p-4 rounded-sm" placeholder="Password" type="text" />
                             </div>
                             <Link href="" className="border-b-2 border-white text-black">Forgot your password?</Link>
-                            <button className="bg-sky-900 py-4 px-10 rounded-3xl border">Sign Up</button>
+                            <button className="bg-sky-900 py-4 px-10 rounded-3xl border hover:scale-125 transition-transform">Sign In</button>
 
                         </form>
                     </div>
@@ -142,14 +160,14 @@ function SignIn(props: Props) {
                             <div className={`${styles.overlayPanel} ${styles.overlayLeft} gap-4`}>
                                 <h2 className="font-bold text-3xl">Welcome Back!</h2>
                                 <p>To keep connected with us please login with your personal info</p>
-                                <button className="py-4 px-10 rounded-3xl border border-white" id="signIn" onClick={handleSignIn}>Sign In</button>
-                                <Link href="/" className="absolute top-2 left-2 text-5xl hover:scale-125 transition-transform">X</Link>
+                                <button className="py-4 px-10 rounded-3xl border border-white hover:scale-125 transition-transform" id="signIn" onClick={handleSignIn}>Sign In</button>
+                                <a href="/" className="absolute top-2 left-2 text-5xl hover:scale-125 transition-transform">X</a>
                             </div>
                             <div className={`${styles.overlayPanel} ${styles.overlayRight} gap-4`}>
                                 <h2 className="font-bold text-3xl">Hello, Friend!</h2>
                                 <p>Enter your personal details and start journey with us</p>
-                                <button className="py-4 px-10 rounded-3xl border border-white" id="signUp" onClick={handleSignUp}>Sign Up</button>
-                                <Link href="/" className="absolute top-2 right-2 text-5xl hover:scale-125 transition-transform">X</Link>
+                                <button className="py-4 px-10 rounded-3xl border border-white hover:scale-125 transition-transform" id="signUp" onClick={handleSignUp}>Sign Up</button>
+                                <a href="/" className="absolute top-2 right-2 text-5xl hover:scale-125 transition-transform">X</a>
                             </div>
                         </div>
                     </div>
