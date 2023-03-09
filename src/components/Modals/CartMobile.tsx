@@ -8,12 +8,12 @@ import { useTheme } from '@mui/material';
 import { ITheme } from '@/shared/util/types';
 import Image from 'next/image';
 
-const Cart = () => {
+const CartMobile = () => {
   const theme: ITheme = useTheme();
 
   return (
     <div className="bg-black/60 w-full fixed nav-item top-0 right-0 ">
-      <div className="float-right h-screen transition-all duration-1000 ease-in-out dark:text-gray-200 bg-slate-100 dark:bg-primary-500 md:w-400 p-8">
+      <div className="float-right h-screen  duration-1000 ease-in-out dark:text-gray-200 transition-all bg-slate-100 dark:bg-primary-500 md:w-400 p-8">
         <div className="flex justify-between items-center">
           <p className="font-semibold text-lg">Shopping Cart</p>
           <Button
@@ -69,4 +69,4 @@ const Cart = () => {
   );
 };
 
-export default Cart;
+export default CartMobile;

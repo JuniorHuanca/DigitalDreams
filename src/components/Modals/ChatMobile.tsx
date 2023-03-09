@@ -7,12 +7,12 @@ import { useTheme } from '@mui/material';
 import { ITheme } from '@/shared/util/types';
 import Image from 'next/image';
 
-const Chat = () => {
+const ChatMobile = () => {
   const theme: ITheme = useTheme();
 
 
   return (
-    <div className="nav-item absolute right-5 md:right-32 top-16 transition-all duration-1000 ease-in-out bg-slate-100 dark:bg-primary-500 p-8 rounded-lg w-96">
+    <div className="nav-item absolute right-5 md:right-52 top-16 transition-all duration-1000 ease-in-out bg-slate-100 dark:bg-primary-500 p-8 rounded-lg w-96">
       <div className="flex justify-between items-center">
         <div className="flex gap-3">
           <p className="font-semibold text-lg dark:text-gray-200">Messages</p>
@@ -63,4 +63,4 @@ const Chat = () => {
   );
 };
 
-export default Chat;
+export default ChatMobile;

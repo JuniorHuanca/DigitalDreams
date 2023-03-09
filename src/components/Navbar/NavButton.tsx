@@ -4,15 +4,16 @@ type Props = {
     icon: any,
     color: any,
     dotColor: any,
+    selected: any
 }
 
-const NavButton = ({ title, customFunc, icon, color, dotColor }: Props) => (
+const NavButton = ({ title, customFunc, icon, color, dotColor, selected }: Props) => (
     <div>
         <button
             type="button"
             onClick={() => customFunc()}
             style={{ color }}
-            className="relative text-2xl rounded-full p-3 hover:bg-light-gray"
+            className={`${selected ? 'bg-red-500' : null} relative text-2xl rounded-full p-3`}
         >
             <span
                 style={{ background: dotColor }}

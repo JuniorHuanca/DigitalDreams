@@ -41,6 +41,10 @@ import Notification from "../Modals/Notification";
 import Cart from "../Modals/Cart";
 import Chat from "../Modals/Chat";
 import useMediaQuery from "@/shared/util/useMediaQuery";
+import CartMobile from "../Modals/CartMobile";
+import ChatMobile from "../Modals/ChatMobile";
+import NotificationMobile from "../Modals/NotificationMobile";
+import UserProfileMobile from "../Modals/UserProfileMobile";
 
 type Props = {
     user: any
@@ -65,6 +69,7 @@ const Navbar = ({ user }: Props) => {
         setMounted(true)
     }, [isClicked])
     if (!mounted) return null
+    const selectModalColor = 'bg-slate-300 dark:bg-primary-600 px-2'
     return (
         <AppBar
             sx={{
@@ -88,23 +93,23 @@ const Navbar = ({ user }: Props) => {
                         </IconButton>
                     </FlexBetween>
                 </FlexBetween>
-                <div className="flex">
-                    <NavButton title="Cart" customFunc={() => {
-                        dispatch(setMode())
-                        setTheme(theme === 'light' ? 'dark' : 'light')
-                    }} color={themeM.palette.secondary[200]} icon={themeM.palette.mode === "dark" ? (
+                <div className="flex bg-">
+                    <NavButton title="" customFunc={() => {
+                        dispatch(setMode());
+                        setTheme(theme === 'light' ? 'dark' : 'light');
+                    } } color={themeM.palette.secondary[200]} icon={themeM.palette.mode === "dark" ? (
                         <BsMoon />
                     ) : (
                         <WiSolarEclipse />
-                    )} dotColor={undefined} />
-                    <NavButton title="Cart" customFunc={() => handleModal('cart')} color={themeM.palette.secondary[200]} icon={<FiShoppingCart />} dotColor={undefined} />
-                    <NavButton title="Chat" dotColor="#03C9D7" customFunc={() => handleModal('chat')} color={themeM.palette.secondary[200]} icon={<BsChatLeft />} />
-                    <NavButton title="Notification" dotColor="rgb(254, 201, 15)" customFunc={() => handleModal('notification')} color={themeM.palette.secondary[200]} icon={<RiNotification3Line />} />
+                    )} dotColor={undefined} selected={undefined} />
+                    <NavButton title="Cart" customFunc={() => handleModal('cart')} color={themeM.palette.secondary[200]} icon={<FiShoppingCart />} dotColor={undefined} selected={isClicked.cart}/>
+                    <NavButton title="Chat" dotColor="#03C9D7" customFunc={() => handleModal('chat')} color={themeM.palette.secondary[200]} icon={<BsChatLeft />} selected={isClicked.chat}/>
+                    <NavButton title="Notification" dotColor="rgb(254, 201, 15)" customFunc={() => handleModal('notification')} color={themeM.palette.secondary[200]} icon={<RiNotification3Line />} selected={isClicked.notification}/>
                     {!user &&
-                        <NavButton title="person" customFunc={() => handleModal('userProfile')} color={themeM.palette.secondary[200]} icon={<BsFilePersonFill />} dotColor={undefined} />
+                        <NavButton title="person" customFunc={() => handleModal('userProfile')} color={themeM.palette.secondary[200]} icon={<BsFilePersonFill />} dotColor={undefined} selected={isClicked.userProfile}/>
                     }
                     <div
-                        className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded-lg"
+                        className="flex items-center gap-2 cursor-pointer p-1 rounded-lg"
                         onClick={() => handleModal('userProfile')}
                     >
                         {user &&
@@ -146,28 +151,50 @@ const Navbar = ({ user }: Props) => {
             }
 
             {!isAboveMediumScreens && isMenuToggled && (
-                <div className="fixed right-0 bottom-0 z-40 h-full w-[300px] bg-slate-200 dark:bg-primary-500 drop-shadow-xl shadow-slate-300 shadow-sm dark:shadow-primary-800">
+                <div className="fixed flex flex-col items-center right-0 bottom-0 z-40 h-full w-[300px] bg-slate-200 dark:bg-primary-500 shadow-slate-300 shadow-sm dark:shadow-primary-800 transition-all duration-1000 ease-in-out">
                     {/* CLOSE ICON */}
-                    <div className="flex justify-between p-12">
-                        <NavButton title="Cart" customFunc={() => {
-                            dispatch(setMode())
-                            setTheme(theme === 'light' ? 'dark' : 'light')
-                        }} color={themeM.palette.secondary[200]} icon={themeM.palette.mode === "dark" ? (
+                    <div className="flex w-full justify-between p-12">
+                        <NavButton title="" customFunc={() => {
+                            dispatch(setMode());
+                            setTheme(theme === 'light' ? 'dark' : 'light');
+                        } } color={themeM.palette.secondary[200]} icon={themeM.palette.mode === "dark" ? (
                             <BsMoon />
                         ) : (
                             <WiSolarEclipse />
-                        )} dotColor={undefined} />
+                        )} dotColor={undefined} selected={undefined}/>
                         <button onClick={() => { setIsMenuToggled(!isMenuToggled) }}>
                             <AiOutlineClose color={themeM.palette.secondary[200]}
-                             className="h-6 w-6 text-primary-700 dark:text-slate-100" />
+                                className="h-6 w-6 text-primary-700 dark:text-slate-100" />
                         </button>
                     </div>
 
                     {/* MENU ITEMS */}
-                    <div className="ml-[33%] flex flex-col gap-10 text-2xl">
+                    <div className="flex w-3/4 flex-col gap-10 text-2xl">
+                        <div className={`${isClicked.cart ? selectModalColor : null} flex items-center cursor-pointer hover:scale-110 hover:bg-slate-300 hover:dark:bg-primary-600 rounded-lg`} onClick={() => handleModal('cart')}>
+                            <NavButton title="Cart" color={themeM.palette.secondary[200]} icon={<FiShoppingCart />} dotColor={undefined} customFunc={() => null} selected={undefined}/>
+                            <span style={{ color: themeM.palette.secondary[200] }}>Cart</span>
+                        </div>
+                        <div className={`${isClicked.chat ? selectModalColor : null} flex items-center cursor-pointer hover:scale-110 hover:bg-slate-300 hover:dark:bg-primary-600 rounded-lg`} onClick={() => handleModal('chat')}>
+                            <NavButton title="Chat" dotColor="#03C9D7" color={themeM.palette.secondary[200]} icon={<BsChatLeft />} customFunc={() => null} selected={undefined}/>
+                            <span style={{ color: themeM.palette.secondary[200] }}>Chat</span>
+                        </div>
+                        <div className={`${isClicked.notification ? selectModalColor : null} flex items-center cursor-pointer hover:scale-110 hover:bg-slate-300 hover:dark:bg-primary-600 rounded-lg`} onClick={() => handleModal('notification')}>
+                            <NavButton title="Notification" dotColor="rgb(254, 201, 15)" color={themeM.palette.secondary[200]} icon={<RiNotification3Line />} customFunc={() => null} selected={undefined}/>
+                            <span style={{ color: themeM.palette.secondary[200] }}>Notification</span>
+                        </div>
+                        {!user &&
+                            <div className={`${isClicked.userProfile ? selectModalColor : null} flex items-center cursor-pointer hover:scale-110 hover:bg-slate-300 hover:dark:bg-primary-600 rounded-lg`} onClick={() => handleModal('userProfile')}>
+                                <NavButton title="Person" color={themeM.palette.secondary[200]} icon={<BsFilePersonFill />} dotColor={undefined} customFunc={() => null} selected={undefined}/>
+                                <span style={{ color: themeM.palette.secondary[200] }}>Settings</span>
+                            </div>
+                        }
                     </div>
                 </div>
             )}
+            {!isAboveMediumScreens && isClicked.cart && (<CartMobile />)}
+            {!isAboveMediumScreens && isClicked.chat && (<ChatMobile />)}
+            {!isAboveMediumScreens && isClicked.notification && (<NotificationMobile />)}
+            {!isAboveMediumScreens && isClicked.userProfile && (<UserProfileMobile user={user} />)}
         </AppBar>
     )
 }
