@@ -9,7 +9,7 @@ import Image from 'next/image';
 const NotificationMobile = () => {
   const theme: ITheme = useTheme();
   return (
-    <div className="nav-item md:right-400 absolute right-0 ss:right-5 top-16 transition-all duration-1000 ease-in-out bg-slate-100 dark:bg-primary-500 p-3 ss:p-8 ss:rounded-lg w-full ss:w-96 shadow-slate-700 shadow-sm dark:shadow-primary-800 ss:h-auto min-h-[90vh]">
+    <div className="nav-item md:right-400 absolute right-0 ss:right-5 top-16 transition-all duration-1000 ease-in-out bg-slate-100 dark:bg-primary-500 p-3 ss:p-8 ss:rounded-lg w-full ss:w-96 shadow-slate-700 shadow-sm dark:shadow-primary-800 ss:max-h-[700px] ">
       <div className="flex justify-between items-center h-[10%] ss:h-auto">
         <div className="flex gap-3">
           <p className="font-semibold text-lg ss:text-2xl">Notifications</p>
@@ -17,7 +17,7 @@ const NotificationMobile = () => {
         </div>
         <Button icon={<MdOutlineCancel />} color="rgb(153, 171, 180)" bgHoverColor="light-gray" size="3xl" borderRadius="50%" bgColor={undefined} text={undefined} width={undefined} title='notification' />
       </div>
-      <div className=" ss:h-auto h-[90%] max-h-[80.5vh] flex flex-col justify-start">
+      <div className="ss:max-h-[50vh] h-[90%] max-h-[80.5vh] flex flex-col justify-start">
         <div className="flex-1 overflow-y-auto hide-scrollbar">
           {chatData?.map((item, index) => (
             <div key={index} className="flex items-center leading-8 gap-5 border-b-1 border-color p-3 hover:bg-slate-300 dark:hover:bg-primary-600">
@@ -36,7 +36,7 @@ const NotificationMobile = () => {
             </div>
           ))}
         </div>
-        <div className="">
+        <div className="mt-5">
           <button
             type="button"
             className={`flex justify-center items-center gap-4 text-lg text-white p-1 w-full hover:bg-blue-600 bg-blue-500 dark:hover:bg-primary-400 dark:bg-primary-800 rounded-lg hover:scale-105 transition-transform`}
