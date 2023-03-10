@@ -20,7 +20,12 @@ const ChatMobile = () => {
             5 New
           </button>
         </div>
-        <MdOutlineCancel className="w-10 h-10" />
+        <Button
+          icon={<MdOutlineCancel className="w-10 h-10" />}
+          color="rgb(153, 171, 180)"
+          bgHoverColor="light-gray"
+          size="3xl"
+          borderRadius="50%" bgColor={undefined} text={undefined} width={undefined} title='chat' />
       </div>
       <div className="ss:max-h-[50vh] h-[90%] max-h-[80.5vh] flex flex-col justify-start">
         <div className="flex-1 overflow-y-auto hide-scrollbar">

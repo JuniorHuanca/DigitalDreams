@@ -16,7 +16,12 @@ const CartMobile = () => {
       <div className="float-right h-screen  duration-1000 ease-in-out dark:text-gray-200 transition-all bg-slate-100 dark:bg-primary-500 md:w-400       p-3 ss:p-8">
         <div className="flex justify-between items-center">
           <p className="font-semibold text-base ss:text-lg">Shopping Cart</p>
-          <MdOutlineCancel className="w-10 h-10" />
+          <Button
+            icon={<MdOutlineCancel className="w-10 h-10" />}
+            color="rgb(153, 171, 180)"
+            bgHoverColor="light-gray"
+            size="3xl"
+            borderRadius="50%" bgColor={undefined} text={undefined} width={undefined} title='cart' />
         </div>
         <div className="ss:max-h-[70vh] h-[90%] max-h-[70vh] flex flex-col justify-start">
           <div className="flex-1 overflow-y-auto hide-scrollbar">
