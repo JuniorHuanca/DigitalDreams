@@ -1,6 +1,6 @@
 // import { getProviders, signIn as SignIntoProvider } from "next-auth/react"
 import styles from "./SignIn.module.css"
-
+import * as Yup from 'yup';
 import { useFormik } from 'formik'
 import { validateLogIn } from "@/shared/util/validate"
 import { signIn, useSession } from 'next-auth/react'
@@ -11,6 +11,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { toast, Toaster } from 'react-hot-toast'
 import { HiAtSymbol, HiFingerPrint, HiUser } from 'react-icons/hi'
+import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai'
 import Logo from '@/assets/img/Avatar.png'
 import useInfoProviders from "@/shared/util/providers"
 import SvgGoogle from "@/components/Icons/Google"
@@ -22,10 +23,31 @@ function SignIn(props: Props) {
     const [mounted, setMounted] = useState<boolean>(false)
     const [signInForm, setSignInForm] = useState<boolean>(true)
     const [signUpForm, setSignUpForm] = useState<boolean>(false)
+    const [show, setShow] = useState<boolean>(false)
     const [containerClass, setContainerClass] = useState('');
     const isAboveSmallScreens = useMediaQuery("(min-width: 620px)");
     const { providers } = useInfoProviders()
-
+    const validationSchema = Yup.object().shape({
+        username: Yup.string()
+            .required('El nombre de usuario es requerido'),
+        email: Yup.string()
+            .email('Ingresa un correo electrónico válido')
+            .required('El correo electrónico es requerido'),
+        password: Yup.string()
+            .min(6, 'La contraseña debe tener al menos 6 caracteres')
+            .required('La contraseña es requerida'),
+    })
+    const formik = useFormik({
+        initialValues: {
+            username: '',
+            email: '',
+            password: '',
+        },
+        onSubmit: values => {
+            alert(JSON.stringify(values, null, 2));
+        },
+        validationSchema
+    });
     useEffect(() => {
         setMounted(true)
     }, [])
@@ -59,7 +81,7 @@ function SignIn(props: Props) {
                                 </div>
                                 <p className="px-4  text-black">DigitalDreams</p>
                             </div>
-                            <form className={`${stylesCenter} gap-4 py-6`}>
+                            <form className={`${stylesCenter} gap-4 py-6`} onSubmit={formik.handleSubmit}>
                                 <h2 className="font-bold text-2xl md:text-3xl text-sky-900">Sign up to DigitalDreams</h2>
                                 <div className="flex flex-row justify-evenly items-center gap-4">
                                     {providers?.google && (
@@ -87,22 +109,22 @@ function SignIn(props: Props) {
                                 </div>
                                 <p className="text-black">or use your email account</p>
                                 <div className="flex justify-center w-full ">
-                                    <span className="icon flex items-center pl-2 bg-gray-400/30">
+                                    <span className="icon flex items-center p-2 rounded-l-sm bg-gray-400/30">
                                         <HiUser size={28} className="fill-gray-800/30" />
                                     </span>
-                                    <input className="w-3/4 md:w-2/4 bg-gray-400/30 focus:outline-none text-gray-800 p-4 rounded-sm" placeholder="Username" type="text" />
+                                    <input className="w-3/4 md:w-2/4 bg-gray-400/30 focus:outline-none text-gray-800 p-4 rounded-r-sm" placeholder="Username" type="text" />
                                 </div>
                                 <div className="flex justify-center w-full ">
-                                    <span className="icon flex items-center pl-2 bg-gray-400/30">
+                                    <span className="icon flex items-center p-2 rounded-l-sm bg-gray-400/30">
                                         <HiAtSymbol size={28} className="fill-gray-800/30" />
                                     </span>
-                                    <input className="w-3/4 md:w-2/4 bg-gray-400/30 focus:outline-none text-gray-800 p-4 rounded-sm" placeholder="Email" type="text" />
+                                    <input className="w-3/4 md:w-2/4 bg-gray-400/30 focus:outline-none text-gray-800 p-4 rounded-r-sm" placeholder="Email" type="text" />
                                 </div>
                                 <div className="flex justify-center w-full ">
-                                    <span className="icon flex items-center pl-2 bg-gray-400/30">
+                                    <span className="icon flex items-center p-2 rounded-l-sm bg-gray-400/30">
                                         <HiFingerPrint size={28} /*className={`${hola ? 'fill-[#6366f1]' : 'fill-gray-800/30'}`}*/ className="fill-gray-800/30" />
                                     </span>
-                                    <input className="w-3/4 md:w-2/4 bg-gray-400/30 focus:outline-none text-gray-800 p-4 rounded-sm" placeholder="Password" type="text" />
+                                    <input className="w-3/4 md:w-2/4 bg-gray-400/30 focus:outline-none text-gray-800 p-4 rounded-r-sm" placeholder="Password" type="text" />
                                 </div>
                                 <button className="bg-sky-900 py-4 px-10 rounded-3xl border hover:scale-125 transition-transform">Sign Up</button>
 
@@ -115,7 +137,7 @@ function SignIn(props: Props) {
                                 </div>
                                 <p className="px-4  text-black">DigitalDreams</p>
                             </div>
-                            <form className={`${stylesCenter} gap-4 py-6`}>
+                            <form className={`${stylesCenter} gap-4 py-6`} onSubmit={formik.handleSubmit}>
                                 <h2 className="font-bold text-2xl md:text-3xl text-sky-900">Sign in to DigitalDreams</h2>
                                 <div className="flex flex-row justify-evenly items-center gap-4">
                                     {providers?.google && (
@@ -143,16 +165,16 @@ function SignIn(props: Props) {
                                 </div>
                                 <p className="text-black">or use your email account</p>
                                 <div className="flex justify-center w-full ">
-                                    <span className="icon flex items-center pl-2 bg-gray-400/30">
+                                    <span className="icon flex items-center p-2 rounded-l-sm bg-gray-400/30">
                                         <HiAtSymbol size={28} className="fill-gray-800/30" />
                                     </span>
-                                    <input className="w-3/4 md:w-2/4 bg-gray-400/30 focus:outline-none text-gray-800 p-4 rounded-sm" placeholder="Email / Username" type="text" />
+                                    <input className="w-3/4 md:w-2/4 bg-gray-400/30 focus:outline-none text-gray-800 p-4 rounded-r-sm" placeholder="Email / Username" type="text" />
                                 </div>
                                 <div className="flex justify-center w-full ">
-                                    <span className="icon flex items-center pl-2 bg-gray-400/30">
+                                    <span className="icon flex items-center p-2 rounded-l-sm bg-gray-400/30">
                                         <HiFingerPrint size={28} /*className={`${hola ? 'fill-[#6366f1]' : 'fill-gray-800/30'}`}*/ className="fill-gray-800/30" />
                                     </span>
-                                    <input className="w-3/4 md:w-2/4 bg-gray-400/30 focus:outline-none text-gray-800 p-4 rounded-sm" placeholder="Password" type="text" />
+                                    <input className="w-3/4 md:w-2/4 bg-gray-400/30 focus:outline-none text-gray-800 p-4 rounded-r-sm" placeholder="Password" type="text" />
                                 </div>
                                 <div className="border-b-2 border-black text-black">
                                     <Link href="/forget" >Forgot your password?</Link>
@@ -233,16 +255,16 @@ function SignIn(props: Props) {
                                 </div>
                                 <p className="text-black">or use your email account</p>
                                 <div className="flex justify-center w-full ">
-                                    <span className="icon flex items-center pl-2 bg-gray-400/30">
+                                    <span className="icon flex items-center p-2 rounded-l-sm bg-gray-400/30">
                                         <HiAtSymbol size={28} className="fill-gray-800/30" />
                                     </span>
-                                    <input className="w-3/4 bg-gray-400/30 focus:outline-none text-gray-800 p-4 rounded-sm" placeholder="Email / Username" type="text" />
+                                    <input className={`w-3/4 bg-gray-400/30 focus:outline-none text-gray-800 p-4 rounded-r-sm`} placeholder="Email / Username" type="text" />
                                 </div>
                                 <div className="flex justify-center w-full ">
-                                    <span className="icon flex items-center pl-2 bg-gray-400/30">
+                                    <span className="icon flex items-center p-2 rounded-l-sm bg-gray-400/30">
                                         <HiFingerPrint size={28} /*className={`${hola ? 'fill-[#6366f1]' : 'fill-gray-800/30'}`}*/ className="fill-gray-800/30" />
                                     </span>
-                                    <input className="w-3/4 bg-gray-400/30 focus:outline-none text-gray-800 p-4 rounded-sm" placeholder="Password" type="text" />
+                                    <input className={`w-3/4 bg-gray-400/30 focus:outline-none text-gray-800 p-4 rounded-r-sm`} placeholder="Password" type="text" />
                                 </div>
                                 <div className="border-b-2 border-black text-black">
                                     <Link href="/forget" >Forgot your password?</Link>
@@ -251,7 +273,7 @@ function SignIn(props: Props) {
                             </div>
                         }
                         {signUpForm &&
-                            <div className="flex flex-col items-center gap-6">
+                            <form className="flex flex-col items-center gap-6" onSubmit={formik.handleSubmit}>
                                 <h2 className="text-sm font-bold text-sky-900">Sign up to DigitalDreams</h2>
                                 <div className="flex flex-row justify-evenly items-center gap-4">
                                     {providers?.google && (
@@ -279,25 +301,64 @@ function SignIn(props: Props) {
                                 </div>
                                 <p className="text-black">or use your email account</p>
                                 <div className="flex justify-center w-full ">
-                                    <span className="icon flex items-center pl-2 bg-gray-400/30">
-                                        <HiUser size={28} className="fill-gray-800/30" />
+                                    <span className={`${formik.touched.username && formik.errors.username ? 'bg-red-400' : 'bg-gray-400/30'} selection:icon flex items-center p-2 rounded-l-sm`}>
+                                        <HiUser size={28} className={`${!formik.errors.username && formik.values.username ? 'fill-[#6366f1]' : 'fill-gray-800/30'}`} />
                                     </span>
-                                    <input className="w-3/4 bg-gray-400/30 focus:outline-none text-gray-800 p-4 rounded-sm" placeholder="Username" type="text" />
+                                    <input className={`${formik.touched.username && formik.errors.username ? 'border-2 border-red-400 placeholder:text-red-400' : ''} bg-gray-400/30 w-3/4  focus:outline-none text-gray-800 p-4 rounded-r-sm`} placeholder="Username" type="text" {...formik.getFieldProps('username')} name="username" />
                                 </div>
+                                {formik.touched.username && formik.errors.username ? (
+                                    <div className="text-red-200">{formik.errors.username}</div>
+                                ) : null}
                                 <div className="flex justify-center w-full ">
-                                    <span className="icon flex items-center pl-2 bg-gray-400/30">
-                                        <HiAtSymbol size={28} className="fill-gray-800/30" />
+                                    <span className={`${formik.touched.email && formik.errors.email ? 'bg-red-400' : 'bg-gray-400/30'} selection:icon flex items-center p-2 rounded-l-sm`}>
+                                        <HiAtSymbol size={28} className={`${!formik.errors.email && formik.values.email ? 'fill-[#6366f1]' : 'fill-gray-800/30'}`} />
                                     </span>
-                                    <input className="w-3/4 bg-gray-400/30 focus:outline-none text-gray-800 p-4 rounded-sm" placeholder="Email" type="text" />
+                                    <input className={`${formik.touched.email && formik.errors.email ? 'border-2 border-red-400 placeholder:text-red-400' : ''} bg-gray-400/30 w-3/4  focus:outline-none text-gray-800 p-4 rounded-r-sm`} placeholder="Email" type="text" {...formik.getFieldProps('email')} name="email" />
                                 </div>
+                                {/* {formik.touched.email && formik.errors.email ? (
+                                    <div className="text-red-200">{formik.errors.email}</div>
+                                ) : null} */}
                                 <div className="flex justify-center w-full ">
-                                    <span className="icon flex items-center pl-2 bg-gray-400/30">
-                                        <HiFingerPrint size={28} /*className={`${hola ? 'fill-[#6366f1]' : 'fill-gray-800/30'}`}*/ className="fill-gray-800/30" />
+                                    <span className={`${formik.touched.password && formik.errors.password ? 'bg-red-400' : 'bg-gray-400/30'} selection:icon flex items-center p-2 rounded-l-sm`}>
+                                        <HiFingerPrint size={28} className={`${!formik.errors.password && formik.values.password ? 'fill-[#6366f1]' : 'fill-gray-800/30'}`} />
                                     </span>
-                                    <input className="w-3/4 bg-gray-400/30 focus:outline-none text-gray-800 p-4 rounded-sm" placeholder="Password" type="text" />
+                                    <div className="relative w-3/4">
+                                        <input
+                                            className={`${formik.touched.password && formik.errors.password ? 'border-2 border-red-400 placeholder:text-red-400' : ''} bg-gray-400/30 w-full focus:outline-none text-gray-800 p-4 rounded-r-sm`}
+                                            placeholder="Password"
+                                            type={`${show ? 'text' : 'password'}`}
+                                            {...formik.getFieldProps('password')}
+                                            name="password"
+                                        />
+                                        {
+                                            !show &&
+                                            <span
+                                                className="absolute top-0 right-0 flex items-center px-2 py-4"
+                                                onClick={() => setShow(!show)}
+                                            >
+                                                <AiFillEyeInvisible
+                                                    size={28}
+                                                    className={`${!formik.errors.password && formik.values.password ? 'fill-[#6366f1]' : 'fill-gray-800/30'}`}
+                                                />
+                                            </span>
+                                        }
+                                        {
+                                            show && <span
+                                                className="absolute top-0 right-0 flex items-center px-2 py-4"
+                                                onClick={() =>
+                                                    setShow(!show)
+                                                }
+                                            >
+                                                <AiFillEye size={28} className={`${!formik.errors.password && formik.values.password ? 'fill-[#6366f1]' : 'fill-gray-800/30'}`} />
+                                            </span>
+                                        }
+                                    </div>
                                 </div>
-                                <button className="bg-sky-900 py-4 px-10 rounded-3xl border hover:scale-125 transition-transform">Sign Up</button>
-                            </div>
+                                {/* {formik.touched.password && formik.errors.password ? (
+                                    <div className="text-red-200">{formik.errors.password}</div>
+                                ) : null} */}
+                                <button className="bg-sky-900 py-4 px-10 rounded-3xl border hover:scale-125 transition-transform" type="submit">Sign Up</button>
+                            </form>
                         }
                         <div className="absolute top-2 right-2 text-3xl hover:scale-125 transition-transform text-black">
                             <Link href={'/'} >X</Link>
