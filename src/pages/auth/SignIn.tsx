@@ -187,7 +187,7 @@ function SignIn(props: Props) {
             }
             {!isAboveSmallScreens &&
                 <div className="flex justify-center items-center h-screen p-4">
-                    <div className="flex flex-col gap-4 bg-white w-full xs:w-[80%] min-h-[80%] p-4 rounded-xl">
+                    <div className="relative flex flex-col gap-4 bg-white w-full xs:w-[80%] min-h-[80%] p-4 rounded-xl">
                         <div className="flex items-center">
                             <div className="w-12 h-12">
                                 <Image src={Logo} alt="Logo" className="rounded-full p-2" />
@@ -299,6 +299,9 @@ function SignIn(props: Props) {
                                 <button className="bg-sky-900 py-4 px-10 rounded-3xl border hover:scale-125 transition-transform">Sign Up</button>
                             </div>
                         }
+                        <div className="absolute top-2 right-2 text-3xl hover:scale-125 transition-transform text-black">
+                            <Link href={'/'} >X</Link>
+                        </div>
                     </div>
                 </div >
             }
