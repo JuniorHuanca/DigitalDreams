@@ -1,12 +1,51 @@
-import NextAuth, { NextAuthOptions } from "next-auth"
+import NextAuth, { NextAuthOptions, User } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import GitHubProvider from "next-auth/providers/github";
+import CredentialsProvider from 'next-auth/providers/credentials'
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import prisma from "@/lib/prismadb"
+import { compare } from "bcryptjs";
 
 export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma),
     providers: [
+        CredentialsProvider({
+            name: 'Credentials',
+            async authorize(credentials, req): Promise<User | any> {
+                console.log(credentials)
+                const result = await prisma.user.findFirst({
+                    where: {
+                        OR: [
+                            { email: credentials?.email },
+                            { name: credentials?.email },
+                        ],
+                    },
+                });
+                console.log(result)
+                if (!result) {
+                    throw new Error('No user was found with that email. Please sign up.')
+                }
+                // compare()
+                const checkPassword = await compare(
+                    credentials?.password ?? '',
+                    result.password ?? ''
+                );
+
+                if (!checkPassword) {
+                    throw new Error('The password does not match.')
+                }
+
+                // incorrect password
+                if (!checkPassword) {
+                    throw new Error('Username or password does not match.')
+                }
+                return result
+            },
+            credentials: {
+                email: { label: "Email", type: "text", placeholder: "Email" },
+                password: { label: "Password", type: "password" },
+            }
+        }),
         GoogleProvider({
             clientId: process.env.GOOGLE_ID,
             clientSecret: process.env.GOOGLE_SECRET,

@@ -1,0 +1,137 @@
+import Image from 'next/image'
+import Link from 'next/link'
+import Logo from '@/assets/img/Avatar.png'
+import { useState } from 'react'
+import { HiAtSymbol, HiFingerPrint, HiUser } from 'react-icons/hi'
+import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai'
+import ProvidersLogin from './ProvidersLogin'
+import { MdOutlineCancel } from 'react-icons/md'
+
+type Props = {
+    formikR: any,
+    formikL: any
+}
+
+const LoginMobile = ({ formikR, formikL }: Props) => {
+    const [signInForm, setSignInForm] = useState<boolean>(true)
+    const [signUpForm, setSignUpForm] = useState<boolean>(false)
+    const [show, setShow] = useState<boolean>(false)
+    return (
+        <div className="flex justify-center items-center h-screen p-4">
+            <div className="relative flex flex-col gap-4 bg-white w-full xs:w-[80%] min-h-[80%] p-4 rounded-xl">
+                <div className="flex items-center">
+                    <div className="w-12 h-12">
+                        <Image src={Logo} alt="Logo" className="rounded-full p-2" />
+                    </div>
+                    <p className="px-4  text-black">DigitalDreams</p>
+                </div>
+                <div className="flex justify-evenly">
+                    <button className={`${signInForm ? 'border-b-2 border-sky-900 text-black' : 'text-slate-500'} font-semibold mt-6 text-lg`} onClick={() => {
+                        setSignInForm(true)
+                        setSignUpForm(false)
+                    }}>SIGN IN</button>
+                    <button className={`${signUpForm ? 'border-b-2 border-sky-900 text-black' : 'text-slate-500'} font-semibold mt-6 text-lg`} onClick={() => {
+                        setSignUpForm(true)
+                        setSignInForm(false)
+                    }}>SIGN UP</button>
+                </div>
+                {signInForm &&
+                    <form className="flex flex-col items-center gap-6" onSubmit={formikL.handleSubmit}>
+                        <h2 className="text-sm font-bold text-sky-900">Sign in to DigitalDreams</h2>
+                        <ProvidersLogin />
+                        <p className="text-black">or use your email account</p>
+                        <div className="flex justify-center w-full ">
+                            <span className={`${formikL.touched.emailorusername && formikL.errors.emailorusername ? 'bg-red-400' : 'bg-gray-400/30'} selection:icon flex items-center p-2 rounded-l-sm`}>
+                                <HiAtSymbol size={28} className="fill-gray-800/30" />
+                            </span>
+                            <input className={`${formikL.touched.emailorusername && formikL.errors.emailorusername ? 'border-2 border-red-400 placeholder:text-red-400' : ''} bg-gray-400/30 w-3/4  focus:outline-none text-gray-800 p-4 rounded-r-sm`} placeholder="Email / Username" type="text" name="emailorusername" {...formikL.getFieldProps('emailorusername')}/>
+                        </div>
+                        <div className="flex justify-center w-full ">
+                            <span className={`${formikL.touched.password && formikL.errors.password ? 'bg-red-400' : 'bg-gray-400/30'} selection:icon flex items-center p-2 rounded-l-sm`}>
+                                <HiFingerPrint size={28} /*className={`${hola ? 'fill-[#6366f1]' : 'fill-gray-800/30'}`}*/ className="fill-gray-800/30" />
+                            </span>
+                            <input className={`${formikL.touched.password && formikL.errors.password ? 'border-2 border-red-400 placeholder:text-red-400' : ''} bg-gray-400/30 w-3/4  focus:outline-none text-gray-800 p-4 rounded-r-sm`} placeholder="Password" type="text" name="password" {...formikL.getFieldProps('password')}/>
+                            {formikL.touched.password && formikL.errors.password ? (
+                                <div className="text-red-200">{formikL.errors.password}</div>
+                            ) : null}
+                        </div>
+                        <div className="border-b-2 border-black text-black">
+                            <Link href="/forget" >Forgot your password?</Link>
+                        </div>
+                        <button className="bg-sky-900 py-4 px-10 rounded-3xl border hover:scale-125 transition-transform">Sign In</button>
+                    </form>
+                }
+                {signUpForm &&
+                    <form className="flex flex-col items-center gap-6" onSubmit={formikR.handleSubmit}>
+                        <h2 className="text-sm font-bold text-sky-900">Sign up to DigitalDreams</h2>
+                        <ProvidersLogin />
+                        <p className="text-black">or use your email account</p>
+                        <div className="flex justify-center w-full ">
+                            <span className={`${formikR.touched.username && formikR.errors.username ? 'bg-red-400' : 'bg-gray-400/30'} selection:icon flex items-center p-2 rounded-l-sm`}>
+                                <HiUser size={28} className={`${!formikR.errors.username && formikR.values.username ? 'fill-[#6366f1]' : 'fill-gray-800/30'}`} />
+                            </span>
+                            <input className={`${formikR.touched.username && formikR.errors.username ? 'border-2 border-red-400 placeholder:text-red-400' : ''} bg-gray-400/30 w-3/4  focus:outline-none text-gray-800 p-4 rounded-r-sm`} placeholder="Username" type="text" {...formikR.getFieldProps('username')} name="username" />
+                        </div>
+                        {formikR.touched.username && formikR.errors.username ? (
+                            <div className="text-red-200">{formikR.errors.username}</div>
+                        ) : null}
+                        <div className="flex justify-center w-full ">
+                            <span className={`${formikR.touched.email && formikR.errors.email ? 'bg-red-400' : 'bg-gray-400/30'} selection:icon flex items-center p-2 rounded-l-sm`}>
+                                <HiAtSymbol size={28} className={`${!formikR.errors.email && formikR.values.email ? 'fill-[#6366f1]' : 'fill-gray-800/30'}`} />
+                            </span>
+                            <input className={`${formikR.touched.email && formikR.errors.email ? 'border-2 border-red-400 placeholder:text-red-400' : ''} bg-gray-400/30 w-3/4  focus:outline-none text-gray-800 p-4 rounded-r-sm`} placeholder="Email" type="text" {...formikR.getFieldProps('email')} name="email" />
+                        </div>
+                        {/* {formikR.touched.email && formikR.errors.email ? (
+                    <div className="text-red-200">{formikR.errors.email}</div>
+                ) : null} */}
+                        <div className="flex justify-center w-full ">
+                            <span className={`${formikR.touched.password && formikR.errors.password ? 'bg-red-400' : 'bg-gray-400/30'} selection:icon flex items-center p-2 rounded-l-sm`}>
+                                <HiFingerPrint size={28} className={`${!formikR.errors.password && formikR.values.password ? 'fill-[#6366f1]' : 'fill-gray-800/30'}`} />
+                            </span>
+                            <div className="relative w-3/4">
+                                <input
+                                    className={`${formikR.touched.password && formikR.errors.password ? 'border-2 border-red-400 placeholder:text-red-400' : ''} bg-gray-400/30 w-full focus:outline-none text-gray-800 p-4 rounded-r-sm`}
+                                    placeholder="Password"
+                                    type={`${show ? 'text' : 'password'}`}
+                                    {...formikR.getFieldProps('password')}
+                                    name="password"
+                                />
+                                {
+                                    !show &&
+                                    <span
+                                        className="absolute top-0 right-0 flex items-center px-2 py-4"
+                                        onClick={() => setShow(!show)}
+                                    >
+                                        <AiFillEyeInvisible
+                                            size={28}
+                                            className={`${!formikR.errors.password && formikR.values.password ? 'fill-[#6366f1]' : 'fill-gray-800/30'}`}
+                                        />
+                                    </span>
+                                }
+                                {
+                                    show && <span
+                                        className="absolute top-0 right-0 flex items-center px-2 py-4"
+                                        onClick={() =>
+                                            setShow(!show)
+                                        }
+                                    >
+                                        <AiFillEye size={28} className={`${!formikR.errors.password && formikR.values.password ? 'fill-[#6366f1]' : 'fill-gray-800/30'}`} />
+                                    </span>
+                                }
+                            </div>
+                        </div>
+                        {/* {formikR.touched.password && formikR.errors.password ? (
+                    <div className="text-red-200">{formikR.errors.password}</div>
+                ) : null} */}
+                        <button className="bg-sky-900 py-4 px-10 rounded-3xl border hover:scale-125 transition-transform" type="submit">Sign Up</button>
+                    </form>
+                }
+                <div className="absolute top-0 right-0 text-3xl hover:scale-125 transition-transform text-black">
+                    <Link href={'/'} ><MdOutlineCancel className="w-10 h-10" /></Link>
+                </div>
+            </div>
+        </div >
+    )
+}
+
+export default LoginMobile
