@@ -60,7 +60,7 @@ function SignIn(props: Props) {
                                 <p className="px-4  text-black">DigitalDreams</p>
                             </div>
                             <form className={`${stylesCenter} gap-4 py-6`}>
-                                <h2 className="font-bold text-2xl md:text-3xl text-sky-900">Sing up to DigitalDreams</h2>
+                                <h2 className="font-bold text-2xl md:text-3xl text-sky-900">Sign up to DigitalDreams</h2>
                                 <div className="flex flex-row justify-evenly items-center gap-4">
                                     {providers?.google && (
                                         <button
@@ -116,7 +116,7 @@ function SignIn(props: Props) {
                                 <p className="px-4  text-black">DigitalDreams</p>
                             </div>
                             <form className={`${stylesCenter} gap-4 py-6`}>
-                                <h2 className="font-bold text-2xl md:text-3xl text-sky-900">Sing in to DigitalDreams</h2>
+                                <h2 className="font-bold text-2xl md:text-3xl text-sky-900">Sign in to DigitalDreams</h2>
                                 <div className="flex flex-row justify-evenly items-center gap-4">
                                     {providers?.google && (
                                         <button
@@ -206,7 +206,7 @@ function SignIn(props: Props) {
                         </div>
                         {signInForm &&
                             <div className="flex flex-col items-center gap-6">
-                                <h2 className="text-sm font-bold text-sky-900">Sing in to DigitalDreams</h2>
+                                <h2 className="text-sm font-bold text-sky-900">Sign in to DigitalDreams</h2>
                                 <div className="flex flex-row justify-evenly items-center gap-4">
                                     {providers?.google && (
                                         <button
@@ -252,7 +252,7 @@ function SignIn(props: Props) {
                         }
                         {signUpForm &&
                             <div className="flex flex-col items-center gap-6">
-                                <h2 className="text-sm font-bold text-sky-900">Sing up to DigitalDreams</h2>
+                                <h2 className="text-sm font-bold text-sky-900">Sign up to DigitalDreams</h2>
                                 <div className="flex flex-row justify-evenly items-center gap-4">
                                     {providers?.google && (
                                         <button
