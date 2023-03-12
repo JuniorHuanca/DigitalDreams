@@ -1,6 +1,7 @@
 import React from 'react';
 import { MdOutlineCancel } from 'react-icons/md';
 import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai';
+import { BsTrash } from 'react-icons/bs';
 
 import { cartData } from '@/shared/util/data';
 import Button from '@/shared/components/Button/Button';
@@ -28,7 +29,7 @@ const Cart = () => {
             {cartData?.map((item, index) => (
               <div key={index}>
                 <div>
-                  <div className="flex items-center leading-8 gap-5 border-b-2 hover:bg-slate-300 border-blue-500 dark:border-gray-600 dark:hover:bg-primary-600 p-4">
+                  <div className="flex items-center leading-8 gap-5 border-b-2 hover:bg-slate-300 border-slate-200 dark:border-primary-400 dark:hover:bg-primary-600 p-4">
                     <div className="flex h-24 w-24 overflow-hidden">
                       <Image className="rounded-lg" src={item.image} alt="" />
                     </div>
@@ -37,10 +38,11 @@ const Cart = () => {
                       <p className="text-gray-600 dark:text-gray-400 text-sm font-semibold">{item.category}</p>
                       <div className="flex gap-4 mt-2 items-center">
                         <p className="font-semibold text-lg">{item.price}</p>
-                        <div className="flex items-center border-1 border-r-0 border-color rounded">
-                          <p className="p-2 border-r-1 dark:border-gray-600 border-color text-red-600 "><AiOutlineMinus /></p>
-                          <p className="p-2 border-r-1 border-color dark:border-gray-600 text-green-600">0</p>
-                          <p className="p-2 border-r-1 border-color dark:border-gray-600 text-green-600"><AiOutlinePlus /></p>
+                        <div className="flex items-center border-2 border-r-0 border-l-0 border-slate-200 dark:border-primary-400 rounded">
+                          <button className="p-2 border-l-2 border-slate-200 dark:border-primary-400 text-red-600"><AiOutlineMinus /></button>
+                          <button className="p-2 border-r-2 border-l-2 border-slate-200 dark:border-primary-400">100</button>
+                          <button className="p-2 border-r-2 border-slate-200 dark:border-primary-400 text-green-600"><AiOutlinePlus /></button>
+                          <button className="p-2 border-r-2 border-slate-200 dark:border-primary-400 text-red-600"><BsTrash /></button>
                         </div>
                       </div>
                     </div>
