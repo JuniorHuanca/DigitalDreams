@@ -27,9 +27,11 @@ const Login = ({ formikR, formikL, login }: Props) => {
 
     useEffect(() => {
         setMounted(true)
+        dispatch(setOpenLogin(login))
     }, [])
 
     useEffect(() => {
+        login ? setContainerClass('') : setContainerClass(styles.rightPanelActive);
         const container = document.getElementById('container');
         containerClass ? container?.classList.add(containerClass) : container?.classList.remove('rightPanelActive')
     }, [containerClass]);

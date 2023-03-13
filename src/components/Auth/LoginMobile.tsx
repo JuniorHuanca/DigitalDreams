@@ -20,11 +20,10 @@ type Props = {
 }
 
 const LoginMobile = ({ formikR, formikL, login }: Props) => {
-    const [signInForm, setSignInForm] = useState<boolean>(true)
-    const [signUpForm, setSignUpForm] = useState<boolean>(false)
+    const [signInForm, setSignInForm] = useState<boolean>(login)
+    const [signUpForm, setSignUpForm] = useState<boolean>(!login)
     const [show, setShow] = useState<boolean>(false)
     const dispatch = useAppDispatch()
-
     return (
         <div className="flex justify-center items-center h-screen p-4">
             <div className="relative flex flex-col gap-4 bg-white w-full xs:w-[80%] min-h-[80%] p-4 rounded-xl">

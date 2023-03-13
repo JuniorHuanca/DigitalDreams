@@ -16,7 +16,8 @@ import ProvidersLogin from "@/components/Auth/ProvidersLogin";
 import Login from "@/components/Auth/Login";
 import LoginMobile from "@/components/Auth/LoginMobile";
 import { useSelector } from "react-redux";
-import { selectOpenLogin } from "@/state/globalSlice";
+import { selectOpenLogin, setOpenLogin } from "@/state/globalSlice";
+import { useAppDispatch } from "@/state/store";
 
 type Props = {}
 function SignIn(props: Props) {
@@ -24,6 +25,7 @@ function SignIn(props: Props) {
     // const [s, setLogin] = useState<boolean>(true)
     const login = useSelector(selectOpenLogin);
     const router = useRouter()
+    const dispatch = useAppDispatch()
     const isAboveSmallScreens = useMediaQuery("(min-width: 620px)");
     const validationSchema = Yup.object().shape({
         username: Yup.string()
@@ -112,11 +114,12 @@ function SignIn(props: Props) {
     }
     useEffect(() => {
         setMounted(true)
+        dispatch(setOpenLogin(login))
     }, [])
 
     if (!mounted) return null
 
-    // console.log(providers)
+     console.log(login)
     return (
         <>
             <Head>
