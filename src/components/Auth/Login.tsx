@@ -5,14 +5,25 @@ import Image from 'next/image'
 import Logo from '@/assets/img/Avatar.png'
 import Link from 'next/link'
 import styles from './Login.module.css'
+import { handleBlurEmail, handleBlurPassword, handleBlurUsername } from '@/shared/util/validate'
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
+import { FormikProps } from 'formik'
+import { FormLValues, FormRValues } from '@/shared/util/types'
+import { useAppDispatch } from '@/state/store'
+import { setOpenLogin } from '@/state/globalSlice'
 type Props = {
-    formikR: any
+    formikR: FormikProps<FormRValues>;
+    formikL: FormikProps<FormLValues>;
+    login: boolean;
+    // setLogin: (value: boolean) => void;
 }
 
-const Login = ({ formikR }: Props) => {
+const Login = ({ formikR, formikL, login }: Props) => {
     const [containerClass, setContainerClass] = useState<string>('');
+    const [show, setShow] = useState<boolean>(false)
     const [mounted, setMounted] = useState<boolean>(false)
     const stylesCenter = "flex flex-col justify-center items-center"
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
         setMounted(true)
@@ -24,9 +35,11 @@ const Login = ({ formikR }: Props) => {
     }, [containerClass]);
     const handleSignUp = () => {
         setContainerClass(styles.rightPanelActive);
+        dispatch(setOpenLogin(false))
     };
     const handleSignIn = () => {
         setContainerClass('');
+        dispatch(setOpenLogin(true))
     };
     if (!mounted) return null
 
@@ -34,7 +47,7 @@ const Login = ({ formikR }: Props) => {
         <div className={`${stylesCenter} min-h-[100vh] min-w-screen`}>
 
             <div className={`flex w-[95%] h-[80vh] rounded-xl overflow-hidden ${styles.container} ${containerClass}`} id="container">
-                <div className={`flex flex-col gap-4 p-4 w-4/6 h-full bg-white absolute transition-all duration-700 ease-in-out ${styles.signUpContainer}`}>
+                {!login && <div className={`flex flex-col gap-4 p-4 w-4/6 h-full bg-white absolute transition-all duration-700 ease-in-out ${styles.signUpContainer}`}>
                     <div className="flex w-full h-[12%] items-center">
                         <div className="w-12 h-12">
                             <Image src={Logo} alt="Logo" className="rounded-full p-2" />
@@ -46,28 +59,73 @@ const Login = ({ formikR }: Props) => {
                         <ProvidersLogin />
                         <p className="text-black">or use your email account</p>
                         <div className="flex justify-center w-full ">
-                            <span className="icon flex items-center p-2 rounded-l-sm bg-gray-400/30">
-                                <HiUser size={28} className="fill-gray-800/30" />
+                            <span className={`${formikR.touched.username && formikR.errors.username ? 'bg-red-400' : 'bg-gray-400/30'} selection:icon flex items-center p-2 rounded-l-sm`}>
+                                <HiUser size={28} className={`${!formikR.errors.username && formikR.values.username ? 'fill-[#6366f1]' : 'fill-gray-800/30'}`} />
                             </span>
-                            <input className="w-3/4 md:w-2/4 bg-gray-400/30 focus:outline-none text-gray-800 p-4 rounded-r-sm" placeholder="Username" type="text" />
+                            <input className={`${formikR.touched.username && formikR.errors.username ? 'border-2 border-red-400 placeholder:text-red-400' : ''} bg-gray-400/30 w-3/4 md:w-2/4  focus:outline-none text-gray-800 p-4 rounded-r-sm`}
+                                placeholder={formikR.touched.username && formikR.errors.username ? formikR.errors.username : 'Username'}
+                                {...formikR.getFieldProps('username')}
+                                onBlur={(e) => {
+                                    formikR.handleBlur(e)
+                                    handleBlurUsername(e)
+                                }}
+                                type="text" />
                         </div>
                         <div className="flex justify-center w-full ">
-                            <span className="icon flex items-center p-2 rounded-l-sm bg-gray-400/30">
-                                <HiAtSymbol size={28} className="fill-gray-800/30" />
+                            <span className={`${formikR.touched.email && formikR.errors.email ? 'bg-red-400' : 'bg-gray-400/30'} selection:icon flex items-center p-2 rounded-l-sm`}>
+                                <HiAtSymbol size={28} className={`${!formikR.errors.email && formikR.values.email ? 'fill-[#6366f1]' : 'fill-gray-800/30'}`} />
                             </span>
-                            <input className="w-3/4 md:w-2/4 bg-gray-400/30 focus:outline-none text-gray-800 p-4 rounded-r-sm" placeholder="Email" type="text" />
+                            <input className={`${formikR.touched.email && formikR.errors.email ? 'border-2 border-red-400 placeholder:text-red-400' : ''} bg-gray-400/30 w-3/4 md:w-2/4  focus:outline-none text-gray-800 p-4 rounded-r-sm`}
+                                placeholder={formikR.touched.email && formikR.errors.email ? formikR.errors.email : 'Email'}
+                                type="text"
+                                {...formikR.getFieldProps('email')}
+                                onBlur={(e) => {
+                                    formikR.handleBlur(e)
+                                    handleBlurEmail(e)
+                                }} />
                         </div>
                         <div className="flex justify-center w-full ">
-                            <span className="icon flex items-center p-2 rounded-l-sm bg-gray-400/30">
-                                <HiFingerPrint size={28} /*className={`${hola ? 'fill-[#6366f1]' : 'fill-gray-800/30'}`}*/ className="fill-gray-800/30" />
+                            <span className={`${formikR.touched.password && formikR.errors.password ? 'bg-red-400' : 'bg-gray-400/30'} selection:icon flex items-center p-2 rounded-l-sm`}>
+                                <HiFingerPrint size={28} className={`${!formikR.errors.password && formikR.values.password ? 'fill-[#6366f1]' : 'fill-gray-800/30'}`} />
                             </span>
-                            <input className="w-3/4 md:w-2/4 bg-gray-400/30 focus:outline-none text-gray-800 p-4 rounded-r-sm" placeholder="Password" type="text" />
+                            <div className="relative w-3/4 md:w-2/4">
+                                <input className={`${formikR.touched.password && formikR.errors.password ? 'border-2 border-red-400 placeholder:text-red-400' : ''} bg-gray-400/30 w-full  focus:outline-none text-gray-800 p-4 rounded-r-sm`}
+                                    placeholder={formikR.touched.password && formikR.errors.password ? formikR.errors.password : 'Password'}
+                                    type={`${show ? 'text' : 'password'}`}
+                                    {...formikR.getFieldProps('password')}
+                                    onBlur={(e) => {
+                                        formikR.handleBlur(e)
+                                        handleBlurPassword(e)
+                                    }} />
+                                {
+                                    !show &&
+                                    <span
+                                        className="absolute top-0 right-0 flex items-center px-2 py-4"
+                                        onClick={() => setShow(!show)}
+                                    >
+                                        <AiFillEyeInvisible
+                                            size={28}
+                                            className={`${!formikR.errors.password && formikR.values.password ? 'fill-[#6366f1]' : 'fill-gray-800/30'}`}
+                                        />
+                                    </span>
+                                }
+                                {
+                                    show && <span
+                                        className="absolute top-0 right-0 flex items-center px-2 py-4"
+                                        onClick={() =>
+                                            setShow(!show)
+                                        }
+                                    >
+                                        <AiFillEye size={28} className={`${!formikR.errors.password && formikR.values.password ? 'fill-[#6366f1]' : 'fill-gray-800/30'}`} />
+                                    </span>
+                                }
+                            </div>
                         </div>
                         <button className="bg-sky-900 py-4 px-10 rounded-3xl border hover:scale-125 transition-transform">Sign Up</button>
 
                     </form>
-                </div>
-                <div className={`flex flex-col gap-4 p-4 w-4/6 h-full bg-white absolute transition-all duration-700 ease-in-out ${styles.signInContainer}`}>
+                </div>}
+                {login && <div className={`flex flex-col gap-4 p-4 w-4/6 h-full bg-white absolute transition-all duration-700 ease-in-out ${styles.signInContainer}`}>
                     <div className="flex w-full h-[12%] items-center">
                         <div className="w-12 h-12">
                             <Image src={Logo} alt="Logo" className="rounded-full p-2" />
@@ -79,16 +137,18 @@ const Login = ({ formikR }: Props) => {
                         <ProvidersLogin />
                         <p className="text-black">or use your email account</p>
                         <div className="flex justify-center w-full ">
-                            <span className="icon flex items-center p-2 rounded-l-sm bg-gray-400/30">
-                                <HiAtSymbol size={28} className="fill-gray-800/30" />
+                            <span className={`${formikR.touched.email && formikR.errors.email ? 'bg-red-400' : 'bg-gray-400/30'} selection:icon flex items-center p-2 rounded-l-sm`}>
+                                <HiAtSymbol size={28} className={`${!formikR.errors.email && formikR.values.email ? 'fill-[#6366f1]' : 'fill-gray-800/30'}`} />
                             </span>
-                            <input className="w-3/4 md:w-2/4 bg-gray-400/30 focus:outline-none text-gray-800 p-4 rounded-r-sm" placeholder="Email / Username" type="text" />
+                            <input className={`${formikR.touched.email && formikR.errors.email ? 'border-2 border-red-400 placeholder:text-red-400' : ''} bg-gray-400/30 w-3/4 md:w-2/4  focus:outline-none text-gray-800 p-4 rounded-r-sm`}
+                                placeholder="Email / Username"
+                                type="text" />
                         </div>
                         <div className="flex justify-center w-full ">
-                            <span className="icon flex items-center p-2 rounded-l-sm bg-gray-400/30">
-                                <HiFingerPrint size={28} /*className={`${hola ? 'fill-[#6366f1]' : 'fill-gray-800/30'}`}*/ className="fill-gray-800/30" />
+                            <span className={`${formikR.touched.password && formikR.errors.password ? 'bg-red-400' : 'bg-gray-400/30'} selection:icon flex items-center p-2 rounded-l-sm`}>
+                                <HiFingerPrint size={28} className={`${!formikR.errors.password && formikR.values.password ? 'fill-[#6366f1]' : 'fill-gray-800/30'}`} />
                             </span>
-                            <input className="w-3/4 md:w-2/4 bg-gray-400/30 focus:outline-none text-gray-800 p-4 rounded-r-sm" placeholder="Password" type="text" />
+                            <input className={`${formikR.touched.password && formikR.errors.password ? 'border-2 border-red-400 placeholder:text-red-400' : ''} bg-gray-400/30 w-3/4 md:w-2/4  focus:outline-none text-gray-800 p-4 rounded-r-sm`} placeholder="Password" type="text" />
                         </div>
                         <div className="border-b-2 border-black text-black">
                             <Link href="/forget" >Forgot your password?</Link>
@@ -96,7 +156,7 @@ const Login = ({ formikR }: Props) => {
                         <button className="bg-sky-900 py-4 px-10 rounded-3xl border hover:scale-125 transition-transform">Sign In</button>
 
                     </form>
-                </div>
+                </div>}
 
                 <div className={`w-2/6 h-full left-[66.666667%] ${styles.overlayContainer}`}>
                     <div className={`${styles.overlay}`}>

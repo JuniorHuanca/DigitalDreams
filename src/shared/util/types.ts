@@ -196,3 +196,7 @@ export type FormRValues = {
     email: string;
     password: string;
 }
+export type FormLValues = {
+    emailorusername: string;
+    password: string;
+}

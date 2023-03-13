@@ -15,10 +15,14 @@ import useMediaQuery from "@/shared/util/useMediaQuery"
 import ProvidersLogin from "@/components/Auth/ProvidersLogin";
 import Login from "@/components/Auth/Login";
 import LoginMobile from "@/components/Auth/LoginMobile";
+import { useSelector } from "react-redux";
+import { selectOpenLogin } from "@/state/globalSlice";
 
 type Props = {}
 function SignIn(props: Props) {
     const [mounted, setMounted] = useState<boolean>(false)
+    // const [s, setLogin] = useState<boolean>(true)
+    const login = useSelector(selectOpenLogin);
     const router = useRouter()
     const isAboveSmallScreens = useMediaQuery("(min-width: 620px)");
     const validationSchema = Yup.object().shape({
@@ -119,10 +123,10 @@ function SignIn(props: Props) {
                 <title>APP | Log in</title>
             </Head>
             {isAboveSmallScreens &&
-                <Login formikR={formikR} />
+                <Login formikR={formikR} formikL={formikL} login={login}/>
             }
             {!isAboveSmallScreens &&
-                <LoginMobile formikR={formikR} formikL={formikL} />
+                <LoginMobile formikR={formikR} formikL={formikL} login={login}/>
             }
             <Toaster
                 position="top-left"
