@@ -190,3 +190,9 @@ export interface SalesData {
     totalSales: number;
     totalUnits: number;
 }
+
+export type FormRValues = {
+    username: string;
+    email: string;
+    password: string;
+}

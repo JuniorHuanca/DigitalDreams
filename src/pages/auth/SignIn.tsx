@@ -23,13 +23,22 @@ function SignIn(props: Props) {
     const isAboveSmallScreens = useMediaQuery("(min-width: 620px)");
     const validationSchema = Yup.object().shape({
         username: Yup.string()
-            .required('El nombre de usuario es requerido'),
+            .required('Username is required'),
         email: Yup.string()
-            .email('Ingresa un correo electrónico válido')
-            .required('El correo electrónico es requerido'),
+            .email('Enter a valid email')
+            .required('Email is required'),
         password: Yup.string()
-            .min(6, 'La contraseña debe tener al menos 6 caracteres')
-            .required('La contraseña es requerida'),
+            .min(8, 'The password must be at least 6 characters')
+            .required('Password is required')
+            .matches(
+                /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,64})/,
+                'Password requires at least one capital letter, one number and a symbol.'
+            )
+            .test(
+                'no-blank-spaces',
+                'The password must not include blank spaces.',
+                (value) => !!value && !value.includes(' ')
+            )
     })
     const formikR = useFormik({
         initialValues: {
@@ -115,6 +124,10 @@ function SignIn(props: Props) {
             {!isAboveSmallScreens &&
                 <LoginMobile formikR={formikR} formikL={formikL} />
             }
+            <Toaster
+                position="top-left"
+                reverseOrder={false}
+            />
         </>
     )
 }

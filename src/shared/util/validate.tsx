@@ -6,7 +6,7 @@ export const validateSignIn = (values: { emailorusername: string; password: stri
   // validation email
   if (!values.emailorusername) {
     errs.emailorusername = 'Required'
-  } 
+  }
   // else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.emailorusername)) {
   //   errs.emailorusername = 'Invalid email address'
   // }
@@ -14,7 +14,7 @@ export const validateSignIn = (values: { emailorusername: string; password: stri
   // validation password
   if (!values.password) {
     errs.password = 'Required'
-  } 
+  }
   // else if (
   //   !/((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,64})/g.test(values.password)
   // ) {
@@ -62,7 +62,7 @@ export const registerValidate = ({
   // validation password
   if (!password) {
     errs.password = 'Password is required'
-  } 
+  }
   // else if (
   //   !/((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,64})/g.test(password)
   // ) {
@@ -84,7 +84,7 @@ export const registerValidate = ({
   return errs
 }
 
-export const handleBlurUserName = ({
+export const handleBlurUsername = ({
   target: { value },
 }: {
   target: { value: string }
@@ -117,9 +117,7 @@ export const handleBlurPassword = ({
   // validation password
   if (name === 'password' && !value) {
     toast.error('Password is required.', { duration: 1500 })
-  } else if (name === 'cpassword' && !value) {
-    toast.error('You must confirm the password.', { duration: 1500 })
-  } else if (
+  }  else if (
     name === 'password' &&
     !/((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,64})/g.test(value)
   ) {
@@ -134,4 +132,7 @@ export const handleBlurPassword = ({
       duration: 1500,
     })
   }
+  // else if (name === 'cpassword' && !value) {
+  //   toast.error('You must confirm the password.', { duration: 1500 })
+  // }
 }
