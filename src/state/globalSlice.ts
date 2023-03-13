@@ -23,7 +23,7 @@ const initialState = {
     userProfile: false,
     notification: false,
   },
-  openLogin: false
+  openLogin: true
 } as IState;
 
 const globalSlice = createSlice({

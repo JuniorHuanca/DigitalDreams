@@ -5,7 +5,7 @@ export const validateSignIn = (values: { emailorusername: string; password: stri
 
   // validation email
   if (!values.emailorusername) {
-    errs.emailorusername = 'Required'
+    errs.emailorusername = 'Email or Username is required'
   }
   // else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.emailorusername)) {
   //   errs.emailorusername = 'Invalid email address'
@@ -13,13 +13,13 @@ export const validateSignIn = (values: { emailorusername: string; password: stri
 
   // validation password
   if (!values.password) {
-    errs.password = 'Required'
+    errs.password = 'Password is required'
   }
-  // else if (
-  //   !/((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,64})/g.test(values.password)
-  // ) {
-  //   errs.password = 'Invalid password'
-  // } 
+  else if (
+    !/((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,64})/g.test(values.password)
+  ) {
+    errs.password = 'Invalid password'
+  }
   else if (values.password.includes(' ')) {
     errs.password = 'Invalid password'
   }
@@ -98,14 +98,17 @@ export const handleBlurUsername = ({
   }
 }
 export const handleBlurEmail = ({
-  target: { value },
+  target: { value, name },
 }: {
-  target: { value: string }
+  target: { value: string; name: string }
 }) => {
   // validation email
-  if (!value) {
+  if (name === 'emailorusername' && !value) {
+    toast.error('Email or Username is required.', { duration: 1500 })
+  }
+  else if (!value) {
     toast.error('Email is required.', { duration: 1500 })
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) && name !== 'emailorusername') {
     toast.error('Invalid email address.', { duration: 1500 })
   }
 }
@@ -117,7 +120,11 @@ export const handleBlurPassword = ({
   // validation password
   if (name === 'password' && !value) {
     toast.error('Password is required.', { duration: 1500 })
-  }  else if (
+  } else if (value.length < 8) {
+    toast.error('Password must be longer than 8 characters', {
+      duration: 1500,
+    })
+  } else if (
     name === 'password' &&
     !/((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,64})/g.test(value)
   ) {
