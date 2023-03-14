@@ -3,7 +3,7 @@ import styles from "./SignIn.module.css"
 import * as Yup from 'yup';
 import { useFormik } from 'formik'
 import { validateSignIn } from "@/shared/util/validate"
-import { signIn, useSession } from 'next-auth/react'
+import { getSession, signIn, useSession } from 'next-auth/react'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -20,8 +20,8 @@ import { selectOpenLogin, setOpenLogin } from "@/state/globalSlice";
 import { useAppDispatch } from "@/state/store";
 import { FormLValues, FormRValues } from "@/shared/util/types";
 
-type Props = {}
-function SignIn(props: Props) {
+type Props = { session: any }
+function SignIn({ session }: Props) {
     const login = useSelector(selectOpenLogin);
     const [mounted, setMounted] = useState<boolean>(false)
     const [signInForm, setSignInForm] = useState<boolean>(login)
@@ -147,6 +147,23 @@ function SignIn(props: Props) {
             />
         </>
     )
+}
+
+export const getServerSideProps = async (context: any) => {
+    const session = await getSession(context)
+    if (session) {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false,
+            },
+        }
+    }
+    return {
+        props: {
+            session
+        }
+    }
 }
 
 export default SignIn
