@@ -18,12 +18,15 @@ import LoginMobile from "@/components/Auth/LoginMobile";
 import { useSelector } from "react-redux";
 import { selectOpenLogin, setOpenLogin } from "@/state/globalSlice";
 import { useAppDispatch } from "@/state/store";
+import { FormLValues, FormRValues } from "@/shared/util/types";
 
 type Props = {}
 function SignIn(props: Props) {
-    const [mounted, setMounted] = useState<boolean>(false)
-    // const [s, setLogin] = useState<boolean>(true)
     const login = useSelector(selectOpenLogin);
+    const [mounted, setMounted] = useState<boolean>(false)
+    const [signInForm, setSignInForm] = useState<boolean>(login)
+    const [signUpForm, setSignUpForm] = useState<boolean>(!login)
+    // const [s, setLogin] = useState<boolean>(true)
     const router = useRouter()
     const dispatch = useAppDispatch()
     const isAboveSmallScreens = useMediaQuery("(min-width: 620px)");
@@ -46,7 +49,7 @@ function SignIn(props: Props) {
                 (value) => !!value && !value.includes(' ')
             )
     })
-    const formikR = useFormik({
+    const formikR = useFormik<FormRValues>({
         initialValues: {
             username: '',
             email: '',
@@ -55,22 +58,19 @@ function SignIn(props: Props) {
         validationSchema,
         onSubmit: onSubmitR,
     });
-    const formikL = useFormik({
+    const formikL = useFormik<FormLValues>({
         initialValues: {
             emailorusername: '',
             password: '',
         },
         validate: validateSignIn,
         onSubmit: onSubmitL,
-        // onSubmit: values => {
-        //     alert(JSON.stringify(values, null, 2));
-        // },
     });
     async function onSubmitR(values: {
         username: string
         email: string
         password: string
-    }) {
+    }, { resetForm }: { resetForm: any }) {
         try {
             const options = {
                 method: 'POST',
@@ -84,52 +84,62 @@ function SignIn(props: Props) {
             fetch(`/api/auth/signup`, options)
                 .then((res) => res.json())
                 .then((res) => {
-                    if (res.msg === 'ok') router.push('/auth/SignIn')
+                    if (res.msg === 'ok') {
+                        resetForm()
+                        setSignInForm(true)
+                        setSignUpForm(false)
+                        dispatch(setOpenLogin(true))
+                        // router.push('/auth/SignIn')
+                    }
                 })
         } catch (error) {
             toast.error('An error occurred while registering.', { duration: 3000 })
-            router.push('/auth/SignIn')
+            setSignUpForm(true)
+            setSignInForm(false)
+            dispatch(setOpenLogin(false))
+            // router.push('/auth/SignIn')
         }
     }
-    async function onSubmitL(values: { emailorusername: string; password: string }) {
+    async function onSubmitL(values: { emailorusername: string; password: string }, { resetForm }: { resetForm: any }) {
         try {
             const response = await signIn('credentials', {
-                redirect: true,
+                redirect: false,
                 email: values.emailorusername,
                 password: values.password,
                 callbackUrl: '/',
             })
-            const yo = await JSON.stringify(response, null)
-            console.log(response)
-            // if (response.ok) router.push('/')
-            console.log(yo)
-            // if (!yo.includes('true')) {
-            //     toast.error('Something went wrong. Try again!')
-            // }
+            if (response?.ok) {
+                resetForm()
+                router.push('/')
+            }
+            if (response?.error) {
+                toast.error('Something went wrong. Try again!')
+            }
         } catch (error) {
             console.error(error)
             toast.error('An error occurred while logging in', { duration: 5000 })
-            router.push('/auth/SignIn')
+            setSignInForm(true)
+            setSignUpForm(false)
+            dispatch(setOpenLogin(true))
+            // router.push('/auth/SignIn')
         }
     }
     useEffect(() => {
         setMounted(true)
         dispatch(setOpenLogin(login))
-    }, [])
-
+    }, [login])
+    // console.log(login)
     if (!mounted) return null
-
-     console.log(login)
     return (
         <>
             <Head>
                 <title>APP | Log in</title>
             </Head>
             {isAboveSmallScreens &&
-                <Login formikR={formikR} formikL={formikL} login={login}/>
+                <Login formikR={formikR} formikL={formikL} login={login} />
             }
             {!isAboveSmallScreens &&
-                <LoginMobile formikR={formikR} formikL={formikL} login={login}/>
+                <LoginMobile formikR={formikR} formikL={formikL} login={login} signInForm={signInForm} setSignInForm={setSignInForm} signUpForm={signUpForm} setSignUpForm={setSignUpForm} />
             }
             <Toaster
                 position="top-left"

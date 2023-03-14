@@ -28,7 +28,7 @@ const Login = ({ formikR, formikL, login }: Props) => {
     useEffect(() => {
         setMounted(true)
         dispatch(setOpenLogin(login))
-    }, [])
+    }, [login])
 
     useEffect(() => {
         login ? setContainerClass('') : setContainerClass(styles.rightPanelActive);

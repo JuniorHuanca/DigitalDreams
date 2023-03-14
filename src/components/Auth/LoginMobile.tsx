@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import Logo from '@/assets/img/Avatar.png'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { HiAtSymbol, HiFingerPrint, HiUser } from 'react-icons/hi'
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai'
 import ProvidersLogin from './ProvidersLogin'
@@ -16,14 +16,20 @@ type Props = {
     formikR: FormikProps<FormRValues>;
     formikL: FormikProps<FormLValues>;
     login: boolean;
-    // setLogin: (value: boolean) => void;
+    signInForm: boolean;
+    setSignInForm: (value: boolean) => void;
+    signUpForm: boolean;
+    setSignUpForm: (value: boolean) => void;
 }
 
-const LoginMobile = ({ formikR, formikL, login }: Props) => {
-    const [signInForm, setSignInForm] = useState<boolean>(login)
-    const [signUpForm, setSignUpForm] = useState<boolean>(!login)
+const LoginMobile = ({ formikR, formikL, login, signInForm, setSignInForm, signUpForm, setSignUpForm }: Props) => {
+    const [mounted, setMounted] = useState<boolean>(false)
     const [show, setShow] = useState<boolean>(false)
     const dispatch = useAppDispatch()
+    useEffect(() => {
+        setMounted(true)
+        dispatch(setOpenLogin(login))
+    }, [login])
     return (
         <div className="flex justify-center items-center h-screen p-4">
             <div className="relative flex flex-col gap-4 bg-white w-full xs:w-[80%] min-h-[80%] p-4 rounded-xl">
