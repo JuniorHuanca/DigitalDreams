@@ -31,6 +31,7 @@ export default async function handle(
                     name: username,
                     email,
                     password: passwordhash,
+                    image: ""
                 },
             })
             // await axios.post(`/api/emails/welcomeEmail`,

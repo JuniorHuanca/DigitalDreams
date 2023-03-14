@@ -12,6 +12,7 @@ import { handleClickModal, selectIsClicked, setMode, cleanupModals } from "@/sta
 import profileImage from "@/assets/profile.jpeg"
 import { signIn, signOut } from "next-auth/react"
 import { useSelector } from "react-redux"
+import Avatar from 'react-avatar';
 import {
     AppBar,
     Button,
@@ -58,6 +59,7 @@ const Navbar = ({ user }: Props) => {
     const { theme, setTheme } = tailWindTheme()
     const [mounted, setMounted] = useState<boolean>(false);
     const [isMenuToggled, setIsMenuToggled] = useState<boolean>(false);
+    const [imageError, setImageError] = useState<boolean>(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const isOpen = Boolean(anchorEl);
     const handleClick = (event: any) => setAnchorEl(event.currentTarget);
@@ -114,11 +116,13 @@ const Navbar = ({ user }: Props) => {
                     >
                         {user &&
                             <>
-                                <img
+                                {user?.image && !imageError ? <img
                                     className="rounded-full w-8 h-8"
                                     src={user?.image}
-                                    alt="user-profile"
-                                />
+                                    alt="user"
+                                    onError={() => setImageError(true)}
+                                /> : user?.image && <Avatar name={user.name} size="40" round={true} />}
+                                {!user?.image && <Avatar name={user.name} size="40" round={true} />}
                                 <p>
                                     <span className={`text-[${themeM.palette.secondary[100]}] text-14`}>Hi,</span>{' '}
                                     <span className={`text-[${themeM.palette.secondary[100]}] font-bold ml-1 text-14`}>
@@ -191,15 +195,13 @@ const Navbar = ({ user }: Props) => {
                             <NavButton title="Notification" dotColor="rgb(254, 201, 15)" color={themeM.palette.secondary[200]} icon={<RiNotification3Line />} customFunc={() => null} selected={undefined} />
                             <span style={{ color: themeM.palette.secondary[200] }}>Notification</span>
                         </div>
-                        {!user &&
-                            <div className={`${isClicked.userProfile ? selectModalColor : null} flex items-center cursor-pointer hover:scale-110 hover:bg-slate-300 hover:dark:bg-primary-600 rounded-lg`} onClick={() => {
-                                handleModal('userProfile');
-                                setIsMenuToggled(!isMenuToggled);
-                            }}>
-                                <NavButton title="Person" color={themeM.palette.secondary[200]} icon={<BsFilePersonFill />} dotColor={undefined} customFunc={() => null} selected={undefined} />
-                                <span style={{ color: themeM.palette.secondary[200] }}>Settings</span>
-                            </div>
-                        }
+                        <div className={`${isClicked.userProfile ? selectModalColor : null} flex items-center cursor-pointer hover:scale-110 hover:bg-slate-300 hover:dark:bg-primary-600 rounded-lg`} onClick={() => {
+                            handleModal('userProfile');
+                            setIsMenuToggled(!isMenuToggled);
+                        }}>
+                            <NavButton title="Person" color={themeM.palette.secondary[200]} icon={<BsFilePersonFill />} dotColor={undefined} customFunc={() => null} selected={undefined} />
+                            <span style={{ color: themeM.palette.secondary[200] }}>Settings</span>
+                        </div>
                     </div>
                 </div>
             )}

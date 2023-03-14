@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MdOutlineCancel, MdAdminPanelSettings } from 'react-icons/md';
 import { GiExitDoor, GiEntryDoor } from 'react-icons/gi';
 import { BsPersonCircle } from 'react-icons/bs';
@@ -10,12 +10,14 @@ import { useTheme } from '@mui/material';
 import { ITheme } from '@/shared/util/types';
 import { signIn, signOut } from 'next-auth/react';
 import Link from 'next/link';
+import Avatar from 'react-avatar';
 type Props = {
   user: any
 }
 
 const UserProfile = ({ user }: Props) => {
   const theme: ITheme = useTheme();
+  const [imageError, setImageError] = useState<boolean>(false);
   return (
     <div className="nav-item absolute right-8 top-16 transition-all duration-1000 ease-in-out bg-slate-100 dark:bg-primary-500 p-8 rounded-lg w-96 shadow-slate-700 shadow-sm dark:shadow-primary-800">
       <div className="flex justify-between gap-4">
@@ -29,11 +31,17 @@ const UserProfile = ({ user }: Props) => {
       </div>
       <div className="flex gap-4 items-center">
         <div className="flex h-24 w-24 overflow-hidden text-8xl">
-          {user && <img
-            className="rounded-full"
-            src={user?.image}
-            alt={user?.name}
-          />}
+          {user && user.image && !imageError ? (
+            <img
+              className="rounded-full"
+              src={user.image}
+              alt={user.name}
+              onError={() => setImageError(true)}
+            />
+          ) : user?.image && (
+            <Avatar name={user.name} size="100%" round={true} />
+          )}
+          {user && !user?.image && <Avatar name={user.name} size="100%" round={true} />}
           {!user && <BsPersonCircle />}
         </div>
         {user && <div>
