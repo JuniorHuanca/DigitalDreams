@@ -3,6 +3,7 @@ import GoogleProvider from "next-auth/providers/google"
 import GitHubProvider from "next-auth/providers/github";
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
+import SpotifyProvider from "next-auth/providers/spotify";
 import prisma from "@/lib/prismadb"
 import { compare } from "bcryptjs";
 
@@ -12,16 +13,14 @@ export const authOptions: NextAuthOptions = {
         CredentialsProvider({
             name: 'Credentials',
             async authorize(credentials, req): Promise<User | any> {
-                console.log(credentials)
                 const result = await prisma.user.findFirst({
                     where: {
                         OR: [
                             { email: credentials?.email },
-                            { name: credentials?.email },
+                            { username: credentials?.email },
                         ],
                     },
                 });
-                console.log(result)
                 if (!result) {
                     throw new Error('No user was found with that email. Please sign up.')
                 }
@@ -31,11 +30,6 @@ export const authOptions: NextAuthOptions = {
                     result.password ?? ''
                 );
 
-                if (!checkPassword) {
-                    throw new Error('The password does not match.')
-                }
-
-                // incorrect password
                 if (!checkPassword) {
                     throw new Error('Username or password does not match.')
                 }
@@ -53,6 +47,10 @@ export const authOptions: NextAuthOptions = {
         GitHubProvider({
             clientId: process.env.GITHUB_ID,
             clientSecret: process.env.GITHUB_SECRET
+        }),
+        SpotifyProvider({
+            clientId: process.env.SPOTIFY_CLIENT_ID,
+            clientSecret: process.env.SPOTIFY_CLIENT_SECRET
         })
     ],
     secret: process.env.NEXTAUTH_SECRET,

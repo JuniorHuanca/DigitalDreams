@@ -24,12 +24,16 @@ CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "name" TEXT,
     "email" TEXT,
+    "username" TEXT,
     "emailVerified" TIMESTAMP(3),
     "image" TEXT,
     "password" TEXT,
     "city" TEXT,
     "state" TEXT,
     "country" TEXT,
+    "occupation" TEXT,
+    "phoneNumber" TEXT,
+    "provider" TEXT,
     "role" "Role" NOT NULL DEFAULT 'User',
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
@@ -80,6 +84,9 @@ CREATE UNIQUE INDEX "Account_provider_providerAccountId_key" ON "Account"("provi
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Session_sessionToken_key" ON "Session"("sessionToken");

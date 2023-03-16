@@ -26,6 +26,8 @@ function SignIn({ session }: Props) {
     const [mounted, setMounted] = useState<boolean>(false)
     const [signInForm, setSignInForm] = useState<boolean>(login)
     const [signUpForm, setSignUpForm] = useState<boolean>(!login)
+    const [numLoginAttempts, setNumLoginAttempts] = useState<number>(0);
+    const [containerClass, setContainerClass] = useState<string>('');
     // const [s, setLogin] = useState<boolean>(true)
     const router = useRouter()
     const dispatch = useAppDispatch()
@@ -79,17 +81,22 @@ function SignIn({ session }: Props) {
                     username: values.username,
                     email: values.email,
                     password: values.password,
+                    provider: "local"
                 }),
             }
             fetch(`/api/auth/signup`, options)
-                .then((res) => res.json())
+                .then((res: Response) => res.json())
                 .then((res) => {
                     if (res.msg === 'ok') {
                         resetForm()
                         setSignInForm(true)
                         setSignUpForm(false)
                         dispatch(setOpenLogin(true))
+                        handleSignIn()
                         // router.push('/auth/SignIn')
+                    }
+                    if (res.msg !== 'ok') {
+                        toast.error(res.msg, { duration: 5000 })
                     }
                 })
         } catch (error) {
@@ -113,7 +120,12 @@ function SignIn({ session }: Props) {
                 router.push('/')
             }
             if (response?.error) {
-                toast.error('Something went wrong. Try again!')
+                setNumLoginAttempts(numLoginAttempts + 1);
+                if (numLoginAttempts >= 3) {
+                    toast.error('Unable to login. Please register for an account.', { duration: 5000 });
+                } else {
+                    toast.error('Something went wrong. Try again!');
+                }
             }
         } catch (error) {
             console.error(error)
@@ -128,6 +140,10 @@ function SignIn({ session }: Props) {
         setMounted(true)
         dispatch(setOpenLogin(login))
     }, [login])
+    const handleSignIn = () => {
+        setContainerClass('');
+        dispatch(setOpenLogin(true))
+    };
     // console.log(login)
     if (!mounted) return null
     return (
@@ -136,7 +152,7 @@ function SignIn({ session }: Props) {
                 <title>APP | Log in</title>
             </Head>
             {isAboveSmallScreens &&
-                <Login formikR={formikR} formikL={formikL} login={login} />
+                <Login formikR={formikR} formikL={formikL} login={login} handleSignIn={handleSignIn} setContainerClass={setContainerClass} containerClass={containerClass} />
             }
             {!isAboveSmallScreens &&
                 <LoginMobile formikR={formikR} formikL={formikL} login={login} signInForm={signInForm} setSignInForm={setSignInForm} signUpForm={signUpForm} setSignUpForm={setSignUpForm} />

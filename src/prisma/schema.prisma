@@ -30,14 +30,16 @@ model User {
     id            String        @id @default(cuid())
     name          String?
     email         String?       @unique
+    username      String?       @unique
     emailVerified DateTime?
     image         String?
     password      String?
     city          String?
     state         String?
     country       String?
-    // occupation    String
-    // phoneNumber   String
+    occupation    String?
+    phoneNumber   String?
+    provider      String?
     transactions  Transaction[]
     role          Role          @default(User)
     accounts      Account[]

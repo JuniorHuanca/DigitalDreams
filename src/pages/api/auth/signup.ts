@@ -15,7 +15,8 @@ export default async function handle(
             username,
             email,
             password,
-        }: { username: string; email: string; password: string } = req.body
+            provider
+        }: { username: string; email: string; password: string; provider: string } = req.body
         // check duplicate users
         const checkExist = await prisma.user.findUnique({
             where: {
@@ -29,9 +30,11 @@ export default async function handle(
             await prisma?.user.create({
                 data: {
                     name: username,
+                    username,
                     email,
                     password: passwordhash,
-                    image: ""
+                    image: "",
+                    provider: provider
                 },
             })
             // await axios.post(`/api/emails/welcomeEmail`,

@@ -15,11 +15,12 @@ type Props = {
     formikR: FormikProps<FormRValues>;
     formikL: FormikProps<FormLValues>;
     login: boolean;
-    // setLogin: (value: boolean) => void;
+    setContainerClass: (value: string) => void;
+    containerClass: string;
+    handleSignIn: () => void;
 }
 
-const Login = ({ formikR, formikL, login }: Props) => {
-    const [containerClass, setContainerClass] = useState<string>('');
+const Login = ({ formikR, formikL, login, handleSignIn, setContainerClass, containerClass }: Props) => {
     const [show, setShow] = useState<boolean>(false)
     const [mounted, setMounted] = useState<boolean>(false)
     const stylesCenter = "flex flex-col justify-center items-center"
@@ -38,10 +39,6 @@ const Login = ({ formikR, formikL, login }: Props) => {
     const handleSignUp = () => {
         setContainerClass(styles.rightPanelActive);
         dispatch(setOpenLogin(false))
-    };
-    const handleSignIn = () => {
-        setContainerClass('');
-        dispatch(setOpenLogin(true))
     };
     if (!mounted) return null
 
@@ -143,7 +140,7 @@ const Login = ({ formikR, formikL, login }: Props) => {
                                 <HiAtSymbol size={28} className={`${!formikL.errors.emailorusername && formikL.values.emailorusername ? 'fill-[#6366f1]' : 'fill-gray-800/30'}`} />
                             </span>
                             <input className={`${formikL.touched.emailorusername && formikL.errors.emailorusername ? 'border-2 border-red-400 placeholder:text-red-400' : ''} bg-gray-400/30 w-3/4 md:w-2/4  focus:outline-none text-gray-800 p-4 rounded-r-sm`}
-                                placeholder={formikL.touched.password && formikL.errors.password ? formikL.errors.password : 'Email / Username'}
+                                placeholder={formikL.touched.emailorusername && formikL.errors.emailorusername ? formikL.errors.emailorusername : 'Email / Username'}
                                 {...formikL.getFieldProps('emailorusername')}
                                 onBlur={(e) => {
                                     formikL.handleBlur(e)
