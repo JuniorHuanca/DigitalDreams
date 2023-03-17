@@ -17,7 +17,7 @@ export const authOptions: NextAuthOptions = {
                     where: {
                         OR: [
                             { email: credentials?.email },
-                            { name: credentials?.email },
+                            { username: credentials?.email },
                         ],
                     },
                 });
