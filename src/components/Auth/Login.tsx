@@ -29,13 +29,10 @@ const Login = ({ formikR, formikL, login, handleSignIn, setContainerClass, conta
     useEffect(() => {
         setMounted(true)
         dispatch(setOpenLogin(login))
-    }, [login])
-
-    useEffect(() => {
         login ? setContainerClass('') : setContainerClass(styles.rightPanelActive);
         const container = document.getElementById('container');
         containerClass ? container?.classList.add(containerClass) : container?.classList.remove('rightPanelActive')
-    }, [containerClass]);
+    }, [setContainerClass, containerClass, login, dispatch]);
     const handleSignUp = () => {
         setContainerClass(styles.rightPanelActive);
         dispatch(setOpenLogin(false))

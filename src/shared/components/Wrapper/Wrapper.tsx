@@ -20,7 +20,7 @@ export const Wrapper: React.FC<Props> = ({ children }) => {
     const themeM = useMemo(() => createTheme(themeSettings(mode)), [mode]);
     useEffect(() => {
         setTheme(mode)
-    }, [theme])
+    }, [mode, theme, setTheme])
 
     return (
         <ThemeProvider theme={themeM}>

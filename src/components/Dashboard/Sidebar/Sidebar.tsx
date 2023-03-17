@@ -147,7 +147,7 @@ const Sidebar = ({
                                 sx={{ objectFit: "cover" }}
                                 overflow="hidden"
                             >
-                                <img alt="profile" src={user?.image} height={32} width={32}/>
+                                <Image alt="profile" src={user?.image} height={32} width={32}/>
                             </Box>
                             <Box textAlign="left">
                                 <Typography

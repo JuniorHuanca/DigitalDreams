@@ -11,6 +11,7 @@ import { ITheme } from '@/shared/util/types';
 import { signIn, signOut } from 'next-auth/react';
 import Link from 'next/link';
 import Avatar from 'react-avatar';
+import Image from 'next/image';
 type Props = {
   user: any
 }
@@ -32,10 +33,12 @@ const UserProfile = ({ user }: Props) => {
       <div className="flex gap-4 items-center">
         <div className="flex h-24 w-24 overflow-hidden text-8xl">
           {user && user.image && !imageError ? (
-            <img
+            <Image
               className="rounded-full"
               src={user.image}
               alt={user.name}
+              width={96}
+              height={96}
               onError={() => setImageError(true)}
             />
           ) : user?.image && (

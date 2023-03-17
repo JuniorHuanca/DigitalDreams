@@ -139,7 +139,7 @@ function SignIn({ session }: Props) {
     useEffect(() => {
         setMounted(true)
         dispatch(setOpenLogin(login))
-    }, [login])
+    }, [dispatch, login])
     const handleSignIn = () => {
         setContainerClass('');
         dispatch(setOpenLogin(true))

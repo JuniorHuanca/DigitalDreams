@@ -10,6 +10,7 @@ import { useTheme } from '@mui/material';
 import { ITheme } from '@/shared/util/types';
 import { signIn, signOut } from 'next-auth/react';
 import Link from 'next/link';
+import Image from 'next/image';
 type Props = {
   user: any
 }
@@ -28,13 +29,15 @@ const UserProfileMobile = ({ user }: Props) => {
           borderRadius="50%" bgColor={undefined} text={undefined} width={undefined} title='userProfile' />
       </div>
       <div className="flex gap-2 ss:gap-4 items-center">
-        <div className="">
-          {user && <img
+        <div className="h-16 w-16 ss:h-24 ss:w-24">
+          {user && <Image
             className="rounded-full"
             src={user?.image}
             alt={user?.name}
+            width={96}
+            height={96}
           />}
-          {!user && <BsPersonCircle className="h-14 w-14 ss:h-24 ss:w-24" />}
+          {!user && <BsPersonCircle className="h-16 w-16 ss:h-24 ss:w-24" />}
         </div>
         {user && <div>
           <p className="font-semibold text-base ss:text-xl dark:text-gray-200"> {user?.name} </p>

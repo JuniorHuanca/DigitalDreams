@@ -29,7 +29,7 @@ const LoginMobile = ({ formikR, formikL, login, signInForm, setSignInForm, signU
     useEffect(() => {
         setMounted(true)
         dispatch(setOpenLogin(login))
-    }, [login])
+    }, [login, dispatch])
     return (
         <div className="flex justify-center items-center h-screen p-4">
             <div className="relative flex flex-col gap-4 bg-white w-full xs:w-[80%] min-h-[80%] p-4 rounded-xl">

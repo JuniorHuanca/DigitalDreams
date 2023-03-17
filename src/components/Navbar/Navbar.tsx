@@ -116,10 +116,12 @@ const Navbar = ({ user }: Props) => {
                     >
                         {user &&
                             <>
-                                {user?.image && !imageError ? <img
+                                {user?.image && !imageError ? <Image
                                     className="rounded-full w-8 h-8"
                                     src={user?.image}
                                     alt="user"
+                                    width={"32px"}
+                                    height={"32px"}
                                     onError={() => setImageError(true)}
                                 /> : user?.image && <Avatar name={user.name} size="40" round={true} />}
                                 {!user?.image && <Avatar name={user.name} size="40" round={true} />}
