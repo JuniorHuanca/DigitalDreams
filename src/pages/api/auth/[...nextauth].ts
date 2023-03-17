@@ -13,7 +13,7 @@ export const authOptions: NextAuthOptions = {
         CredentialsProvider({
             name: 'Credentials',
             async authorize(credentials, req): Promise<User | any> {
-                const result = await prisma.user.findFirst({
+                const result: any = await prisma.user.findFirst({
                     where: {
                         OR: [
                             { email: credentials?.email },
