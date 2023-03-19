@@ -159,7 +159,7 @@ function SignIn({ session }: Props) {
             }
             <Toaster
                 position="top-left"
-                reverseOrder={false}
+                reverseOrder={true}
             />
         </>
     )

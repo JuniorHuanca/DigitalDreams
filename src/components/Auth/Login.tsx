@@ -182,7 +182,7 @@ const Login = ({ formikR, formikL, login, handleSignIn, setContainerClass, conta
                             </div>
                         </div>
                         <div className="border-b-2 border-black text-black">
-                            <Link href="/forget" >Forgot your password?</Link>
+                            <Link href="/auth/restorepassword" >Forgot your password?</Link>
                         </div>
                         <button className="bg-sky-900 py-4 px-10 rounded-3xl border hover:scale-125 transition-transform">Sign In</button>
 
