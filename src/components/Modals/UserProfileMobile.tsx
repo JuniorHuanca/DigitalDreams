@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MdOutlineCancel, MdAdminPanelSettings } from 'react-icons/md';
 import { GiExitDoor, GiEntryDoor } from 'react-icons/gi';
 import { BsPersonCircle } from 'react-icons/bs';
@@ -11,12 +11,14 @@ import { ITheme } from '@/shared/util/types';
 import { signIn, signOut } from 'next-auth/react';
 import Link from 'next/link';
 import Image from 'next/image';
+import Avatar from 'react-avatar';
 type Props = {
   user: any
 }
 
 const UserProfileMobile = ({ user }: Props) => {
   const theme: ITheme = useTheme();
+  const [imageError, setImageError] = useState<boolean>(false);
   return (
     <div className="nav-item absolute right-0 ss:right-1 top-16 transition-all duration-1000 ease-in-out bg-slate-100 dark:bg-primary-500 p-3 ss:p-8 rounded-lg w-full ss:w-96 shadow-slate-700 shadow-sm dark:shadow-primary-800">
       <div className="flex justify-between gap-2 ss:gap-4">
@@ -30,13 +32,19 @@ const UserProfileMobile = ({ user }: Props) => {
       </div>
       <div className="flex gap-2 ss:gap-4 items-center">
         <div className="h-16 w-16 ss:h-24 ss:w-24">
-          {user && <Image
-            className="rounded-full"
-            src={user?.image}
-            alt={user?.name}
-            width={96}
-            height={96}
-          />}
+          {user && user.image && !imageError ? (
+            <Image
+              className="rounded-full"
+              src={user.image}
+              alt={user.name}
+              width={96}
+              height={96}
+              onError={() => setImageError(true)}
+            />
+          ) : user?.image && (
+            <Avatar name={user.name} size="100%" round={true} />
+          )}
+          {user && !user?.image && <Avatar name={user.name} size="100%" round={true} />}
           {!user && <BsPersonCircle className="h-16 w-16 ss:h-24 ss:w-24" />}
         </div>
         {user && <div>
@@ -52,20 +60,22 @@ const UserProfileMobile = ({ user }: Props) => {
       </div>
       <div>
         {userProfileData.map((item, index) => (
-          <div key={index} className="flex gap-2 ss:gap-5 border-b-1 border-color p-4 hover:bg-slate-300 cursor-pointer dark:hover:bg-primary-600">
-            <button
-              type="button"
-              style={{ color: item.iconColor }}
-              className=" text-xl rounded-lg p-2 ss:p-3 bg-blue-600 dark:bg-slate-50"
-            >
-              {item.icon}
-            </button>
+          <Link href={`/${item.title.split(' ')[1].toLowerCase()}`}>
+            <div key={index} className="flex gap-2 ss:gap-5 border-b-1 border-color p-4 hover:bg-slate-300 cursor-pointer dark:hover:bg-primary-600">
+              <button
+                type="button"
+                style={{ color: item.iconColor }}
+                className=" text-xl rounded-lg p-2 ss:p-3 bg-blue-600 dark:bg-slate-50"
+              >
+                {item.icon}
+              </button>
 
-            <div>
-              <p className="font-semibold dark:text-gray-200 ">{item.title}</p>
-              <p className="text-gray-500 text-sm dark:text-gray-400"> {item.desc} </p>
+              <div>
+                <p className="font-semibold dark:text-gray-200 ">{item.title}</p>
+                <p className="text-gray-500 text-sm dark:text-gray-400"> {item.desc} </p>
+              </div>
             </div>
-          </div>
+          </Link>
         ))}
         {user?.role === 'Admin' && <Link href={'/dashboard'}>
           <div className="flex gap-2 ss:gap-5 border-b-1 border-color p-4 hover:bg-slate-300 cursor-pointer dark:hover:bg-primary-600">

@@ -200,3 +200,10 @@ export type FormLValues = {
     emailorusername: string;
     password: string;
 }
+
+export enum EStateGeneric {
+    IDLE = "idle",
+    SUCCEEDED = "succeeded",
+    PENDING = "pending",
+    FAILED = "failed",
+}

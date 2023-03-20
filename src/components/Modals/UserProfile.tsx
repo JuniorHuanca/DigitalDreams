@@ -60,20 +60,22 @@ const UserProfile = ({ user }: Props) => {
       </div>
       <div>
         {userProfileData.map((item, index) => (
-          <div key={index} className="flex gap-5 border-b-1 border-color p-4 hover:bg-slate-300 cursor-pointer dark:hover:bg-primary-600">
-            <button
-              type="button"
-              style={{ color: item.iconColor }}
-              className=" text-xl rounded-lg p-3 bg-blue-600 dark:bg-slate-50"
-            >
-              {item.icon}
-            </button>
+          <Link href={`/${item.title.split(' ')[1].toLowerCase()}`}>
+            <div key={index} className="flex gap-5 border-b-1 border-color p-4 hover:bg-slate-300 cursor-pointer dark:hover:bg-primary-600">
+              <button
+                type="button"
+                style={{ color: item.iconColor }}
+                className=" text-xl rounded-lg p-3 bg-blue-600 dark:bg-slate-50"
+              >
+                {item.icon}
+              </button>
 
-            <div>
-              <p className="font-semibold dark:text-gray-200 ">{item.title}</p>
-              <p className="text-gray-500 text-sm dark:text-gray-400"> {item.desc} </p>
+              <div>
+                <p className="font-semibold dark:text-gray-200 ">{item.title}</p>
+                <p className="text-gray-500 text-sm dark:text-gray-400"> {item.desc} </p>
+              </div>
             </div>
-          </div>
+          </Link>
         ))}
         {user?.role === 'Admin' && <Link href={'/dashboard'}>
           <div className="flex gap-5 border-b-1 border-color p-4 hover:bg-slate-300 cursor-pointer dark:hover:bg-primary-600">
