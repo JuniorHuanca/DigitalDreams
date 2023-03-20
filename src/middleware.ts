@@ -22,4 +22,4 @@ export default withAuth(
     }
 )
 
-export const config = { matcher: ["/dashboard/:patch*", "/buy"] }
+export const config = { matcher: ["/dashboard/:patch*", "/profile/:patch*"] }

@@ -1,4 +1,3 @@
-// import { getProviders, signIn as SignIntoProvider } from "next-auth/react"
 import styles from "./SignIn.module.css"
 import * as Yup from 'yup';
 import { useFormik } from 'formik'

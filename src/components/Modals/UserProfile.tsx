@@ -60,8 +60,8 @@ const UserProfile = ({ user }: Props) => {
       </div>
       <div>
         {userProfileData.map((item, index) => (
-          <Link href={`/${item.title.split(' ')[1].toLowerCase()}`}>
-            <div key={index} className="flex gap-5 border-b-1 border-color p-4 hover:bg-slate-300 cursor-pointer dark:hover:bg-primary-600">
+          <Link key={index} href={`/${item.title.split(' ')[1].toLowerCase()}`}>
+            <div className="flex gap-5 border-b-1 border-color p-4 hover:bg-slate-300 cursor-pointer dark:hover:bg-primary-600">
               <button
                 type="button"
                 style={{ color: item.iconColor }}

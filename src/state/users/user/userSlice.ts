@@ -16,7 +16,7 @@ export const getOneUser = createAsyncThunk(
 
 export const updateOneUser = createAsyncThunk(
     'user/updateOneUser',
-    async (user, { rejectWithValue }) => {
+    async (user: any, { rejectWithValue }) => {
         try {
             const response = await updateUserByApi(user)
             return response.data

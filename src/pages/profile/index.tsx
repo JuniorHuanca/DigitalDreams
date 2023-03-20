@@ -1,17 +1,18 @@
-import Layout from "@/components/Layouts/Layout"
-import Loader from "@/components/Loaders/Loader"
+import Layout from "@/components/Layouts/Layout";
+import Loader from "@/components/Loaders/Loader";
 import { EStateGeneric } from "@/shared/util/types";
 import { useAppDispatch } from "@/state/store";
-import { getOneUser, selectOneUser, selectOneUserStatus, updateOneUser } from "@/state/users/user/userSlice";
-import { useSession } from "next-auth/react"
-import Image from "next/image"
+import { getOneUser, selectOneUser, selectOneUserStatus } from "@/state/users/user/userSlice";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import Avatar from "react-avatar";
 import { useSelector } from "react-redux";
-import { FaPencilAlt } from 'react-icons/fa'
+import { FaPencilAlt } from 'react-icons/fa';
 import LayoutProfile from "@/components/Layouts/LayoutProfile";
 import Profile from "@/components/Modals/Profile";
+import { Toaster } from "react-hot-toast";
 interface ISession {
   data: any;
   status: string;
@@ -19,12 +20,12 @@ interface ISession {
 type Props = {}
 
 const Settings = (props: Props) => {
-  const { data: session, status }: ISession = useSession()
-  const user = useSelector(selectOneUser)
-  const userStatus = useSelector(selectOneUserStatus)
-  const router = useRouter()
-  const dispatch = useAppDispatch()
-  const ref = useRef<any>(null)
+  const { data: session, status }: ISession = useSession();
+  const user = useSelector(selectOneUser);
+  const userStatus = useSelector(selectOneUserStatus);
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const ref = useRef<any>(null);
   const [imageError, setImageError] = useState<boolean>(false);
   const [seletUser, setSeletUser] = useState(null);
   if (status === "loading") {
@@ -39,10 +40,6 @@ const Settings = (props: Props) => {
       }
     })()
   }, [userStatus, user])
-  const handleSettings = async () => {
-    await dispatch(updateOneUser());
-  }
-  // console.log(user)
   return (
     <Layout>
       <LayoutProfile>
@@ -58,8 +55,8 @@ const Settings = (props: Props) => {
                   width={"200px"}
                   height={"200px"}
                   onError={() => setImageError(true)}
-                /> : user?.image && <Avatar name={user.name} size="200" round={true} />}
-                {!user?.image && <Avatar name={user.name} size="200" round={true} />}
+                /> : user?.image && <Avatar name={user?.name} size="200" round={true} />}
+                {!user?.image && <Avatar name={user?.name} size="200" round={true} />}
                 <Image src={user?.image}></Image>
                 <div>
                   <p>Personaliza tu cuenta con una foto. La foto de perfil aparecerá en las aplicaciones y dispositivos que usan tu cuenta de Microsoft.</p>
@@ -81,19 +78,19 @@ const Settings = (props: Props) => {
                 <div className="flex gap-4">
                   <h3 className="w-2/4">Name:</h3>
                   <div className="border-2 border-slate-200 dark:border-primary-400 py-2 px-4">
-                    {user.name}
+                    {user?.name}
                   </div>
                 </div>
                 <div className="flex gap-4">
                   <h3 className="w-2/4">Username:</h3>
                   <div className="border-2 border-slate-200 dark:border-primary-400 py-2 px-4">
-                    {user.username}
+                    {user?.username}
                   </div>
                 </div>
                 <div className="flex gap-4">
                   <h3 className="w-2/4">Email:</h3>
                   <div className="border-2 border-slate-200 dark:border-primary-400 py-2 px-4">
-                    {user.email}
+                    {user?.email}
                   </div>
                 </div>
               </div>
@@ -110,6 +107,10 @@ const Settings = (props: Props) => {
           </div>
           {seletUser && <Profile user={seletUser} setSeletUser={setSeletUser} />}
         </div>
+        <Toaster
+          position="top-left"
+          reverseOrder={true}
+        />
       </LayoutProfile>
     </Layout >
   )
