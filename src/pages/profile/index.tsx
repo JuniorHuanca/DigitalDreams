@@ -60,7 +60,7 @@ const Settings = (props: Props) => {
       </Head>
       <div>
         <LayoutProfile>
-          <div>
+          {/* <div>
             <div className="flex flex-col items-center">
               <div className="flex flex-col justify-center w-full p-8 bg-slate-100 dark:bg-primary-500 rounded-lg">
                 <h1 className="text-4xl font-bold mb-4">My profile</h1>
@@ -111,19 +111,20 @@ const Settings = (props: Props) => {
                     </div>
                   </div>
                 </div>
-                {/* <div className="flex flex-col gap-4 w-full">
-        <h2 className="text-2xl font-bold">Account Password</h2>
-        <div className="flex gap-4">
-          <h3 className="w-2/4">Password:</h3>
-          <div className="border-2 border-black py-2 px-4">
-            {user.password}
-          </div>
-        </div>
-      </div> */}
+                <div className="flex flex-col gap-4 w-full">
+                  <h2 className="text-2xl font-bold">Account Password</h2>
+                  <div className="flex gap-4">
+                    <h3 className="w-2/4">Password:</h3>
+                    <div className="border-2 border-black py-2 px-4">
+                      {user.password}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             {seletUser && <Profile user={seletUser} setSeletUser={setSeletUser} />}
-          </div>
+          </div> */}
+          <p>profile</p>
           <Toaster
             position="top-left"
             reverseOrder={true}
