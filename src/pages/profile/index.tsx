@@ -23,7 +23,7 @@ type Props = {
 }
 
 const Settings = (props: Props) => {
-  const { data: session, status }: ISession = useSession();
+  // const { data: session, status }: ISession = useSession();
   const userStatus = useSelector(selectOneUserStatus);
   const user = useSelector(selectOneUser);
   const router = useRouter();
@@ -31,16 +31,25 @@ const Settings = (props: Props) => {
   const ref = useRef<any>(null);
   const [imageError, setImageError] = useState<boolean>(false);
   const [seletUser, setSeletUser] = useState(null);
-
+  const session = {
+    user: {
+      name: 'liTzBrayan_GLSll',
+      email: 'brayan_libra17@hotmail.com',
+      image: '',
+      id: 'clfk6sbj10000t3qg6xfsiwpx',
+      role: 'User'
+    },
+    expires: '2023-04-21T22:42:07.914Z'
+  }
   useEffect(() => {
     (async () => {
       if (router.isReady) {
         // if (userStatus === EStateGeneric.IDLE) {
-          await dispatch(getOneUser(session?.user.email));
+        await dispatch(getOneUser(session?.user.email));
         // }
       }
     })()
-  }, [userStatus, user, session])
+  }, [userStatus, user])
   // console.log(session)
   // console.log(user)
 
@@ -121,7 +130,7 @@ const Settings = (props: Props) => {
           />
         </LayoutProfile>
       </div>
-      {status === "loading" || user === null && <LoaderModal />}
+      {/* {status === "loading" || user === null && <LoaderModal />} */}
     </Layout>
   )
 }
