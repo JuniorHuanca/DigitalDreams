@@ -57,7 +57,7 @@ const userSlice = createSlice({
     },
 });
 
-export const selectOneUserStatus = (state: { user: { oneUserStatus: any; }; }) => state.user.oneUserStatus;
+export const selectOneUserStatus = (state: { user: { oneUserStatus: EStateGeneric; }; }) => state.user.oneUserStatus;
 
 export default userSlice.reducer;
 
