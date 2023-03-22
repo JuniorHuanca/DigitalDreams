@@ -44,9 +44,9 @@ const Settings = (props: Props) => {
   useEffect(() => {
     (async () => {
       if (router.isReady) {
-        // if (userStatus === EStateGeneric.IDLE) {
+        if (userStatus === EStateGeneric.IDLE) {
         await dispatch(getOneUser(session?.user.email));
-        // }
+        }
       }
     })()
   }, [userStatus, user])
@@ -65,7 +65,7 @@ const Settings = (props: Props) => {
               <div className="flex flex-col justify-center w-full p-8 bg-slate-100 dark:bg-primary-500 rounded-lg">
                 <h1 className="text-4xl font-bold mb-4">My profile</h1>
                 <div className="flex items-center gap-4">
-                  {user?.image && !imageError ? <Image
+                  {/* {user?.image && !imageError ? <Image
                     className="rounded-full"
                     src={user?.image}
                     alt="user"
@@ -74,7 +74,7 @@ const Settings = (props: Props) => {
                     onError={() => setImageError(true)}
                   /> : user?.image && <Avatar name={user?.name} size="200" round={true} />}
                   {!user?.image && <Avatar name={user?.name} size="200" round={true} />}
-                  <Image src={user?.image}></Image>
+                  <Image src={user?.image}></Image> */}
                   <div>
                     <p>Personaliza tu cuenta con una foto. La foto de perfil aparecerá en las aplicaciones y dispositivos que usan tu cuenta de Microsoft.</p>
                     {/* <div className='flex'>
