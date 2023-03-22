@@ -35,9 +35,9 @@ const Settings = (props: Props) => {
   useEffect(() => {
     (async () => {
       if (router.isReady) {
-        if (userStatus === EStateGeneric.IDLE) {
+        // if (userStatus === EStateGeneric.IDLE) {
           await dispatch(getOneUser(session?.user.email));
-        }
+        // }
       }
     })()
   }, [userStatus, user, session])
