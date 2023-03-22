@@ -28,7 +28,7 @@ const Settings = (props: Props) => {
   const user = useSelector(selectOneUser);
   const router = useRouter();
   const dispatch = useAppDispatch();
-  // const ref = useRef<any>(null);
+  const ref = useRef<any>(null);
   const [imageError, setImageError] = useState<boolean>(false);
   const [seletUser, setSeletUser] = useState(null);
   // const session = {
@@ -65,19 +65,19 @@ const Settings = (props: Props) => {
               <div className="flex flex-col justify-center w-full p-8 bg-slate-100 dark:bg-primary-500 rounded-lg">
                 <h1 className="text-4xl font-bold mb-4">My profile</h1>
                 <div className="flex items-center gap-4">
-                  {/* {user?.image && !imageError ? <Image
+                  {user?.image && !imageError && <Image
                     className="rounded-full"
                     src={user?.image}
                     alt="user"
                     width={"200px"}
                     height={"200px"}
                     onError={() => setImageError(true)}
-                  /> : user?.image && <Avatar name={user?.name} size="200" round={true} />}
+                  /> /* : user?.image && <Avatar name={user?.name} size="200" round={true} /> */}
                   {!user?.image && <Avatar name={user?.name} size="200" round={true} />}
-                  <Image src={user?.image}></Image> */}
+                  <Image src={user?.image}></Image>
                   <div>
                     <p>Personaliza tu cuenta con una foto. La foto de perfil aparecerá en las aplicaciones y dispositivos que usan tu cuenta de Microsoft.</p>
-                    {/* <div className='flex'>
+                    <div className='flex'>
                       <input
                         ref={ref}
                         type="file"
@@ -86,7 +86,7 @@ const Settings = (props: Props) => {
                       <button className='text-xl font-semibold border border-slate-200 dark:border-primary-400 hover:bg-gray-300 hover:bg-opacity-50 rounded-lg px-6 py-4' type="button" onClick={() => ref.current?.click()}>
                         Update image
                       </button>
-                    </div> */}
+                    </div>
                   </div>
                 </div>
                 <div className="w-full border-[1px] border-slate-200 dark:border-primary-400 my-4"></div>
@@ -124,7 +124,6 @@ const Settings = (props: Props) => {
             </div>
             {seletUser && <Profile user={seletUser} setSeletUser={setSeletUser} />}
           </div>
-          <p>profile</p>
           <Toaster
             position="top-left"
             reverseOrder={true}
