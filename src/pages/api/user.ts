@@ -5,7 +5,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { method } = req
     const { email } = req.query
     const { user } = req.body
-    console.log(user)
+    // console.log(user)
     switch (method) {
         case 'GET':
             try {
