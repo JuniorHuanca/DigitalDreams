@@ -23,24 +23,24 @@ type Props = {
 }
 
 const Settings = (props: Props) => {
-  // const { data: session, status }: ISession = useSession();
+  const { data: session, status }: ISession = useSession();
   const userStatus = useSelector(selectOneUserStatus);
   const user = useSelector(selectOneUser);
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const ref = useRef<any>(null);
+  // const ref = useRef<any>(null);
   const [imageError, setImageError] = useState<boolean>(false);
   const [seletUser, setSeletUser] = useState(null);
-  const session = {
-    user: {
-      name: 'liTzBrayan_GLSll',
-      email: 'brayan_libra17@hotmail.com',
-      image: '',
-      id: 'clfk6sbj10000t3qg6xfsiwpx',
-      role: 'User'
-    },
-    expires: '2023-04-21T22:42:07.914Z'
-  }
+  // const session = {
+  //   user: {
+  //     name: 'liTzBrayan_GLSll',
+  //     email: 'brayan_libra17@hotmail.com',
+  //     image: '',
+  //     id: 'clfk6sbj10000t3qg6xfsiwpx',
+  //     role: 'User'
+  //   },
+  //   expires: '2023-04-21T22:42:07.914Z'
+  // }
   useEffect(() => {
     (async () => {
       if (router.isReady) {
@@ -60,7 +60,7 @@ const Settings = (props: Props) => {
       </Head>
       <div>
         <LayoutProfile>
-          {/* <div>
+          <div>
             <div className="flex flex-col items-center">
               <div className="flex flex-col justify-center w-full p-8 bg-slate-100 dark:bg-primary-500 rounded-lg">
                 <h1 className="text-4xl font-bold mb-4">My profile</h1>
@@ -77,7 +77,7 @@ const Settings = (props: Props) => {
                   <Image src={user?.image}></Image>
                   <div>
                     <p>Personaliza tu cuenta con una foto. La foto de perfil aparecerá en las aplicaciones y dispositivos que usan tu cuenta de Microsoft.</p>
-                    <div className='flex'>
+                    {/* <div className='flex'>
                       <input
                         ref={ref}
                         type="file"
@@ -86,7 +86,7 @@ const Settings = (props: Props) => {
                       <button className='text-xl font-semibold border border-slate-200 dark:border-primary-400 hover:bg-gray-300 hover:bg-opacity-50 rounded-lg px-6 py-4' type="button" onClick={() => ref.current?.click()}>
                         Update image
                       </button>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 <div className="w-full border-[1px] border-slate-200 dark:border-primary-400 my-4"></div>
@@ -123,7 +123,7 @@ const Settings = (props: Props) => {
               </div>
             </div>
             {seletUser && <Profile user={seletUser} setSeletUser={setSeletUser} />}
-          </div> */}
+          </div>
           <p>profile</p>
           <Toaster
             position="top-left"
@@ -131,7 +131,7 @@ const Settings = (props: Props) => {
           />
         </LayoutProfile>
       </div>
-      {/* {status === "loading" || user === null && <LoaderModal />} */}
+      {status === "loading" || user === null && <LoaderModal />}
     </Layout>
   )
 }
