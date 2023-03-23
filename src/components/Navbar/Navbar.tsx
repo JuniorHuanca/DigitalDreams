@@ -123,7 +123,7 @@ const Navbar = ({ user }: Props) => {
                                     width={"32px"}
                                     height={"32px"}
                                     onError={() => setImageError(true)}
-                                /> : imageError || !user?.image && <Avatar name={user.name} size="40" round={true} />}
+                                /> : imageError || !user?.image && <Avatar name={user && user.name} size="40" round={true} />}
                                 <p>
                                     <span className={`text-[${themeM.palette.secondary[100]}] text-14`}>Hi,</span>{' '}
                                     <span className={`text-[${themeM.palette.secondary[100]}] font-bold ml-1 text-14`}>

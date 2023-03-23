@@ -42,7 +42,7 @@ const UserProfile = ({ user }: Props) => {
               onError={() => setImageError(true)}
             />
           ) : imageError || !user?.image && (
-            <Avatar name={user.name} size="100%" round={true} />
+            <Avatar name={user && user.name} size="100%" round={true} />
           )}
           {!user && <BsPersonCircle />}
         </div>

@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['avatars.githubusercontent.com', 'www.google.com', 'www.facebook.com', 'www.instagram.com'],
+    domains: ['avatars.githubusercontent.com', 'lh3.googleusercontent.com'],
   },
   reactStrictMode: true,
 }

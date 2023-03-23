@@ -1,5 +1,4 @@
 import Layout from "@/components/Layouts/Layout";
-import { EStateGeneric } from "@/shared/util/types";
 import { useAppDispatch } from "@/state/store";
 import { getOneUser, selectOneUser, selectOneUserStatus } from "@/state/users/user/userSlice";
 import { useSession } from "next-auth/react";
@@ -24,32 +23,14 @@ type Props = {
 
 const Settings = (props: Props) => {
   const { data: session, status }: ISession = useSession();
-  const userStatus = useSelector(selectOneUserStatus);
   const user = useSelector(selectOneUser);
-  const router = useRouter();
   const dispatch = useAppDispatch();
   const ref = useRef<any>(null);
   const [imageError, setImageError] = useState<boolean>(false);
   const [seletUser, setSeletUser] = useState(null);
-  // const session = {
-  //   user: {
-  //     name: 'liTzBrayan_GLSll',
-  //     email: 'brayan_libra17@hotmail.com',
-  //     image: '',
-  //     id: 'clfk6sbj10000t3qg6xfsiwpx',
-  //     role: 'User'
-  //   },
-  //   expires: '2023-04-21T22:42:07.914Z'
-  // }
   useEffect(() => {
-    (async () => {
-      if (router.isReady) {
-        if (userStatus === EStateGeneric.IDLE) {
-          await dispatch(getOneUser(session?.user.email));
-        }
-      }
-    })()
-  }, [userStatus, user])
+    dispatch(getOneUser(session?.user.email));
+  }, [session])
   // console.log(session)
   // console.log(user)
 
@@ -114,7 +95,7 @@ const Settings = (props: Props) => {
                   <div className="flex gap-4">
                     <h3 className="w-2/4">Password:</h3>
                     <div className="border-2 border-black py-2 px-4">
-                      {user.password}
+                      {user?.password}
                     </div>
                   </div>
                 </div>

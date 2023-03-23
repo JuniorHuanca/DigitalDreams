@@ -42,7 +42,7 @@ const UserProfileMobile = ({ user }: Props) => {
               onError={() => setImageError(true)}
             />
           ) : imageError || !user?.image && (
-            <Avatar name={user.name} size="100%" round={true} />
+            <Avatar name={user && user.name} size="100%" round={true} />
           )}
           {!user && <BsPersonCircle className="h-16 w-16 ss:h-24 ss:w-24" />}
         </div>
