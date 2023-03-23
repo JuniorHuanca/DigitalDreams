@@ -32,7 +32,7 @@ const UserProfile = ({ user }: Props) => {
       </div>
       <div className="flex gap-4 items-center">
         <div className="flex h-24 w-24 overflow-hidden text-8xl">
-          {user?.image ? (
+          {user && user?.image ? (
             <Image
               className="rounded-full"
               src={user.image}
@@ -40,7 +40,7 @@ const UserProfile = ({ user }: Props) => {
               width={96}
               height={96}              
             />
-          ) : !user?.image && (
+          ) : user && !user?.image && (
             <Avatar name={user && user.name} size="100%" round={true} />
           )}
           {!user && <BsPersonCircle />}
