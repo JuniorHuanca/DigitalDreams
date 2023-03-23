@@ -32,7 +32,7 @@ const UserProfileMobile = ({ user }: Props) => {
       </div>
       <div className="flex gap-2 ss:gap-4 items-center">
         <div className="h-16 w-16 ss:h-24 ss:w-24">
-          {user && user.image && !imageError ? (
+          {user?.image ? (
             <Image
               className="rounded-full"
               src={user.image}
@@ -41,10 +41,9 @@ const UserProfileMobile = ({ user }: Props) => {
               height={96}
               onError={() => setImageError(true)}
             />
-          ) : user?.image && (
+          ) : imageError || !user?.image && (
             <Avatar name={user.name} size="100%" round={true} />
           )}
-          {user && !user?.image && <Avatar name={user.name} size="100%" round={true} />}
           {!user && <BsPersonCircle className="h-16 w-16 ss:h-24 ss:w-24" />}
         </div>
         {user && <div>

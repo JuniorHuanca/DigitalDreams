@@ -32,7 +32,7 @@ const UserProfile = ({ user }: Props) => {
       </div>
       <div className="flex gap-4 items-center">
         <div className="flex h-24 w-24 overflow-hidden text-8xl">
-          {user && user.image && !imageError ? (
+          {user?.image ? (
             <Image
               className="rounded-full"
               src={user.image}
@@ -41,10 +41,9 @@ const UserProfile = ({ user }: Props) => {
               height={96}
               onError={() => setImageError(true)}
             />
-          ) : user?.image && (
+          ) : imageError || !user?.image && (
             <Avatar name={user.name} size="100%" round={true} />
           )}
-          {user && !user?.image && <Avatar name={user.name} size="100%" round={true} />}
           {!user && <BsPersonCircle />}
         </div>
         {user && <div>

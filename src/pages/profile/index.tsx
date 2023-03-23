@@ -72,7 +72,7 @@ const Settings = (props: Props) => {
                     width={"200px"}
                     height={"200px"}
                     onError={() => setImageError(true)}
-                  /> : !user?.image && <Avatar name={user?.name} size="200" round={true} />}
+                  /> : imageError || !user?.image && <Avatar name={user?.name} size="200" round={true} />}
                   <div>
                     <p>Personaliza tu cuenta con una foto. La foto de perfil aparecerá en las aplicaciones y dispositivos que usan tu cuenta de Microsoft.</p>
                     <div className='flex'>
