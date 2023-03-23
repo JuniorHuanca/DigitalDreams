@@ -18,7 +18,7 @@ type Props = {
 
 const UserProfileMobile = ({ user }: Props) => {
   const theme: ITheme = useTheme();
-  const [imageError, setImageError] = useState<boolean>(false);
+  
   return (
     <div className="nav-item absolute right-0 ss:right-1 top-16 transition-all duration-1000 ease-in-out bg-slate-100 dark:bg-primary-500 p-3 ss:p-8 rounded-lg w-full ss:w-96 shadow-slate-700 shadow-sm dark:shadow-primary-800">
       <div className="flex justify-between gap-2 ss:gap-4">
@@ -38,10 +38,9 @@ const UserProfileMobile = ({ user }: Props) => {
               src={user.image}
               alt={user.name}
               width={96}
-              height={96}
-              onError={() => setImageError(true)}
+              height={96}              
             />
-          ) : imageError || !user?.image && (
+          ) : !user?.image && (
             <Avatar name={user && user.name} size="100%" round={true} />
           )}
           {!user && <BsPersonCircle className="h-16 w-16 ss:h-24 ss:w-24" />}

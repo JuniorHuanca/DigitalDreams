@@ -26,7 +26,7 @@ const Settings = (props: Props) => {
   const user = useSelector(selectOneUser);
   const dispatch = useAppDispatch();
   const ref = useRef<any>(null);
-  const [imageError, setImageError] = useState<boolean>(false);
+  
   const [seletUser, setSeletUser] = useState(null);
   useEffect(() => {
     dispatch(getOneUser(session?.user.email));
@@ -51,9 +51,8 @@ const Settings = (props: Props) => {
                     src={user?.image}
                     alt="user"
                     width={"200px"}
-                    height={"200px"}
-                    onError={() => setImageError(true)}
-                  /> : imageError || !user?.image && <Avatar name={user?.name} size="200" round={true} />}
+                    height={"200px"}                    
+                  /> : !user?.image && <Avatar name={user?.name} size="200" round={true} />}
                   <div>
                     <p>Personaliza tu cuenta con una foto. La foto de perfil aparecerá en las aplicaciones y dispositivos que usan tu cuenta de Microsoft.</p>
                     <div className='flex'>

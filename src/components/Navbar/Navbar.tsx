@@ -59,7 +59,7 @@ const Navbar = ({ user }: Props) => {
     const { theme, setTheme } = tailWindTheme()
     const [mounted, setMounted] = useState<boolean>(false);
     const [isMenuToggled, setIsMenuToggled] = useState<boolean>(false);
-    const [imageError, setImageError] = useState<boolean>(false);
+    
     const [anchorEl, setAnchorEl] = useState(null);
     const isOpen = Boolean(anchorEl);
     const handleClick = (event: any) => setAnchorEl(event.currentTarget);
@@ -121,9 +121,8 @@ const Navbar = ({ user }: Props) => {
                                     src={user?.image}
                                     alt="user"
                                     width={"32px"}
-                                    height={"32px"}
-                                    onError={() => setImageError(true)}
-                                /> : imageError || !user?.image && <Avatar name={user && user.name} size="40" round={true} />}
+                                    height={"32px"}                                    
+                                /> : !user?.image && <Avatar name={user && user.name} size="40" round={true} />}
                                 <p>
                                     <span className={`text-[${themeM.palette.secondary[100]}] text-14`}>Hi,</span>{' '}
                                     <span className={`text-[${themeM.palette.secondary[100]}] font-bold ml-1 text-14`}>
