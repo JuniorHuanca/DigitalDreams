@@ -1,4 +1,5 @@
 import prisma from '@/lib/prismadb';
+import { Role } from '@prisma/client';
 import axios from 'axios'
 import { hash } from 'bcryptjs'
 import type { NextApiRequest, NextApiResponse } from 'next'
@@ -17,6 +18,10 @@ export default async function handle(
             password,
             provider
         }: { username: string; email: string; password: string; provider: string } = req.body
+        // first user is administrator
+        let role: Role = 'User';
+        const users = await prisma.user.findMany()
+        if (!users.length) { role = 'Admin' }
         // check duplicate users
         const checkExist = await prisma.user.findUnique({
             where: {
@@ -34,7 +39,8 @@ export default async function handle(
                     email,
                     password: passwordhash,
                     image: "",
-                    provider: provider
+                    provider: provider,
+                    role
                 },
             })
             // await axios.post(`/api/emails/welcomeEmail`,

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getUserByApi, updateUserByApi } from "./userApi";
+import { getUserByApi, updateUserByApi, updateUserImageByApi } from "./userApi";
 import { EStateGeneric } from "@/shared/util/types";
 
 export const getOneUser = createAsyncThunk(
@@ -19,6 +19,18 @@ export const updateOneUser = createAsyncThunk(
     async (user: any, { rejectWithValue }) => {
         try {
             const response = await updateUserByApi(user)
+            return response.data
+        } catch (error: any) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+export const updateImageOneUser = createAsyncThunk(
+    'user/updateImageOneUser',
+    async (user: any, { rejectWithValue }) => {
+        try {
+            const response = await updateUserImageByApi(user)
             return response.data
         } catch (error: any) {
             return rejectWithValue(error.response.data)
