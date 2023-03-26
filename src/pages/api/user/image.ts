@@ -1,13 +1,20 @@
 import prisma from '@/lib/prismadb';
 import { NextApiRequest, NextApiResponse } from "next"
 import { v2 as cloudinary } from "cloudinary";
+import formidable from 'formidable-serverless';
 
-// const cloudinary = require('cloudinary').v2;
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
+
+export const config = {
+    api: {
+        bodyParser: false,
+    },
+};
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { method } = req
     const { user } = req.body
