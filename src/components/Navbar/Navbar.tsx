@@ -120,8 +120,8 @@ const Navbar = ({ user }: Props) => {
                                     className="rounded-full w-8 h-8"
                                     src={user?.image}
                                     alt="user"
-                                    width={"32px"}
-                                    height={"32px"}
+                                    width={32}
+                                    height={32}
                                     onError={() => setErrorImage(true)}
                                 /> : <Avatar name={user && user.name} size="40" round={true} />}
                                 <p>

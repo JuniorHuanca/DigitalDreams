@@ -70,15 +70,15 @@ const Settings = (props: Props) => {
                     className="rounded-full min-w-[200px] min-h-[200px]"
                     src={pathImage}
                     alt="user"
-                    width={"200px"}
-                    height={"200px"}
+                    width={200}
+                    height={200}
                     onError={() => setErrorImage(true)}
                   /> : (user?.image && !errorImage ? <Image
                     className="rounded-full w-[200px] h-[200px]"
                     src={user?.image}
                     alt="user"
-                    width={"200px"}
-                    height={"200px"}
+                    width={200}
+                    height={200}
                     onError={() => setErrorImage(true)}
                   /> : <Avatar name={user?.name} size="200" round={true} />)}
                   <div>
