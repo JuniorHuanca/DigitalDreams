@@ -1,9 +1,8 @@
 import Layout from "@/components/Layouts/Layout";
 import { useAppDispatch } from "@/state/store";
-import { getOneUser, selectOneUser, selectOneUserStatus, updateImageOneUser } from "@/state/users/user/userSlice";
+import { getOneUser, selectOneUser, updateImageOneUser } from "@/state/users/user/userSlice";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import Avatar from "react-avatar";
 import { useSelector } from "react-redux";
@@ -13,7 +12,6 @@ import Profile from "@/components/Modals/Profile";
 import { Toaster, toast } from "react-hot-toast";
 import Head from "next/head";
 import LoaderModal from "@/components/Loaders/LoaderModal";
-import { EStateGeneric } from "@/shared/util/types";
 interface ISession {
   data: any;
   status: string;
@@ -27,7 +25,6 @@ const Settings = (props: Props) => {
   const [seletUser, setSeletUser] = useState(null);
   const [errorImage, setErrorImage] = useState(false);
   const [pathImage, setPathImage] = useState<any>()
-  const router = useRouter()
   const { data: session, status }: ISession = useSession();
   const user = useSelector(selectOneUser);
   const dispatch = useAppDispatch();
@@ -38,9 +35,7 @@ const Settings = (props: Props) => {
   }
   useEffect(() => {
     (async () => {
-      if (router.isReady) {
-        await dispatch(getOneUser(session?.user.email));
-      }
+      await dispatch(getOneUser(session?.user.email));
     })()
   }, [session, dispatch])
   const handleImageProfile = async (e: any) => {
