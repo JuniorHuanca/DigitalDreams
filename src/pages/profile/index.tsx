@@ -42,7 +42,7 @@ const Settings = (props: Props) => {
         await dispatch(getOneUser(session?.user.email));
       }
     })()
-  }, [session])
+  }, [session, dispatch])
   const handleImageProfile = async (e: any) => {
     e.preventDefault();
     try {
