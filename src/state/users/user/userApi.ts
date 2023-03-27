@@ -10,9 +10,9 @@ export const updateUserByApi = (user: any) => axios.patch(`/api/user`,
 // )
 export const updateUserImageByApi = (user: any) => {
     const formData = new FormData();
-    formData.append('userImage', user.image); // userImage es la clave que identifica el archivo
-    formData.append('id', user.id); // Agrega el id del usuario al FormData
-    return axios.patch(`/api/user/image`, { user: formData }, {
+    formData.append('userImage', user.image);
+    formData.append('userId', user.id);
+    return axios.patch(`/api/user/image`, formData, {
         headers: {
             'Content-Type': 'multipart/form-data'
         }

@@ -13,6 +13,7 @@ import Profile from "@/components/Modals/Profile";
 import { Toaster, toast } from "react-hot-toast";
 import Head from "next/head";
 import LoaderModal from "@/components/Loaders/LoaderModal";
+import { EStateGeneric } from "@/shared/util/types";
 interface ISession {
   data: any;
   status: string;
@@ -22,26 +23,28 @@ type Props = {
 }
 
 const Settings = (props: Props) => {
+  const [fileImg, setFileImg] = useState(null);
+  const [seletUser, setSeletUser] = useState(null);
+  const [errorImage, setErrorImage] = useState(false);
+  const [pathImage, setPathImage] = useState<any>()
+  const router = useRouter()
   const { data: session, status }: ISession = useSession();
   const user = useSelector(selectOneUser);
   const dispatch = useAppDispatch();
   const ref = useRef<any>(null);
-  const [userUpdateImage, setUserUpdateImage] = useState({
+  const userUpdateImage = {
     id: user?.id,
-    image: user?.image,
-  })
-  const [seletUser, setSeletUser] = useState(null);
-  const [pathImage, setPathImage] = useState<any>()
+    image: fileImg,
+  }
   useEffect(() => {
-    dispatch(getOneUser(session?.user.email));
-    setUserUpdateImage({
-      id: user?.id,
-      image: user?.image,
-    })
+    (async () => {
+      if (router.isReady) {
+        await dispatch(getOneUser(session?.user.email));
+      }
+    })()
   }, [session])
-  // console.log(session)
-  // console.log(userUpdateImage)
-  const handleImageProfile = async () => {
+  const handleImageProfile = async (e: any) => {
+    e.preventDefault();
     try {
       const response: any = await dispatch(updateImageOneUser(userUpdateImage));
       if (response?.error) {
@@ -74,25 +77,24 @@ const Settings = (props: Props) => {
                     alt="user"
                     width={"200px"}
                     height={"200px"}
-                  /> : (user?.image ? <Image
+                    onError={() => setErrorImage(true)}
+                  /> : (user?.image && !errorImage ? <Image
                     className="rounded-full w-[200px] h-[200px]"
                     src={user?.image}
                     alt="user"
                     width={"200px"}
                     height={"200px"}
-                  /> : !user?.image && <Avatar name={user?.name} size="200" round={true} />)}
+                    onError={() => setErrorImage(true)}
+                  /> : <Avatar name={user?.name} size="200" round={true} />)}
                   <div>
-                    <p>Personaliza tu cuenta con una foto. La foto de perfil aparecerá en las aplicaciones y dispositivos que usan tu cuenta de Microsoft.</p>
-                    <div className='flex'>
+                    <p className="">Customize your account and make it your own! Add a profile picture that represents you and it will appear on your profile within our app. Don't worry, we won't share your data with anyone outside of our app! Your profile picture will only be displayed within our app!</p>
+                    <form className='flex' encType="multipart/form-data" onSubmit={(e) => handleImageProfile(e)}>
                       <input
                         ref={ref}
                         type="file"
                         className='hidden'
                         onChange={() => {
-                          setUserUpdateImage({
-                            ...userUpdateImage,
-                            image: ref.current?.files[0]
-                          })
+                          setFileImg(ref.current?.files[0])
                           const reader = new FileReader()
                           const file = ref.current?.files[0]
                           if (file) {  // Verifica si el archivo existe
@@ -106,10 +108,10 @@ const Settings = (props: Props) => {
                       <button className='text-xl font-semibold border border-slate-200 bg-slate-300 dark:bg-primary-600 dark:border-primary-400 hover:dark:bg-primary-400 hover:bg-slate-500 hover:bg-opacity-50 rounded-lg px-6 py-4' type="button" onClick={() => ref.current?.click()}>
                         Update image
                       </button>
-                      <button className='text-xl font-semibold border border-slate-200 bg-slate-300 dark:bg-primary-600 dark:border-primary-400 hover:dark:bg-primary-400 hover:bg-slate-500 hover:bg-opacity-50 rounded-lg px-6 py-4' type="button" onClick={() => handleImageProfile()}>
+                      {pathImage && <button className='text-xl font-semibold border border-slate-200 bg-slate-300 dark:bg-primary-600 dark:border-primary-400 hover:dark:bg-primary-400 hover:bg-slate-500 hover:bg-opacity-50 rounded-lg px-6 py-4' type="submit">
                         Submit
-                      </button>
-                    </div>
+                      </button>}
+                    </form>
                   </div>
                 </div>
                 <div className="w-full border-[1px] border-slate-200 dark:border-primary-400 my-4"></div>

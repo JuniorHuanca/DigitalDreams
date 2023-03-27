@@ -18,7 +18,7 @@ type Props = {
 
 const UserProfileMobile = ({ user }: Props) => {
   const theme: ITheme = useTheme();
-  
+  const [errorImage, setErrorImage] = useState(false);
   return (
     <div className="nav-item absolute right-0 ss:right-1 top-16 transition-all duration-1000 ease-in-out bg-slate-100 dark:bg-primary-500 p-3 ss:p-8 rounded-lg w-full ss:w-96 shadow-slate-700 shadow-sm dark:shadow-primary-800">
       <div className="flex justify-between gap-2 ss:gap-4">
@@ -32,18 +32,23 @@ const UserProfileMobile = ({ user }: Props) => {
       </div>
       <div className="flex gap-2 ss:gap-4 items-center">
         <div className="h-16 w-16 ss:h-24 ss:w-24">
-          {user && user?.image ? (
-            <Image
-              className="rounded-full"
-              src={user.image}
-              alt={user.name}
-              width={96}
-              height={96}              
-            />
-          ) : user && !user?.image && (
-            <Avatar name={user && user.name} size="100%" round={true} />
+          {user && (
+            user.image && !errorImage ? (
+              <Image
+                className="rounded-full"
+                src={user.image}
+                alt={user.name}
+                width={96}
+                height={96}
+                onError={() => setErrorImage(true)}
+              />
+            ) : (
+              <Avatar name={user.name} size="100%" round={true} />
+            )
           )}
-          {!user && <BsPersonCircle className="h-16 w-16 ss:h-24 ss:w-24" />}
+          {!user && (
+            <BsPersonCircle className="h-16 w-16 ss:h-24 ss:w-24" />
+          )}
         </div>
         {user && <div>
           <p className="font-semibold text-base ss:text-xl dark:text-gray-200"> {user?.name} </p>
