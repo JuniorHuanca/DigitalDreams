@@ -82,7 +82,7 @@ const Settings = (props: Props) => {
                     onError={() => setErrorImage(true)}
                   /> : <Avatar name={user?.name} size="200" round={true} />)}
                   <div>
-                    <p className="">Customize your account and make it your own! Add a profile picture that represents you and it will appear on your profile within our app. Don't worry, we won't share your data with anyone outside of our app! Your profile picture will only be displayed within our app!</p>
+                  <p className="">Customize your account and make it your own! Add a profile picture that represents you and it will appear on your profile within our app. Don&apos;t worry, we won&apos;t share your data with anyone outside of our app! Your profile picture will only be displayed within our app!</p>
                     <form className='flex' encType="multipart/form-data" onSubmit={(e) => handleImageProfile(e)}>
                       <input
                         ref={ref}
