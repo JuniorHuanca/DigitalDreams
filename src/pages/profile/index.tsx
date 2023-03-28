@@ -12,6 +12,7 @@ import Profile from "@/components/Modals/Profile";
 import { Toaster, toast } from "react-hot-toast";
 import Head from "next/head";
 import LoaderModal from "@/components/Loaders/LoaderModal";
+import useMediaQuery from "@/shared/util/useMediaQuery";
 interface ISession {
   data: any;
   status: string;
@@ -26,6 +27,7 @@ const Settings = (props: Props) => {
   const [errorImage, setErrorImage] = useState(false);
   const [pathImage, setPathImage] = useState<any>()
   const { data: session, status }: ISession = useSession();
+  const isAboveMediumScreens = useMediaQuery("(min-width: 768px)");
   const user = useSelector(selectOneUser);
   const dispatch = useAppDispatch();
   const ref = useRef<any>(null);
@@ -61,29 +63,29 @@ const Settings = (props: Props) => {
       </Head>
       <div>
         <LayoutProfile>
-          <div className="w-[80%] h-full">
-            <div className="flex flex-col items-center h-full">
-              <div className="flex flex-col w-full  h-full p-8 bg-slate-100 dark:bg-primary-500 rounded-lg">
-                <h1 className="text-4xl font-bold mb-4">My profile</h1>
-                <div className="flex items-center gap-4">
+          <div className="w-full h-full">
+            <div className="flex flex-col items-center">
+              <div className="flex flex-col w-full h-full py-4 p-2 sm:p-8 bg-slate-100 dark:bg-primary-500 rounded-lg">
+                <h1 className="text-xl sm:text-4xl font-bold mb-4">My profile</h1>
+                <div className="flex flex-col sm:flex-row items-center gap-4">
                   {pathImage ? <Image
-                    className="rounded-full min-w-[200px] min-h-[200px]"
+                    className="rounded-full min-w-[100px] min-h-[100px] sm:min-w-[200px] sm:min-h-[200px]"
                     src={pathImage}
                     alt="user"
-                    width={200}
-                    height={200}
+                    width={isAboveMediumScreens ? 200 : 125}
+                    height={isAboveMediumScreens ? 200 : 125}
                     onError={() => setErrorImage(true)}
                   /> : (user?.image && !errorImage ? <Image
-                    className="rounded-full w-[200px] h-[200px]"
+                    className="rounded-full min-w-[100px] min-h-[100px] sm:min-w-[200px] sm:min-h-[200px]"
                     src={user?.image}
                     alt="user"
-                    width={200}
-                    height={200}
+                    width={isAboveMediumScreens ? 200 : 125}
+                    height={isAboveMediumScreens ? 200 : 125}
                     onError={() => setErrorImage(true)}
-                  /> : <Avatar name={user?.name} size="200" round={true} />)}
+                  /> : <Avatar name={user?.name} size={isAboveMediumScreens ? "200" : "125"} round={true} />)}
                   <div>
                   <p className="">Customize your account and make it your own! Add a profile picture that represents you and it will appear on your profile within our app. Don&apos;t worry, we won&apos;t share your data with anyone outside of our app! Your profile picture will only be displayed within our app!</p>
-                    <form className='flex' encType="multipart/form-data" onSubmit={(e) => handleImageProfile(e)}>
+                    <form className='flex justify-center sm:justify-start' encType="multipart/form-data" onSubmit={(e) => handleImageProfile(e)}>
                       <input
                         ref={ref}
                         type="file"
@@ -100,35 +102,35 @@ const Settings = (props: Props) => {
                           }
                         }}
                       />
-                      <button className='text-xl font-semibold border border-slate-200 bg-slate-300 dark:bg-primary-600 dark:border-primary-400 hover:dark:bg-primary-400 hover:bg-slate-500 hover:bg-opacity-50 rounded-lg px-6 py-4 mt-4 ml-4' type="button" onClick={() => ref.current?.click()}>
+                      <button className='text-sm sm:text-xl font-semibold border border-slate-200 bg-slate-300 dark:bg-primary-600 dark:border-primary-400 hover:dark:bg-primary-400 hover:bg-slate-500 hover:bg-opacity-50 rounded-lg px-6 py-4 mt-4 ml-4' type="button" onClick={() => ref.current?.click()}>
                         Update image
                       </button>
-                      {pathImage && <button className='text-xl font-semibold border border-slate-200 bg-slate-300 dark:bg-primary-600 dark:border-primary-400 hover:dark:bg-primary-400 hover:bg-slate-500 hover:bg-opacity-50 rounded-lg px-6 py-4 mt-4 ml-4' type="submit">
+                      {pathImage && <button className='text-sm sm:text-xl font-semibold border border-slate-200 bg-slate-300 dark:bg-primary-600 dark:border-primary-400 hover:dark:bg-primary-400 hover:bg-slate-500 hover:bg-opacity-50 rounded-lg px-6 py-4 mt-4 ml-4' type="submit">
                         Submit
                       </button>}
                     </form>
                   </div>
                 </div>
                 <div className="w-full border-[1px] border-slate-200 dark:border-primary-400 my-4"></div>
-                <div className="flex flex-col gap-4 w-full">
-                  <h2 className="flex  gap-4 text-2xl font-bold">Account Information <button onClick={() => setSeletUser(user)}><FaPencilAlt /></button></h2>
-                  <div className="flex gap-4">
-                    <h3 className="w-2/4">Name:</h3>
-                    <div className="border-2 border-slate-200 dark:border-primary-400 py-2 px-4">
+                <div className="flex flex-col gap-4 w-full overflow-hidden">
+                  <h2 className="flex gap-4 font-bold text-lg sm:text-2xl">Account Information <button onClick={() => setSeletUser(user)}><FaPencilAlt /></button></h2>
+                  <div className="flex flex-col sm:flex-row gap-4 w-full">
+                    <h3 className="w-[30%]">Name:</h3>
+                    <p className="border-2 border-slate-200 dark:border-primary-400 py-2 px-4">
                       {user?.name}
-                    </div>
+                    </p>
                   </div>
-                  <div className="flex gap-4">
-                    <h3 className="w-2/4">Username:</h3>
-                    <div className="border-2 border-slate-200 dark:border-primary-400 py-2 px-4">
+                  <div className="flex flex-col sm:flex-row gap-4 w-full">
+                    <h3 className="w-[30%]">Username:</h3>
+                    <p className="border-2 border-slate-200 dark:border-primary-400 py-2 px-4">
                       {user?.username}
-                    </div>
+                    </p>
                   </div>
-                  <div className="flex gap-4">
-                    <h3 className="w-2/4">Email:</h3>
-                    <div className="border-2 border-slate-200 dark:border-primary-400 py-2 px-4">
+                  <div className="flex flex-col sm:flex-row gap-4 w-full">
+                    <h3 className="w-[30%]">Email:</h3>
+                    <p className="border-2 border-slate-200 dark:border-primary-400 py-2 px-4 overflow-hidden">
                       {user?.email}
-                    </div>
+                    </p>
                   </div>
                 </div>
                 {/* <div className="flex flex-col gap-4 w-full">

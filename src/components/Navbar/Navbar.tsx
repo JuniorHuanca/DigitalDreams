@@ -61,10 +61,6 @@ const Navbar = ({ user }: Props) => {
     const [mounted, setMounted] = useState<boolean>(false);
     const [isMenuToggled, setIsMenuToggled] = useState<boolean>(false);
     const [errorImage, setErrorImage] = useState(false);
-    const [anchorEl, setAnchorEl] = useState(null);
-    const isOpen = Boolean(anchorEl);
-    const handleClick = (event: any) => setAnchorEl(event.currentTarget);
-    const handleClose = () => setAnchorEl(null);
     const handleModal = async (value: string) => {
         dispatch(handleClickModal(value))
     }
