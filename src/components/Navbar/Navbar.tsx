@@ -46,6 +46,7 @@ import CartMobile from "../Modals/CartMobile";
 import ChatMobile from "../Modals/ChatMobile";
 import NotificationMobile from "../Modals/NotificationMobile";
 import UserProfileMobile from "../Modals/UserProfileMobile";
+import Head from "next/head";
 
 type Props = {
     user: any
@@ -81,6 +82,9 @@ const Navbar = ({ user }: Props) => {
             }}
             className="h-[10vh] px-4"
         >
+            <Head>
+                <link rel="icon" href="/github.png" />
+            </Head>
             {isAboveMediumScreens ? <Toolbar sx={{ justifyContent: "space-between" }}>
                 <FlexBetween>
                     <FlexBetween

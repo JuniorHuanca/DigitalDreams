@@ -61,9 +61,9 @@ const Settings = (props: Props) => {
       </Head>
       <div>
         <LayoutProfile>
-          <div>
-            <div className="flex flex-col items-center">
-              <div className="flex flex-col justify-center w-full p-8 bg-slate-100 dark:bg-primary-500 rounded-lg">
+          <div className="w-[80%] h-full">
+            <div className="flex flex-col items-center h-full">
+              <div className="flex flex-col w-full  h-full p-8 bg-slate-100 dark:bg-primary-500 rounded-lg">
                 <h1 className="text-4xl font-bold mb-4">My profile</h1>
                 <div className="flex items-center gap-4">
                   {pathImage ? <Image
@@ -100,10 +100,10 @@ const Settings = (props: Props) => {
                           }
                         }}
                       />
-                      <button className='text-xl font-semibold border border-slate-200 bg-slate-300 dark:bg-primary-600 dark:border-primary-400 hover:dark:bg-primary-400 hover:bg-slate-500 hover:bg-opacity-50 rounded-lg px-6 py-4' type="button" onClick={() => ref.current?.click()}>
+                      <button className='text-xl font-semibold border border-slate-200 bg-slate-300 dark:bg-primary-600 dark:border-primary-400 hover:dark:bg-primary-400 hover:bg-slate-500 hover:bg-opacity-50 rounded-lg px-6 py-4 mt-4 ml-4' type="button" onClick={() => ref.current?.click()}>
                         Update image
                       </button>
-                      {pathImage && <button className='text-xl font-semibold border border-slate-200 bg-slate-300 dark:bg-primary-600 dark:border-primary-400 hover:dark:bg-primary-400 hover:bg-slate-500 hover:bg-opacity-50 rounded-lg px-6 py-4' type="submit">
+                      {pathImage && <button className='text-xl font-semibold border border-slate-200 bg-slate-300 dark:bg-primary-600 dark:border-primary-400 hover:dark:bg-primary-400 hover:bg-slate-500 hover:bg-opacity-50 rounded-lg px-6 py-4 mt-4 ml-4' type="submit">
                         Submit
                       </button>}
                     </form>
@@ -131,7 +131,7 @@ const Settings = (props: Props) => {
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-col gap-4 w-full">
+                {/* <div className="flex flex-col gap-4 w-full">
                   <h2 className="text-2xl font-bold">Account Password</h2>
                   <div className="flex gap-4">
                     <h3 className="w-2/4">Password:</h3>
@@ -139,7 +139,7 @@ const Settings = (props: Props) => {
                       {user?.password}
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
             {seletUser && <Profile user={seletUser} setSeletUser={setSeletUser} />}
