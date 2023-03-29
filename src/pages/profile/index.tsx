@@ -63,9 +63,9 @@ const Settings = (props: Props) => {
       </Head>
       <div>
         <LayoutProfile>
-          <div className="w-full h-full">
-            <div className="flex flex-col items-center">
-              <div className="flex flex-col w-full h-full py-4 p-2 sm:p-8 bg-slate-100 dark:bg-primary-500 rounded-lg">
+          <div className="w-full sm:h-full">
+            <div className="flex flex-col items-center sm:h-full">
+              <div className="flex flex-col w-full sm:h-full py-4 p-2 sm:p-8 bg-slate-100 dark:bg-primary-500 rounded-lg">
                 <h1 className="text-xl sm:text-4xl font-bold mb-4">My profile</h1>
                 <div className="flex flex-col sm:flex-row items-center gap-4">
                   {pathImage ? <Image
@@ -84,7 +84,7 @@ const Settings = (props: Props) => {
                     onError={() => setErrorImage(true)}
                   /> : <Avatar name={user?.name} size={isAboveMediumScreens ? "200" : "125"} round={true} />)}
                   <div>
-                  <p className="">Customize your account and make it your own! Add a profile picture that represents you and it will appear on your profile within our app. Don&apos;t worry, we won&apos;t share your data with anyone outside of our app! Your profile picture will only be displayed within our app!</p>
+                  <p className="h-16 overflow-scroll hide-scrollbar">Customize your account and make it your own! Add a profile picture that represents you and it will appear on your profile within our app. Don&apos;t worry, we won&apos;t share your data with anyone outside of our app! Your profile picture will only be displayed within our app!</p>
                     <form className='flex justify-center sm:justify-start' encType="multipart/form-data" onSubmit={(e) => handleImageProfile(e)}>
                       <input
                         ref={ref}
