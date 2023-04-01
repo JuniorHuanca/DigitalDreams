@@ -1,5 +1,6 @@
 import React from 'react'
 import Sidebar from '../Profile/Sidebar'
+import { Toaster } from 'react-hot-toast';
 
 interface Props {
     children: React.ReactNode;
@@ -12,6 +13,10 @@ const LayoutProfile = ({ children }: Props) => {
                 <Sidebar />
                 {children}
             </div>
+            <Toaster
+                position="top-left"
+                reverseOrder={true}
+            />
         </>
     )
 }
