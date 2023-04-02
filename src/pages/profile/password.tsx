@@ -8,6 +8,8 @@ import { HiFingerPrint } from "react-icons/hi";
 import { handleBlurPassword } from "@/shared/util/validate";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { FaPencilAlt } from "react-icons/fa";
+import Image from "next/image";
+import PasswordPage from "@/components/General/PasswordPage";
 
 type Props = {}
 
@@ -185,7 +187,8 @@ const Password = (props: Props) => {
                                         <button type="submit" className="bg-primary-600 py-4 px-3 xs:px-8 rounded-lg hover:scale-110 transition-all">Submit</button>
                                         <button type="button" className="bg-red-600 py-4 px-3 xs:px-8 rounded-lg hover:scale-110 transition-all">Cancel</button>
                                     </div>
-                                </form> : <h2>images</h2>}
+                                </form> : <PasswordPage />
+                                }
                             </div>
                         </div>
                     </div>
