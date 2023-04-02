@@ -113,7 +113,7 @@ const Settings = (props: Props) => {
                 </div>
                 <div className="w-full border-[1px] border-slate-200 dark:border-primary-400 my-4"></div>
                 <div className="flex flex-col gap-4 w-full overflow-hidden">
-                  <h2 className="flex gap-4 font-bold text-lg sm:text-2xl">Account Information <button onClick={() => setSeletUser(user)}><FaPencilAlt /></button></h2>
+                  <h2 className="flex gap-4 font-bold text-lg sm:text-2xl">Account Information <button onClick={() => setSeletUser(user)} className="animate-bell-swing"><FaPencilAlt /></button></h2>
                   <div className="flex flex-col sm:flex-row gap-4 w-full">
                     <h3 className="w-[30%]">Name:</h3>
                     <p className="border-2 border-slate-200 dark:border-primary-400 py-2 px-4">

@@ -13,7 +13,7 @@ const NavButton = ({ title, customFunc, icon, color, dotColor, selected }: Props
             type="button"
             onClick={() => customFunc()}
             style={{ color }}
-            className={`${selected ? 'bg-slate-100 dark:bg-primary-500' : null} relative text-2xl rounded-full p-3`}
+            className={`${selected ? 'bg-slate-100 dark:bg-primary-500' : null} relative text-2xl rounded-full p-3 hover:animate-bounce`}
         >
             <span
                 style={{ background: dotColor }}

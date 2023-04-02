@@ -13,7 +13,7 @@ const Cart = () => {
   const theme: ITheme = useTheme();
 
   return (
-    <div className="bg-black/60 w-full fixed nav-item top-0 right-0 ">
+    <div className="bg-black/60 w-full fixed nav-item top-0 right-0 z-10">
       <div className="float-right h-screen transition-all duration-1000 ease-in-out dark:text-gray-200 bg-slate-100 dark:bg-primary-500 md:w-400 p-8">
         <div className="flex justify-between items-center">
           <p className="font-semibold text-lg">Shopping Cart</p>

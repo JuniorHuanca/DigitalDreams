@@ -8,6 +8,24 @@ module.exports = {
   ],
   theme: {
     extend: {
+      animation: {
+        'bell-swing': 'bell-swing 2s ease-in-out infinite',
+        'bell-swing-scale': 'bell-swing 2s ease-in-out infinite',
+      },
+      keyframes: {
+        'bell-swing': {
+          '0%, 100%': { transform: 'rotate(0deg)' },
+          '25%': { transform: 'rotate(10deg)' },
+          '50%': { transform: 'rotate(0deg)' },
+          '75%': { transform: 'rotate(-10deg)' },
+        },
+        'bell-swing-scale': {
+          '0%, 100%': { transform: 'rotate(0deg) scale(1)' },
+          '25%': { transform: 'rotate(10deg) scale(1.2)' },
+          '50%': { transform: 'rotate(0deg) scale(1)' },
+          '75%': { transform: 'rotate(-10deg) scale(1.2)' },
+        }
+      },
       colors: {
         grey: {
           0: "#ffffff", // manually adjusted

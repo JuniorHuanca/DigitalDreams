@@ -12,7 +12,7 @@ const ChatMobile = () => {
 
 
   return (
-    <div className="nav-item md:right-52 md:right-400 absolute right-0 ss:right-5 top-16 transition-all duration-1000 ease-in-out bg-slate-100 dark:bg-primary-500 p-3 ss:p-8 ss:rounded-lg w-full ss:w-96 shadow-slate-700 shadow-sm dark:shadow-primary-800 ss:max-h-[700px] ">
+    <div className="nav-item md:right-52 md:right-400 absolute right-0 ss:right-5 top-16 transition-all duration-1000 ease-in-out bg-slate-100 dark:bg-primary-500 p-3 ss:p-8 ss:rounded-lg w-full ss:w-96 shadow-slate-700 shadow-sm dark:shadow-primary-800 ss:max-h-[700px] z-10">
       <div className="flex justify-between items-center">
         <div className="flex gap-3">
           <p className="font-semibold text-lg dark:text-gray-200">Messages</p>
