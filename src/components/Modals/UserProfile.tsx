@@ -36,7 +36,7 @@ const UserProfile = ({ user }: Props) => {
             user.image && !errorImage ? (
               <Image
                 className="rounded-full"
-                src={user.images}
+                src={user.image}
                 alt={user.name}
                 fill
                 onError={() => setErrorImage(true)}
