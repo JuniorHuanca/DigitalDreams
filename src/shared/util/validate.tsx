@@ -139,7 +139,4 @@ export const handleBlurPassword = ({
       duration: 1500,
     })
   }
-  // else if (name === 'cpassword' && !value) {
-  //   toast.error('You must confirm the password.', { duration: 1500 })
-  // }
 }
