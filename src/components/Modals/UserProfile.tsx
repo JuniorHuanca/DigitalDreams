@@ -20,7 +20,7 @@ const UserProfile = ({ user }: Props) => {
   const theme: ITheme = useTheme();
   const [errorImage, setErrorImage] = useState(false);
   return (
-    <div className="nav-item absolute right-8 top-16 transition-all duration-1000 ease-in-out bg-slate-100 dark:bg-primary-500 p-8 rounded-lg w-96 shadow-slate-700 shadow-sm dark:shadow-primary-800 z-10">
+    <div className="nav-item absolute right-8 top-16 transition-all duration-1000 ease-in-out bg-slate-100 dark:bg-primary-500 p-8 rounded-lg w-96 shadow-slate-700 shadow-sm dark:shadow-primary-800 z-30">
       <div className="flex justify-between gap-4">
         <p className="font-semibold text-2xl">User Profile</p>
         <Button

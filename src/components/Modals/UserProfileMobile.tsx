@@ -20,7 +20,7 @@ const UserProfileMobile = ({ user }: Props) => {
   const theme: ITheme = useTheme();
   const [errorImage, setErrorImage] = useState(false);
   return (
-    <div className="nav-item absolute right-0 ss:right-1 top-16 transition-all duration-1000 ease-in-out bg-slate-100 dark:bg-primary-500 p-3 ss:p-8 rounded-lg w-full ss:w-96 shadow-slate-700 shadow-sm dark:shadow-primary-800 z-10">
+    <div className="nav-item absolute right-0 ss:right-1 top-16 transition-all duration-1000 ease-in-out bg-slate-100 dark:bg-primary-500 p-3 ss:p-8 rounded-lg w-full ss:w-96 shadow-slate-700 shadow-sm dark:shadow-primary-800 z-30">
       <div className="flex justify-between gap-2 ss:gap-4">
         <p className="font-semibold text-lg ss:text-2xl">User Profile</p>
         <Button

@@ -9,7 +9,7 @@ import Image from 'next/image';
 const NotificationMobile = () => {
   const theme: ITheme = useTheme();
   return (
-    <div className="nav-item md:right-400 absolute right-0 ss:right-5 top-16 transition-all duration-1000 ease-in-out bg-slate-100 dark:bg-primary-500 p-3 ss:p-8 ss:rounded-lg w-full ss:w-96 shadow-slate-700 shadow-sm dark:shadow-primary-800 ss:max-h-[700px] z-10">
+    <div className="nav-item md:right-400 absolute right-0 ss:right-5 top-16 transition-all duration-1000 ease-in-out bg-slate-100 dark:bg-primary-500 p-3 ss:p-8 ss:rounded-lg w-full ss:w-96 shadow-slate-700 shadow-sm dark:shadow-primary-800 ss:max-h-[700px] z-30">
       <div className="flex justify-between items-center h-[10%] ss:h-auto">
         <div className="flex gap-3">
           <p className="font-semibold text-lg ss:text-2xl">Notifications</p>

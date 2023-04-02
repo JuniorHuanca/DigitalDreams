@@ -12,7 +12,7 @@ const CartMobile = () => {
   const theme: ITheme = useTheme();
 
   return (
-    <div className="bg-black/60 w-full fixed nav-item top-0 right-0 z-10">
+    <div className="bg-black/60 w-full fixed nav-item top-0 right-0 z-30">
       <div className="float-right h-screen  duration-1000 ease-in-out dark:text-gray-200 transition-all bg-slate-100 dark:bg-primary-500 md:w-400       p-3 ss:p-8">
         <div className="flex justify-between items-center">
           <p className="font-semibold text-base ss:text-lg">Shopping Cart</p>
