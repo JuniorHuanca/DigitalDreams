@@ -30,28 +30,27 @@ const UserProfileMobile = ({ user }: Props) => {
           size="3xl"
           borderRadius="50%" bgColor={undefined} text={undefined} width={undefined} title='userProfile' />
       </div>
-      <div className="flex gap-2 ss:gap-4 items-center">
-        <div className="h-16 w-16 ss:h-24 ss:w-24">
+      <div className="flex gap-2 ss:gap-4 items-center w-full">
+        <div className="relative h-16 w-[30%] ss:h-24 ss:w-[30%] overflow-hidden">
           {user && (
             user.image && !errorImage ? (
               <Image
                 className="rounded-full"
                 src={user.image}
                 alt={user.name}
-                width={96}
-                height={96}
+                fill
                 onError={() => setErrorImage(true)}
               />
             ) : (
-              <Avatar name={user.name} size="100%" round={true} />
+              <Avatar name={user.name} size="90%" round={true} />
             )
           )}
           {!user && (
             <BsPersonCircle className="h-16 w-16 ss:h-24 ss:w-24" />
           )}
         </div>
-        {user && <div>
-          <p className="font-semibold text-base ss:text-xl dark:text-gray-200"> {user?.name} </p>
+        {user && <div className='w-[70%] overflow-hidden'>
+          <p className="font-semibold text-base ss:text-xl dark:text-gray-200">{user?.name}</p>
           <p className="text-gray-500 text-xs ss:text-sm dark:text-gray-400">  Email   </p>
           <p className="flex flex-wrap text-gray-500 text-xs ss:text-sm font-semibold dark:text-gray-400"> {user?.email} </p>
         </div>}

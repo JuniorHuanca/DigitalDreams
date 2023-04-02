@@ -30,27 +30,26 @@ const UserProfile = ({ user }: Props) => {
           size="3xl"
           borderRadius="50%" bgColor={undefined} text={undefined} width={undefined} title='userProfile' />
       </div>
-      <div className="flex gap-4 items-center">
-        <div className="flex h-24 w-24 overflow-hidden text-8xl">
+      <div className="flex gap-4 items-center w-full">
+        <div className="relative h-24 w-[30%] overflow-hidden text-8xl">
           {user && (
             user.image && !errorImage ? (
               <Image
                 className="rounded-full"
-                src={user.image}
+                src={user.images}
                 alt={user.name}
-                width={96}
-                height={96}
+                fill
                 onError={() => setErrorImage(true)}
               />
             ) : (
-              <Avatar name={user.name} size="100%" round={true} />
+              <Avatar name={user.name} size="90%" round={true} />
             )
           )}
           {!user && (
             <BsPersonCircle className="h-16 w-16 ss:h-24 ss:w-24" />
           )}
         </div>
-        {user && <div>
+        {user && <div className='w-[70%] overflow-hidden'>
           <p className="font-semibold text-xl dark:text-gray-200"> {user?.name} </p>
           <p className="text-gray-500 text-sm dark:text-gray-400">  Email   </p>
           <p className="text-gray-500 text-sm font-semibold dark:text-gray-400"> {user?.email} </p>
