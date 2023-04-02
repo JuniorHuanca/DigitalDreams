@@ -12,6 +12,7 @@ interface IState {
   userId: string,
   isClicked: any,
   openLogin: boolean,
+  loader: boolean,
 }
 
 const initialState = {
@@ -23,7 +24,8 @@ const initialState = {
     userProfile: false,
     notification: false,
   },
-  openLogin: true
+  openLogin: true,
+  loader: false,
 } as IState;
 
 const globalSlice = createSlice({
@@ -49,6 +51,9 @@ const globalSlice = createSlice({
     },
     setOpenLogin: (state, action) => {
       state.openLogin = action.payload
+    },
+    setLoader: (state) => {
+      state.loader = !state.loader
     }
   },
   extraReducers: (builder) => {
@@ -63,5 +68,7 @@ export const selectIsClicked = (state: { global: { isClicked: IIsClicked; }; }) 
 
 export const selectOpenLogin = (state: { global: { openLogin: boolean; }; }) => state.global.openLogin
 
+export const selectLoader = (state: { global: { loader: boolean; }; }) => state.global.loader
 
-export const { setMode, handleClickModal, cleanupModals, setOpenLogin } = globalSlice.actions;
+
+export const { setMode, handleClickModal, cleanupModals, setOpenLogin, setLoader } = globalSlice.actions;

@@ -13,6 +13,8 @@ import PasswordPage from "@/components/General/PasswordPage";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import { useSession } from "next-auth/react";
+import { setLoader } from "@/state/globalSlice";
+import { useAppDispatch } from "@/state/store";
 
 type Props = {}
 interface FormValues {
@@ -23,6 +25,7 @@ interface FormValues {
 }
 
 const Password = (props: Props) => {
+    const dispatch = useAppDispatch()
     const { data: session } = useSession();
     const [showForm, setShowForm] = useState(false)
     const [showCurrentPass, setShowCurrentPass] = useState(false)
@@ -69,13 +72,16 @@ const Password = (props: Props) => {
         onSubmit,
     });
     async function onSubmit(values: any, { resetForm }: any) {
+        dispatch(setLoader())
         try {
             const response = await axios.patch(`/api/user`, { user: { ...session?.user, ...values } })
             if (response.status === 201) {
+                dispatch(setLoader())
                 resetForm()
                 toast.success(response.data.msg, { duration: 5000 })
             }
         } catch (error: any) {
+            dispatch(setLoader())
             console.log(error)
             toast.error(error.response.data.msg, { duration: 8000 });
         }
