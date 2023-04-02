@@ -20,10 +20,14 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
                     let generador = ''
                     const characters =
                         '0123456789abcdfghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.?,;-_!*%&$/(){}|@><'
-                    for (let i = 0; i < 8; i++) {
-                        const aleatorio = Math.floor(Math.random() * characters.length)
-                        generador += characters.charAt(aleatorio)
-                    }
+                    do {
+                        generador = ''
+                        for (let i = 0; i < 10; i++) {
+                            const aleatorio = Math.floor(Math.random() * characters.length)
+                            generador += characters.charAt(aleatorio)
+                        }
+                    } while (generador.length < 8)
+
                     const newPass = `CQ21${generador}*`
                     const mail = await mailSend(email, newPass)
                     if (mail.success) {

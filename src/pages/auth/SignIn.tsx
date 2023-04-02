@@ -38,7 +38,7 @@ function SignIn({ session }: Props) {
             .email('Enter a valid email')
             .required('Email is required'),
         password: Yup.string()
-            .min(8, 'The password must be at least 6 characters')
+            .min(8, 'The password must be at least 8 characters')
             .required('Password is required')
             .matches(
                 /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,64})/,

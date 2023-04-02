@@ -2,8 +2,8 @@ import Layout from "@/components/Layouts/Layout"
 import LayoutProfile from "@/components/Layouts/LayoutProfile"
 import Head from "next/head"
 import * as Yup from 'yup';
-import { useState } from "react"
-import { useFormik } from "formik";
+import { FocusEvent, useState } from "react"
+import { FormikErrors, FormikProps, useFormik } from "formik";
 import { HiFingerPrint } from "react-icons/hi";
 import { handleBlurPassword } from "@/shared/util/validate";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
@@ -15,6 +15,12 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 
 type Props = {}
+interface FormValues {
+    currentPassword: string;
+    newPassword: string;
+    newPasswordConf: string;
+    change: string;
+}
 
 const Password = (props: Props) => {
     const { data: session } = useSession();
@@ -25,7 +31,7 @@ const Password = (props: Props) => {
 
     const validationSchema = Yup.object().shape({
         currentPassword: Yup.string()
-            .min(8, 'The password must be at least 6 characters')
+            .min(8, 'The password must be at least 8 characters')
             .required('Password is required')
             .matches(
                 /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,64})/,
@@ -37,7 +43,7 @@ const Password = (props: Props) => {
                 (value) => !!value && !value.includes(' ')
             ),
         newPassword: Yup.string()
-            .min(8, 'The password must be at least 6 characters')
+            .min(8, 'The password must be at least 8 characters')
             .required('Password is required')
             .matches(
                 /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,64})/,
@@ -52,7 +58,7 @@ const Password = (props: Props) => {
             .required('Confirm password is required')
             .oneOf([Yup.ref('newPassword'), ''], 'Passwords must match')
     })
-    const formik = useFormik({
+    const formik: FormikProps<FormValues> = useFormik<FormValues>({
         initialValues: {
             currentPassword: '',
             newPassword: '',
@@ -65,7 +71,6 @@ const Password = (props: Props) => {
     async function onSubmit(values: any, { resetForm }: any) {
         try {
             const response = await axios.patch(`/api/user`, { user: { ...session?.user, ...values } })
-            console.log(response)
             if (response.status === 201) {
                 resetForm()
                 toast.success(response.data.msg, { duration: 5000 })
@@ -75,10 +80,14 @@ const Password = (props: Props) => {
             toast.error(error.response.data.msg, { duration: 8000 });
         }
     }
-    const handleError = (e: any) => {
-        // if (formik.errors[e.target.name] || !e.target.value) {
-        //     toast.error(`${formik.errors[e.target.name] ? formik.errors[e.target.name] : fieldsOptions[e.target.name]} is required`, { duration: 5000 });
-        // }
+    const handleError = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const fieldName = e.target.name as keyof FormValues;
+        const fieldValue = e.target.value;
+        const formErrors = formik.errors as FormikErrors<FormValues>;
+        const fieldErrors = formErrors[fieldName];
+        if (fieldErrors || !fieldValue) {
+            toast.error(`${fieldErrors ? fieldErrors : fieldName} is required`, { duration: 5000 });
+        }
     }
     return (
         <Layout>
