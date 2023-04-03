@@ -74,21 +74,20 @@ enum Role {
 }
 
 model Transaction {
-    id              String         @id @default(cuid())
-    user            User?          @relation(fields: [userId], references: [id])
-    userId          String?
-    cost            String
-    products        Product[]
-    AffiliateStat   AffiliateStat? @relation(fields: [affiliateStatId], references: [id])
-    affiliateStatId Int?
-    createdAt       DateTime       @default(now())
-    updatedAt       DateTime       @updatedAt
+    id               String         @id @default(cuid())
+    user             User?          @relation(fields: [user_id], references: [id])
+    user_id          String?
+    cost             String
+    products         Product[]
+    AffiliateStat    AffiliateStat? @relation(fields: [affiliateStat_id], references: [id])
+    affiliateStat_id Int?
+    createdAt        DateTime       @default(now())
+    updatedAt        DateTime       @updatedAt
 }
 
 model Product {
     id             Int           @id @default(autoincrement())
-    transaction    Transaction?  @relation(fields: [transactionId], references: [id])
-    transactionId  String?
+    transactions   Transaction[]
     name           String
     image          String
     brand          Brand         @relation(fields: [brand_id], references: [id])
@@ -130,7 +129,7 @@ model OverallStat {
     year                 Int
     monthlyData          MonthlyData[]
     dailyData            DailyData[]
-    // salesByCategory      Json
+    salesByCategory      Json
     createdAt            DateTime      @default(now())
     updatedAt            DateTime      @updatedAt
 }
