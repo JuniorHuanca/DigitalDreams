@@ -88,6 +88,7 @@ model Transaction {
 model Product {
     id             Int           @id @default(autoincrement())
     transactions   Transaction[]
+    // transactions   Transaction[]
     name           String
     image          String
     brand          Brand         @relation(fields: [brand_id], references: [id])

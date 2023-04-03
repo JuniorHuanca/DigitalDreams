@@ -14,12 +14,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         id: id as string
                     },
                     include: {
-                        AffiliateStat: true
-                        // affiliateStat: true
+                        affiliateStat: true
                     }
                 });
 
-                // const affiliateSales = userWithStats?.AffiliateStat.affiliateSales;
+                // const affiliateSales = userWithStats?.affiliateStat.affiliateSales;
 
                 // const saleTransactions = await prisma.transaction.findMany({
                 //     where: {
