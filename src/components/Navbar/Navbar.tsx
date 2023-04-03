@@ -47,7 +47,7 @@ import ChatMobile from "../Modals/ChatMobile";
 import NotificationMobile from "../Modals/NotificationMobile";
 import UserProfileMobile from "../Modals/UserProfileMobile";
 import Head from "next/head";
-
+import Logo from '@/assets/img/Avatar.png'
 type Props = {
     user: any
 }
@@ -59,6 +59,7 @@ const Navbar = ({ user }: Props) => {
     const themeM: ITheme = useTheme();
     const { theme, setTheme } = tailWindTheme()
     const [mounted, setMounted] = useState<boolean>(false);
+    const [search, setSearch] = useState<string>('');
     const [isMenuToggled, setIsMenuToggled] = useState<boolean>(false);
     const [errorImage, setErrorImage] = useState(false);
     const handleModal = async (value: string) => {
@@ -82,18 +83,20 @@ const Navbar = ({ user }: Props) => {
                 <link rel="icon" href="/github.png" />
             </Head>
             {isAboveMediumScreens ? <Toolbar sx={{ justifyContent: "space-between" }}>
+                <FlexBetween
+                    backgroundColor={themeM.palette.background.alt}
+                    borderRadius="9px"
+                    gap="3rem"
+                    p="0.1rem 1.5rem"
+                >
+                    <InputBase placeholder="Search..." onChange={(e) => setSearch(e.target.value)} />
+                    <IconButton onClick={(e) => alert(search)}>
+                        <Search />
+                    </IconButton>
+                </FlexBetween>
                 <FlexBetween>
-                    <FlexBetween
-                        backgroundColor={themeM.palette.background.alt}
-                        borderRadius="9px"
-                        gap="3rem"
-                        p="0.1rem 1.5rem"
-                    >
-                        <InputBase placeholder="Search..." />
-                        <IconButton>
-                            <Search />
-                        </IconButton>
-                    </FlexBetween>
+                    <Link href="/" className="font-extrabold text-2xl mr-4">DIGITAL DREAMS</Link>
+                    <Image src={Logo} alt="" width={55} height={55} className="rounded-full"></Image>
                 </FlexBetween>
                 <div className="flex bg-">
                     <NavButton title="" customFunc={() => {
@@ -144,7 +147,10 @@ const Navbar = ({ user }: Props) => {
                 </div>
             </Toolbar> : (
                 <div className="flex justify-between p-3">
-                    <h2>Logo</h2>
+                    <FlexBetween>
+                        <Image src={Logo} alt="" width={40} height={55} className="rounded-full"></Image>
+                        <Link href="/" className="font-extrabold text-sm ml-1">DIGITAL DREAMS</Link>
+                    </FlexBetween>
                     <button
                         className="rounded-full bg-primary-500 dark:bg-secondary-200 p-2"
                         onClick={() => setIsMenuToggled(!isMenuToggled)}
@@ -175,6 +181,17 @@ const Navbar = ({ user }: Props) => {
 
                     {/* MENU ITEMS */}
                     <div className="flex w-3/4 flex-col gap-10 text-2xl">
+                        <FlexBetween
+                            backgroundColor={themeM.palette.primary[600] }
+                            borderRadius="9px"
+                            gap="3rem"
+                            p="0.1rem 1.5rem"
+                        >
+                            <InputBase placeholder="Search..." onChange={(e) => setSearch(e.target.value)} />
+                            <IconButton onClick={(e) => alert(search)}>
+                                <Search />
+                            </IconButton>
+                        </FlexBetween>
                         <div className={`${isClicked.cart ? selectModalColor : null} flex items-center cursor-pointer hover:scale-110 hover:bg-slate-300 hover:dark:bg-primary-600 rounded-lg`} onClick={() => {
                             handleModal('cart');
                             setIsMenuToggled(!isMenuToggled);
