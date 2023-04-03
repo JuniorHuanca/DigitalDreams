@@ -26,40 +26,6 @@ model Account {
     @@unique([provider, providerAccountId])
 }
 
-model User {
-    id            String        @id @default(cuid())
-    name          String?
-    email         String?       @unique
-    username      String?       @unique
-    emailVerified DateTime?
-    image         String?
-    password      String?
-    city          String?
-    state         String?
-    country       String?
-    occupation    String?
-    phoneNumber   String?
-    provider      String?
-    transactions  Transaction[]
-    role          Role          @default(User)
-    accounts      Account[]
-    sessions      Session[]
-}
-
-enum Role {
-    User
-    Admin
-    Manager
-}
-
-model Transaction {
-    id       String    @id @default(cuid())
-    user     User?     @relation(fields: [userId], references: [id])
-    userId   String?
-    cost     String
-    products Product[]
-}
-
 model Session {
     id           String   @id @default(cuid())
     sessionToken String   @unique
@@ -76,14 +42,170 @@ model VerificationToken {
     @@unique([identifier, token])
 }
 
+model User {
+    id            String          @id @default(cuid())
+    name          String?
+    email         String?         @unique
+    username      String?         @unique
+    emailVerified DateTime?
+    image         String?
+    password      String?
+    city          String?
+    state         String?
+    country       String?
+    occupation    String?
+    phoneNumber   String?
+    provider      String?
+    transactions  Transaction[]
+    role          Role            @default(User)
+    accounts      Account[]
+    sessions      Session[]
+    reviews       Review[]
+    favorites     Favorite[]
+    AffiliateStat AffiliateStat[]
+    createdAt     DateTime        @default(now())
+    updatedAt     DateTime        @updatedAt
+}
+
+enum Role {
+    User
+    Admin
+    Manager
+}
+
+model Transaction {
+    id              String         @id @default(cuid())
+    user            User?          @relation(fields: [userId], references: [id])
+    userId          String?
+    cost            String
+    products        Product[]
+    AffiliateStat   AffiliateStat? @relation(fields: [affiliateStatId], references: [id])
+    affiliateStatId Int?
+    createdAt       DateTime       @default(now())
+    updatedAt       DateTime       @updatedAt
+}
+
 model Product {
-    id            String       @id @default(cuid())
-    Transaction   Transaction? @relation(fields: [transactionId], references: [id])
-    transactionId String?
+    id             Int           @id @default(autoincrement())
+    transaction    Transaction?  @relation(fields: [transactionId], references: [id])
+    transactionId  String?
+    name           String
+    image          String
+    brand          Brand         @relation(fields: [brand_id], references: [id])
+    brand_id       Int
+    subcategory    Subcategory   @relation(fields: [subcategory_id], references: [id])
+    subcategory_id Int
+    price          Float
+    description    String
+    rating         Float?        @default(0)
+    stock          Int           @default(25)
+    soldCount      Int?
+    reviews        Review[]
+    favorites      Favorite[]
+    ProductStat    ProductStat[]
+    createdAt      DateTime      @default(now())
+    updatedAt      DateTime      @updatedAt
+}
+
+model Brand {
+    id       Int       @id @default(autoincrement())
+    name     String
+    products Product[]
+}
+
+model AffiliateStat {
+    id             Int           @id @default(autoincrement())
+    user           User          @relation(fields: [userId], references: [id])
+    userId         String
+    affiliateSales Transaction[]
+    createdAt      DateTime      @default(now())
+    updatedAt      DateTime      @updatedAt
+}
+
+model OverallStat {
+    id                   Int           @id @default(autoincrement())
+    totalCustomers       Int
+    yearlySalesTotal     Float
+    yearlyTotalSoldUnits Int
+    year                 Int
+    monthlyData          MonthlyData[]
+    dailyData            DailyData[]
+    // salesByCategory      Json
+    createdAt            DateTime      @default(now())
+    updatedAt            DateTime      @updatedAt
+}
+
+model ProductStat {
+    id                   Int           @id @default(autoincrement())
+    product              Product       @relation(fields: [product_id], references: [id])
+    product_id           Int
+    yearlySalesTotal     Float
+    yearlyTotalSoldUnits Int
+    year                 Int
+    monthlyData          MonthlyData[]
+    dailyData            DailyData[]
+    createdAt            DateTime      @default(now())
+    updatedAt            DateTime      @updatedAt
+}
+
+model MonthlyData {
+    id             Int          @id @default(autoincrement())
+    month          String
+    totalSales     Float
+    totalUnits     Int
+    productStat    ProductStat  @relation(fields: [productStat_id], references: [id])
+    productStat_id Int
+    OverallStat    OverallStat? @relation(fields: [overallStatId], references: [id])
+    overallStatId  Int?
+}
+
+model DailyData {
+    id             Int          @id @default(autoincrement())
+    date           String
+    totalSales     Float
+    totalUnits     Int
+    productStat    ProductStat  @relation(fields: [productStat_id], references: [id])
+    productStat_id Int
+    OverallStat    OverallStat? @relation(fields: [overallStatId], references: [id])
+    overallStatId  Int?
+}
+
+model Category {
+    id            Int           @id @default(autoincrement())
     name          String
-    price         Float?
-    description   String
-    category      String
-    rating        Float
-    supply        Int          @default(25)
+    subcategories Subcategory[]
+}
+
+model Subcategory {
+    id          Int       @id @default(autoincrement())
+    name        String
+    category    Category  @relation(fields: [category_id], references: [id])
+    category_id Int
+    products    Product[]
+}
+
+model Country {
+    id   Int    @id @default(autoincrement())
+    name String
+    flag String
+}
+
+model Review {
+    id          Int     @id @default(autoincrement())
+    product     Product @relation(fields: [product_id], references: [id])
+    product_id  Int
+    user        User    @relation(fields: [user_id], references: [id])
+    user_id     String
+    description String
+    rating      Float
+}
+
+model Favorite {
+    id         Int     @id @default(autoincrement())
+    user       User    @relation(fields: [user_id], references: [id])
+    user_id    String
+    product    Product @relation(fields: [product_id], references: [id])
+    product_id Int
+
+    @@unique([user_id, product_id])
 }
