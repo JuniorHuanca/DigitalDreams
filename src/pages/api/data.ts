@@ -56,7 +56,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     products: products.length,
                 })
             } catch (error) {
-                return res.status(400).json({ success: false })
+                return res.status(400).json({ success: false, error })
             }
         case 'POST':
             try {
@@ -83,7 +83,46 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     products,
                 })
             } catch (error) {
-                return res.status(400).json({ success: false })
+                return res.status(400).json({ success: false, error })
+            }
+        case 'DELETE':
+            try {
+                if (brandsQ) {
+                    const brands = await prisma.brand.deleteMany()
+                    return res.status(200).json(brands)
+                }
+                if (categoriesQ) {
+                    const categories = await prisma.category.deleteMany()
+                    return res.status(200).json(categories)
+                }
+                if (countriesQ) {
+                    const countries = await prisma.country.deleteMany()
+                    return res.status(200).json(countries)
+                }
+                if (subcategoriesQ) {
+                    const subcategories = await prisma.subcategory.deleteMany()
+                    return res.status(200).json(subcategories)
+                }
+                if (productsQ) {
+                    const products = await prisma.product.deleteMany()
+                    return res.status(200).json(products)
+                }
+                const brands = await prisma.brand.deleteMany()
+                const categories = await prisma.category.deleteMany()
+                const countries = await prisma.country.deleteMany()
+                const subcategories = await prisma.subcategory.deleteMany()
+                const products = await prisma.product.deleteMany()
+                return res.status(200).json({
+                    success: true,
+                    brands,
+                    categories,
+                    countries,
+                    subcategories,
+                    products,
+                })
+            }
+            catch (error) {
+                return res.status(400).json({ success: false, error })
             }
         default:
             res.status(400).json({ success: false })
