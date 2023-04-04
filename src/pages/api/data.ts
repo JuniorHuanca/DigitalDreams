@@ -60,28 +60,36 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             }
         case 'POST':
             try {
-                const brands = await prisma.brand.createMany({
-                    data: brandsData
-                })
-                const categories = await prisma.category.createMany({
-                    data: categoriesData
-                })
-                const countries = await prisma.country.createMany({
-                    data: countriesData
-                })
-                const subcategories = await prisma.subcategory.createMany({
-                    data: subcategoriesData
-                })
-                const products = await prisma.product.createMany({
-                    data: productsData
-                })
-                return res.status(200).json({
-                    brands,
-                    categories,
-                    countries,
-                    subcategories,
-                    products,
-                })
+                const brandsLength = await prisma.brand.findMany()
+                const categoriesLength = await prisma.category.findMany()
+                const countriesLength = await prisma.country.findMany()
+                const subcategoriesLength = await prisma.subcategory.findMany()
+                const productsLength = await prisma.product.findMany()
+                if (!brandsLength.length && !categoriesLength.length && !countriesLength.length && !subcategoriesLength.length && !productsLength.length) {
+                    const brands = await prisma.brand.createMany({
+                        data: brandsData
+                    })
+                    const categories = await prisma.category.createMany({
+                        data: categoriesData
+                    })
+                    const countries = await prisma.country.createMany({
+                        data: countriesData
+                    })
+                    const subcategories = await prisma.subcategory.createMany({
+                        data: subcategoriesData
+                    })
+                    const products = await prisma.product.createMany({
+                        data: productsData
+                    })
+                    return res.status(200).json({
+                        brands,
+                        categories,
+                        countries,
+                        subcategories,
+                        products,
+                    })
+                }
+                return res.status(400).json({ success: false, message: "the data exists" })
             } catch (error) {
                 return res.status(400).json({ success: false, error })
             }

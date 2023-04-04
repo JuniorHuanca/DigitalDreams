@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { signIn } from "next-auth/react"
 import Layout from '@/components/Layouts/Layout'
+import Products from '@/components/Products/Products'
 
 type Props = {}
 export default function Home(props: Props) {
@@ -15,8 +16,7 @@ export default function Home(props: Props) {
         <link rel="icon" href="/github.png" />
       </Head>
       <Layout>
-        <main className={""}>
-        </main>
+        <Products />
       </Layout>
     </>
   )
