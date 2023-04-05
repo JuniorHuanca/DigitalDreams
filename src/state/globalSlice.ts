@@ -16,7 +16,7 @@ interface IState {
 }
 
 const initialState = {
-  mode: "",
+  mode: "system",
   userId: "63701cc1f03239b7f700000e",
   isClicked: {
     chat: false,

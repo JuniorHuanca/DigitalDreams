@@ -1,7 +1,7 @@
 import { CssBaseline, PaletteMode, ThemeProvider } from '@mui/material';
 import { createTheme } from '@mui/material/styles'
 import { useSelector } from 'react-redux';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { themeSettings } from '@/theme';
 import { useTheme as tailWindTheme } from 'next-themes'
 import LoaderModal from '@/components/Loaders/LoaderModal';
@@ -18,13 +18,12 @@ export const Wrapper: React.FC<Props> = ({ children }) => {
     const loader = useSelector(selectLoader)
     const { theme, setTheme } = tailWindTheme()
     const mode = useSelector((state: RootState) => state.global.mode);
-    const themeMode = mode ? mode : modeInitial
+    const themeMode = mode ? (mode === 'system' ? modeInitial : mode) : modeInitial;
     const dispatch = useAppDispatch()
     const themeM = useMemo(() => createTheme(themeSettings(themeMode as PaletteMode)), [themeMode]);
     useEffect(() => {
-        dispatch(setModeInitial(themeMode))
         setTheme(mode)
-    }, [mode, theme, setTheme, themeMode, dispatch])
+    }, [mode, theme, setTheme, themeMode, dispatch, prefersDarkMode, modeInitial])
 
     return (
         <ThemeProvider theme={themeM}>
