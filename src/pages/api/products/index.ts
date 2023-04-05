@@ -8,7 +8,7 @@ import subcategoriesData from '@/shared/util/data/subcategories'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { method } = req
-    const { brandsQ, categoriesQ, countriesQ, subcategoriesQ, productsQ, } = req.query
+    const { recommended, brand } = req.query
     switch (method) {
         case 'GET':
             try {
@@ -16,6 +16,56 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 // const categories = await prisma.category.findMany()
                 // const countries = await prisma.country.findMany()
                 // const subcategories = await prisma.subcategory.findMany()
+                if (recommended) {
+                    const subcategories = await prisma.subcategory.findMany({
+                        orderBy: {
+                            name: 'desc'
+                        }
+                    });
+                    const products = await Promise.all(subcategories.map(async subcategory => {
+                        const product = await prisma.product.findFirst({
+                            where: {
+                                subcategory_id: subcategory?.id
+                            },
+                            include: {
+                                brand: true,
+                                subcategory: {
+                                    include: {
+                                        category: true
+                                    }
+                                }
+                            },
+                        });
+
+                        return product;
+                    }));
+                    return res.status(200).json({
+                        success: true,
+                        products: products,
+                    })
+                }
+                if (brand) {
+                    const findBrand = await prisma.brand.findFirst({
+                        where: {
+                            name: brand as string
+                        }
+                    })
+                    const products = await prisma.product.findMany({
+                        where: { brand_id: findBrand?.id },
+                        include: {
+                            brand: true,
+                            subcategory: {
+                                include: {
+                                    category: true
+                                }
+                            }
+                        },
+                    })
+                    return res.status(200).json({
+                        success: true,
+                        products: products,
+                    })
+                }
                 const products = await prisma.product.findMany({
                     take: 10,
                     // orderBy: {

@@ -207,3 +207,31 @@ export enum EStateGeneric {
     PENDING = "pending",
     FAILED = "failed",
 }
+
+export interface IProduct {
+    id: number;
+    name: string;
+    image: string;
+    brand_id: number;
+    subcategory_id: number;
+    price: number;
+    description: string;
+    rating: number;
+    stock: number;
+    soldCount: number;
+    createdAt: Date;
+    updatedAt: Date;
+    brand: {
+        id: number,
+        name: string
+    };
+    subcategory: {
+        id: number,
+        name: string,
+        category_id: number,
+        category: {
+            id: number,
+            name: string
+        }
+    }
+}

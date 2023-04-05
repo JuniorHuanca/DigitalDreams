@@ -1,28 +1,18 @@
+import { IProduct } from "@/shared/util/types";
 import Image from "next/image";
+import Link from "next/link";
 
 type Props = {
-    product: {
-        id: number;
-        name: string;
-        image: string;
-        brand_id: number;
-        subcategory_id: number;
-        price: number;
-        description: string;
-        rating: number;
-        stock: number;
-        soldCount: number;
-        createdAt: Date;
-        updatedAt: Date;
-    }
+    product: IProduct,
 }
 
 const Card = ({ product }: Props) => {
     return (
-        <div className="flex flex-col items-center w-[220px] bg-primary-700">
-
-            <div className="relative w-[90%] h-32"><Image src={product.image} alt={product.name} fill></Image></div>
-            <h2>{product.name}</h2>
+        <div className="flex flex-col items-center gap-5 p-2 w-[240px] h-[350px] dark:bg-primary-700 bg-slate-50">
+            <div className="relative w-full h-[69%]"><Image src={product.image} alt={product.name} fill></Image></div>
+            <Link href={`/products/brand?name=${product.brand.name}`} className="h-[8%] text-center font-semibold">{product.brand.name}</Link>
+            <p className="h-[15%] text-center">{product.name}</p>
+            <p className="h-[8%] text-center font-semibold text-lg">US $ {product.price}</p>
         </div>
     )
 }
