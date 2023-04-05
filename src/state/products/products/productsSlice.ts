@@ -38,7 +38,7 @@ export const getAllProductsBrand = createAsyncThunk(
         }
     }
 )
-interface IUserState {
+interface IProductsState {
     products: IProduct[],
     productsBrand: IProduct[],
     productsRecommended: IProduct[],
@@ -53,7 +53,7 @@ const initialState = {
     allProductsStatus: EStateGeneric.IDLE,
     allProductsStatusBrand: EStateGeneric.IDLE,
     allProductsStatusRecommended: EStateGeneric.IDLE,
-} as IUserState;
+} as IProductsState;
 
 const productsSlice = createSlice({
     name: "products",

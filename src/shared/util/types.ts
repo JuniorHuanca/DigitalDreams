@@ -215,7 +215,7 @@ export interface IProduct {
     brand_id: number;
     subcategory_id: number;
     price: number;
-    description: string;
+    description: [];
     rating: number;
     stock: number;
     soldCount: number;
