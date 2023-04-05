@@ -96,10 +96,7 @@ const Password = (props: Props) => {
         }
     }
     return (
-        <Layout>
-            <Head>
-                <title>Password</title>
-            </Head>
+        <Layout tittle={'Password'}>
             <div>
                 <LayoutProfile>
                     <div className="w-full h-full">

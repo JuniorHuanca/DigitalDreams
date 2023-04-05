@@ -57,10 +57,7 @@ const Settings = (props: Props) => {
     }
   }
   return (
-    <Layout>
-      <Head>
-        <title>Profile</title>
-      </Head>
+    <Layout tittle={'Profile'}>
       <div>
         <LayoutProfile>
           <div className="w-full sm:h-full">

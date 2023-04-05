@@ -1,4 +1,4 @@
-import { allProductsBrand, cleanUpProductsBrand, getAllProductsBrand, selectAllProductsBrandStatus } from "@/state/products/products/productsSlice"
+import { allProducts, cleanUpProducts, getAllProducts, selectAllProductsStatus } from "@/state/products/products/productsSlice"
 import { useAppDispatch } from "@/state/store"
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
@@ -10,28 +10,27 @@ import Layout from "@/components/Layouts/Layout"
 
 type Props = {}
 
-const Brand = (props: Props) => {
+const Products = (props: Props) => {
     const dispatch = useAppDispatch()
     const router = useRouter()
-    const productsStatus = useSelector(selectAllProductsBrandStatus)
-    const products = useSelector(allProductsBrand)
+    const productsStatus = useSelector(selectAllProductsStatus)
+    const products = useSelector(allProducts)
 
     useEffect(() => {
         (async () => {
             if (router.isReady) {
-                const { name } = router.query
                 if (productsStatus === EStateGeneric.IDLE) {
-                    await dispatch(getAllProductsBrand(name as string));
+                    await dispatch(getAllProducts());
                 }
             }
         })()
 
         return () => {
-            dispatch(cleanUpProductsBrand())
+            dispatch(cleanUpProducts())
         }
-    }, [router.query.name])
+    }, [])
     return (
-        <Layout tittle={router.query.name as string}>
+        <Layout tittle={'Products - Digital Dreams'}>
             <div className='w-full min-h-[90vh] flex flex-wrap justify-center gap-4'>
                 {products.length ? products.map((e, index) => <Card key={index} product={e} />) :
                     <div className='w-full h-[90vh] flex justify-center items-center'>
@@ -43,4 +42,4 @@ const Brand = (props: Props) => {
     )
 }
 
-export default Brand
+export default Products

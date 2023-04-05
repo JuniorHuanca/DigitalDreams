@@ -5,10 +5,7 @@ type Props = {}
 
 const Wishlist = (props: Props) => {
     return (
-        <Layout>
-            <Head>
-                <title>Wishlist</title>
-            </Head>
+        <Layout tittle={'Wishlist'}>
             <div>
                 <LayoutProfile>
                     <div className="w-full h-full">

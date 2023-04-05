@@ -19,7 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 if (recommended) {
                     const subcategories = await prisma.subcategory.findMany({
                         orderBy: {
-                            name: 'desc'
+                            name: 'asc'
                         }
                     });
                     const products = await Promise.all(subcategories.map(async subcategory => {
@@ -68,9 +68,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 }
                 const products = await prisma.product.findMany({
                     take: 10,
-                    // orderBy: {
-                    //     name: 'desc'
-                    // }
+                        include: {
+                            brand: true,
+                            subcategory: {
+                                include: {
+                                    category: true
+                                }
+                            }
+                        },
+                    orderBy: {
+                        name: 'asc'
+                    }
                 })
                 return res.status(200).json({
                     success: true,
