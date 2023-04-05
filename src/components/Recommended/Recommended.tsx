@@ -6,7 +6,7 @@ import Card from "../Card/Card"
 import { useRouter } from "next/router"
 import { EStateGeneric } from "@/shared/util/types"
 import Loader from "../Loaders/Loader"
-import { Navigation, FreeMode } from 'swiper';
+import { Navigation, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 type Props = {}
 
@@ -28,30 +28,30 @@ const Recommended = (props: Props) => {
         }
     }, [])
     return (
-        <div className='w-screen min-h-[90vh]'>
+        <div className='w-screen min-h-[90vh] flex justify-center'>
             <Swiper
-                modules={[FreeMode, Navigation]}
+                modules={[Autoplay, Navigation]}
                 // style={{
                 //     "--swiper-navigation-color": "#000",
                 //   }}
+                autoplay={{
+                    delay: 2500,
+                    disableOnInteraction: false,
+                }}
                 navigation
                 speed={800}
                 slidesPerView={5}
                 loop
                 spaceBetween={50}
             >
-                {products.length ? products.map((product, index) => (
+                {products.map((product, index) => (
                     <SwiperSlide key={index} ><Card product={product} /></SwiperSlide>
-                )) :
-                    <div className='w-screen'>
-                        <Loader />
-                    </div>}
+                ))}
             </Swiper>
-            {/* {products.length ? products.map((e, index) => <Card key={index} product={e} />) :
-                <div className='w-full h-[90vh] flex justify-center items-center'>
+            {products.length ? null :
+                <div className='w-screen'>
                     <Loader />
-                </div>
-            } */}
+                </div>}
         </div>
     )
 }
