@@ -44,8 +44,8 @@ const Detail = (props: Props) => {
                 if (Array.isArray(value)) {
                     return (
                         <ul>
-                            {value.map((data: string) => {
-                                return <li>{data}</li>;
+                            {value.map((data: string, index) => {
+                                return <li key={index}>{data}</li>;
                             })}
                         </ul>
                     );
