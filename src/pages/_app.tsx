@@ -28,7 +28,10 @@ import Layout from '@/components/Layouts/Layout';
 import Calendar from './dashboard/calendar';
 import { ThemeProvider } from 'next-themes'
 import store from '@/state/store';
-
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
 
 
 

@@ -28,20 +28,20 @@ const Recommended = (props: Props) => {
         }
     }, [])
     return (
-        <div className='w-full min-h-[90vh] flex flex-wrap justify-center gap-4'>
+        <div className='w-screen min-h-[90vh]'>
             <Swiper
                 modules={[Navigation, EffectFade]}
                 navigation
                 effect='cube'
                 speed={800}
-                slidesPerView={1}
+                slidesPerView={5}
                 loop
                 spaceBetween={50}
             >
                 {products.length ? products.map((product, index) => (
                     <SwiperSlide key={index} ><Card product={product} /></SwiperSlide>
                 )) :
-                    <div className='w-full h-[90vh] flex justify-center items-center'>
+                    <div className='w-screen'>
                         <Loader />
                     </div>}
             </Swiper>
