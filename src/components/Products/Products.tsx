@@ -22,14 +22,10 @@ const Products = (props: Props) => {
                 }
             }
         })()
-
         return () => {
             dispatch(cleanUpProductsRecommended())
         }
     }, [])
-    console.log(productsStatus)
-    console.log(products)
-    console.log(router)
     return (
         <div className='w-full min-h-[90vh] flex flex-wrap justify-center gap-4'>
             {products.length ? products.map((e, index) => <Card key={index} product={e} />) :

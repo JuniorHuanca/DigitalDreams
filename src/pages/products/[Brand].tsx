@@ -20,20 +20,16 @@ const Products = (props: Props) => {
         (async () => {
             if (router.isReady) {
                 const { name } = router.query
-                console.log(name)
                 if (productsStatus === EStateGeneric.IDLE) {
                     await dispatch(getAllProductsBrand(name as string));
                 }
             }
         })()
 
-        // return () => {
-        //     dispatch(cleanUpProductsBrand())
-        // }
-    }, [productsStatus])
-    console.log(productsStatus)
-    console.log(products)
-    console.log(router)
+        return () => {
+            dispatch(cleanUpProductsBrand())
+        }
+    }, [router.query.name])
     return (
         <Layout>
             <div className='w-full min-h-[90vh] flex flex-wrap justify-center gap-4'>
