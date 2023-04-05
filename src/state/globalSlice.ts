@@ -16,7 +16,7 @@ interface IState {
 }
 
 const initialState = {
-  mode: "dark",
+  mode: "",
   userId: "63701cc1f03239b7f700000e",
   isClicked: {
     chat: false,
@@ -32,6 +32,12 @@ const globalSlice = createSlice({
   name: "global",
   initialState,
   reducers: {
+    setModeInitial: (state, action) => {
+      return {
+        ...state,
+        mode: action.payload,
+      }
+    },
     setMode: (state) => {
       state.mode = state.mode === "light" ? "dark" : "light";
     },
@@ -71,4 +77,4 @@ export const selectOpenLogin = (state: { global: { openLogin: boolean; }; }) => 
 export const selectLoader = (state: { global: { loader: boolean; }; }) => state.global.loader
 
 
-export const { setMode, handleClickModal, cleanupModals, setOpenLogin, setLoader } = globalSlice.actions;
+export const { setModeInitial, setMode, handleClickModal, cleanupModals, setOpenLogin, setLoader } = globalSlice.actions;
