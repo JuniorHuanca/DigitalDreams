@@ -38,6 +38,10 @@ body,
   scrollbar-width: none;
 }
 
+/* :root {
+  --swiper-theme-color: #21295c !important;
+} */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

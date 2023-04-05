@@ -6,7 +6,7 @@ import Card from "../Card/Card"
 import { useRouter } from "next/router"
 import { EStateGeneric } from "@/shared/util/types"
 import Loader from "../Loaders/Loader"
-import { Navigation, EffectFade } from 'swiper';
+import { Navigation, FreeMode } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 type Props = {}
 
@@ -30,9 +30,11 @@ const Recommended = (props: Props) => {
     return (
         <div className='w-screen min-h-[90vh]'>
             <Swiper
-                modules={[Navigation, EffectFade]}
+                modules={[FreeMode, Navigation]}
+                // style={{
+                //     "--swiper-navigation-color": "#000",
+                //   }}
                 navigation
-                effect='cube'
                 speed={800}
                 slidesPerView={5}
                 loop
