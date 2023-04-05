@@ -4,18 +4,22 @@ import { useEffect } from "react"
 import { useSelector } from "react-redux"
 import Card from "../../components/Card/Card"
 import { useRouter } from "next/router"
-import { EStateGeneric, IProduct } from "@/shared/util/types"
+import { EStateGeneric, IProduct, ITheme } from "@/shared/util/types"
 import Loader from "../../components/Loaders/Loader"
 import Layout from "@/components/Layouts/Layout"
 import Link from "next/link"
 import Image from "next/image"
-import NotFound from '@/assets/404.gif'
-import NotFoundDark from '@/assets/404Dark.gif'
-import NotFoundDarkMobile from '@/assets/404MobileDark.gif'
+import NotFound from '@/assets/404Product.gif'
+import NotFoundMobile from '@/assets/404MobileProduct.gif'
+import NotFoundDark from '@/assets/404ProductDark.gif'
+import NotFoundDarkMobile from '@/assets/404MobileProductDark.gif'
 import useMediaQuery from "@/shared/util/useMediaQuery"
+import { useTheme } from "@mui/material"
 type Props = {}
 
 const Detail = (props: Props) => {
+    const theme: ITheme = useTheme();
+    const { mode } = theme.palette
     const isAboveMediumScreens = useMediaQuery("(min-width: 620px)");
     const dispatch = useAppDispatch()
     const router = useRouter()
@@ -64,7 +68,7 @@ const Detail = (props: Props) => {
     });
 
     return (
-        <Layout tittle={product.name}>
+        <Layout tittle={product.name || 'Error 404 Digital Dreams'}>
             <div className='w-full min-h-[90vh] flex flex-col items-center gap-4'>
                 {productStatus === EStateGeneric.PENDING && (
                     <div className='w-full h-[90vh] flex justify-center items-center'>
@@ -73,7 +77,8 @@ const Detail = (props: Props) => {
                 )}
                 {productStatus === EStateGeneric.FAILED && (
                     <div className='relative w-full h-[90vh] flex justify-center items-center'>
-                        <Image src={isAboveMediumScreens ? NotFoundDark : NotFoundDarkMobile} alt={product.name} fill />
+                        {mode === 'dark' && <Image src={isAboveMediumScreens ? NotFoundDark : NotFoundDarkMobile} alt='Error' fill />}
+                        {mode !== 'dark' && <Image src={isAboveMediumScreens ? NotFound : NotFoundMobile} alt='Error' fill />}
                     </div>
                 )}
                 {productStatus === EStateGeneric.SUCCEEDED && product.name && (
