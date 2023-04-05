@@ -8,7 +8,7 @@ import subcategoriesData from '@/shared/util/data/subcategories'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { method } = req
-    const { recommended, brand } = req.query
+    const { recommended, brand, mostSelling } = req.query
     switch (method) {
         case 'GET':
             try {
@@ -44,6 +44,28 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         products: products,
                     })
                 }
+                if (mostSelling) {
+                    const products = await prisma.product.findMany({
+                        take: 20,
+                        include: {
+                            brand: true,
+                            subcategory: {
+                                include: {
+                                    category: true
+                                }
+                            }
+                        },
+                        orderBy: {
+                            soldCount: 'desc'
+                        }
+                    });
+
+                    return res.status(200).json({
+                        success: true,
+                        products: products,
+                    });
+
+                }
                 if (brand) {
                     const findBrand = await prisma.brand.findFirst({
                         where: {
@@ -68,14 +90,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 }
                 const products = await prisma.product.findMany({
                     take: 10,
-                        include: {
-                            brand: true,
-                            subcategory: {
-                                include: {
-                                    category: true
-                                }
+                    include: {
+                        brand: true,
+                        subcategory: {
+                            include: {
+                                category: true
                             }
-                        },
+                        }
+                    },
                     orderBy: {
                         name: 'asc'
                     }

@@ -6,10 +6,11 @@ import Card from "../Card/Card"
 import { useRouter } from "next/router"
 import { EStateGeneric } from "@/shared/util/types"
 import Loader from "../Loaders/Loader"
-
+import { Navigation, EffectFade } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
 type Props = {}
 
-const Products = (props: Props) => {
+const Recommended = (props: Props) => {
     const dispatch = useAppDispatch()
     const router = useRouter()
     const productsStatus = useSelector(selectAllProductsRecommendedStatus)
@@ -28,13 +29,29 @@ const Products = (props: Props) => {
     }, [])
     return (
         <div className='w-full min-h-[90vh] flex flex-wrap justify-center gap-4'>
-            {products.length ? products.map((e, index) => <Card key={index} product={e} />) :
+            <Swiper
+                modules={[Navigation, EffectFade]}
+                navigation
+                effect='cube'
+                speed={800}
+                slidesPerView={1}
+                loop
+                spaceBetween={50}
+            >
+                {products.length ? products.map((product, index) => (
+                    <SwiperSlide key={index} ><Card product={product} /></SwiperSlide>
+                )) :
+                    <div className='w-full h-[90vh] flex justify-center items-center'>
+                        <Loader />
+                    </div>}
+            </Swiper>
+            {/* {products.length ? products.map((e, index) => <Card key={index} product={e} />) :
                 <div className='w-full h-[90vh] flex justify-center items-center'>
                     <Loader />
                 </div>
-            }
+            } */}
         </div>
     )
 }
 
-export default Products
+export default Recommended

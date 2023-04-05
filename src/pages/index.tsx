@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { signIn } from "next-auth/react"
 import Layout from '@/components/Layouts/Layout'
-import Products from '@/components/Products/Products'
+import Recommended from '@/components/Recommended/Recommended'
 
 type Props = {}
 export default function Home(props: Props) {
@@ -15,7 +15,7 @@ export default function Home(props: Props) {
         <link rel="icon" href="/github.png" />
       </Head>
       <Layout tittle={'Digital Dreams'}>
-        <Products />
+        <Recommended />
       </Layout>
     </>
   )
