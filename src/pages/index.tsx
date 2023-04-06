@@ -15,7 +15,9 @@ export default function Home(props: Props) {
         <link rel="icon" href="/github.png" />
       </Head>
       <Layout tittle={'Digital Dreams'}>
-        <Recommended />
+        <div className='w-screen min-h-[90vh] flex justify-center'>
+          <Recommended />
+        </div>
       </Layout>
     </>
   )

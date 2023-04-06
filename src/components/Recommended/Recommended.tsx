@@ -8,13 +8,35 @@ import { EStateGeneric } from "@/shared/util/types"
 import Loader from "../Loaders/Loader"
 import { Navigation, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import useMediaQuery from "@/shared/util/useMediaQuery"
 type Props = {}
+interface SwiperStyle extends React.CSSProperties {
+    "--swiper-navigation-color"?: string;
+}
 
 const Recommended = (props: Props) => {
     const dispatch = useAppDispatch()
     const router = useRouter()
     const productsStatus = useSelector(selectAllProductsRecommendedStatus)
     const products = useSelector(allProductsRecommended)
+    const isAboveMobileScreens = useMediaQuery("(min-width: 480px)");
+    const isAboveMediumScreens = useMediaQuery("(min-width: 768px)");
+    const isAboveLargeScreens = useMediaQuery("(min-width: 1060px)");
+    const isAboveXtraLargeScreens = useMediaQuery("(min-width: 1200px)");
+    function getSlidesPerView(isAboveMobileScreens: boolean, isAboveMediumScreens: boolean, isAboveLargeScreens: boolean, isAboveXtraLargeScreens: boolean): number {
+        if (isAboveXtraLargeScreens) {
+            return 5;
+        } else if (isAboveLargeScreens) {
+            return 4;
+        } else if (isAboveMediumScreens) {
+            return 3;
+        } else if (isAboveMobileScreens) {
+            return 2;
+        } else {
+            return 1;
+        }
+    }
+    const slidesPerView = getSlidesPerView(isAboveMobileScreens, isAboveMediumScreens, isAboveLargeScreens, isAboveXtraLargeScreens);
     useEffect(() => {
         (async () => {
             if (router.isReady) {
@@ -26,30 +48,36 @@ const Recommended = (props: Props) => {
         return () => {
             dispatch(cleanUpProductsRecommended())
         }
-    }, [])
+    }, [router.isReady])
     return (
-        <div className='w-screen min-h-[90vh] flex justify-center'>
-            <Swiper
-                modules={[Autoplay, Navigation]}
-                // style={{
-                //     "--swiper-navigation-color": "#000",
-                //   }}
-                autoplay={{
-                    delay: 2500,
-                    disableOnInteraction: false,
-                }}
-                navigation
-                speed={800}
-                slidesPerView={5}
-                loop
-                spaceBetween={50}
-            >
-                {products.map((product, index) => (
-                    <SwiperSlide key={index} ><Card product={product} /></SwiperSlide>
-                ))}
-            </Swiper>
-            {products.length ? null :
-                <div className='w-screen'>
+        <div className='w-screen min-h-[90vh]'>
+            {products.length ?
+                <div className='w-screen h-[50vh]'>
+                    <h2 className='text-xl font-semibold ml-2'>Products Recommended</h2>
+                    <Swiper
+                        modules={[Autoplay, Navigation]}
+                        style={{
+                            "--swiper-navigation-color": "#000",
+                        } as SwiperStyle}
+                        autoplay={{
+                            delay: 2500,
+                            disableOnInteraction: false,
+                        }}
+                        navigation
+                        speed={800}
+                        slidesPerView={slidesPerView}
+                        slidesPerGroup={slidesPerView}
+                        loop
+                        spaceBetween={50}
+                        centeredSlides={true}
+                    >
+                        {products.map((product, index) => (
+                            <SwiperSlide key={index} ><div className='flex justify-center w-full'><Card product={product} /></div></SwiperSlide>
+                        ))}
+                    </Swiper>
+                </div>
+                :
+                <div className='w-screen h-[100%] flex justify-center'>
                     <Loader />
                 </div>}
         </div>
