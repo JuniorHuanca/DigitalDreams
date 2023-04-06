@@ -23,13 +23,13 @@ const Recommended = (props: Props) => {
     const isAboveMediumScreens = useMediaQuery("(min-width: 768px)");
     const isAboveLargeScreens = useMediaQuery("(min-width: 1060px)");
     const isAboveXtraLargeScreens = useMediaQuery("(min-width: 1200px)");
-    const isAboveDobleXtraLargeScreens = useMediaQuery("(min-width: 1200px)");
+    const isAboveDobleXtraLargeScreens = useMediaQuery("(min-width: 1700px)");
     function getSlidesPerView(isAboveMobileScreens: boolean, isAboveMediumScreens: boolean, isAboveLargeScreens: boolean, isAboveXtraLargeScreens: boolean): number {
         if (isAboveDobleXtraLargeScreens) {
             return 6;
         } else if (isAboveXtraLargeScreens) {
             return 5;
-        } else if (isAboveLargeScreens) {
+        }  else if (isAboveLargeScreens) {
             return 4;
         } else if (isAboveMediumScreens) {
             return 3;
