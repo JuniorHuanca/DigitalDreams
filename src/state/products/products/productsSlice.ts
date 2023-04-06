@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { EStateGeneric, IProduct } from "@/shared/util/types";
-import { getProductsBrandByApi, getProductsByApi, getProductsRecommendedByApi } from "./productsApi";
+import { getProductsBrandByApi, getProductsBrandsByApi, getProductsByApi, getProductsRecommendedByApi } from "./productsApi";
 import { RootState } from "@/state/store";
 
 export const getAllProducts = createAsyncThunk(
@@ -27,6 +27,18 @@ export const getAllProductsRecommended = createAsyncThunk(
     }
 )
 
+export const getAllProductsBrands = createAsyncThunk(
+    'products/getAllProductsBrands',
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await getProductsBrandsByApi()
+            return response.data
+        } catch (error: any) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
 export const getAllProductsBrand = createAsyncThunk(
     'products/getAllProductsBrand',
     async (name: string, { rejectWithValue }) => {
@@ -41,17 +53,21 @@ export const getAllProductsBrand = createAsyncThunk(
 interface IProductsState {
     products: IProduct[],
     productsBrand: IProduct[],
+    productsBrands: IProduct[],
     productsRecommended: IProduct[],
     allProductsStatus: EStateGeneric,
     allProductsStatusBrand: EStateGeneric,
+    allProductsStatusBrands: EStateGeneric,
     allProductsStatusRecommended: EStateGeneric,
 }
 const initialState = {
     products: [],
     productsBrand: [],
+    productsBrands: [],
     productsRecommended: [],
     allProductsStatus: EStateGeneric.IDLE,
     allProductsStatusBrand: EStateGeneric.IDLE,
+    allProductsStatusBrands: EStateGeneric.IDLE,
     allProductsStatusRecommended: EStateGeneric.IDLE,
 } as IProductsState;
 
@@ -105,6 +121,17 @@ const productsSlice = createSlice({
             state.allProductsStatusRecommended = EStateGeneric.FAILED;
         })
 
+        builder.addCase(getAllProductsBrands.fulfilled, (state, action) => {
+            state.productsBrands = action.payload.products;
+            state.allProductsStatusBrands = EStateGeneric.SUCCEEDED;
+        })
+        builder.addCase(getAllProductsBrands.pending, (state, action) => {
+            state.allProductsStatusBrands = EStateGeneric.PENDING;
+        })
+        builder.addCase(getAllProductsBrands.rejected, (state, action) => {
+            state.allProductsStatusBrands = EStateGeneric.FAILED;
+        })
+
         builder.addCase(getAllProductsBrand.fulfilled, (state, action) => {
             state.productsBrand = action.payload.products;
             state.allProductsStatusBrand = EStateGeneric.SUCCEEDED;
@@ -123,6 +150,7 @@ export default productsSlice.reducer;
 export const allProducts = (store: RootState) => store.products.products
 export const allProductsRecommended = (store: RootState) => store.products.productsRecommended
 export const allProductsBrand = (store: RootState) => store.products.productsBrand
+export const allProductsBrands = (store: RootState) => store.products.productsBrands
 
 export const {
     cleanUpProductsRecommended,
@@ -133,3 +161,4 @@ export const {
 export const selectAllProductsStatus = (state: { products: { allProductsStatus: EStateGeneric; }; }) => state.products.allProductsStatus
 export const selectAllProductsRecommendedStatus = (state: { products: { allProductsStatusRecommended: EStateGeneric; }; }) => state.products.allProductsStatusRecommended
 export const selectAllProductsBrandStatus = (state: { products: { allProductsStatusBrand: EStateGeneric; }; }) => state.products.allProductsStatusBrand
+export const selectAllProductsBrandsStatus = (state: { products: { allProductsStatusBrands: EStateGeneric; }; }) => state.products.allProductsStatusBrands

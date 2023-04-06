@@ -23,8 +23,11 @@ const Recommended = (props: Props) => {
     const isAboveMediumScreens = useMediaQuery("(min-width: 768px)");
     const isAboveLargeScreens = useMediaQuery("(min-width: 1060px)");
     const isAboveXtraLargeScreens = useMediaQuery("(min-width: 1200px)");
+    const isAboveDobleXtraLargeScreens = useMediaQuery("(min-width: 1200px)");
     function getSlidesPerView(isAboveMobileScreens: boolean, isAboveMediumScreens: boolean, isAboveLargeScreens: boolean, isAboveXtraLargeScreens: boolean): number {
-        if (isAboveXtraLargeScreens) {
+        if (isAboveDobleXtraLargeScreens) {
+            return 6;
+        } else if (isAboveXtraLargeScreens) {
             return 5;
         } else if (isAboveLargeScreens) {
             return 4;
@@ -50,9 +53,9 @@ const Recommended = (props: Props) => {
         }
     }, [router.isReady])
     return (
-        <div className='w-screen min-h-[90vh]'>
+        <div className={`w-[99vw] ${products.length ? '' : 'h-[50vh]'}`}>
             {products.length ?
-                <div className='w-screen h-[50vh]'>
+                <div className='w-full'>
                     <h2 className='text-xl font-semibold ml-2'>Products Recommended</h2>
                     <Swiper
                         modules={[Autoplay, Navigation]}
@@ -77,7 +80,7 @@ const Recommended = (props: Props) => {
                     </Swiper>
                 </div>
                 :
-                <div className='w-screen h-[100%] flex justify-center'>
+                <div className='w-full h-[100%] flex justify-center'>
                     <Loader />
                 </div>}
         </div>
