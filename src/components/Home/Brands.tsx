@@ -2,7 +2,7 @@ import { allProductsBrands, getAllProductsBrands, selectAllProductsBrandsStatus 
 import { useAppDispatch } from "@/state/store"
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
-import Card from "../Card/Card"
+import CardBrand from "../Card/CardBrand"
 import { useRouter } from "next/router"
 import { EStateGeneric } from "@/shared/util/types"
 import Loader from "../Loaders/Loader"
@@ -31,7 +31,7 @@ const Brands = (props: Props) => {
             <h2 className='text-xl font-semibold ml-2'>All Brands</h2>
             {brands.length ?
                 <div className=" flex flex-wrap justify-center gap-4">
-                    {brands.map((brand, index) => <Card product={brand} key={index} />)}
+                    {brands.map((brand, index) => <CardBrand product={brand} key={index} />)}
                 </div>
                 :
                 <Loader />}

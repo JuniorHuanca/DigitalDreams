@@ -27,7 +27,8 @@ import Performance from './dashboard/performance'
 import Layout from '@/components/Layouts/Layout';
 import Calendar from './dashboard/calendar';
 import { ThemeProvider } from 'next-themes'
-import store from '@/state/store';
+import { persistor, store } from '@/state/store';
+import { PersistGate } from 'redux-persist/integration/react'
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -41,11 +42,13 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
   return (
     <SessionProvider session={session}>
       <Provider store={store}>
-        <ThemeProvider attribute='class'>
-          <Wrapper>
-            <Component {...pageProps} />
-          </Wrapper>
-        </ThemeProvider>
+        <PersistGate loading={null} persistor={persistor}>
+          <ThemeProvider attribute='class'>
+            <Wrapper>
+              <Component {...pageProps} />
+            </Wrapper>
+          </ThemeProvider>
+        </PersistGate>
       </Provider>
     </SessionProvider>
   );
