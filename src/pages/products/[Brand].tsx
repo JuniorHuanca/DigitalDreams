@@ -31,7 +31,7 @@ const Brand = (props: Props) => {
         }
     }, [router.query.name])
     return (
-        <Layout tittle={router.query.name as string}>
+        <Layout tittle={`${router.query.name as string} - Digital Dreams`}>
             <div className='w-full min-h-[90vh] flex flex-wrap justify-center gap-4'>
                 {products.length ? products.map((e, index) => <Card key={index} product={e} />) :
                     <div className='w-full h-[90vh] flex justify-center items-center'>

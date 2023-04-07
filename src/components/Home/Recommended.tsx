@@ -29,7 +29,7 @@ const Recommended = (props: Props) => {
             return 6;
         } else if (isAboveXtraLargeScreens) {
             return 5;
-        }  else if (isAboveLargeScreens) {
+        } else if (isAboveLargeScreens) {
             return 4;
         } else if (isAboveMediumScreens) {
             return 3;
@@ -56,7 +56,7 @@ const Recommended = (props: Props) => {
         <div className={`w-[99vw] ${products.length ? '' : 'h-[50vh]'}`}>
             {products.length ?
                 <div className='w-full'>
-                    <h2 className='text-xl font-semibold m-2'>The best products selected for you</h2>
+                    <h2 className='text-xl font-semibold m-4 capitalize '>The best products selected for you</h2>
                     <Swiper
                         modules={[Autoplay, Navigation]}
                         style={{
