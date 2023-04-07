@@ -25,10 +25,9 @@ const Brands = (props: Props) => {
             // dispatch(cleanUpProductsRecommended())
         }
     }, [router.isReady])
-    console.log(brands)
     return (
         <div className='w-full min-h-[90vh]'>
-            <h2 className='text-xl font-semibold ml-2'>All Brands</h2>
+            <h2 className='text-xl font-semibold m-2'>Discover the Brands that Work with Us</h2>
             {brands.length ?
                 <div className=" flex flex-wrap justify-center gap-4">
                     {brands.map((brand, index) => <CardBrand product={brand} key={index} />)}

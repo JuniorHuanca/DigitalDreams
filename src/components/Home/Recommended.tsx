@@ -56,14 +56,14 @@ const Recommended = (props: Props) => {
         <div className={`w-[99vw] ${products.length ? '' : 'h-[50vh]'}`}>
             {products.length ?
                 <div className='w-full'>
-                    <h2 className='text-xl font-semibold ml-2'>Products Recommended</h2>
+                    <h2 className='text-xl font-semibold m-2'>The best products selected for you</h2>
                     <Swiper
                         modules={[Autoplay, Navigation]}
                         style={{
                             "--swiper-navigation-color": "#000",
                         } as SwiperStyle}
                         autoplay={{
-                            delay: 2500,
+                            delay: 5000,
                             disableOnInteraction: false,
                         }}
                         navigation

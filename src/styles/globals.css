@@ -38,6 +38,10 @@ body,
   scrollbar-width: none;
 }
 
+.text-shadow {
+  text-shadow: #000000 1px 1px 5px;
+}
+
 /* :root {
   --swiper-theme-color: #21295c !important;
 } */
