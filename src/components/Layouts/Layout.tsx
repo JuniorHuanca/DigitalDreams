@@ -3,6 +3,7 @@ import Navbar from '../Navbar/Navbar';
 import { useSession } from 'next-auth/react'
 import Loader from '../Loaders/Loader';
 import Head from 'next/head';
+import Footer from '../Footer/Footer';
 interface ISession {
     data: any;
     status: string;
@@ -30,6 +31,7 @@ const Layout = ({ children, tittle }: Props) => {
                 // setIsSidebarOpen={setIsSidebarOpen}
                 />
                 {children}
+                <Footer />
             </Box>
         </Box>
     )

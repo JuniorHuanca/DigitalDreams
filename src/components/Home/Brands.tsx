@@ -29,16 +29,18 @@ const Brands = (props: Props) => {
         }
     }, [router.isReady])
     return (
-        <div className='w-full min-h-[20vh] h-[20vh] pb-4'>
+        <div className='w-full pb-4'>
             <h2 className='text-xl font-semibold m-4 capitalize '>Discover the Brands that Work with Us</h2>
-            {brands.length ?
+            {brandsStatus === EStateGeneric.SUCCEEDED &&
                 <div className=" flex flex-wrap justify-center gap-4">
                     {first.map((brand, index) => <CardBrand product={brand} key={index} />)}
                     {isOpen && second.map((brand, index) => <CardBrand product={brand} key={index} />)}
+                </div>}
+            {brandsStatus === EStateGeneric.PENDING && (
+                <div className='w-full h-[20vh] flex justify-center items-center'>
+                    <Loader />
                 </div>
-                :
-                <Loader />}
-                {/* <Loader /> */}
+            )}
             <div className="w-full flex justify-center py-4">
                 {isOpen && (
                     <button className="w-[10%] dark:border-white border-black border-2  p-2 hover:scale-110 transition-all" onClick={() => setIsOpen(false)}>See Less</button>

@@ -69,20 +69,20 @@ const Detail = (props: Props) => {
     });
     return (
         <Layout tittle={`${product.name} - Digital Dreams` || 'Error 404 Digital Dreams'}>
-            <div className='w-full min-h-[90vh] flex flex-col items-center gap-4'>
+            <div className='w-full min-h-[80vh] flex flex-col items-center gap-4'>
                 {productStatus === EStateGeneric.PENDING && (
-                    <div className='w-full h-[90vh] flex justify-center items-center'>
+                    <div className='w-full h-[80vh] flex justify-center items-center'>
                         <Loader />
                     </div>
                 )}
                 {productStatus === EStateGeneric.FAILED && (
-                    <div className='relative w-full h-[90vh] flex justify-center items-center'>
+                    <div className='relative w-full h-[80vh] flex justify-center items-center'>
                         {mode === 'dark' && <Image src={isAboveSmallScreens ? NotFoundDark : NotFoundDarkMobile} alt='Error' fill priority={true} />}
                         {mode !== 'dark' && <Image src={isAboveSmallScreens ? NotFound : NotFoundMobile} alt='Error' fill priority={true} />}
                     </div>
                 )}
                 {productStatus === EStateGeneric.SUCCEEDED && product.name && (
-                    <div className='w-full sm:min-h-[90vh] flex flex-col sm:flex-row sm:items-start items-center gap-2 py-4 flex-wrap'>
+                    <div className='w-full sm:min-h-[80vh] flex flex-col sm:flex-row sm:items-start items-center gap-2 py-4 flex-wrap'>
                         <div className='w-full sm:w-[70%] px-2 sm:h-full flex flex-col items-center gap-2'>
                             <Link href={`/products/brand?name=${product.brand.name}`} className='text-3xl font-semibold my-2 md:m-4 uppercase underline underline-offset-8'>{product.brand.name}</Link>
                             <div className='relative w-full sm:w-[450px] h-[250px] xs:h-[350px] md:h-[450px]'>

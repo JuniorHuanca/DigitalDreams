@@ -32,12 +32,12 @@ const Brand = (props: Props) => {
     }, [router.query.name])
     return (
         <Layout tittle={`${router.query.name as string} - Digital Dreams`}>
-            <div className='w-full min-h-[90vh] flex flex-wrap justify-center gap-4'>
-                {products.length ? products.map((e, index) => <Card key={index} product={e} />) :
-                    <div className='w-full h-[90vh] flex justify-center items-center'>
-                        <Loader />
-                    </div>
+            <div className='w-full min-h-[80vh] flex flex-wrap justify-center gap-4'>
+                {productsStatus === EStateGeneric.SUCCEEDED && products.map((e, index) => <Card key={index} product={e} />)
                 }
+                {productsStatus === EStateGeneric.PENDING && <div className='w-full h-[80vh] flex justify-center items-center'>
+                    <Loader />
+                </div>}
             </div>
         </Layout>
     )
