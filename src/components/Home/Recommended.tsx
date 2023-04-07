@@ -53,36 +53,34 @@ const Recommended = (props: Props) => {
         }
     }, [router.isReady])
     return (
-        <div className={`w-[99vw] ${products.length ? '' : 'h-[50vh]'}`}>
-            {products.length ?
-                <div className='w-full'>
-                    <h2 className='text-xl font-semibold m-4 capitalize '>The best products selected for you</h2>
-                    <Swiper
-                        modules={[Autoplay, Navigation]}
-                        style={{
-                            "--swiper-navigation-color": "#000",
-                        } as SwiperStyle}
-                        autoplay={{
-                            delay: 5000,
-                            disableOnInteraction: false,
-                        }}
-                        navigation
-                        speed={800}
-                        slidesPerView={slidesPerView}
-                        slidesPerGroup={slidesPerView}
-                        loop
-                        spaceBetween={50}
-                        centeredSlides={true}
-                    >
-                        {products.map((product, index) => (
-                            <SwiperSlide key={index} ><div className='flex justify-center w-full'><Card product={product} /></div></SwiperSlide>
-                        ))}
-                    </Swiper>
-                </div>
-                :
-                <div className='w-full h-[100%] flex justify-center'>
-                    <Loader />
-                </div>}
+        <div className={`w-[99vw] ${products.length ? '' : 'h-[50vh]'} mb-4`}>
+            {productsStatus === EStateGeneric.SUCCEEDED && <div className='w-full'>
+                <h2 className='text-xl font-semibold m-4 capitalize '>The best products selected for you</h2>
+                <Swiper
+                    modules={[Autoplay, Navigation]}
+                    style={{
+                        "--swiper-navigation-color": "#000",
+                    } as SwiperStyle}
+                    autoplay={{
+                        delay: 5000,
+                        disableOnInteraction: false,
+                    }}
+                    navigation
+                    speed={800}
+                    slidesPerView={slidesPerView}
+                    slidesPerGroup={slidesPerView}
+                    loop
+                    spaceBetween={50}
+                    centeredSlides={true}
+                >
+                    {products.map((product, index) => (
+                        <SwiperSlide key={index} ><div className='flex justify-center w-full'><Card product={product} /></div></SwiperSlide>
+                    ))}
+                </Swiper>
+            </div>}
+            {productsStatus === EStateGeneric.PENDING && <div className='w-full h-[100%] flex justify-center'>
+                <Loader />
+            </div>}
         </div>
     )
 }
