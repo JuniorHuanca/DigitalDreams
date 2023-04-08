@@ -38,7 +38,7 @@ const Detail = (props: Props) => {
         })()
 
         return () => {
-            // dispatch(cleanUpProduct())
+            dispatch(cleanUpProduct())
         }
     }, [router.query.id])
     const description = product?.description?.map((ele: Record<string, any>) => {
@@ -61,7 +61,7 @@ const Detail = (props: Props) => {
                 if (value.startsWith("https://")) {
                     return <Link href={value}>{value}</Link>;
                 } else {
-                    return <h2 className="italic font-semibold text-base">{value}</h2>;
+                    return <p className="italic text-base">{value}</p>;
                 }
             default:
                 return <br />;
@@ -149,7 +149,7 @@ const Detail = (props: Props) => {
                                             <Rating value={product.rating} precision={0.1} size="large" />
                                             Excelent
                                         </p>
-                                        <textarea className="h-[125px] bg-primary-500 rounded-lg" placeholder="Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam eum eaque, adipisci, minima eveniet debitis distinctio nemo perferendis delectus ipsam eius, facere ex hic veritatis corrupti accusamus praesentium nulla. Saepe?"></textarea>
+                                        <textarea className="h-[125px] bg-white dark:bg-primary-500 rounded-lg" placeholder="Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam eum eaque, adipisci, minima eveniet debitis distinctio nemo perferendis delectus ipsam eius, facere ex hic veritatis corrupti accusamus praesentium nulla. Saepe?"></textarea>
                                         <button
                                             type="submit"
                                             className='w-40 p-4 border-2 dark:border-white border-black hover:dark:bg-primary-800 hover:bg-slate-300'
