@@ -8,7 +8,7 @@ import subcategoriesData from '@/shared/util/data/subcategories'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { method } = req
-    const { recommended, brand, mostSelling, brands } = req.query
+    const { recommended, brand, mostSelling, brands, related } = req.query
     switch (method) {
         case 'GET':
             try {
@@ -113,6 +113,36 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     }));
                     return res.status(200).json({
                         success: true,
+                        products: products,
+                    })
+                }
+                if (related) {
+                    const products = await prisma.product.findMany({
+                        where: {
+                            OR: [
+                                { name: { contains: related as string } },
+                                { subcategory: { name: { contains: related as string } } },
+                                { subcategory: { category: { name: { contains: related as string } } } },
+                            ]
+                        },
+                        take: 10,
+                        include: {
+                            brand: true,
+                            subcategory: {
+                                include: {
+                                    category: true
+                                }
+                            }
+                        },
+                        orderBy: {
+                            soldCount: 'desc',
+                        }
+                    })
+                    return products.length ? res.status(200).json({
+                        success: true,
+                        products: products,
+                    }) : res.status(400).json({
+                        success: false,
                         products: products,
                     })
                 }

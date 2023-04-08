@@ -26,7 +26,7 @@ body,
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #7a7f9d;
+  background: #4d547d;
 }
 
 /* Handle */
@@ -36,7 +36,28 @@ body,
 
 /* Handle on Hover */
 ::-webkit-scrollbar-track:hover {
-  background: #21295c;
+  background: #141937;
+}
+
+/* Track */
+.description::-webkit-scrollbar-track {
+  background: #f0f0f0;
+}
+
+/* Handle */
+.description::-webkit-scrollbar-thumb {
+  background: #a3a3a3;
+}
+
+/* Handle on Hover */
+.description::-webkit-scrollbar-track:hover {
+  background: #c2c2c2;
+}
+
+@media (max-width: 768px) {
+  .description::-webkit-scrollbar {
+    width: 3px;
+  }
 }
 
 .hide-scrollbar::-webkit-scrollbar {

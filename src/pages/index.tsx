@@ -11,7 +11,7 @@ export default function Home(props: Props) {
 
   return (
     <Layout tittle={'Digital Dreams'}>
-      <div className='w-full min-h-[90vh] flex flex-col hide-scrollbar'>
+      <div className='w-full min-h-[90vh] flex flex-col'>
         <MostSelling />
         <Brands />
         <Recommended />

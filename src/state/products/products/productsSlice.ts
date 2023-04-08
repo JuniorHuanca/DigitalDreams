@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { EStateGeneric, IProduct } from "@/shared/util/types";
-import { getProductsBrandByApi, getProductsBrandsByApi, getProductsByApi, getProductsRecommendedByApi, getProductsMostSellingByApi } from "./productsApi";
+import { getProductsBrandByApi, getProductsBrandsByApi, getProductsByApi, getProductsRecommendedByApi, getProductsMostSellingByApi, getProductsRelatedByApi } from "./productsApi";
 import { RootState } from "@/state/store";
 
 export const getAllProducts = createAsyncThunk(
@@ -62,17 +62,31 @@ export const getAllProductsBrand = createAsyncThunk(
         }
     }
 )
+
+export const getAllProductsRelated = createAsyncThunk(
+    'products/getAllProductsRelated',
+    async (name: string, { rejectWithValue }) => {
+        try {
+            const response = await getProductsRelatedByApi(name)
+            return response.data
+        } catch (error: any) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
 interface IProductsState {
     products: IProduct[],
     productsBrand: IProduct[],
     productsBrands: IProduct[],
     productsMostSelling: IProduct[],
     productsRecommended: IProduct[],
+    productsRelateds: IProduct[],
     allProductsStatus: EStateGeneric,
     allProductsStatusBrand: EStateGeneric,
     allProductsStatusBrands: EStateGeneric,
     allProductsStatusMostSelling: EStateGeneric,
     allProductsStatusRecommended: EStateGeneric,
+    allProductsStatusRelateds: EStateGeneric,
 }
 const initialState = {
     products: [],
@@ -80,11 +94,13 @@ const initialState = {
     productsBrands: [],
     productsMostSelling: [],
     productsRecommended: [],
+    productsRelateds: [],
     allProductsStatus: EStateGeneric.IDLE,
     allProductsStatusBrand: EStateGeneric.IDLE,
     allProductsStatusBrands: EStateGeneric.IDLE,
     allProductsStatusMostSelling: EStateGeneric.IDLE,
     allProductsStatusRecommended: EStateGeneric.IDLE,
+    allProductsStatusRelateds: EStateGeneric.IDLE,
 } as IProductsState;
 
 const productsSlice = createSlice({
@@ -117,6 +133,13 @@ const productsSlice = createSlice({
                 ...state,
                 productsMostSelling: [],
                 allProductsStatusMostSelling: EStateGeneric.IDLE
+            }
+        },
+        cleanUpProductsRelated: (state) => {
+            return {
+                ...state,
+                productsRelated: [],
+                allProductsStatusRelated: EStateGeneric.IDLE
             }
         },
     },
@@ -176,6 +199,17 @@ const productsSlice = createSlice({
         builder.addCase(getAllProductsBrand.rejected, (state, action) => {
             state.allProductsStatusBrand = EStateGeneric.FAILED;
         })
+
+        builder.addCase(getAllProductsRelated.fulfilled, (state, action) => {
+            state.productsRelateds = action.payload.products;
+            state.allProductsStatusRelateds = EStateGeneric.SUCCEEDED;
+        })
+        builder.addCase(getAllProductsRelated.pending, (state, action) => {
+            state.allProductsStatusRelateds = EStateGeneric.PENDING;
+        })
+        builder.addCase(getAllProductsRelated.rejected, (state, action) => {
+            state.allProductsStatusRelateds = EStateGeneric.FAILED;
+        })
     },
 });
 
@@ -186,12 +220,14 @@ export const allProductsRecommended = (store: RootState) => store.products.produ
 export const allProductsBrand = (store: RootState) => store.products.productsBrand
 export const allProductsBrands = (store: RootState) => store.products.productsBrands
 export const allProductsMostSelling = (store: RootState) => store.products.productsMostSelling
+export const allProductsRelateds = (store: RootState) => store.products.productsRelateds
 
 export const {
     cleanUpProductsRecommended,
     cleanUpProductsBrand,
     cleanUpProducts,
     cleanUpProductsMostSelling,
+    cleanUpProductsRelated,
 } = productsSlice.actions;
 
 export const selectAllProductsStatus = (state: { products: { allProductsStatus: EStateGeneric; }; }) => state.products.allProductsStatus
@@ -199,3 +235,4 @@ export const selectAllProductsRecommendedStatus = (state: { products: { allProdu
 export const selectAllProductsBrandStatus = (state: { products: { allProductsStatusBrand: EStateGeneric; }; }) => state.products.allProductsStatusBrand
 export const selectAllProductsBrandsStatus = (state: { products: { allProductsStatusBrands: EStateGeneric; }; }) => state.products.allProductsStatusBrands
 export const selectAllProductsMostSellingStatus = (state: { products: { allProductsStatusMostSelling: EStateGeneric; }; }) => state.products.allProductsStatusMostSelling
+export const selectAllProductsRelatedsStatus = (state: { products: { allProductsStatusRelateds: EStateGeneric; }; }) => state.products.allProductsStatusRelateds

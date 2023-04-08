@@ -15,6 +15,7 @@ import NotFoundDark from '@/assets/404ProductDark.gif'
 import NotFoundDarkMobile from '@/assets/404MobileProductDark.gif'
 import useMediaQuery from "@/shared/util/useMediaQuery"
 import { Rating, useTheme } from "@mui/material"
+import Related from "@/components/Products/Related"
 type Props = {}
 
 const Detail = (props: Props) => {
@@ -82,15 +83,14 @@ const Detail = (props: Props) => {
                     </div>
                 )}
                 {productStatus === EStateGeneric.SUCCEEDED && product.name && (
-                    <div className='w-full sm:min-h-[80vh] flex flex-col sm:flex-row sm:items-start items-center gap-4 px-2 py-4 sm:px-8 sm:py-4 flex-wrap'>
+                    <div className='w-full sm:min-h-[80vh] flex flex-col sm:flex-row sm:items-start gap-4 px-2 py-4 sm:px-8 sm:py-4 flex-wrap'>
                         <div className='flex flex-col w-full sm:w-auto '>
                             <Link href={`/products/brand?name=${product.brand.name}`} className='text-3xl text-center sm:text-left font-semibold my-6 md:m-4 uppercase underline underline-offset-8'>{product.brand.name}</Link>
-                            <div className='relative w-full sm:w-[450px] h-[250px] xs:h-[350px] md:h-[450px]'>
+                            <div className='relative w-full sm:w-[500px] h-[250px] xs:h-[350px] md:h-[450px]'>
                                 <Image src={product.image} alt={product.name} fill priority={true} />
                             </div>
                         </div>
-                        <div className='flex flex-1 flex-col p-4 gap-2 h-auto'>
-                            {/* <div className="border-t-2 dark:border-white border-black w-full"></div> */}
+                        <div className='flex flex-1 flex-col py-6 px-4 gap-2 h-auto'>
                             <h2 className='text-lg md:text-xl font-semibold capitalize '>{product.name}</h2>
                             <p className='flex font-semibold gap-2 items-center'>
                                 <Rating value={product.rating} precision={0.1} size="large" readOnly />
@@ -100,7 +100,7 @@ const Detail = (props: Props) => {
                                 <summary onClick={() => setIsOpen(!isOpen)} className="text-base">
                                     {isOpen ? 'Hide description' : 'Show description'}
                                 </summary>
-                                {isOpen && <div className=''>{description}</div>}
+                                {isOpen && <div className='h-[210px] overflow-auto description'>{description}</div>}
                             </details>
                             <div className='flex flex-col'>
                                 <p className="font-semibold text-2xl">US $ {product.price}</p>
@@ -121,6 +121,7 @@ const Detail = (props: Props) => {
                                 </button>
                             </div>
                         </div>
+                        <Related name={product.subcategory.name} />
                         <div className="w-full border-2 dark:border-white border-black">
                             <div className='w-full border-b-2 dark:border-white border-black py-2'><p className="text-center text-xl">User Reviews</p></div>
                             <div className='flex flex-wrap'>
