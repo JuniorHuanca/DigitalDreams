@@ -50,9 +50,9 @@ const Related = ({ name }: Props) => {
         }
       }
     })()
-    return () => {
-      dispatch(cleanUpProductsRelated())
-    }
+    // return () => {
+    //   dispatch(cleanUpProductsRelated())
+    // }
   }, [router.isReady])
   return (
     <div className={`w-[94vw] ${products.length ? '' : 'h-[50vh]'} mb-4`}>
