@@ -82,9 +82,9 @@ const Detail = (props: Props) => {
                     </div>
                 )}
                 {productStatus === EStateGeneric.SUCCEEDED && product.name && (
-                    <div className='w-full sm:min-h-[80vh] flex flex-col sm:flex-row sm:items-start items-center gap-4 px-8 py-4 flex-wrap'>
-                        <div className='flex flex-col'>
-                            <Link href={`/products/brand?name=${product.brand.name}`} className='text-3xl font-semibold my-2 md:m-4 uppercase underline underline-offset-8'>{product.brand.name}</Link>
+                    <div className='w-full sm:min-h-[80vh] flex flex-col sm:flex-row sm:items-start items-center gap-4 px-2 py-4 sm:px-8 sm:py-4 flex-wrap'>
+                        <div className='flex flex-col w-full sm:w-auto '>
+                            <Link href={`/products/brand?name=${product.brand.name}`} className='text-3xl text-center sm:text-left font-semibold my-6 md:m-4 uppercase underline underline-offset-8'>{product.brand.name}</Link>
                             <div className='relative w-full sm:w-[450px] h-[250px] xs:h-[350px] md:h-[450px]'>
                                 <Image src={product.image} alt={product.name} fill priority={true} />
                             </div>
@@ -121,8 +121,44 @@ const Detail = (props: Props) => {
                                 </button>
                             </div>
                         </div>
-                        <div className="w-full h-[200px] border-2 dark:border-white border-black">
-                            <p className="text-center font-semibold text-5xl">Without comments for now</p>
+                        <div className="w-full border-2 dark:border-white border-black">
+                            <div className='w-full border-b-2 dark:border-white border-black py-2'><p className="text-center text-xl">User Reviews</p></div>
+                            <div className='flex flex-wrap'>
+                                <div className='w-full sm:w-[50%] p-4 gap-2'>
+                                    <div className="flex items-center gap-2 py-3">
+                                        <div className="rounded-full w-12 h-12 bg-slate-400"></div>
+                                        Junior Huanca
+                                    </div>
+                                    <div className="flex flex-col">
+                                        <p className='flex gap-2 items-center'>
+                                            <Rating value={product.rating} precision={0.1} size="large" readOnly />
+                                            17-10-2023
+                                        </p>
+                                        <h4 className='flex font-semibold'>Perfect</h4>
+                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam eum eaque, adipisci, minima eveniet debitis distinctio nemo perferendis delectus ipsam eius, facere ex hic veritatis corrupti accusamus praesentium nulla. Saepe?</p>
+                                    </div>
+                                </div>
+                                <div className='w-full flex flex-col sm:w-[50%] p-4  gap-2'>
+                                    <div className="flex items-center gap-2 py-3">
+                                        <div className="rounded-full w-12 h-12 bg-slate-400"></div>
+                                        Junior Huanca
+                                    </div>
+                                    <div className=' flex flex-col'>
+                                        <label htmlFor="">Rating </label>
+                                        <p className='flex gap-2 font-semibold items-center'>
+                                            <Rating value={product.rating} precision={0.1} size="large" />
+                                            Excelent
+                                        </p>
+                                        <textarea className="h-[125px] bg-primary-500 rounded-lg" placeholder="Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam eum eaque, adipisci, minima eveniet debitis distinctio nemo perferendis delectus ipsam eius, facere ex hic veritatis corrupti accusamus praesentium nulla. Saepe?"></textarea>
+                                        <button
+                                            type="submit"
+                                            className='w-40 p-4 border-2 dark:border-white border-black hover:dark:bg-primary-800 hover:bg-slate-300'
+                                        >
+                                            SUBMIT
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
