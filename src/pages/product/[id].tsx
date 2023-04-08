@@ -20,7 +20,7 @@ type Props = {}
 const Detail = (props: Props) => {
     const isAboveSmallScreens = useMediaQuery("(min-width: 620px)");
     const theme: ITheme = useTheme();
-    const [isOpen, setIsOpen] = useState<boolean>(false)
+    const [isOpen, setIsOpen] = useState<boolean>(true)
     const { mode } = theme.palette
     const dispatch = useAppDispatch()
     const router = useRouter()
@@ -61,7 +61,7 @@ const Detail = (props: Props) => {
                 if (value.startsWith("https://")) {
                     return <Link href={value}>{value}</Link>;
                 } else {
-                    return <h2 className="font-semibold text-base">{value}</h2>;
+                    return <h2 className="italic font-semibold text-base">{value}</h2>;
                 }
             default:
                 return <br />;
@@ -82,28 +82,28 @@ const Detail = (props: Props) => {
                     </div>
                 )}
                 {productStatus === EStateGeneric.SUCCEEDED && product.name && (
-                    <div className='w-full sm:min-h-[80vh] flex flex-col sm:flex-row sm:items-start items-center gap-2 py-4 flex-wrap'>
-                        <div className='w-full sm:w-[70%] px-2 sm:h-full flex flex-col items-center gap-2'>
+                    <div className='w-full sm:min-h-[80vh] flex flex-col sm:flex-row sm:items-start items-center gap-4 px-8 py-4 flex-wrap'>
+                        <div className='flex flex-col'>
                             <Link href={`/products/brand?name=${product.brand.name}`} className='text-3xl font-semibold my-2 md:m-4 uppercase underline underline-offset-8'>{product.brand.name}</Link>
                             <div className='relative w-full sm:w-[450px] h-[250px] xs:h-[350px] md:h-[450px]'>
                                 <Image src={product.image} alt={product.name} fill priority={true} />
                             </div>
                         </div>
-                        <div className='sm:h-[500px] sm:w-[28%] px-2 flex flex-col items-center sm:justify-center py-4 gap-2'>
-                            <div className="border-t-2 dark:border-white border-black w-full"></div>
-                            <h2 className='text-lg md:text-xl text-center font-semibold my-2 md:m-4 capitalize '>{product.name}</h2>
-                            <p className='flex items-center font-semibold gap-2'>
-                                {product.rating}
+                        <div className='flex flex-1 flex-col p-4 gap-2 h-auto'>
+                            {/* <div className="border-t-2 dark:border-white border-black w-full"></div> */}
+                            <h2 className='text-lg md:text-xl font-semibold capitalize '>{product.name}</h2>
+                            <p className='flex font-semibold gap-2 items-center'>
                                 <Rating value={product.rating} precision={0.1} size="large" readOnly />
+                                {product.rating}
                             </p>
-                            <details className='w-full p-2 overflow-hidden'>
-                                <summary onClick={() => setIsOpen(!isOpen)} className="text-center font-semibold text-base md:text-lg">
+                            <details className='w-full overflow-hidden' open>
+                                <summary onClick={() => setIsOpen(!isOpen)} className="text-base">
                                     {isOpen ? 'Hide description' : 'Show description'}
                                 </summary>
                                 {isOpen && <div className=''>{description}</div>}
                             </details>
-                            <p className="font-semibold text-2xl">US $ {product.price}</p>
-                            <div className='flex flex-col items-center'>
+                            <div className='flex flex-col'>
+                                <p className="font-semibold text-2xl">US $ {product.price}</p>
                                 <div>
                                     <button className='mr-4 py-4 px-3 dark:bg-primary-700 hover:dark:bg-primary-800 bg-white hover:bg-slate-300 rounded-sm' type="button">-</button>
                                     {/* {product.quantity} */}
@@ -113,14 +113,13 @@ const Detail = (props: Props) => {
                                 <span className="my-2">
                                     Stock disponible: {product.stock}
                                 </span>
+                                <button
+                                    type="submit"
+                                    className='w-40 p-4 border-2 dark:border-white border-black hover:dark:bg-primary-800 hover:bg-slate-300'
+                                >
+                                    ADD TO CART
+                                </button>
                             </div>
-                            <button
-                                type="submit"
-                                className='p-4 border-2 dark:border-white border-black hover:dark:bg-primary-800 hover:bg-slate-300'
-                            // onClick={handleAddToCart}
-                            >
-                                Agregar al Carrito
-                            </button>
                         </div>
                         <div className="w-full h-[200px] border-2 dark:border-white border-black">
                             <p className="text-center font-semibold text-5xl">Without comments for now</p>
