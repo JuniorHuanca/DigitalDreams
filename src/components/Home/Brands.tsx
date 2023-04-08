@@ -43,10 +43,10 @@ const Brands = (props: Props) => {
             )}
             <div className="w-full flex justify-center py-4">
                 {isOpen && (
-                    <button className="w-[10%] dark:border-white border-black border-2  p-2 hover:scale-110 transition-all" onClick={() => setIsOpen(false)}>See Less</button>
+                    <button className="dark:border-white border-black border-2 py-2 px-5 hover:scale-110 transition-all" onClick={() => setIsOpen(false)}>See Less</button>
                 )}
                 {!isOpen && second.length > 0 && (
-                    <button className="w-[10%] dark:border-white border-black border-2  p-2 hover:scale-110 transition-all" onClick={() => setIsOpen(true)}>See More</button>
+                    <button className="dark:border-white border-black border-2 py-2 px-5 hover:scale-110 transition-all" onClick={() => setIsOpen(true)}>See More</button>
                 )}
             </div>
         </div>
