@@ -65,9 +65,9 @@ export const getAllProductsBrand = createAsyncThunk(
 
 export const getAllProductsRelated = createAsyncThunk(
     'products/getAllProductsRelated',
-    async (name: string, { rejectWithValue }) => {
+    async ({ name, id }: { name: string, id: number }, { rejectWithValue }) => {
         try {
-            const response = await getProductsRelatedByApi(name)
+            const response = await getProductsRelatedByApi(name, id)
             return response.data
         } catch (error: any) {
             return rejectWithValue(error.response.data)
@@ -138,8 +138,8 @@ const productsSlice = createSlice({
         cleanUpProductsRelated: (state) => {
             return {
                 ...state,
-                productsRelated: [],
-                allProductsStatusRelated: EStateGeneric.IDLE
+                productsRelateds: [],
+                allProductsStatusRelateds: EStateGeneric.IDLE
             }
         },
     },

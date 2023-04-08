@@ -10,13 +10,14 @@ import { Navigation, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import useMediaQuery from "@/shared/util/useMediaQuery"
 type Props = {
-  name: string
+  name: string;
+  id: number
 }
 interface SwiperStyle extends React.CSSProperties {
   "--swiper-navigation-color"?: string;
 }
 
-const Related = ({ name }: Props) => {
+const Related = ({ name, id }: Props) => {
   const dispatch = useAppDispatch()
   const router = useRouter()
   const productsStatus = useSelector(selectAllProductsRelatedsStatus)
@@ -46,13 +47,13 @@ const Related = ({ name }: Props) => {
     (async () => {
       if (router.isReady) {
         if (productsStatus === EStateGeneric.IDLE) {
-          await dispatch(getAllProductsRelated(name));
+          await dispatch(getAllProductsRelated({ name, id }));
         }
       }
     })()
-    // return () => {
-    //   dispatch(cleanUpProductsRelated())
-    // }
+    return () => {
+      dispatch(cleanUpProductsRelated())
+    }
   }, [router.isReady])
   return (
     <div className={`w-[94vw] ${products.length ? '' : 'h-[50vh]'} mb-4`}>

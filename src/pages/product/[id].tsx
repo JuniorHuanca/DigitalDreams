@@ -44,8 +44,8 @@ const Detail = (props: Props) => {
 
         return () => {
             if (currentProductId === router.query.id) {
+                dispatch(cleanUpProductsRelated());
                 dispatch(cleanUpProduct());
-                dispatch(cleanUpProductsRelated())
             }
         };
     }, [router.query.id]);
@@ -128,7 +128,7 @@ const Detail = (props: Props) => {
                                 </button>
                             </div>
                         </div>
-                        <Related name={product.subcategory.name} />
+                        <Related name={product.subcategory.name} id={product.id} />
                         <div className="w-full border-2 dark:border-white border-black">
                             <div className='w-full border-b-2 dark:border-white border-black py-2'><p className="text-center text-xl">User Reviews</p></div>
                             <div className='flex flex-wrap'>
