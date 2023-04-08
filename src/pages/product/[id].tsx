@@ -20,6 +20,7 @@ type Props = {}
 
 const Detail = (props: Props) => {
     const isAboveSmallScreens = useMediaQuery("(min-width: 620px)");
+    const [currentProductId, setCurrentProductId] = useState<string>('');
     const theme: ITheme = useTheme();
     const [isOpen, setIsOpen] = useState<boolean>(true)
     const { mode } = theme.palette
@@ -31,17 +32,21 @@ const Detail = (props: Props) => {
     useEffect(() => {
         (async () => {
             if (router.isReady) {
-                const { id } = router.query
-                if (productStatus === EStateGeneric.IDLE) {
+                const { id } = router.query;
+
+                if (currentProductId !== id) {
+                    setCurrentProductId(id as string);
                     await dispatch(getOneProduct(id as string));
                 }
             }
-        })()
+        })();
 
         return () => {
-            dispatch(cleanUpProduct())
-        }
-    }, [router.query.id])
+            if (currentProductId === router.query.id) {
+                dispatch(cleanUpProduct());
+            }
+        };
+    }, [router.query.id]);
     const description = product?.description?.map((ele: Record<string, any>) => {
         const key = Object.keys(ele)[0];
         const value: any = Object.values(ele)[0];
