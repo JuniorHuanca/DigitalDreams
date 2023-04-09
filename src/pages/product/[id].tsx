@@ -128,7 +128,7 @@ const Detail = (props: Props) => {
                             </div>
                         </div>
                         <Related name={product.subcategory.name} id={product.id} />
-                        <div className="w-full border-2 dark:border-white border-black px-4 sm:px-8">
+                        <div className="w-full border-2 dark:border-white border-black mx-4 sm:mx-8">
                             <div className='w-full border-b-2 dark:border-white border-black py-2'><p className="text-center text-xl">User Reviews</p></div>
                             <div className='flex flex-wrap'>
                                 <div className='w-full sm:w-[50%] p-4 gap-2'>
