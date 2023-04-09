@@ -56,7 +56,7 @@ const Related = ({ name, id }: Props) => {
     }
   }, [router.isReady, name, id])
   return (
-    <div className={`w-[94vw] ${products.length ? '' : 'h-[50vh]'} mb-4`}>
+    <div className={`w-[99vw] ${products.length ? '' : 'h-[50vh]'} mb-4`}>
       {productsStatus === EStateGeneric.SUCCEEDED && <div className='w-full'>
         <h2 className='text-xl font-semibold m-4 capitalize '>More top-rated products for you to browse</h2>
         <Swiper
