@@ -123,8 +123,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                                 id: parseInt(id as string)
                             },
                             OR: [
-                                // { name: { contains: related as string } },
                                 { subcategory: { name: { contains: related as string } } },
+                                { name: { contains: related as string } },
                                 // { subcategory: { category: { name: { contains: related as string } } } },
                             ]
                         },
