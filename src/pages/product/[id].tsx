@@ -16,7 +16,6 @@ import NotFoundDarkMobile from '@/assets/404MobileProductDark.gif'
 import useMediaQuery from "@/shared/util/useMediaQuery"
 import { Rating, useTheme } from "@mui/material"
 import Related from "@/components/Products/Related"
-import { cleanUpProductsRelated } from "@/state/products/products/productsSlice"
 type Props = {}
 
 const Detail = (props: Props) => {
@@ -34,17 +33,17 @@ const Detail = (props: Props) => {
         (async () => {
             if (router.isReady) {
                 const { id } = router.query;
-
-                if (currentProductId !== id) {
-                    setCurrentProductId(id as string);
-                    await dispatch(getOneProduct(id as string));
-                }
+                // if (productStatus === EStateGeneric.IDLE) {
+                    if (currentProductId !== id) {
+                        setCurrentProductId(id as string);
+                        await dispatch(getOneProduct(id as string));
+                    }
+                // }
             }
         })();
 
         return () => {
             if (currentProductId === router.query.id) {
-                dispatch(cleanUpProductsRelated());
                 dispatch(cleanUpProduct());
             }
         };

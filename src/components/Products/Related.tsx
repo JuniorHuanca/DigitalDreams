@@ -46,16 +46,15 @@ const Related = ({ name, id }: Props) => {
   useEffect(() => {
     (async () => {
       if (router.isReady) {
-        if (productsStatus === EStateGeneric.IDLE) {
-          await dispatch(getAllProductsRelated({ name, id }));
-        }
+        // if (productsStatus === EStateGeneric.IDLE) {
+        await dispatch(getAllProductsRelated({ name, id }));
+        // }
       }
     })()
-    // return () => {
-    //   dispatch(cleanUpProductsRelated())
-    // }
+    return () => {
+      dispatch(cleanUpProductsRelated())
+    }
   }, [router.isReady, name, id])
-  console.log(products)
   return (
     <div className={`w-[94vw] ${products.length ? '' : 'h-[50vh]'} mb-4`}>
       {productsStatus === EStateGeneric.SUCCEEDED && <div className='w-full'>
