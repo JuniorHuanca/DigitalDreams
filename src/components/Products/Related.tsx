@@ -51,10 +51,11 @@ const Related = ({ name, id }: Props) => {
         }
       }
     })()
-    return () => {
-      dispatch(cleanUpProductsRelated())
-    }
-  }, [router.isReady])
+    // return () => {
+    //   dispatch(cleanUpProductsRelated())
+    // }
+  }, [router.isReady, name, id])
+  console.log(products)
   return (
     <div className={`w-[94vw] ${products.length ? '' : 'h-[50vh]'} mb-4`}>
       {productsStatus === EStateGeneric.SUCCEEDED && <div className='w-full'>

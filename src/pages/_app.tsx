@@ -34,6 +34,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import "swiper/css/free-mode";
+import Head from 'next/head';
 
 
 export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps<{ session: Session }>) {
@@ -45,6 +46,12 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
         <PersistGate loading={null} persistor={persistor}>
           <ThemeProvider attribute='class'>
             <Wrapper>
+              <Head>
+                <meta name="description" content="Encuentra los mejores productos tecnológicos en nuestro e-commerce: computadoras, ratones, teclados, y luces LED. Ofrecemos una amplia variedad de marcas y modelos, con características que se adaptan a las necesidades de cada usuario. Además, contamos con precios competitivos y un servicio de atención al cliente excepcional. ¡Visítanos y encuentra todo lo que necesitas para estar a la vanguardia de la tecnología!" />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <link rel="preload" href="https://fonts.googleapis.com/css?family=Montserrat:400,800&display=swap" as="font" />
+                <link rel="icon" href="/github.png" />
+              </Head>
               <Component {...pageProps} />
             </Wrapper>
           </ThemeProvider>
