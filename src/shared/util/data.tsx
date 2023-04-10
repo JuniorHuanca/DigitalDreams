@@ -14,10 +14,11 @@ import {
 } from "@mui/icons-material";
 
 import { BsKanban, BsBarChart, BsBoxSeam, BsShield, BsChatLeft } from 'react-icons/bs';
-import { AiOutlineMessage } from 'react-icons/ai';
+import { AiFillHeart, AiOutlineMessage } from 'react-icons/ai';
 import { BiTask } from 'react-icons/bi';
 import { FiShoppingBag, FiEdit, FiPieChart, FiBarChart, FiCreditCard, FiStar, FiShoppingCart, FiSettings } from 'react-icons/fi';
 import avatar from '@/assets/profile.jpeg'
+import { FaClipboardList } from "react-icons/fa";
 export const navItems = [
     {
         text: "Dashboard",
@@ -318,17 +319,31 @@ export const userProfileData = [
         iconColor: '#03C9D7',
         iconBg: '#E5FAFB',
     },
+    // {
+    //     icon: <AiOutlineMessage />,
+    //     title: 'My Inbox',
+    //     desc: 'Messages & Emails',
+    //     iconColor: '#03C9D7',
+    //     iconBg: 'rgb(235, 250, 242)',
+    // },
+    // {
+    //     icon: <BiTask />,
+    //     title: 'My Tasks',
+    //     desc: 'To-do and Daily Tasks',
+    //     iconColor: '#03C9D7',
+    //     iconBg: 'rgb(254, 201, 15)',
+    // },
     {
-        icon: <AiOutlineMessage />,
-        title: 'My Inbox',
-        desc: 'Messages & Emails',
+        icon: <AiFillHeart />,
+        title: 'My Wishlist',
+        desc: 'Wish list of my products',
         iconColor: '#03C9D7',
         iconBg: 'rgb(235, 250, 242)',
     },
     {
-        icon: <BiTask />,
-        title: 'My Tasks',
-        desc: 'To-do and Daily Tasks',
+        icon: <FaClipboardList />,
+        title: 'My Orders',
+        desc: 'See all Orders',
         iconColor: '#03C9D7',
         iconBg: 'rgb(254, 201, 15)',
     },

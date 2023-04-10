@@ -18,9 +18,9 @@ const Sidebar = (props: Props) => {
 
     return (
         <div className="sticky flex flex-col justify-evenly h-full w-[50px] sm:w-[20%] bg-slate-100 dark:bg-primary-500 rounded-lg">
-            {isAboveMediumScreens ? links.map((e, index) => <Link href={`/profile/${e.name === 'profile' ? '' : e.name}`} key={index}><div className={`w-full flex justify-evenly items-center p-6 hover:bg-primary-400 text-base ${e.name === parts[parts.length - 1] ? 'text-secondary-500 bg-primary-400' : ''}`}>My {e.name} {e.icon}</div></Link>)
+            {isAboveMediumScreens ? links.map((e, index) => <Link href={`/profile/${e.name === 'profile' ? '' : e.name}`} key={index}><div className={`w-full flex justify-evenly items-center p-6 hover:dark:bg-primary-400 hover:bg-slate-200 text-base ${e.name === parts[parts.length - 1] ? 'text-secondary-500 dark:bg-primary-400 bg-slate-200' : ''}`}>My {e.name} {e.icon}</div></Link>)
                 : <div>
-                    {links.map((e, index) => <Link href={`/profile/${e.name === 'profile' ? '' : e.name}`} key={index}><div className={`w-full flex justify-evenly items-center py-6 hover:bg-primary-400 text-base ${e.name === parts[parts.length - 1] ? 'text-secondary-500 bg-primary-400' : ''}`}>{e.icon}</div></Link>)}
+                    {links.map((e, index) => <Link href={`/profile/${e.name === 'profile' ? '' : e.name}`} key={index}><div className={`w-full flex justify-evenly items-center py-6 hover:dark:bg-primary-400 hover:bg-slate-200 text-base ${e.name === parts[parts.length - 1] ? 'text-secondary-500 dark:bg-primary-400 bg-slate-200' : ''}`}>{e.icon}</div></Link>)}
                 </div>
             }
         </div>
