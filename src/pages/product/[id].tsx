@@ -59,7 +59,7 @@ const Detail = (props: Props) => {
         product_id: product?.id,
         user_id: session?.user?.id,
         description: '',
-        rating: 0,
+        rating: value,
     });
     useEffect(() => {
         (async () => {
@@ -113,7 +113,6 @@ const Detail = (props: Props) => {
             ...reviewFields,
             product_id: product.id,
             user_id: session.user.id,
-            rating: value
         })
         console.log(reviewFields)
         alert(JSON.stringify(reviewFields));
@@ -212,6 +211,10 @@ const Detail = (props: Props) => {
                                                 getLabelText={getLabelText}
                                                 onChange={(event, newValue) => {
                                                     setValue(newValue as number);
+                                                    setReviewFields({
+                                                        ...reviewFields,
+                                                        rating: newValue as number
+                                                    })
                                                 }}
                                                 onChangeActive={(event, newHover) => {
                                                     setHover(newHover);
