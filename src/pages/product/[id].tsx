@@ -1,10 +1,10 @@
 import { oneProduct, cleanUpProduct, selectOneProductStatus, getOneProduct } from "@/state/products/product/productSlice"
 import { useAppDispatch } from "@/state/store"
-import { Key, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import Card from "../../components/Card/Card"
 import { useRouter } from "next/router"
-import { EStateGeneric, IProduct, ITheme } from "@/shared/util/types"
+import { EStateGeneric, ITheme } from "@/shared/util/types"
 import Loader from "../../components/Loaders/Loader"
 import Layout from "@/components/Layouts/Layout"
 import Link from "next/link"
@@ -15,7 +15,6 @@ import NotFoundDark from '@/assets/404ProductDark.gif'
 import NotFoundDarkMobile from '@/assets/404MobileProductDark.gif'
 import useMediaQuery from "@/shared/util/useMediaQuery"
 import { Box, Rating, useTheme } from "@mui/material"
-import StarIcon from '@mui/icons-material/Star';
 import Related from "@/components/Products/Related"
 import CardReview from "@/components/Card/CardReview"
 import { useSession } from "next-auth/react"
@@ -176,9 +175,9 @@ const Detail = (props: Props) => {
                         <div className="w-full border-2 dark:border-white border-black mx-4 sm:mx-8">
                             <div className='w-full border-b-2 dark:border-white border-black py-2'><p className="text-center text-xl">User Reviews</p></div>
                             <div className='flex flex-wrap'>
-                                {product.reviews.length ? product.reviews.map((e: any, index: Key) => <CardReview review={e} key={index} />) :
+                                {product.reviews.length ? product.reviews.map((e: any, index: any) => <CardReview review={e} key={index} />) :
                                     <div className='w-full sm:w-[50%] mt-12 p-4 gap-2'>
-                                        <p className='my-auto text-center text-lg font-semibold animate-bounce'>Hi there! Be the first to leave a review about our product! Your opinion is very valuable to us. Don't hesitate to share your experience and thoughts. Thank you!</p>
+                                        <p className='my-auto text-center text-lg font-semibold animate-bounce'>Hi there! Be the first to leave a review about our product! Your opinion is very valuable to us. Don&apos;t hesitate to share your experience and thoughts. Thank you!</p>
                                     </div>}
                                 <div className='w-full flex flex-col sm:w-[50%] p-4  gap-2'>
                                     <div className="flex items-center gap-2 py-3">
