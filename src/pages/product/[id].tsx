@@ -1,6 +1,6 @@
 import { oneProduct, cleanUpProduct, selectOneProductStatus, getOneProduct } from "@/state/products/product/productSlice"
 import { useAppDispatch } from "@/state/store"
-import { useEffect, useState } from "react"
+import { Key, useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import Card from "../../components/Card/Card"
 import { useRouter } from "next/router"
@@ -14,37 +14,69 @@ import NotFoundMobile from '@/assets/404MobileProduct.gif'
 import NotFoundDark from '@/assets/404ProductDark.gif'
 import NotFoundDarkMobile from '@/assets/404MobileProductDark.gif'
 import useMediaQuery from "@/shared/util/useMediaQuery"
-import { Rating, useTheme } from "@mui/material"
+import { Box, Rating, useTheme } from "@mui/material"
+import StarIcon from '@mui/icons-material/Star';
 import Related from "@/components/Products/Related"
+import CardReview from "@/components/Card/CardReview"
+import { useSession } from "next-auth/react"
+import Avatar from "react-avatar"
 type Props = {}
+interface ISession {
+    data: any;
+    status: string;
+}
+const labels: { [index: string]: string } = {
+    0.5: 'Useless',
+    1: 'Poor',
+    1.5: 'Below average',
+    2: 'Average',
+    2.5: 'Above average',
+    3: 'Good',
+    3.5: 'Very good',
+    4: 'Excellent',
+    4.5: 'Outstanding',
+    5: 'Exceptional'
+};
 
+function getLabelText(value: number) {
+    return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
+}
 const Detail = (props: Props) => {
     const isAboveSmallScreens = useMediaQuery("(min-width: 620px)");
     const [currentProductId, setCurrentProductId] = useState<string>('');
+    const [value, setValue] = useState<number>(0);
+    const [hover, setHover] = useState(-1);
     const theme: ITheme = useTheme();
     const [isOpen, setIsOpen] = useState<boolean>(true)
+    const [errorImage, setErrorImage] = useState<boolean>(false);
     const { mode } = theme.palette
     const dispatch = useAppDispatch()
     const router = useRouter()
     const productStatus = useSelector(selectOneProductStatus)
-    const product = useSelector(oneProduct)
-
+    const product: any = useSelector(oneProduct)
+    const { data: session }: ISession = useSession()
+    const [reviewFields, setReviewFields] = useState({
+        product_id: product?.id,
+        user_id: session?.user?.id,
+        description: '',
+        rating: 0,
+    });
     useEffect(() => {
         (async () => {
             if (router.isReady) {
                 const { id } = router.query;
                 // if (productStatus === EStateGeneric.IDLE) {
-                    if (currentProductId !== id) {
-                        setCurrentProductId(id as string);
-                        await dispatch(getOneProduct(id as string));
-                    }
+                if (currentProductId !== id) {
+                    setCurrentProductId(id as string);
+                    await dispatch(getOneProduct(id as string));
+                }
                 // }
             }
         })();
 
         return () => {
             if (currentProductId === router.query.id) {
-                dispatch(cleanUpProduct());
+                // dispatch(cleanUpProduct());
             }
         };
     }, [router.query.id]);
@@ -74,6 +106,20 @@ const Detail = (props: Props) => {
                 return <br />;
         }
     });
+
+    const handleSubmit = (e: any) => {
+        e.preventDefault()
+        setReviewFields({
+            ...reviewFields,
+            product_id: product.id,
+            user_id: session.user.id,
+            rating: value
+        })
+        console.log(reviewFields)
+        alert(JSON.stringify(reviewFields));
+
+    }
+    console.log(session?.user)
     return (
         <Layout tittle={`${product.name} - Digital Dreams` || 'Error 404 Digital Dreams'}>
             <div className='w-full min-h-[80vh] flex flex-col items-center gap-4'>
@@ -131,39 +177,62 @@ const Detail = (props: Props) => {
                         <div className="w-full border-2 dark:border-white border-black mx-4 sm:mx-8">
                             <div className='w-full border-b-2 dark:border-white border-black py-2'><p className="text-center text-xl">User Reviews</p></div>
                             <div className='flex flex-wrap'>
-                                <div className='w-full sm:w-[50%] p-4 gap-2'>
-                                    <div className="flex items-center gap-2 py-3">
-                                        <div className="rounded-full w-12 h-12 bg-slate-400"></div>
-                                        Junior Huanca
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <p className='flex gap-2 items-center'>
-                                            <Rating value={product.rating} precision={0.1} size="large" readOnly />
-                                            17-10-2023
-                                        </p>
-                                        <h4 className='flex font-semibold'>Perfect</h4>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam eum eaque, adipisci, minima eveniet debitis distinctio nemo perferendis delectus ipsam eius, facere ex hic veritatis corrupti accusamus praesentium nulla. Saepe?</p>
-                                    </div>
-                                </div>
+                                {product.reviews.length ? product.reviews.map((e: any, index: Key) => <CardReview review={e} key={index} />) :
+                                    <div className='w-full sm:w-[50%] mt-12 p-4 gap-2'>
+                                        <p className='my-auto text-center text-lg font-semibold animate-bounce'>Hi there! Be the first to leave a review about our product! Your opinion is very valuable to us. Don't hesitate to share your experience and thoughts. Thank you!</p>
+                                    </div>}
                                 <div className='w-full flex flex-col sm:w-[50%] p-4  gap-2'>
                                     <div className="flex items-center gap-2 py-3">
-                                        <div className="rounded-full w-12 h-12 bg-slate-400"></div>
-                                        Junior Huanca
+                                        <div className="relative h-12 w-12  overflow-hidden">
+                                            {session && (
+                                                session.user.image && !errorImage ? (
+                                                    <Image
+                                                        className="rounded-full"
+                                                        src={session.user.image}
+                                                        alt={session.user.name}
+                                                        fill
+                                                        onError={() => setErrorImage(true)}
+                                                    />
+                                                ) : (
+                                                    <Avatar name={session.user.name} size="100%" round={true} />
+                                                )
+                                            )}
+                                            {!session && (
+                                                <div className="rounded-full w-12 h-12 bg-slate-400"></div>
+                                            )}
+                                        </div>
+                                        {session ? session.user.name : 'DigitalDreams'}
                                     </div>
-                                    <div className=' flex flex-col'>
+                                    <form className=' flex flex-col gap-2' onSubmit={(e) => handleSubmit(e)}>
                                         <label htmlFor="">Rating </label>
                                         <p className='flex gap-2 font-semibold items-center'>
-                                            <Rating value={product.rating} precision={0.1} size="large" />
-                                            Excelent
+                                            <Rating
+                                                value={value}
+                                                precision={0.5}
+                                                getLabelText={getLabelText}
+                                                onChange={(event, newValue) => {
+                                                    setValue(newValue as number);
+                                                }}
+                                                onChangeActive={(event, newHover) => {
+                                                    setHover(newHover);
+                                                }}
+                                                size="large"
+                                            />
+                                            {value !== null && (
+                                                <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : value]}</Box>
+                                            )}
                                         </p>
-                                        <textarea className="h-[125px] bg-white dark:bg-primary-500 rounded-lg" placeholder="Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam eum eaque, adipisci, minima eveniet debitis distinctio nemo perferendis delectus ipsam eius, facere ex hic veritatis corrupti accusamus praesentium nulla. Saepe?"></textarea>
+                                        <textarea className="h-[125px] bg-white dark:bg-primary-500 rounded-lg focus:outline-none p-4" placeholder="Write your opinion about the product here. Include your comments on its quality, functionality, ease of use, value, and anything else you think is important. Your feedback is valuable to us and to other users, so don't hold back!" onChange={(e) => setReviewFields({
+                                            ...reviewFields,
+                                            description: e.target.value
+                                        })}></textarea>
                                         <button
                                             type="submit"
                                             className='w-40 p-4 border-2 dark:border-white border-black hover:dark:bg-primary-800 hover:bg-slate-300'
                                         >
                                             SUBMIT
                                         </button>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>

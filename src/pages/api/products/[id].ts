@@ -18,7 +18,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                             include: {
                                 category: true
                             }
-                        }
+                        },
+                        reviews: true
                     },
                 })
                 const description = productDescriptionParser(productFind?.description as string)
