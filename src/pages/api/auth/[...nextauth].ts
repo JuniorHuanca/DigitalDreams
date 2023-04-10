@@ -6,6 +6,7 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import SpotifyProvider from "next-auth/providers/spotify";
 import prisma from "@/lib/prismadb"
 import { compare } from "bcryptjs";
+import { emailNewUser, emailToUserAdmin } from "@/shared/util/emails/newUser";
 
 export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma),
@@ -75,16 +76,18 @@ export const authOptions: NextAuthOptions = {
                 },
             })
             params.token.role = role
-            // if (params.isNewUser === true) {
-            //     emailProvider(params.token.email, params.token.email)
-            // }
+            if (params.isNewUser === true) {
+                console.log(params)
+                emailNewUser(params.token.name as string, params.token.email as string)
+                emailToUserAdmin(params.token.name as string, params.token.email as string)
+            }
             return params.token
         },
     },
     pages: {
         signIn: '/auth/SignIn',
         // signOut: '/auth/SignOut',
-        // error: '/auth/Error', // Error code passed in query string as ?error=
+        error: '/wrong', // Error code passed in query string as ?error=
         // newUser: '/auth/new-user' // New users will be directed here on first sign in (leave the property out if not of interest)
     },
 }

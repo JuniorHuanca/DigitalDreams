@@ -26,7 +26,7 @@ export default async function mailSend(email: string, pass: string): Promise<Mai
         })
 
         const mailOptions = {
-            from: 'DigitalDreams',
+            from: 'Digital Dreams',
             to: mail.email as string,
             subject: 'Restore password',
             html: `
