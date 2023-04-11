@@ -9,6 +9,7 @@ import { selectLoader, setMode } from '@/state/globalSlice';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { RootState } from '@/state/store';
 import { store } from '@/state/store';
+import { Toaster } from 'react-hot-toast';
 interface Props {
     children?: React.ReactNode;
 }
@@ -44,6 +45,10 @@ export const Wrapper: React.FC<Props> = ({ children }) => {
             <CssBaseline />
             {children}
             {loader && <LoaderModal />}
+            <Toaster
+                position="top-left"
+                reverseOrder={true}
+            />
         </ThemeProvider>
     );
 };

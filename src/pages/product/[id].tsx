@@ -19,6 +19,7 @@ import Related from "@/components/Products/Related"
 import CardReview from "@/components/Card/CardReview"
 import { useSession } from "next-auth/react"
 import Avatar from "react-avatar"
+import { toast } from "react-hot-toast"
 type Props = {}
 interface ISession {
     data: any;
@@ -85,7 +86,7 @@ const Detail = (props: Props) => {
         }
         return () => {
             if (currentProductId === router.query.id) {
-                // dispatch(cleanUpProduct());
+                dispatch(cleanUpProduct());
             }
         };
     }, [router.query.id, status]);
@@ -119,10 +120,8 @@ const Detail = (props: Props) => {
     const handleSubmit = async (e: any) => {
         e.preventDefault()
         const response = await dispatch(postOneReview(reviewFields))
-        console.log(response)
-
         if (response.payload.success) {
-            alert('reviewProductStatus')
+            toast.success('Review created successfully', { duration: 5000 })
             const { id } = router.query;
             setValue(0)
             setReviewFields({
@@ -132,7 +131,7 @@ const Detail = (props: Props) => {
             })
             await dispatch(getOneProduct(id as string));
         } else {
-            alert('reviewProductStatus.EStateGeneric')
+            toast.error('Error creating review', { duration: 5000 })
         }
     }
     return (
