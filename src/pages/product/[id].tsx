@@ -172,69 +172,71 @@ const Detail = (props: Props) => {
                             </div>
                         </div>
                         <Related name={product.subcategory.name} id={product.id} />
-                        <div className="w-full border-2 dark:border-white border-black mx-4 sm:mx-8">
-                            <div className='w-full border-b-2 dark:border-white border-black py-2'><p className="text-center text-xl">User Reviews</p></div>
-                            <div className='flex flex-wrap'>
-                                {product.reviews.length ? product.reviews.map((e: any, index: any) => <CardReview review={e} key={index} />) :
-                                    <div className='w-full sm:w-[50%] mt-12 p-4 gap-2'>
-                                        <p className='my-auto text-center text-lg font-semibold animate-bounce'>Hi there! Be the first to leave a review about our product! Your opinion is very valuable to us. Don&apos;t hesitate to share your experience and thoughts. Thank you!</p>
-                                    </div>}
-                                <div className='w-full flex flex-col sm:w-[50%] p-4  gap-2'>
-                                    <div className="flex items-center gap-2 py-3">
-                                        <div className="relative h-12 w-12  overflow-hidden">
-                                            {session && (
-                                                session.user.image && !errorImage ? (
-                                                    <Image
-                                                        className="rounded-full"
-                                                        src={session.user.image}
-                                                        alt={session.user.name}
-                                                        fill
-                                                        onError={() => setErrorImage(true)}
-                                                    />
-                                                ) : (
-                                                    <Avatar name={session.user.name} size="100%" round={true} />
-                                                )
-                                            )}
-                                            {!session && (
-                                                <div className="rounded-full w-12 h-12 bg-slate-400"></div>
-                                            )}
+                        <div className="px-4 sm:px-8">
+                            <div className="w-full border-2 dark:border-white border-black">
+                                <div className='w-full border-b-2 dark:border-white border-black py-2'><p className="text-center text-xl">User Reviews</p></div>
+                                <div className='flex flex-wrap'>
+                                    {product.reviews.length ? product.reviews.map((e: any, index: any) => <CardReview review={e} key={index} />) :
+                                        <div className='w-full sm:w-[50%] mt-12 p-4 gap-2'>
+                                            <p className='my-auto text-center text-lg font-semibold animate-bounce'>Hi there! Be the first to leave a review about our product! Your opinion is very valuable to us. Don&apos;t hesitate to share your experience and thoughts. Thank you!</p>
+                                        </div>}
+                                    <div className='w-full flex flex-col sm:w-[50%] p-4  gap-2'>
+                                        <div className="flex items-center gap-2 py-3">
+                                            <div className="relative h-12 w-12  overflow-hidden">
+                                                {session && (
+                                                    session.user.image && !errorImage ? (
+                                                        <Image
+                                                            className="rounded-full"
+                                                            src={session.user.image}
+                                                            alt={session.user.name}
+                                                            fill
+                                                            onError={() => setErrorImage(true)}
+                                                        />
+                                                    ) : (
+                                                        <Avatar name={session.user.name} size="100%" round={true} />
+                                                    )
+                                                )}
+                                                {!session && (
+                                                    <div className="rounded-full w-12 h-12 bg-slate-400"></div>
+                                                )}
+                                            </div>
+                                            {session ? session.user.name : 'DigitalDreams'}
                                         </div>
-                                        {session ? session.user.name : 'DigitalDreams'}
+                                        <form className=' flex flex-col gap-2' onSubmit={(e) => handleSubmit(e)}>
+                                            <label htmlFor="">Rating </label>
+                                            <p className='flex gap-2 font-semibold items-center'>
+                                                <Rating
+                                                    value={value}
+                                                    precision={0.5}
+                                                    getLabelText={getLabelText}
+                                                    onChange={(event, newValue) => {
+                                                        setValue(newValue as number);
+                                                        setReviewFields({
+                                                            ...reviewFields,
+                                                            rating: newValue as number
+                                                        })
+                                                    }}
+                                                    onChangeActive={(event, newHover) => {
+                                                        setHover(newHover);
+                                                    }}
+                                                    size="large"
+                                                />
+                                                {value !== null && (
+                                                    <div>{labels[hover !== -1 ? hover : value]}</div>
+                                                )}
+                                            </p>
+                                            <textarea className="h-[125px] bg-white dark:bg-primary-500 rounded-lg focus:outline-none p-4" placeholder="Write your opinion about the product here. Include your comments on its quality, functionality, ease of use, value, and anything else you think is important. Your feedback is valuable to us and to other users, so don't hold back!" onChange={(e) => setReviewFields({
+                                                ...reviewFields,
+                                                description: e.target.value
+                                            })}></textarea>
+                                            <button
+                                                type="submit"
+                                                className='w-40 p-4 border-2 dark:border-white border-black hover:dark:bg-primary-800 hover:bg-slate-300'
+                                            >
+                                                SUBMIT
+                                            </button>
+                                        </form>
                                     </div>
-                                    <form className=' flex flex-col gap-2' onSubmit={(e) => handleSubmit(e)}>
-                                        <label htmlFor="">Rating </label>
-                                        <p className='flex gap-2 font-semibold items-center'>
-                                            <Rating
-                                                value={value}
-                                                precision={0.5}
-                                                getLabelText={getLabelText}
-                                                onChange={(event, newValue) => {
-                                                    setValue(newValue as number);
-                                                    setReviewFields({
-                                                        ...reviewFields,
-                                                        rating: newValue as number
-                                                    })
-                                                }}
-                                                onChangeActive={(event, newHover) => {
-                                                    setHover(newHover);
-                                                }}
-                                                size="large"
-                                            />
-                                            {value !== null && (
-                                                <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : value]}</Box>
-                                            )}
-                                        </p>
-                                        <textarea className="h-[125px] bg-white dark:bg-primary-500 rounded-lg focus:outline-none p-4" placeholder="Write your opinion about the product here. Include your comments on its quality, functionality, ease of use, value, and anything else you think is important. Your feedback is valuable to us and to other users, so don't hold back!" onChange={(e) => setReviewFields({
-                                            ...reviewFields,
-                                            description: e.target.value
-                                        })}></textarea>
-                                        <button
-                                            type="submit"
-                                            className='w-40 p-4 border-2 dark:border-white border-black hover:dark:bg-primary-800 hover:bg-slate-300'
-                                        >
-                                            SUBMIT
-                                        </button>
-                                    </form>
                                 </div>
                             </div>
                         </div>
