@@ -7,9 +7,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     case 'POST':
       try {
         const { product_id, user_id, description, rating } = req.body;
+        console.log(product_id, user_id, description, rating)
         const review = await prisma.review.create({
           data: {
-            product: { connect: { id: parseInt(product_id) } },
+            product: { connect: { id: product_id } },
             user: { connect: { id: user_id } },
             description,
             rating,
@@ -17,7 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         });
         let newRating = rating;
         const product = await prisma.product.findUnique({
-          where: { id: parseInt(product_id) },
+          where: { id: product_id },
           include: { reviews: true },
         });
         const numReviews = product?.reviews.length || 0;
@@ -30,7 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
         // Update the corresponding product record with the new review and rating
         const updatedProduct = await prisma.product.update({
-          where: { id: parseInt(product_id) },
+          where: { id: product_id },
           data: {
             reviews: { connect: { id: review.id } },
             rating: parseFloat(newRating.toFixed(1)),
@@ -38,7 +39,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           include: { reviews: true },
         });
 
-        res.status(201).json(updatedProduct);
+        res.status(201).json({ success: true, updatedProduct });
+        // res.status(201).json('updatedProduct');
       } catch (error) {
         res.status(400).json({ success: false, error: error });
       }

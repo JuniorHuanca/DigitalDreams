@@ -1,4 +1,4 @@
-import { oneProduct, cleanUpProduct, selectOneProductStatus, getOneProduct } from "@/state/products/product/productSlice"
+import { oneProduct, cleanUpProduct, selectOneProductStatus, getOneProduct, postOneReview, selectPostReviewStatus } from "@/state/products/product/productSlice"
 import { useAppDispatch } from "@/state/store"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
@@ -53,13 +53,16 @@ const Detail = (props: Props) => {
     const router = useRouter()
     const productStatus = useSelector(selectOneProductStatus)
     const product: any = useSelector(oneProduct)
-    const { data: session }: ISession = useSession()
+    const { data: session, status }: ISession = useSession()
     const [reviewFields, setReviewFields] = useState({
-        product_id: product?.id,
+        product_id: product.id,
         user_id: session?.user?.id,
         description: '',
         rating: value,
     });
+    const [reviewsPerProduct, setReviewsPerProduct] = useState<number>(3)
+    const maxReviews = product?.reviews?.length;
+    const reviews = product?.reviews?.slice(0, reviewsPerProduct)
     useEffect(() => {
         (async () => {
             if (router.isReady) {
@@ -72,13 +75,20 @@ const Detail = (props: Props) => {
                 // }
             }
         })();
+        if (session) {
+            setReviewFields({
+                ...reviewFields,
+                user_id: session.user.id,
+                product_id: product.id,
 
+            })
+        }
         return () => {
             if (currentProductId === router.query.id) {
                 // dispatch(cleanUpProduct());
             }
         };
-    }, [router.query.id]);
+    }, [router.query.id, status]);
     const description = product?.description?.map((ele: Record<string, any>) => {
         const key = Object.keys(ele)[0];
         const value: any = Object.values(ele)[0];
@@ -106,18 +116,25 @@ const Detail = (props: Props) => {
         }
     });
 
-    const handleSubmit = (e: any) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault()
-        setReviewFields({
-            ...reviewFields,
-            product_id: product.id,
-            user_id: session.user.id,
-        })
-        console.log(reviewFields)
-        alert(JSON.stringify(reviewFields));
+        const response = await dispatch(postOneReview(reviewFields))
+        console.log(response)
 
+        if (response.payload.success) {
+            alert('reviewProductStatus')
+            const { id } = router.query;
+            setValue(0)
+            setReviewFields({
+                ...reviewFields,
+                description: '',
+                rating: 0,
+            })
+            await dispatch(getOneProduct(id as string));
+        } else {
+            alert('reviewProductStatus.EStateGeneric')
+        }
     }
-    console.log(session?.user)
     return (
         <Layout tittle={`${product.name} - Digital Dreams` || 'Error 404 Digital Dreams'}>
             <div className='w-full min-h-[80vh] flex flex-col items-center gap-4'>
@@ -172,15 +189,22 @@ const Detail = (props: Props) => {
                             </div>
                         </div>
                         <Related name={product.subcategory.name} id={product.id} />
-                        <div className="px-4 sm:px-8">
+                        <div className="px-4 sm:px-8 w-full">
                             <div className="w-full border-2 dark:border-white border-black">
                                 <div className='w-full border-b-2 dark:border-white border-black py-2'><p className="text-center text-xl">User Reviews</p></div>
                                 <div className='flex flex-wrap'>
-                                    {product.reviews.length ? product.reviews.map((e: any, index: any) => <CardReview review={e} key={index} />) :
-                                        <div className='w-full sm:w-[50%] mt-12 p-4 gap-2'>
-                                            <p className='my-auto text-center text-lg font-semibold animate-bounce'>Hi there! Be the first to leave a review about our product! Your opinion is very valuable to us. Don&apos;t hesitate to share your experience and thoughts. Thank you!</p>
-                                        </div>}
-                                    <div className='w-full flex flex-col sm:w-[50%] p-4  gap-2'>
+                                    <div className='w-full flex flex-col sm:w-[50%] gap-2 p-2'>
+                                        {reviews.length ? reviews.map((e: any, index: any) => <CardReview review={e} key={index} />) :
+                                            <div className='w-full sm:w-[50%] mt-12 gap-2'>
+                                                <p className='my-auto text-center text-lg font-semibold animate-bounce'>Hi there! Be the first to leave a review about our product! Your opinion is very valuable to us. Don&apos;t hesitate to share your experience and thoughts. Thank you!</p>
+                                            </div>}
+                                        <div className="flex p-2 justify-evenly">
+                                            {reviewsPerProduct < maxReviews && <button className="p-2 border-2 border-black dark:border-white hover:scale-105 transition-all" onClick={() => setReviewsPerProduct(reviewsPerProduct + 3)}>See more</button>}
+                                            {reviewsPerProduct > 3 && <button className="p-2 border-2 border-black dark:border-white hover:scale-105 transition-all" onClick={() => setReviewsPerProduct(reviewsPerProduct - 3)}>See less</button>}
+                                        </div>
+                                    </div>
+
+                                    <div className='w-full flex flex-col sm:w-[50%] gap-2 border-t-2 sm:border-0 border-black dark:border-white p-2'>
                                         <div className="flex items-center gap-2 py-3">
                                             <div className="relative h-12 w-12  overflow-hidden">
                                                 {session && (
@@ -204,7 +228,7 @@ const Detail = (props: Props) => {
                                         </div>
                                         <form className=' flex flex-col gap-2' onSubmit={(e) => handleSubmit(e)}>
                                             <label htmlFor="">Rating </label>
-                                            <p className='flex gap-2 font-semibold items-center'>
+                                            <div className='flex gap-2 font-semibold items-center'>
                                                 <Rating
                                                     value={value}
                                                     precision={0.5}
@@ -213,7 +237,8 @@ const Detail = (props: Props) => {
                                                         setValue(newValue as number);
                                                         setReviewFields({
                                                             ...reviewFields,
-                                                            rating: newValue as number
+                                                            rating: newValue as number,
+                                                            product_id: product.id,
                                                         })
                                                     }}
                                                     onChangeActive={(event, newHover) => {
@@ -224,8 +249,8 @@ const Detail = (props: Props) => {
                                                 {value !== null && (
                                                     <div>{labels[hover !== -1 ? hover : value]}</div>
                                                 )}
-                                            </p>
-                                            <textarea className="h-[125px] bg-white dark:bg-primary-500 rounded-lg focus:outline-none p-4" placeholder="Write your opinion about the product here. Include your comments on its quality, functionality, ease of use, value, and anything else you think is important. Your feedback is valuable to us and to other users, so don't hold back!" onChange={(e) => setReviewFields({
+                                            </div>
+                                            <textarea className="min-h-[125px] h-[125px] bg-white dark:bg-primary-500 rounded-lg focus:outline-none p-4" placeholder="Write your opinion about the product here. Include your comments on its quality, functionality, ease of use, value, and anything else you think is important. Your feedback is valuable to us and to other users, so don't hold back!" onBlur={(e) => setReviewFields({
                                                 ...reviewFields,
                                                 description: e.target.value
                                             })}></textarea>
