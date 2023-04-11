@@ -144,7 +144,7 @@ const Detail = (props: Props) => {
                             <h2 className='text-lg md:text-xl font-semibold capitalize '>{product.name}</h2>
                             <p className='flex font-semibold gap-2 items-center'>
                                 <Rating value={product.rating} precision={0.1} size="large" readOnly />
-                                {product.rating}
+                                {product.rating ? product.rating : 'no reviews'}
                             </p>
                             <details className='w-full overflow-hidden' open>
                                 <summary onClick={() => setIsOpen(!isOpen)} className="text-base">
