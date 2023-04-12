@@ -1,4 +1,4 @@
-import { oneProduct, cleanUpProduct, selectOneProductStatus, getOneProduct, postOneReview, selectPostReviewStatus } from "@/state/products/product/productSlice"
+import { oneProduct, cleanUpProduct, selectOneProductStatus, getOneProduct, postOneReview, selectPostReviewStatus, selectAllReviewsStatus, allReviews, getAllReviewsProduct } from "@/state/products/product/productSlice"
 import { useAppDispatch } from "@/state/store"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
@@ -52,8 +52,10 @@ const Detail = (props: Props) => {
     const { mode } = theme.palette
     const dispatch = useAppDispatch()
     const router = useRouter()
+    const reviewsStatus = useSelector(selectAllReviewsStatus)
     const productStatus = useSelector(selectOneProductStatus)
     const product: any = useSelector(oneProduct)
+    const reviews = useSelector(allReviews)
     const { data: session, status }: ISession = useSession()
     const [reviewFields, setReviewFields] = useState({
         product_id: product.id,
@@ -62,9 +64,7 @@ const Detail = (props: Props) => {
         rating: value,
     });
     const [reviewsPerProduct, setReviewsPerProduct] = useState<number>(3)
-    const maxReviews = product?.reviews?.length;
-    const [reviews, setReviews] = useState([])
-    const reviewsAll = product?.reviews?.slice(0, reviewsPerProduct)
+    const maxReviews = reviews?.length;
     const currentReviews = reviews?.slice(0, reviewsPerProduct)
     useEffect(() => {
         (async () => {
@@ -74,9 +74,13 @@ const Detail = (props: Props) => {
                 if (currentProductId !== id) {
                     setCurrentProductId(id as string);
                     await dispatch(getOneProduct(id as string));
-
+                    await dispatch(getAllReviewsProduct(id as string));
                 }
                 // }
+                if (reviewsStatus === EStateGeneric.IDLE) {
+                    await dispatch(getAllReviewsProduct(id as string));
+                }
+
             }
         })();
         if (session) {
@@ -89,13 +93,10 @@ const Detail = (props: Props) => {
         }
         return () => {
             if (currentProductId === router.query.id) {
-                // dispatch(cleanUpProduct());
+                dispatch(cleanUpProduct());
             }
         };
     }, [router.query.id, status]);
-    useEffect(() => {
-        setReviews(product?.reviews || []);
-    }, [product]);
     const description = product?.description?.map((ele: Record<string, any>) => {
         const key = Object.keys(ele)[0];
         const value: any = Object.values(ele)[0];
@@ -139,33 +140,6 @@ const Detail = (props: Props) => {
         } else {
             toast.error('Error creating review', { duration: 5000 })
         }
-    }
-    function filterByDate(dateValue: string) {
-        const productReviews = product?.reviews?.slice(0, reviewsPerProduct) || [];
-        // if (dateValue === 'MostRecent') {
-        //     sortedReviews = [...reviewsAll].filter((r: any) => r.createdAt).sort((a: any, b: any) => new Date(a.createdAt) - new Date(b.createdAt));
-
-        // } else if (dateValue === 'Oldest') {
-        //     sortedReviews = [...reviewsAll].filter((r: any) => r.createdAt).sort((a: any, b: any) => new Date(a.createdAt) - new Date(b.createdAt));
-
-        // } else {
-        //     sortedReviews = reviewsAll;
-        // }
-
-        setReviews(productReviews);
-    }
-
-
-    function filterByRating(ratingValue: number) {
-        console.log(ratingValue)
-        const filtered = reviewsAll.filter((review: any) => {
-            if (ratingValue > 5) {
-                return review.rating
-            } else {
-                return review.rating >= ratingValue && review.rating < ratingValue + 1
-            }
-        });
-        setReviews(filtered);
     }
     return (
         <Layout tittle={`${product.name} - Digital Dreams` || 'Error 404 Digital Dreams'}>
@@ -245,7 +219,7 @@ const Detail = (props: Props) => {
                                             </select>
                                         </div> */}
 
-                                        {reviewsAll.length ? reviewsAll.map((e: any, index: any) => <CardReview review={e} key={index} />) :
+                                        {currentReviews.length ? currentReviews.map((e: any, index: any) => <CardReview review={e} key={index} />) :
                                             <div className='w-full sm:w-[50%] mt-12 gap-2'>
                                                 <p className='my-auto text-center text-lg font-semibold animate-bounce'>Hi there! Be the first to leave a review about our product! Your opinion is very valuable to us. Don&apos;t hesitate to share your experience and thoughts. Thank you!</p>
                                             </div>}

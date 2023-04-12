@@ -4,6 +4,18 @@ import { NextApiRequest, NextApiResponse } from "next"
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method } = req
   switch (method) {
+    case 'GET':
+      try {
+        const { product_id } = req.query
+        const reviews = await prisma.review.findMany({
+          where: { product_id: parseInt(product_id as string) },
+          include: { user: true },
+        })
+        res.status(201).json({ success: true, reviews });
+      } catch (error) {
+        res.status(400).json({ success: false, error: error });
+      }
+      break;
     case 'POST':
       try {
         const { product_id, user_id, description, rating } = req.body;
