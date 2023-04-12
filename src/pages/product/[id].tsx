@@ -63,7 +63,9 @@ const Detail = (props: Props) => {
     });
     const [reviewsPerProduct, setReviewsPerProduct] = useState<number>(3)
     const maxReviews = product?.reviews?.length;
-    const reviews = product?.reviews?.slice(0, reviewsPerProduct)
+    const [reviews, setReviews] = useState([])
+    const reviewsAll = product?.reviews?.slice(0, reviewsPerProduct)
+    const currentReviews = reviews?.slice(0, reviewsPerProduct)
     useEffect(() => {
         (async () => {
             if (router.isReady) {
@@ -72,6 +74,7 @@ const Detail = (props: Props) => {
                 if (currentProductId !== id) {
                     setCurrentProductId(id as string);
                     await dispatch(getOneProduct(id as string));
+
                 }
                 // }
             }
@@ -86,10 +89,13 @@ const Detail = (props: Props) => {
         }
         return () => {
             if (currentProductId === router.query.id) {
-                dispatch(cleanUpProduct());
+                // dispatch(cleanUpProduct());
             }
         };
     }, [router.query.id, status]);
+    useEffect(() => {
+        setReviews(product?.reviews || []);
+    }, [product]);
     const description = product?.description?.map((ele: Record<string, any>) => {
         const key = Object.keys(ele)[0];
         const value: any = Object.values(ele)[0];
@@ -133,6 +139,33 @@ const Detail = (props: Props) => {
         } else {
             toast.error('Error creating review', { duration: 5000 })
         }
+    }
+    function filterByDate(dateValue: string) {
+        const productReviews = product?.reviews?.slice(0, reviewsPerProduct) || [];
+        // if (dateValue === 'MostRecent') {
+        //     sortedReviews = [...reviewsAll].filter((r: any) => r.createdAt).sort((a: any, b: any) => new Date(a.createdAt) - new Date(b.createdAt));
+
+        // } else if (dateValue === 'Oldest') {
+        //     sortedReviews = [...reviewsAll].filter((r: any) => r.createdAt).sort((a: any, b: any) => new Date(a.createdAt) - new Date(b.createdAt));
+
+        // } else {
+        //     sortedReviews = reviewsAll;
+        // }
+
+        setReviews(productReviews);
+    }
+
+
+    function filterByRating(ratingValue: number) {
+        console.log(ratingValue)
+        const filtered = reviewsAll.filter((review: any) => {
+            if (ratingValue > 5) {
+                return review.rating
+            } else {
+                return review.rating >= ratingValue && review.rating < ratingValue + 1
+            }
+        });
+        setReviews(filtered);
     }
     return (
         <Layout tittle={`${product.name} - Digital Dreams` || 'Error 404 Digital Dreams'}>
@@ -193,7 +226,26 @@ const Detail = (props: Props) => {
                                 <div className='w-full border-b-2 dark:border-white border-black py-2'><p className="text-center text-xl">User Reviews</p></div>
                                 <div className='flex flex-wrap'>
                                     <div className='w-full flex flex-col sm:w-[50%] gap-2 p-2'>
-                                        {reviews.length ? reviews.map((e: any, index: any) => <CardReview review={e} key={index} />) :
+                                        {/* <div className='w-full'>
+                                            <select onChange={(e) => filterByDate(e.target.value)}>
+                                                <option value="all">Seleccione una fecha</option>
+                                                <option value="MostRecent">Most recent</option>
+                                                <option value="Oldest">Oldest</option>
+                                            </select>
+                                            <select onChange={(e) => filterByRating(parseInt(e.target.value))}>
+                                                <option value=''>Seleccione las estrellas</option>
+                                                <option value={6}>Ver todos</option>
+                                                <option value={5}>⭐⭐⭐⭐⭐</option>
+                                                <option value={4}>⭐⭐⭐⭐</option>
+                                                <option value={3}>⭐⭐⭐</option>
+                                                <option value={2}>⭐⭐</option>
+                                                <option value={1}>⭐</option>
+                                                <option value={0}>0</option>
+
+                                            </select>
+                                        </div> */}
+
+                                        {reviewsAll.length ? reviewsAll.map((e: any, index: any) => <CardReview review={e} key={index} />) :
                                             <div className='w-full sm:w-[50%] mt-12 gap-2'>
                                                 <p className='my-auto text-center text-lg font-semibold animate-bounce'>Hi there! Be the first to leave a review about our product! Your opinion is very valuable to us. Don&apos;t hesitate to share your experience and thoughts. Thank you!</p>
                                             </div>}
