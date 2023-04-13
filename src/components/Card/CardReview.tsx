@@ -5,6 +5,7 @@ import Avatar from "react-avatar";
 import { BiEdit } from "react-icons/bi";
 import { BsFillTrashFill } from "react-icons/bs";
 import { MdReportProblem } from "react-icons/md";
+import Login from "../Modals/Login";
 
 type Props = {
   review: any;
@@ -31,8 +32,8 @@ const CardReview = ({ review, user }: Props) => {
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const handleClick = () => {
-    setShowModal(true);
-  }
+    setShowModal(!showModal);
+  };
   const formattedCreatedAt = `${createdAt.getDate()}/${
     createdAt.getMonth() + 1
   }/${createdAt.getFullYear()} ${createdAt.getHours()}:${createdAt.getMinutes()}`;
@@ -103,10 +104,8 @@ const CardReview = ({ review, user }: Props) => {
             <MdReportProblem />
           </button>
         )}
-        {showModal && (
-          <div></div>
-        )}
       </div>
+      {showModal && <Login setShowModal={setShowModal}/>}
     </div>
   );
 };
