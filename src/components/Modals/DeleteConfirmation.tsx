@@ -11,13 +11,6 @@ const DeleteConfirmation = ({ item, cancel, type, handleDelete }: Props) => {
       <div className="w-full xs:w-[60%] ss:w-[50%] sm:w-[40%] max-w-[500px] h-auto dark:bg-primary-500 bg-white p-6 rounded-lg">
         {type === "review" && (
           <div className="flex flex-col items-center gap-2">
-            <button
-              className="text-lg font-semibold"
-              type="button"
-              onClick={() => cancel(null)}
-            >
-              X
-            </button>
             <h2 className="text-xl font-semibold">Delete Review</h2>
             <p>
               Are you sure you want to delete this review? Please note that this

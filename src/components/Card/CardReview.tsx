@@ -8,8 +8,14 @@ import { MdReportProblem } from "react-icons/md";
 import Login from "../Modals/Login";
 import DeleteConfirmation from "../Modals/DeleteConfirmation";
 import { toast } from "react-hot-toast";
-import { deleteOneReview, getAllReviewsProduct } from "@/state/products/product/productSlice";
+import {
+  deleteOneReview,
+  getAllReviewsProduct,
+  getOneProduct,
+  putOneReview,
+} from "@/state/products/product/productSlice";
 import { useAppDispatch } from "@/state/store";
+import EditReview from "./EditReview";
 
 type Props = {
   review: any;
@@ -34,7 +40,12 @@ const CardReview = ({ review, user }: Props) => {
   const [errorImage, setErrorImage] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [deleteModal, setDeleteModal] = useState(null);
-
+  const [editReview, setEditReview] = useState<any>(null);
+  const [reviewFields, setReviewFields] = useState({
+    review_id: review.id,
+    description: review.description,
+    rating: review.rating,
+  });
   const handleClick = () => {
     setShowModal(!showModal);
   };
@@ -50,11 +61,25 @@ const CardReview = ({ review, user }: Props) => {
       const response: any = await dispatch(deleteOneReview(review.id));
       if (response.payload.success) {
         toast.success("Review successfully removed", { duration: 3000 });
+        await dispatch(getOneProduct(review.product_id));
         await dispatch(getAllReviewsProduct(review.product_id));
-        setDeleteModal(null)
+        setDeleteModal(null);
       }
     } catch (error) {
-      toast.error("error", { duration: 3000 });
+      toast.error("something went wrong", { duration: 3000 });
+    }
+  };
+  const handleEdit = async () => {
+    try {
+      const response: any = await dispatch(putOneReview(reviewFields));
+      if (response.payload.success) {
+        toast.success("Review successfully updated", { duration: 3000 });
+        await dispatch(getOneProduct(review.product_id));
+        await dispatch(getAllReviewsProduct(review.product_id));
+        setEditReview(null);
+      }
+    } catch (error) {
+      toast.error("something went wrong", { duration: 3000 });
     }
   };
   return (
@@ -75,22 +100,41 @@ const CardReview = ({ review, user }: Props) => {
         </div>
         {review.user.name}
       </div>
-      <div className="flex flex-col">
-        <p className="flex gap-2 items-center">
-          <Rating value={review.rating} precision={0.1} size="large" readOnly />
-          <span className="flex font-semibold">{labels[review.rating]}</span>
-        </p>
-        <p className="text-gray-500">Created: {formattedCreatedAt} UTC</p>
-        {formattedCreatedAt !== formattedUpdatedAt && (
-          <p className="text-gray-400">Modified: {formattedUpdatedAt} UTC</p>
-        )}
-        <p>{review.description}</p>
-      </div>
+      {editReview ? (
+        <EditReview
+          editReview={editReview}
+          labels={labels}
+          formattedCreatedAt={formattedCreatedAt}
+          formattedUpdatedAt={formattedUpdatedAt}
+          handleEdit={handleEdit}
+          setEditReview={setEditReview}
+          setReviewFields={setReviewFields}
+          reviewFields={reviewFields}
+        />
+      ) : (
+        <div className="flex flex-col">
+          <p className="flex gap-2 items-center">
+            <Rating
+              value={review.rating}
+              precision={0.1}
+              size="large"
+              readOnly
+            />
+            <span className="flex font-semibold">{labels[review.rating]}</span>
+          </p>
+          <p className="text-gray-500">Created: {formattedCreatedAt} UTC</p>
+          {formattedCreatedAt !== formattedUpdatedAt && (
+            <p className="text-gray-400">Modified: {formattedUpdatedAt} UTC</p>
+          )}
+          <p>{review.description}</p>
+        </div>
+      )}
       <div className="absolute top-0 right-0 text-2xl p-2">
         {review.user_id === user?.id && (
           <button
             className="text-green-500 hover:animate-bell-swing-scale hover:dark:bg-primary-500 hover:bg-white rounded-xl p-1"
             type="button"
+            onClick={() => setEditReview(review)}
           >
             <BiEdit />
           </button>

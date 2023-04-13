@@ -23,7 +23,6 @@ export default async function handler(
     case "POST":
       try {
         const { product_id, user_id, description, rating } = req.body;
-        console.log(product_id, user_id, description, rating);
         const review = await prisma.review.create({
           data: {
             product: { connect: { id: product_id } },
