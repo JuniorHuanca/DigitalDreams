@@ -31,6 +31,7 @@ import { useSession } from "next-auth/react";
 import Avatar from "react-avatar";
 import { toast } from "react-hot-toast";
 import Login from "@/components/Modals/Login";
+import { BiArrowBack } from "react-icons/bi";
 type Props = {};
 interface ISession {
   data: any;
@@ -103,7 +104,7 @@ const Detail = (props: Props) => {
     }
     return () => {
       if (currentProductId === router.query.id) {
-        dispatch(cleanUpProduct());
+        // dispatch(cleanUpProduct());
       }
     };
   }, [router.query.id, status]);
@@ -162,7 +163,16 @@ const Detail = (props: Props) => {
     <Layout
       tittle={`${product.name} - Digital Dreams` || "Error 404 Digital Dreams"}
     >
-      <div className="w-full min-h-[80vh] flex flex-col items-center gap-4">
+      <div className="w-full min-h-[80vh] flex flex-col items-center">
+        <button
+          onClick={() => {
+            router.back();
+          }}
+          className="self-start ml-6 px-2 pt-2 text-lg dark:border-white hover:animate-pulse border-black border-b-2 transition-all font-semibold flex items-center gap-1"
+        >
+          <BiArrowBack />
+          Go back
+        </button>
         {productStatus === EStateGeneric.PENDING && (
           <div className="w-full h-[80vh] flex justify-center items-center">
             <Loader />
@@ -189,11 +199,11 @@ const Detail = (props: Props) => {
           </div>
         )}
         {productStatus === EStateGeneric.SUCCEEDED && product.name && (
-          <div className="w-full sm:min-h-[80vh] flex flex-col sm:flex-row sm:items-start gap-4 py-4 sm:py-4 flex-wrap">
+          <div className="w-full sm:min-h-[80vh] flex flex-col sm:flex-row sm:items-start gap-4 sm:py-4 flex-wrap">
             <div className="flex flex-col w-full sm:w-auto px-2 sm:px-8">
               <Link
                 href={`/products/brand?name=${product.brand.name}`}
-                className="text-3xl text-center sm:text-left font-semibold my-6 md:m-4 uppercase underline underline-offset-8"
+                className="text-3xl text-center sm:text-left font-semibold my-2 md:m-4 uppercase underline underline-offset-8"
               >
                 {product.brand.name}
               </Link>
