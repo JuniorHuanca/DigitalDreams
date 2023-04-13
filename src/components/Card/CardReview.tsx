@@ -6,6 +6,10 @@ import { BiEdit } from "react-icons/bi";
 import { BsFillTrashFill } from "react-icons/bs";
 import { MdReportProblem } from "react-icons/md";
 import Login from "../Modals/Login";
+import DeleteConfirmation from "../Modals/DeleteConfirmation";
+import { toast } from "react-hot-toast";
+import { deleteOneReview, getAllReviewsProduct } from "@/state/products/product/productSlice";
+import { useAppDispatch } from "@/state/store";
 
 type Props = {
   review: any;
@@ -24,12 +28,12 @@ const labels: { [index: string]: string } = {
   5: "Exceptional",
 };
 const CardReview = ({ review, user }: Props) => {
-  console.log(review);
-  console.log(user);
+  const dispatch = useAppDispatch();
   const createdAt = new Date(review.createdAt);
   const updatedAt = new Date(review.updatedAt);
   const [errorImage, setErrorImage] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [deleteModal, setDeleteModal] = useState(null);
 
   const handleClick = () => {
     setShowModal(!showModal);
@@ -40,6 +44,19 @@ const CardReview = ({ review, user }: Props) => {
   const formattedUpdatedAt = `${updatedAt.getDate()}/${
     updatedAt.getMonth() + 1
   }/${updatedAt.getFullYear()} ${updatedAt.getHours()}:${updatedAt.getMinutes()}`;
+
+  const handleDelete = async () => {
+    try {
+      const response: any = await dispatch(deleteOneReview(review.id));
+      if (response.payload.success) {
+        toast.success("Review successfully removed", { duration: 3000 });
+        await dispatch(getAllReviewsProduct(review.product_id));
+        setDeleteModal(null)
+      }
+    } catch (error) {
+      toast.error("error", { duration: 3000 });
+    }
+  };
   return (
     <div className="w-full border-[1px] border-black dark:border-white p-2 overflow-hidden relative">
       <div className="flex items-center gap-2 py-3">
@@ -63,33 +80,37 @@ const CardReview = ({ review, user }: Props) => {
           <Rating value={review.rating} precision={0.1} size="large" readOnly />
           <span className="flex font-semibold">{labels[review.rating]}</span>
         </p>
-        <p className="text-gray-500">created: {formattedCreatedAt} UTC</p>
-        <p className="text-gray-500">updated: {formattedUpdatedAt} UTC</p>
-
+        <p className="text-gray-500">Created: {formattedCreatedAt} UTC</p>
+        {formattedCreatedAt !== formattedUpdatedAt && (
+          <p className="text-gray-400">Modified: {formattedUpdatedAt} UTC</p>
+        )}
         <p>{review.description}</p>
       </div>
       <div className="absolute top-0 right-0 text-2xl p-2">
-        {review.user.id === user?.id && (
+        {review.user_id === user?.id && (
           <button
-            className="text-green-500 hover:animate-bell-swing-scale hover:bg-primary-500 rounded-xl p-1"
+            className="text-green-500 hover:animate-bell-swing-scale hover:dark:bg-primary-500 hover:bg-white rounded-xl p-1"
             type="button"
           >
             <BiEdit />
           </button>
         )}
-        {review.user.id === user?.id ||
-          review.user.role === "Admin" ||
-          (review.user.role === "Manager" && (
+        {user &&
+          (review.user_id === user.id ||
+            user.role === "Admin" ||
+            user.role === "Manager") && (
             <button
-              className="text-red-500 hover:animate-bell-swing-scale hover:bg-primary-500 rounded-xl p-1"
+              className="text-red-500 hover:animate-bell-swing-scale hover:dark:bg-primary-500 hover:bg-white rounded-xl p-1"
               type="button"
+              onClick={() => setDeleteModal(review)}
             >
               <BsFillTrashFill />
             </button>
-          ))}
-        {user?.name && (
+          )}
+
+        {user?.name && review.user_id !== user?.id && (
           <button
-            className="text-yellow-500 hover:animate-bell-swing-scale hover:bg-primary-500 rounded-xl p-1"
+            className="text-yellow-500 hover:animate-bell-swing-scale hover:dark:bg-primary-500 hover:bg-white rounded-xl p-1"
             type="button"
           >
             <MdReportProblem />
@@ -97,7 +118,7 @@ const CardReview = ({ review, user }: Props) => {
         )}
         {!user?.name && (
           <button
-            className="text-yellow-500 hover:animate-bell-swing-scale hover:bg-primary-500 rounded-xl p-1"
+            className="text-yellow-500 hover:animate-bell-swing-scale hover:dark:bg-primary-500 hover:bg-white rounded-xl p-1"
             type="button"
             onClick={handleClick}
           >
@@ -105,7 +126,15 @@ const CardReview = ({ review, user }: Props) => {
           </button>
         )}
       </div>
-      {showModal && <Login setShowModal={setShowModal}/>}
+      {showModal && <Login setShowModal={setShowModal} />}
+      {deleteModal && (
+        <DeleteConfirmation
+          item={deleteModal}
+          cancel={setDeleteModal}
+          type="review"
+          handleDelete={handleDelete}
+        />
+      )}
     </div>
   );
 };

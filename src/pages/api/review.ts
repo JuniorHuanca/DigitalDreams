@@ -1,25 +1,29 @@
-import prisma from '@/lib/prismadb';
-import { NextApiRequest, NextApiResponse } from "next"
+import prisma from "@/lib/prismadb";
+import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { method } = req
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const { method } = req;
   switch (method) {
-    case 'GET':
+    case "GET":
       try {
-        const { product_id } = req.query
+        const { product_id } = req.query;
         const reviews = await prisma.review.findMany({
           where: { product_id: parseInt(product_id as string) },
           include: { user: true },
-        })
+          orderBy: { createdAt: "desc" },
+        });
         res.status(201).json({ success: true, reviews });
       } catch (error) {
         res.status(400).json({ success: false, error: error });
       }
       break;
-    case 'POST':
+    case "POST":
       try {
         const { product_id, user_id, description, rating } = req.body;
-        console.log(product_id, user_id, description, rating)
+        console.log(product_id, user_id, description, rating);
         const review = await prisma.review.create({
           data: {
             product: { connect: { id: product_id } },
@@ -50,15 +54,77 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           },
           include: { reviews: true },
         });
-
         res.status(201).json({ success: true, updatedProduct });
-        // res.status(201).json('updatedProduct');
       } catch (error) {
         res.status(400).json({ success: false, error: error });
       }
       break;
+    case "PUT":
+      try {
+        const { review_id, description, rating } = req.body;
+        const review = await prisma.review.update({
+          where: { id: review_id },
+          data: {
+            description,
+            rating,
+          },
+        });
+        const product = await prisma.product.findUnique({
+          where: { id: review.product_id },
+          include: { reviews: true },
+        });
+        const numReviews = product?.reviews.length || 0;
+        if (numReviews > 0) {
+          const totalRating = product?.reviews.reduce(
+            (sum, review) => sum + review.rating,
+            0
+          );
+          const newRating = totalRating ? totalRating / numReviews : 0;
+          await prisma.product.update({
+            where: { id: product?.id },
+            data: { rating: parseFloat(newRating.toFixed(1)) },
+          });
+        }
+        res.status(200).json({ success: true, review });
+      } catch (error) {
+        res.status(400).json({ success: false, error: error });
+      }
+      break;
+    case "DELETE":
+      try {
+        const { review_id } = req.query;
+        const review = await prisma.review.delete({
+          where: { id: parseInt(review_id as string) },
+        });
+        const product = await prisma.product.findUnique({
+          where: { id: review.product_id },
+          include: { reviews: true },
+        });
+        const numReviews = product?.reviews.length || 0;
+        if (numReviews > 0) {
+          const totalRating = product?.reviews.reduce(
+            (sum, review) => sum + review.rating,
+            0
+          );
+          const newRating = totalRating ? totalRating / numReviews : 0;
+          await prisma.product.update({
+            where: { id: product?.id },
+            data: { rating: parseFloat(newRating.toFixed(1)) },
+          });
+        } else {
+          await prisma.product.update({
+            where: { id: product?.id },
+            data: { rating: 0 },
+          });
+        }
+        res.status(200).json({ success: true, review });
+      } catch (error) {
+        res.status(400).json({ success: false, error: error });
+      }
+      break;
+
     default:
-      res.status(400).json({ success: false })
-      break
+      res.status(400).json({ success: false });
+      break;
   }
 }

@@ -30,6 +30,7 @@ import CardReview from "@/components/Card/CardReview";
 import { useSession } from "next-auth/react";
 import Avatar from "react-avatar";
 import { toast } from "react-hot-toast";
+import Login from "@/components/Modals/Login";
 type Props = {};
 interface ISession {
   data: any;
@@ -59,6 +60,7 @@ const Detail = (props: Props) => {
   const theme: ITheme = useTheme();
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [errorImage, setErrorImage] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
   const { mode } = theme.palette;
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -131,9 +133,15 @@ const Detail = (props: Props) => {
         return <br />;
     }
   });
-
+  const handleClick = () => {
+    setShowModal(!showModal);
+  };
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    if (!reviewFields.description || !reviewFields.rating) {
+      toast.error("All fields are required", { duration: 5000 });
+      return;
+    }
     const response = await dispatch(postOneReview(reviewFields));
     if (response.payload.success) {
       toast.success("Review created successfully", { duration: 5000 });
@@ -145,6 +153,7 @@ const Detail = (props: Props) => {
         rating: 0,
       });
       await dispatch(getOneProduct(id as string));
+      await dispatch(getAllReviewsProduct(id as string));
     } else {
       toast.error("Error creating review", { duration: 5000 });
     }
@@ -381,12 +390,24 @@ const Detail = (props: Props) => {
                           })
                         }
                       ></textarea>
-                      <button
-                        type="submit"
-                        className="w-40 p-4 border-2 dark:border-white border-black hover:dark:bg-primary-800 hover:bg-slate-300"
-                      >
-                        SUBMIT
-                      </button>
+                      {session && (
+                        <button
+                          type="submit"
+                          className="w-40 p-4 border-2 dark:border-white border-black hover:dark:bg-primary-800 hover:bg-slate-300"
+                        >
+                          SUBMIT
+                        </button>
+                      )}
+                      {!session && (
+                        <button
+                          type="button"
+                          onClick={handleClick}
+                          className="w-40 p-4 border-2 dark:border-white border-black hover:dark:bg-primary-800 hover:bg-slate-300"
+                        >
+                          SUBMIT
+                        </button>
+                      )}
+                      {showModal && <Login setShowModal={setShowModal} />}
                     </form>
                   </div>
                 </div>

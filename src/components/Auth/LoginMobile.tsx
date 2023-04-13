@@ -108,7 +108,7 @@ const LoginMobile = ({ formikR, formikL, login, signInForm, setSignInForm, signU
                         <div className="border-b-2 border-black text-black">
                             <Link href="/auth/restorepassword" >Forgot your password?</Link>
                         </div>
-                        <button className="bg-sky-900 py-4 px-10 rounded-3xl border hover:scale-125 transition-transform" type='submit'>Sign In</button>
+                        <button className="bg-sky-900 py-4 px-10 rounded-3xl border hover:scale-125 transition-transform text-white" type='submit'>Sign In</button>
                     </form>
                 }
                 {signUpForm && !login &&
@@ -178,7 +178,7 @@ const LoginMobile = ({ formikR, formikL, login, signInForm, setSignInForm, signU
                                 }
                             </div>
                         </div>
-                        <button className="bg-sky-900 py-4 px-10 rounded-3xl border hover:scale-125 transition-transform" type="submit">Sign Up</button>
+                        <button className="bg-sky-900 py-4 px-10 rounded-3xl border hover:scale-125 transition-transform text-white" type="submit">Sign Up</button>
                     </form>
                 }
                 <div className="absolute top-0 right-0 text-3xl hover:scale-125 transition-transform text-black">

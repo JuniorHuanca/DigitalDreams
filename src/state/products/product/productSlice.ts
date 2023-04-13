@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { EStateGeneric, IProduct } from "@/shared/util/types";
-import { getProductByApi, getReviewsProductByApi, postReviewApi } from "./productApi";
+import { deleteReviewApi, getProductByApi, getReviewsProductByApi, postReviewApi } from "./productApi";
 import { RootState } from "@/state/store";
 
 export const getOneProduct = createAsyncThunk(
@@ -38,12 +38,25 @@ export const postOneReview = createAsyncThunk(
         }
     }
 )
+
+export const deleteOneReview = createAsyncThunk(
+    'product/deleteOneReview',
+    async (review_id:number, { rejectWithValue }) => {
+        try {
+            const response = await deleteReviewApi(review_id)
+            return response.data
+        } catch (error: any) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
 interface IProductState {
     product: IProduct,
     reviews: [],
     oneProductStatus: EStateGeneric,
     allReviewsStatus: EStateGeneric,
     postReviewStatus: EStateGeneric,
+    deleteReviewStatus: EStateGeneric,
 }
 const initialState = {
     product: {},
@@ -51,6 +64,7 @@ const initialState = {
     oneProductStatus: EStateGeneric.IDLE,
     allReviewsStatus: EStateGeneric.IDLE,
     postReviewStatus: EStateGeneric.IDLE,
+    deleteReviewStatus: EStateGeneric.IDLE,
 } as IProductState;
 
 const productSlice = createSlice({
@@ -134,6 +148,16 @@ const productSlice = createSlice({
         })
         builder.addCase(postOneReview.rejected, (state, action) => {
             state.postReviewStatus = EStateGeneric.FAILED;
+        })
+
+        builder.addCase(deleteOneReview.fulfilled, (state, action) => {
+            state.deleteReviewStatus = EStateGeneric.SUCCEEDED;
+        })
+        builder.addCase(deleteOneReview.pending, (state, action) => {
+            state.deleteReviewStatus = EStateGeneric.PENDING;
+        })
+        builder.addCase(deleteOneReview.rejected, (state, action) => {
+            state.deleteReviewStatus = EStateGeneric.FAILED;
         })
     },
 });
