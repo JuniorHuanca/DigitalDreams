@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
-import { MdOutlineCancel, MdAdminPanelSettings } from 'react-icons/md';
-import { GiExitDoor, GiEntryDoor } from 'react-icons/gi';
-import { BsPersonCircle } from 'react-icons/bs';
+import React, { useState } from "react";
+import { MdOutlineCancel, MdAdminPanelSettings } from "react-icons/md";
+import { GiExitDoor, GiEntryDoor } from "react-icons/gi";
+import { BsPersonCircle } from "react-icons/bs";
 
-import Button from '@/shared/components/Button/Button';
-import { userProfileData } from '@/shared/util/data';
+import Button from "@/shared/components/Button/Button";
+import { userProfileData } from "@/shared/util/data";
 
-import { useTheme } from '@mui/material';
-import { ITheme } from '@/shared/util/types';
-import { signIn, signOut } from 'next-auth/react';
-import Link from 'next/link';
-import Image from 'next/image';
-import Avatar from 'react-avatar';
+import { useTheme } from "@mui/material";
+import { ITheme } from "@/shared/util/types";
+import { signIn, signOut } from "next-auth/react";
+import Link from "next/link";
+import Image from "next/image";
+import Avatar from "react-avatar";
 type Props = {
-  user: any
-}
+  user: any;
+};
 
 const UserProfileMobile = ({ user }: Props) => {
   const theme: ITheme = useTheme();
@@ -26,14 +26,19 @@ const UserProfileMobile = ({ user }: Props) => {
         <Button
           icon={<MdOutlineCancel className="w-10 h-10" />}
           color="rgb(153, 171, 180)"
-          bgHoverColor=''
+          bgHoverColor=""
           size="3xl"
-          borderRadius="50%" bgColor={undefined} text={undefined} width={undefined} title='userProfile' />
+          borderRadius="50%"
+          bgColor={undefined}
+          text={undefined}
+          width={undefined}
+          title="userProfile"
+        />
       </div>
       <div className="flex gap-2 ss:gap-4 items-center w-full">
         <div className="relative h-16 w-[30%] ss:h-24 ss:w-[30%] overflow-hidden">
-          {user && (
-            user.image && !errorImage ? (
+          {user &&
+            (user.image && !errorImage ? (
               <Image
                 className="rounded-full"
                 src={user.image}
@@ -43,26 +48,51 @@ const UserProfileMobile = ({ user }: Props) => {
               />
             ) : (
               <Avatar name={user.name} size="90%" round={true} />
-            )
-          )}
-          {!user && (
-            <BsPersonCircle className="h-16 w-16 ss:h-24 ss:w-24" />
-          )}
+            ))}
+          {!user && <BsPersonCircle className="h-16 w-16 ss:h-24 ss:w-24" />}
         </div>
-        {user && <div className='w-[70%] overflow-hidden'>
-          <p className="font-semibold text-base ss:text-xl dark:text-gray-200">{user?.name}</p>
-          <p className="text-gray-500 text-xs ss:text-sm dark:text-gray-400">  Email   </p>
-          <p className="flex flex-wrap text-gray-500 text-xs ss:text-sm font-semibold dark:text-gray-400"> {user?.email} </p>
-        </div>}
-        {!user && <div>
-          <p className="font-semibold text-base ss:text-xl dark:text-gray-200"> Name </p>
-          <p className="text-gray-500 text-xs ss:text-sm dark:text-gray-400">  Email   </p>
-          <p className="flex flex-wrap text-gray-500 text-xs ss:text-sm font-semibold dark:text-gray-400"> user@gmail.com.example </p>
-        </div>}
+        {user && (
+          <div className="w-[70%] overflow-hidden">
+            <p className="font-semibold text-base ss:text-xl dark:text-gray-200">
+              {user?.name}
+            </p>
+            <p className="text-gray-500 text-xs ss:text-sm dark:text-gray-400">
+              {" "}
+              Email{" "}
+            </p>
+            <p className="flex flex-wrap text-gray-500 text-xs ss:text-sm font-semibold dark:text-gray-400">
+              {" "}
+              {user?.email}{" "}
+            </p>
+          </div>
+        )}
+        {!user && (
+          <div>
+            <p className="font-semibold text-base ss:text-xl dark:text-gray-200">
+              {" "}
+              Name{" "}
+            </p>
+            <p className="text-gray-500 text-xs ss:text-sm dark:text-gray-400">
+              {" "}
+              Email{" "}
+            </p>
+            <p className="flex flex-wrap text-gray-500 text-xs ss:text-sm font-semibold dark:text-gray-400">
+              {" "}
+              user@gmail.com.example{" "}
+            </p>
+          </div>
+        )}
       </div>
       <div>
         {userProfileData.map((item, index) => (
-          <Link key={index} href={`/${item.title.split(' ')[1].toLowerCase()}`}>
+          <Link
+            key={index}
+            href={`/profile/${
+              item.title.split(" ")[1].toLowerCase() === "profile"
+                ? ""
+                : item.title.split(" ")[1].toLowerCase()
+            }`}
+          >
             <div className="flex gap-2 ss:gap-5 border-b-1 border-color p-4 hover:bg-slate-300 cursor-pointer dark:hover:bg-primary-600">
               <button
                 type="button"
@@ -73,50 +103,56 @@ const UserProfileMobile = ({ user }: Props) => {
               </button>
 
               <div>
-                <p className="font-semibold dark:text-gray-200 ">{item.title}</p>
-                <p className="text-gray-500 text-sm dark:text-gray-400"> {item.desc} </p>
+                <p className="font-semibold dark:text-gray-200 ">
+                  {item.title}
+                </p>
+                <p className="text-gray-500 text-sm dark:text-gray-400">
+                  {" "}
+                  {item.desc}{" "}
+                </p>
               </div>
             </div>
           </Link>
         ))}
-        {user?.role === 'Admin' && <Link href={'/dashboard'}>
-          <div className="flex gap-2 ss:gap-5 border-b-1 border-color p-4 hover:bg-slate-300 cursor-pointer dark:hover:bg-primary-600">
+        {user?.role === "Admin" && (
+          <Link href={"/dashboard"}>
+            <div className="flex gap-2 ss:gap-5 border-b-1 border-color p-4 hover:bg-slate-300 cursor-pointer dark:hover:bg-primary-600">
+              <button className=" text-xl rounded-lg p-2 ss:p-3 bg-blue-600 dark:bg-slate-50 text-primary-700">
+                <MdAdminPanelSettings />
+              </button>
 
-            <button
-              className=" text-xl rounded-lg p-2 ss:p-3 bg-blue-600 dark:bg-slate-50 text-primary-700"
-            >
-              <MdAdminPanelSettings />
-            </button>
-
-            <div>
-              <p className="font-semibold dark:text-gray-200 ">Dashboard</p>
-              <p className="text-gray-500 text-sm dark:text-gray-400"> Account and performance summary </p>
+              <div>
+                <p className="font-semibold dark:text-gray-200 ">Dashboard</p>
+                <p className="text-gray-500 text-sm dark:text-gray-400">
+                  {" "}
+                  Account and performance summary{" "}
+                </p>
+              </div>
             </div>
-          </div>
-        </Link>}
-
+          </Link>
+        )}
       </div>
       <div className="mt-5">
-        {user && <button
-          type="button"
-          className={`flex justify-center items-center gap-4 text-lg text-white p-3 w-full hover:bg-blue-600 bg-blue-500 dark:hover:bg-primary-400 dark:bg-primary-800 rounded-lg hover:scale-105 transition-transform`}
-          onClick={() => signOut()}
-        >
-          Logout <GiExitDoor />
-        </button>
-        }
-        {!user && <button
-          type="button"
-          className={`flex justify-center items-center gap-4 text-lg text-white p-3 w-full hover:bg-blue-600 bg-blue-500 dark:hover:bg-primary-400 dark:bg-primary-800 rounded-lg hover:scale-105 transition-transform`}
-          onClick={() => signIn()}
-        >
-          Login <GiEntryDoor />
-        </button>
-        }
-
+        {user && (
+          <button
+            type="button"
+            className={`flex justify-center items-center gap-4 text-lg text-white p-3 w-full hover:bg-blue-600 bg-blue-500 dark:hover:bg-primary-400 dark:bg-primary-800 rounded-lg hover:scale-105 transition-transform`}
+            onClick={() => signOut()}
+          >
+            Logout <GiExitDoor />
+          </button>
+        )}
+        {!user && (
+          <button
+            type="button"
+            className={`flex justify-center items-center gap-4 text-lg text-white p-3 w-full hover:bg-blue-600 bg-blue-500 dark:hover:bg-primary-400 dark:bg-primary-800 rounded-lg hover:scale-105 transition-transform`}
+            onClick={() => signIn()}
+          >
+            Login <GiEntryDoor />
+          </button>
+        )}
       </div>
     </div>
-
   );
 };
 

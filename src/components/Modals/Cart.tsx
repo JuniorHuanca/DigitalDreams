@@ -1,13 +1,13 @@
-import React from 'react';
-import { MdOutlineCancel } from 'react-icons/md';
-import { AiOutlinePlus, AiOutlineMinus } from 'react-icons/ai';
-import { BsTrash } from 'react-icons/bs';
+import React from "react";
+import { MdOutlineCancel } from "react-icons/md";
+import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
+import { BsTrash } from "react-icons/bs";
 
-import { cartData } from '@/shared/util/data';
-import Button from '@/shared/components/Button/Button';
-import { useTheme } from '@mui/material';
-import { ITheme } from '@/shared/util/types';
-import Image from 'next/image';
+import { cartData } from "@/shared/util/data";
+import Button from "@/shared/components/Button/Button";
+import { useTheme } from "@mui/material";
+import { ITheme } from "@/shared/util/types";
+import Image from "next/image";
 
 const Cart = () => {
   const theme: ITheme = useTheme();
@@ -22,7 +22,12 @@ const Cart = () => {
             color="rgb(153, 171, 180)"
             bgHoverColor="light-gray"
             size="3xl"
-            borderRadius="50%" bgColor={undefined} text={undefined} width={undefined} title='cart' />
+            borderRadius="50%"
+            bgColor={undefined}
+            text={undefined}
+            width={undefined}
+            title="cart"
+          />
         </div>
         <div className="ss:max-h-[70vh] h-[90%] max-h-[80.5vh] flex flex-col justify-start">
           <div className="flex-1 overflow-y-auto hide-scrollbar">
@@ -35,14 +40,24 @@ const Cart = () => {
                     </div>
                     <div>
                       <p className="font-semibold ">{item.name}</p>
-                      <p className="text-gray-600 dark:text-gray-400 text-sm font-semibold">{item.category}</p>
+                      <p className="text-gray-600 dark:text-gray-400 text-sm font-semibold">
+                        {item.category}
+                      </p>
                       <div className="flex gap-4 mt-2 items-center">
                         <p className="font-semibold text-lg">{item.price}</p>
                         <div className="flex items-center border-2 border-r-0 border-l-0 border-slate-200 dark:border-primary-400 rounded">
-                          <button className="p-2 border-l-2 border-slate-200 dark:border-primary-400 text-red-600"><AiOutlineMinus /></button>
-                          <button className="p-2 border-r-2 border-l-2 border-slate-200 dark:border-primary-400">100</button>
-                          <button className="p-2 border-r-2 border-slate-200 dark:border-primary-400 text-green-600"><AiOutlinePlus /></button>
-                          <button className="p-2 border-r-2 border-slate-200 dark:border-primary-400 text-red-600"><BsTrash /></button>
+                          <button className="p-2 border-l-2 border-slate-200 dark:border-primary-400 text-red-600">
+                            <AiOutlineMinus />
+                          </button>
+                          <button className="p-2 border-r-2 border-l-2 border-slate-200 dark:border-primary-400">
+                            100
+                          </button>
+                          <button className="p-2 border-r-2 border-slate-200 dark:border-primary-400 text-green-600">
+                            <AiOutlinePlus />
+                          </button>
+                          <button className="p-2 border-r-2 border-slate-200 dark:border-primary-400 text-red-600">
+                            <BsTrash />
+                          </button>
                         </div>
                       </div>
                     </div>
