@@ -96,6 +96,48 @@ details[open] summary~* {
 /* :root {
   --swiper-theme-color: #21295c !important;
 } */
+.marquee {
+  position: relative;
+  height: 400px;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.maylike-products-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.track {
+  position: absolute;
+  /* white-space: nowrap; */
+  will-change: transform;
+  animation: marquee 15s linear infinite;
+  width: 180%;
+}
+
+.track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media screen and (max-width:800px) {
+  .track {
+    animation: marquee 10s linear infinite;
+    width: 550%;
+  }
+}
 
 @tailwind base;
 @tailwind components;

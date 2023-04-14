@@ -1,33 +1,43 @@
-import { allProductsRelateds, cleanUpProductsRelated, getAllProductsRelated, selectAllProductsRelatedsStatus } from "@/state/products/products/productsSlice"
-import { useAppDispatch } from "@/state/store"
-import { useEffect } from "react"
-import { useSelector } from "react-redux"
-import Card from "../Card/Card"
-import { useRouter } from "next/router"
-import { EStateGeneric } from "@/shared/util/types"
-import Loader from "../Loaders/Loader"
-import { Navigation, Autoplay } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import useMediaQuery from "@/shared/util/useMediaQuery"
+import {
+  allProductsRelateds,
+  cleanUpProductsRelated,
+  getAllProductsRelated,
+  selectAllProductsRelatedsStatus,
+} from "@/state/products/products/productsSlice";
+import { useAppDispatch } from "@/state/store";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import Card from "../Card/Card";
+import { useRouter } from "next/router";
+import { EStateGeneric } from "@/shared/util/types";
+import Loader from "../Loaders/Loader";
+import { Navigation, Autoplay } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import useMediaQuery from "@/shared/util/useMediaQuery";
 type Props = {
   name: string;
-  id: number
-}
+  id: number;
+};
 interface SwiperStyle extends React.CSSProperties {
   "--swiper-navigation-color"?: string;
 }
 
 const Related = ({ name, id }: Props) => {
-  const dispatch = useAppDispatch()
-  const router = useRouter()
-  const productsStatus = useSelector(selectAllProductsRelatedsStatus)
-  const products = useSelector(allProductsRelateds)
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const productsStatus = useSelector(selectAllProductsRelatedsStatus);
+  const products = useSelector(allProductsRelateds);
   const isAboveMobileScreens = useMediaQuery("(min-width: 480px)");
   const isAboveMediumScreens = useMediaQuery("(min-width: 768px)");
   const isAboveLargeScreens = useMediaQuery("(min-width: 1060px)");
   const isAboveXtraLargeScreens = useMediaQuery("(min-width: 1200px)");
   const isAboveDobleXtraLargeScreens = useMediaQuery("(min-width: 1700px)");
-  function getSlidesPerView(isAboveMobileScreens: boolean, isAboveMediumScreens: boolean, isAboveLargeScreens: boolean, isAboveXtraLargeScreens: boolean): number {
+  function getSlidesPerView(
+    isAboveMobileScreens: boolean,
+    isAboveMediumScreens: boolean,
+    isAboveLargeScreens: boolean,
+    isAboveXtraLargeScreens: boolean
+  ): number {
     if (isAboveDobleXtraLargeScreens) {
       return 6;
     } else if (isAboveXtraLargeScreens) {
@@ -42,7 +52,12 @@ const Related = ({ name, id }: Props) => {
       return 1;
     }
   }
-  const slidesPerView = getSlidesPerView(isAboveMobileScreens, isAboveMediumScreens, isAboveLargeScreens, isAboveXtraLargeScreens);
+  const slidesPerView = getSlidesPerView(
+    isAboveMobileScreens,
+    isAboveMediumScreens,
+    isAboveLargeScreens,
+    isAboveXtraLargeScreens
+  );
   useEffect(() => {
     (async () => {
       if (router.isReady) {
@@ -50,42 +65,65 @@ const Related = ({ name, id }: Props) => {
         await dispatch(getAllProductsRelated({ name, id }));
         // }
       }
-    })()
+    })();
     return () => {
-      dispatch(cleanUpProductsRelated())
-    }
-  }, [router.isReady, name, id])
+      dispatch(cleanUpProductsRelated());
+    };
+  }, [router.isReady, name, id]);
+  // return (
+  //   <div className={`w-[99vw] ${products.length ? '' : 'h-[50vh]'} mb-4`}>
+  //     {productsStatus === EStateGeneric.SUCCEEDED && <div className='w-full'>
+  //       <h2 className='text-xl font-semibold m-4 capitalize '>More top-rated products for you to browse</h2>
+  //       <Swiper
+  //         modules={[Autoplay, Navigation]}
+  //         style={{
+  //           "--swiper-navigation-color": "#000",
+  //         } as SwiperStyle}
+  //         autoplay={{
+  //           delay: 5000,
+  //           disableOnInteraction: false,
+  //         }}
+  //         navigation
+  //         speed={800}
+  //         slidesPerView={slidesPerView}
+  //         slidesPerGroup={slidesPerView}
+  //         loop
+  //         spaceBetween={50}
+  //         centeredSlides={true}
+  //       >
+  //         {products.map((product, index) => (
+  //           <SwiperSlide key={index} ><div className='flex justify-center w-full'><Card product={product} /></div></SwiperSlide>
+  //         ))}
+  //       </Swiper>
+  //     </div>}
+  //     {productsStatus === EStateGeneric.PENDING && <div className='w-full h-[100%] flex justify-center'>
+  //       <Loader />
+  //     </div>}
+  //   </div>
+  // )
   return (
-    <div className={`w-[99vw] ${products.length ? '' : 'h-[50vh]'} mb-4`}>
-      {productsStatus === EStateGeneric.SUCCEEDED && <div className='w-full'>
-        <h2 className='text-xl font-semibold m-4 capitalize '>More top-rated products for you to browse</h2>
-        <Swiper
-          modules={[Autoplay, Navigation]}
-          style={{
-            "--swiper-navigation-color": "#000",
-          } as SwiperStyle}
-          autoplay={{
-            delay: 5000,
-            disableOnInteraction: false,
-          }}
-          navigation
-          speed={800}
-          slidesPerView={slidesPerView}
-          slidesPerGroup={slidesPerView}
-          loop
-          spaceBetween={50}
-          centeredSlides={true}
-        >
-          {products.map((product, index) => (
-            <SwiperSlide key={index} ><div className='flex justify-center w-full'><Card product={product} /></div></SwiperSlide>
-          ))}
-        </Swiper>
-      </div>}
-      {productsStatus === EStateGeneric.PENDING && <div className='w-full h-[100%] flex justify-center'>
-        <Loader />
-      </div>}
+    <div className={`w-full ${products.length ? "" : "h-[50vh]"}`}>
+      {productsStatus === EStateGeneric.SUCCEEDED && (
+        <div className="maylike-products-wrapper">
+          <h2 className="text-xl font-semibold m-4 capitalize ">
+            More top-rated products for you to browse
+          </h2>
+          <div className="marquee">
+            <div className="maylike-products-container track">
+              {products.map((item) => (
+                <Card key={item.id} product={item} />
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+      {productsStatus === EStateGeneric.PENDING && (
+        <div className="w-full h-[100%] flex justify-center">
+          <Loader />
+        </div>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default Related
+export default Related;

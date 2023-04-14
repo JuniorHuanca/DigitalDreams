@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-const defaultTheme = require('tailwindcss/defaultTheme')
+const defaultTheme = require("tailwindcss/defaultTheme");
 module.exports = {
   content: [
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -9,42 +9,43 @@ module.exports = {
   theme: {
     extend: {
       animation: {
-        'bell-swing': 'bell-swing 2s ease-in-out infinite',
-        'bell-swing-scale': 'bell-swing-scale 2s ease-in-out infinite',
-        typing: 'typing 4s steps(38) 1s infinite alternate, blink 1s steps(1) infinite',
+        "bell-swing": "bell-swing 2s ease-in-out infinite",
+        "bell-swing-scale": "bell-swing-scale 2s ease-in-out infinite",
+        typing:
+          "typing 4s steps(38) 1s infinite alternate, blink 1s steps(1) infinite",
       },
       keyframes: {
-        'bell-swing': {
-          '0%, 100%': { transform: 'rotate(0deg)' },
-          '25%': { transform: 'rotate(10deg)' },
-          '50%': { transform: 'rotate(0deg)' },
-          '75%': { transform: 'rotate(-10deg)' },
+        "bell-swing": {
+          "0%, 100%": { transform: "rotate(0deg)" },
+          "25%": { transform: "rotate(10deg)" },
+          "50%": { transform: "rotate(0deg)" },
+          "75%": { transform: "rotate(-10deg)" },
         },
-        'bell-swing-scale': {
-          '0%, 100%': { transform: 'rotate(0deg) scale(1)' },
-          '25%': { transform: 'rotate(10deg) scale(1.2)' },
-          '50%': { transform: 'rotate(0deg) scale(1)' },
-          '75%': { transform: 'rotate(-10deg) scale(1.2)' },
+        "bell-swing-scale": {
+          "0%, 100%": { transform: "rotate(0deg) scale(1)" },
+          "25%": { transform: "rotate(10deg) scale(1.2)" },
+          "50%": { transform: "rotate(0deg) scale(1)" },
+          "75%": { transform: "rotate(-10deg) scale(1.2)" },
         },
         typing: {
           from: {
             width: 0,
           },
           to: {
-            width: '100%',
+            width: "100%",
           },
         },
-        'typing-reset': {
+        "typing-reset": {
           from: {
-            width: '100%',
+            width: "100%",
           },
           to: {
             width: 0,
           },
         },
         blink: {
-          '50%': {
-            borderColor: 'transparent',
+          "50%": {
+            borderColor: "transparent",
           },
         },
       },
@@ -89,44 +90,59 @@ module.exports = {
           800: "#665429",
           900: "#332a14",
         },
-        'purple': {
-          '50': '#faf5ff',
-          '100': '#f3e8ff',
-          '200': '#e9d5ff',
-          '300': '#d8b4fe',
-          '400': '#c084fc',
-          '500': '#a855f7',
-          '600': '#9333ea',
-          '700': '#7e22ce',
-          '800': '#6b21a8',
-          '900': '#581c87',
-          '950': '#3b0764',
+        purple: {
+          50: "#faf5ff",
+          100: "#f3e8ff",
+          200: "#e9d5ff",
+          300: "#d8b4fe",
+          400: "#c084fc",
+          500: "#a855f7",
+          600: "#9333ea",
+          700: "#7e22ce",
+          800: "#6b21a8",
+          900: "#581c87",
+          950: "#3b0764",
         },
-        'sky': {
-          '50': '#f0f9ff',
-          '100': '#e0f2fe',
-          '200': '#bae6fd',
-          '300': '#7dd3fc',
-          '400': '#38bdf8',
-          '500': '#0ea5e9',
-          '600': '#0284c7',
-          '700': '#0369a1',
-          '800': '#075985',
-          '900': '#0c4a6e',
-          '950': '#082f49',
+        sky: {
+          50: "#f0f9ff",
+          100: "#e0f2fe",
+          200: "#bae6fd",
+          300: "#7dd3fc",
+          400: "#38bdf8",
+          500: "#0ea5e9",
+          600: "#0284c7",
+          700: "#0369a1",
+          800: "#075985",
+          900: "#0c4a6e",
+          950: "#082f49",
         },
-        'indigo': {
-          '50': '#eef2ff',
-          '100': '#e0e7ff',
-          '200': '#c7d2fe',
-          '300': '#a5b4fc',
-          '400': '#818cf8',
-          '500': '#6366f1',
-          '600': '#4f46e5',
-          '700': '#4338ca',
-          '800': '#3730a3',
-          '900': '#312e81',
-          '950': '#1e1b4b',
+        indigo: {
+          50: "#eef2ff",
+          100: "#e0e7ff",
+          200: "#c7d2fe",
+          300: "#a5b4fc",
+          400: "#818cf8",
+          500: "#6366f1",
+          600: "#4f46e5",
+          700: "#4338ca",
+          800: "#3730a3",
+          900: "#312e81",
+          950: "#1e1b4b",
+        },
+        grey: {
+          0: "#ffffff", // manually adjusted
+          10: "#f6f6f6", // manually adjusted
+          50: "#f0f0f0", // manually adjusted
+          100: "#e0e0e0",
+          200: "#c2c2c2",
+          300: "#a3a3a3",
+          400: "#858585",
+          500: "#666666",
+          600: "#525252",
+          700: "#3d3d3d",
+          800: "#292929",
+          900: "#141414",
+          1000: "#000000", // manually adjusted
         },
       },
       backgroundImage: (theme) => ({
@@ -152,5 +168,5 @@ module.exports = {
     },
   },
   plugins: [],
-  darkMode: 'class',
-}
+  darkMode: "class",
+};

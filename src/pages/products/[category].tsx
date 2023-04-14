@@ -1,8 +1,12 @@
 import {
   allProductsBrand,
+  allProductsCategory,
   cleanUpProductsBrand,
+  cleanUpProductsCategory,
   getAllProductsBrand,
+  getAllProductsCategory,
   selectAllProductsBrandStatus,
+  selectAllProductsCategoriesStatus,
 } from "@/state/products/products/productsSlice";
 import { useAppDispatch } from "@/state/store";
 import { useEffect, useState } from "react";
@@ -22,27 +26,48 @@ const Brand = (props: Props) => {
   const router = useRouter();
   const productsStatus = useSelector(selectAllProductsBrandStatus);
   const products = useSelector(allProductsBrand);
+  const productsCateogryStatus = useSelector(selectAllProductsCategoriesStatus);
+  const productsCateogry = useSelector(allProductsCategory);
 
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState<number>(1);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = products.slice(indexOfFirstItem, indexOfLastItem)
+  const currentItems = products.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItemsCategory = productsCateogry.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
   useEffect(() => {
     (async () => {
       if (router.isReady) {
-        const { name } = router.query;
-        if (productsStatus === EStateGeneric.IDLE) {
-          await dispatch(getAllProductsBrand(name as string));
+        const { name, category } = router.query;
+        if (name) {
+          if (productsStatus === EStateGeneric.IDLE) {
+            await dispatch(getAllProductsBrand(name as string));
+          }
+        }
+        if (category && category !== "brand") {
+          if (productsCateogryStatus === EStateGeneric.IDLE) {
+            await dispatch(getAllProductsCategory(category as string));
+          }
         }
       }
+      setCurrentPage(1)
     })();
 
     return () => {
-      dispatch(cleanUpProductsBrand());
+      if (router.query.category !== "brand") {
+        dispatch(cleanUpProductsCategory());
+      } else {
+        dispatch(cleanUpProductsBrand());
+      }
     };
-  }, [router.query.name]);
+  }, [router.query.name, router.query.category]);
+  console.log(router.query.category);
+  console.log(productsCateogry.length);
+  console.log(productsCateogryStatus);
   return (
     <Layout tittle={`${router.query.name as string} - Digital Dreams`}>
       <button
@@ -57,14 +82,27 @@ const Brand = (props: Props) => {
       <div className="w-full min-h-[80vh] flex flex-wrap justify-center gap-4">
         {productsStatus === EStateGeneric.SUCCEEDED &&
           currentItems.map((e, index) => <Card key={index} product={e} />)}
+        {productsCateogryStatus === EStateGeneric.SUCCEEDED &&
+          currentItemsCategory.map((e, index) => (
+            <Card key={index} product={e} />
+          ))}
         {productsStatus === EStateGeneric.PENDING && (
+          <div className="w-full h-[80vh] flex justify-center items-center">
+            <Loader />
+          </div>
+        )}
+        {productsCateogryStatus === EStateGeneric.PENDING && (
           <div className="w-full h-[80vh] flex justify-center items-center">
             <Loader />
           </div>
         )}
       </div>
       <Pagination
-        items={products}
+        items={
+          productsStatus === EStateGeneric.SUCCEEDED
+            ? products
+            : productsCateogry
+        }
         itemsPerPage={itemsPerPage}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
