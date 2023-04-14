@@ -65,6 +65,7 @@ model User {
     affiliateStat AffiliateStat[]
     createdAt     DateTime        @default(now())
     updatedAt     DateTime        @updatedAt
+    Report        Report[]
 }
 
 enum Role {
@@ -198,8 +199,18 @@ model Review {
     user_id     String
     description String
     rating      Float
+    reports     Report[]
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
+}
+
+model Report {
+    id       Int     @id @default(autoincrement())
+    user     User    @relation(fields: [user_id], references: [id])
+    user_id  String
+    review   Review? @relation(fields: [reviewId], references: [id])
+    reviewId Int?
+    reason   String
 }
 
 model Favorite {

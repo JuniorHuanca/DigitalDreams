@@ -11,7 +11,14 @@ export default async function handler(
       try {
         const { product_id } = req.query;
         const reviews = await prisma.review.findMany({
-          where: { product_id: parseInt(product_id as string) },
+          where: {
+            product_id: parseInt(product_id as string),
+            reports: { none: {} },
+            // reports: {
+            //   has: false,
+            //   count: { lt: 3 },
+            // },
+          },
           include: { user: true },
           orderBy: { createdAt: "desc" },
         });
@@ -22,6 +29,37 @@ export default async function handler(
       break;
     case "POST":
       try {
+        const { report } = req.query;
+        if (report) {
+          const { userId, reason, reviewId } = req.body;
+
+          try {
+            // Buscar la revisión correspondiente en la base de datos
+            const review = await prisma.review.findUnique({
+              where: { id: parseInt(reviewId as string) },
+            });
+
+            if (!review) {
+              return res
+                .status(404)
+                .json({ success: false, error: "Review not found" });
+            }
+
+            // Crear el nuevo informe
+            const report = await prisma.report.create({
+              data: {
+                reason,
+                user: { connect: { id: userId } },
+                review: { connect: { id: review.id } },
+              },
+            });
+
+            res.status(201).json({ success: true, report });
+          } catch (error: any) {
+            res.status(400).json({ success: false, error: error.message });
+          }
+          break;
+        }
         const { product_id, user_id, description, rating } = req.body;
         const review = await prisma.review.create({
           data: {
