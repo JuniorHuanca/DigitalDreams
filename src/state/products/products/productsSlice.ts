@@ -126,7 +126,9 @@ interface IProductsState {
   allItems: IProduct[];
   productsCategory: IProduct[];
   categories: [];
+  allItemsSecond: [];
   brands: [];
+  filters: any;
   productsBrand: IProduct[];
   productsBrands: IProduct[];
   productsMostSelling: IProduct[];
@@ -145,7 +147,9 @@ const initialState = {
   allItems: [],
   productsCategory: [],
   categories: [],
+  allItemsSecond: [],
   brands: [],
+  filters: {},
   productsBrand: [],
   productsBrands: [],
   productsMostSelling: [],
@@ -206,6 +210,12 @@ const productsSlice = createSlice({
         allProductsStatusCategory: EStateGeneric.IDLE,
       };
     },
+    setFilters: (state, action) => {
+      return {
+        ...state,
+        filters: action.payload,
+      };
+    },
     orderAlphabetically: (state, action) => {
       const arrayState = state[action.payload.array as keyof IProductsState];
       if (Array.isArray(arrayState)) {
@@ -244,7 +254,7 @@ const productsSlice = createSlice({
         };
       }
     },
-    sortByBrand: (state, action) => {
+    filterByBrand: (state, action) => {
       const arrayState = state.allItems.length
         ? state.allItems
         : state[action.payload.array as keyof IProductsState];
@@ -262,7 +272,7 @@ const productsSlice = createSlice({
         };
       }
     },
-    sortByCategory: (state, action) => {
+    filterByCategory: (state, action) => {
       const arrayState = state.allItems.length
         ? state.allItems
         : state[action.payload.array as keyof IProductsState];
@@ -279,6 +289,51 @@ const productsSlice = createSlice({
           allItems: arrayState,
           [action.payload.array as keyof IProductsState]: filters,
         };
+      }
+    },
+    orderByFilter(state, action) {
+      const arrayState = state.allItems.length
+        ? state.allItems
+        : state[action.payload.array as keyof IProductsState];
+      if (Array.isArray(arrayState)) {
+        if (state.filters.category) {
+          const filters =
+            action.payload.value === "all"
+              ? arrayState
+              : [...arrayState].filter(
+                  (e: IProduct) =>
+                    e.subcategory.category.name === action.payload.value
+                );
+          const brands = filters.reduce(
+            (acc: { id: number; name: string }[], curr: IProduct) => {
+              if (!acc.some((brand) => brand.id === curr.brand.id)) {
+                acc.push(curr.brand);
+              }
+              return acc;
+            },
+            []
+          );
+          return {
+            ...state,
+            allItems: arrayState,
+            allItemsSecond: brands,
+            brands,
+            [action.payload.array as keyof IProductsState]: filters,
+          };
+        }
+        if (state.filters.brand) {
+          const filters =
+            action.payload.value === "all"
+              ? arrayState
+              : [...arrayState].filter(
+                  (e: IProduct) => e.brand.name === action.payload.value
+                );
+          return {
+            ...state,
+            allItems: arrayState,
+            [action.payload.array as keyof IProductsState]: filters,
+          };
+        }
       }
     },
   },
@@ -392,6 +447,7 @@ export const allCategories = (store: RootState) => store.products.categories;
 export const allProductsCategory = (store: RootState) =>
   store.products.productsCategory;
 export const allBrands = (store: RootState) => store.products.brands;
+export const allFilters = (store: RootState) => store.products.filters;
 
 export const {
   cleanUpProductsRecommended,
@@ -401,9 +457,11 @@ export const {
   cleanUpProductsRelated,
   cleanUpProductsCategory,
   orderAlphabetically,
+  setFilters,
   sortPrices,
-  sortByBrand,
-  sortByCategory,
+  filterByBrand,
+  filterByCategory,
+  orderByFilter,
 } = productsSlice.actions;
 
 export const selectAllProductsStatus = (state: {

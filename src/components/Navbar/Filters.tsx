@@ -1,12 +1,15 @@
 import {
   allBrands,
   allCategories,
+  allFilters,
   getAllBrands,
   getAllCategories,
   orderAlphabetically,
-  sortByBrand,
-  sortByCategory,
+  setFilters,
+  filterByBrand,
+  filterByCategory,
   sortPrices,
+  orderByFilter,
 } from "@/state/products/products/productsSlice";
 import { useAppDispatch } from "@/state/store";
 import Link from "next/link";
@@ -21,6 +24,7 @@ type Props = {
 const Filters = ({ tittle }: Props) => {
   const categories = useSelector(allCategories);
   const brands = useSelector(allBrands);
+  const filters = useSelector(allFilters);
   const dispatch = useAppDispatch();
   const router = useRouter();
   useEffect(() => {
@@ -39,21 +43,35 @@ const Filters = ({ tittle }: Props) => {
   const handleSortByPrice = (array: any, value: any) => {
     dispatch(sortPrices({ array, value }));
   };
-  const handleSortByBrands = (array: any, value: any) => {
-    dispatch(sortByBrand({ array, value }));
+  const handleFilterByBrands = (array: any, value: any) => {
+    dispatch(orderByFilter({ array, value }));
+    // dispatch(filterByBrand({ array, value }));
   };
-  const handleSortByCategory = (array: any, value: any) => {
-    dispatch(sortByCategory({ array, value }));
+  const handleFilterByCategory = (array: any, value: any) => {
+    dispatch(orderByFilter({ array, value }));
+    // dispatch(filterByCategory({ array, value }));
   };
+  const handleFilters = (e: any) => {
+    const newFilters = {
+      ...filters,
+      [e.target.name]: e.target.value,
+    };
+    dispatch(setFilters(newFilters));
+  };
+  console.log(filters);
+  console.log(categories);
+  console.log(brands);
   return (
     <>
       {tittle === "Products" && (
         <div className="w-full min-h-[5vh] flex flex-wrap gap-y-2 justify-evenly items-center dark:bg-primary-600 bg-grey-10 dark:text-white text-black">
           <select
             className="p-2 dark:bg-primary-500 bg-grey-50 rounded-md"
-            onChange={(e) =>
-              handleSortByCategory("Products".toLowerCase(), e.target.value)
-            }
+            name="category"
+            onChange={(e) => {
+              handleFilters(e);
+              handleFilterByCategory("Products".toLowerCase(), e.target.value);
+            }}
           >
             <option value="all">All Categories</option>
             {categories.map((category: { id: number; name: string }) => (
@@ -65,9 +83,11 @@ const Filters = ({ tittle }: Props) => {
 
           <select
             className="p-2 dark:bg-primary-500 bg-grey-50 rounded-md"
-            onChange={(e) =>
-              handleSortByBrands("Products".toLowerCase(), e.target.value)
-            }
+            name="brand"
+            onChange={(e) => {
+              handleFilters(e);
+              handleFilterByBrands("Products".toLowerCase(), e.target.value);
+            }}
           >
             <option value="all">All Brands</option>
             {brands.map((brand: { id: number; name: string }) => (
@@ -79,9 +99,11 @@ const Filters = ({ tittle }: Props) => {
 
           <select
             className="p-2 dark:bg-primary-500 bg-grey-50 rounded-md"
-            onChange={(e) =>
-              handleSortByPrice("Products".toLowerCase(), e.target.value)
-            }
+            name="price"
+            onChange={(e) => {
+              handleSortByPrice("Products".toLowerCase(), e.target.value);
+              handleFilters(e);
+            }}
           >
             <option>Price</option>
             <option value="lowest">Price: Low to High</option>
@@ -90,9 +112,11 @@ const Filters = ({ tittle }: Props) => {
 
           <select
             className="p-2 dark:bg-primary-500 bg-grey-50 rounded-md"
-            onChange={(e) =>
-              handleSortByName("Products".toLowerCase(), e.target.value)
-            }
+            name="alphabetical"
+            onChange={(e) => {
+              handleSortByName("Products".toLowerCase(), e.target.value);
+              handleFilters(e);
+            }}
           >
             <option>Alphabetical</option>
             <option value="atoz">A - Z</option>
