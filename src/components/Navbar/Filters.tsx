@@ -1,7 +1,10 @@
 import {
+  allBrands,
   allCategories,
+  getAllBrands,
   getAllCategories,
   orderAlphabetically,
+  sortPrices,
 } from "@/state/products/products/productsSlice";
 import { useAppDispatch } from "@/state/store";
 import Link from "next/link";
@@ -15,6 +18,7 @@ type Props = {
 
 const Filters = ({ tittle }: Props) => {
   const categories = useSelector(allCategories);
+  const brands = useSelector(allBrands);
   const dispatch = useAppDispatch();
   const router = useRouter();
   useEffect(() => {
@@ -22,12 +26,16 @@ const Filters = ({ tittle }: Props) => {
       if (router.isReady) {
         // if (productsStatus === EStateGeneric.IDLE) {
         await dispatch(getAllCategories());
+        await dispatch(getAllBrands());
         // }
       }
     })();
   }, []);
-  const handleSort = (array: any, value: any) => {
+  const handleSortByName = (array: any, value: any) => {
     dispatch(orderAlphabetically({ array, value }));
+  };
+  const handleSortByPrice = (array: any, value: any) => {
+    dispatch(sortPrices({ array, value }));
   };
   return (
     <>
@@ -44,14 +52,31 @@ const Filters = ({ tittle }: Props) => {
           </select>
 
           <select className="p-2 dark:bg-primary-500 bg-grey-50 rounded-md">
-            <option value="">Price</option>
-            <option value="highest">Price: High to Low</option>
-            <option value="lowest">Price: Low to High</option>
+            <option value="">Brand</option>
+            <option value="all">All Brands</option>
+            {brands.map((brand: { id: number; name: string }) => (
+              <option key={brand.id} value={brand.name}>
+                {brand.name}
+              </option>
+            ))}
           </select>
 
           <select
             className="p-2 dark:bg-primary-500 bg-grey-50 rounded-md"
-            onChange={(e) => handleSort('Products'.toLowerCase(),e.target.value)}
+            onChange={(e) =>
+              handleSortByPrice("Products".toLowerCase(), e.target.value)
+            }
+          >
+            <option value="">Price</option>
+            <option value="lowest">Price: Low to High</option>
+            <option value="highest">Price: High to Low</option>
+          </select>
+
+          <select
+            className="p-2 dark:bg-primary-500 bg-grey-50 rounded-md"
+            onChange={(e) =>
+              handleSortByName("Products".toLowerCase(), e.target.value)
+            }
           >
             <option value="">Alphabetical</option>
             <option value="atoz">A - Z</option>

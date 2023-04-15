@@ -16,12 +16,13 @@ export default async function handler(
     brand,
     mostSelling,
     brands,
+    allBrands,
     category,
     categories,
     related,
     id,
   } = req.query;
-  console.log(req.query)
+  console.log(req.query);
   switch (method) {
     case "GET":
       try {
@@ -163,6 +164,17 @@ export default async function handler(
           return res.status(200).json({
             success: true,
             categories,
+          });
+        }
+        if (allBrands) {
+          const brands = await prisma.brand.findMany({
+            orderBy: {
+              name: "asc",
+            },
+          });
+          return res.status(200).json({
+            success: true,
+            brands,
           });
         }
         if (related && id) {

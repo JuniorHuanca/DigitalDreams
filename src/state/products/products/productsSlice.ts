@@ -9,6 +9,7 @@ import {
   getProductsRelatedByApi,
   getCategoriesByApi,
   getProductsCategoryByApi,
+  getBrandsByApi,
 } from "./productsApi";
 import { RootState } from "@/state/store";
 
@@ -96,6 +97,18 @@ export const getAllCategories = createAsyncThunk(
   }
 );
 
+export const getAllBrands = createAsyncThunk(
+  "products/getAllBrands",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await getBrandsByApi();
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const getAllProductsCategory = createAsyncThunk(
   "products/getAllProductsCategory",
   async (name: string, { rejectWithValue }) => {
@@ -113,6 +126,7 @@ interface IProductsState {
   allItems: IProduct[];
   productsCategory: IProduct[];
   categories: [];
+  brands: [];
   productsBrand: IProduct[];
   productsBrands: IProduct[];
   productsMostSelling: IProduct[];
@@ -131,6 +145,7 @@ const initialState = {
   allItems: [],
   productsCategory: [],
   categories: [],
+  brands: [],
   productsBrand: [],
   productsBrands: [],
   productsMostSelling: [],
@@ -202,6 +217,25 @@ const productsSlice = createSlice({
               })
             : [...arrayState].sort((a: IProduct, b: IProduct) => {
                 if (a.name.toLowerCase() < b.name.toLowerCase()) return 1;
+                else return -1;
+              });
+        return {
+          ...state,
+          [action.payload.array as keyof IProductsState]: filters,
+        };
+      }
+    },
+    sortPrices: (state, action) => {
+      const arrayState = state[action.payload.array as keyof IProductsState];
+      if (Array.isArray(arrayState)) {
+        const filters =
+          action.payload.value === "lowest"
+            ? [...arrayState].sort((a: IProduct, b: IProduct) => {
+                if (a.price > b.price) return 1;
+                else return -1;
+              })
+            : [...arrayState].sort((a: IProduct, b: IProduct) => {
+                if (a.price < b.price) return 1;
                 else return -1;
               });
         return {
@@ -295,6 +329,12 @@ const productsSlice = createSlice({
     });
     builder.addCase(getAllCategories.pending, (state, action) => {});
     builder.addCase(getAllCategories.rejected, (state, action) => {});
+
+    builder.addCase(getAllBrands.fulfilled, (state, action) => {
+      state.brands = action.payload.brands;
+    });
+    builder.addCase(getAllBrands.pending, (state, action) => {});
+    builder.addCase(getAllBrands.rejected, (state, action) => {});
   },
 });
 
@@ -314,6 +354,8 @@ export const allProductsRelateds = (store: RootState) =>
 export const allCategories = (store: RootState) => store.products.categories;
 export const allProductsCategory = (store: RootState) =>
   store.products.productsCategory;
+export const allBrands = (store: RootState) =>
+  store.products.brands;
 
 export const {
   cleanUpProductsRecommended,
@@ -323,6 +365,7 @@ export const {
   cleanUpProductsRelated,
   cleanUpProductsCategory,
   orderAlphabetically,
+  sortPrices,
 } = productsSlice.actions;
 
 export const selectAllProductsStatus = (state: {

@@ -15,3 +15,5 @@ export const getCategoriesByApi = () =>
   axios.get(`/api/products?categories=true`);
 export const getProductsCategoryByApi = (name: string) =>
   axios.get(`/api/products?category=${name}`);
+export const getBrandsByApi = () =>
+  axios.get(`/api/products?allBrands=true`);
