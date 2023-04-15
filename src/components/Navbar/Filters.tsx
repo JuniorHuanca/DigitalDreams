@@ -4,6 +4,8 @@ import {
   getAllBrands,
   getAllCategories,
   orderAlphabetically,
+  sortByBrand,
+  sortByCategory,
   sortPrices,
 } from "@/state/products/products/productsSlice";
 import { useAppDispatch } from "@/state/store";
@@ -37,12 +39,22 @@ const Filters = ({ tittle }: Props) => {
   const handleSortByPrice = (array: any, value: any) => {
     dispatch(sortPrices({ array, value }));
   };
+  const handleSortByBrands = (array: any, value: any) => {
+    dispatch(sortByBrand({ array, value }));
+  };
+  const handleSortByCategory = (array: any, value: any) => {
+    dispatch(sortByCategory({ array, value }));
+  };
   return (
     <>
       {tittle === "Products" && (
-        <div className="w-full min-h-[5vh] flex flex-wrap gap-y-2 justify-evenly items-center dark:bg-primary-600 bg-grey-10">
-          <select className="p-2 dark:bg-primary-500 bg-grey-50 rounded-md">
-            <option value="">Categories</option>
+        <div className="w-full min-h-[5vh] flex flex-wrap gap-y-2 justify-evenly items-center dark:bg-primary-600 bg-grey-10 dark:text-white text-black">
+          <select
+            className="p-2 dark:bg-primary-500 bg-grey-50 rounded-md"
+            onChange={(e) =>
+              handleSortByCategory("Products".toLowerCase(), e.target.value)
+            }
+          >
             <option value="all">All Categories</option>
             {categories.map((category: { id: number; name: string }) => (
               <option key={category.id} value={category.name}>
@@ -51,8 +63,12 @@ const Filters = ({ tittle }: Props) => {
             ))}
           </select>
 
-          <select className="p-2 dark:bg-primary-500 bg-grey-50 rounded-md">
-            <option value="">Brand</option>
+          <select
+            className="p-2 dark:bg-primary-500 bg-grey-50 rounded-md"
+            onChange={(e) =>
+              handleSortByBrands("Products".toLowerCase(), e.target.value)
+            }
+          >
             <option value="all">All Brands</option>
             {brands.map((brand: { id: number; name: string }) => (
               <option key={brand.id} value={brand.name}>
@@ -67,7 +83,7 @@ const Filters = ({ tittle }: Props) => {
               handleSortByPrice("Products".toLowerCase(), e.target.value)
             }
           >
-            <option value="">Price</option>
+            <option>Price</option>
             <option value="lowest">Price: Low to High</option>
             <option value="highest">Price: High to Low</option>
           </select>
@@ -78,7 +94,7 @@ const Filters = ({ tittle }: Props) => {
               handleSortByName("Products".toLowerCase(), e.target.value)
             }
           >
-            <option value="">Alphabetical</option>
+            <option>Alphabetical</option>
             <option value="atoz">A - Z</option>
             <option value="ztoa">Z - A</option>
           </select>

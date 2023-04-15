@@ -22,7 +22,6 @@ export default async function handler(
     related,
     id,
   } = req.query;
-  console.log(req.query);
   switch (method) {
     case "GET":
       try {

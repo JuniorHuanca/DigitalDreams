@@ -95,9 +95,9 @@ export default [
     {
         "name": "Kingston"
     },
-    {
-        "name": "Caviar"
-    },
+    // {
+    //     "name": "Caviar"
+    // },
     {
         "name": "Seagate"
     },

@@ -244,6 +244,43 @@ const productsSlice = createSlice({
         };
       }
     },
+    sortByBrand: (state, action) => {
+      const arrayState = state.allItems.length
+        ? state.allItems
+        : state[action.payload.array as keyof IProductsState];
+      if (Array.isArray(arrayState)) {
+        const filters =
+          action.payload.value === "all"
+            ? arrayState
+            : [...arrayState].filter(
+                (e: IProduct) => e.brand.name === action.payload.value
+              );
+        return {
+          ...state,
+          allItems: arrayState,
+          [action.payload.array as keyof IProductsState]: filters,
+        };
+      }
+    },
+    sortByCategory: (state, action) => {
+      const arrayState = state.allItems.length
+        ? state.allItems
+        : state[action.payload.array as keyof IProductsState];
+      if (Array.isArray(arrayState)) {
+        const filters =
+          action.payload.value === "all"
+            ? arrayState
+            : [...arrayState].filter(
+                (e: IProduct) =>
+                  e.subcategory.category.name === action.payload.value
+              );
+        return {
+          ...state,
+          allItems: arrayState,
+          [action.payload.array as keyof IProductsState]: filters,
+        };
+      }
+    },
   },
   extraReducers: (builder) => {
     // Add reducers for additional action types here, and handle loading state as needed
@@ -354,8 +391,7 @@ export const allProductsRelateds = (store: RootState) =>
 export const allCategories = (store: RootState) => store.products.categories;
 export const allProductsCategory = (store: RootState) =>
   store.products.productsCategory;
-export const allBrands = (store: RootState) =>
-  store.products.brands;
+export const allBrands = (store: RootState) => store.products.brands;
 
 export const {
   cleanUpProductsRecommended,
@@ -366,6 +402,8 @@ export const {
   cleanUpProductsCategory,
   orderAlphabetically,
   sortPrices,
+  sortByBrand,
+  sortByCategory,
 } = productsSlice.actions;
 
 export const selectAllProductsStatus = (state: {
