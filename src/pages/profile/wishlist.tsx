@@ -5,7 +5,7 @@ type Props = {}
 
 const Wishlist = (props: Props) => {
     return (
-        <Layout tittle={'Wishlist'}>
+        <Layout title={'Wishlist'}>
             <div>
                 <LayoutProfile>
                     <div className="w-full h-full">

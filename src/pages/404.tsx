@@ -15,7 +15,7 @@ const PageNotFound = (props: Props) => {
     const theme: ITheme = useTheme();
     const { mode } = theme.palette;
     return (
-        <Layout tittle={'Error 404 - Digital Dreams'}>
+        <Layout title={'Error 404 - Digital Dreams'}>
             <div className='relative w-full h-[90vh] flex justify-center items-center'>
                 {mode === 'dark' && <Image src={isAboveMediumScreens ? NotFound404Dark : NotFound404DarkMobile} alt='Error' fill priority={true} />}
                 {mode !== 'dark' && <Image src={isAboveMediumScreens ? NotFound404 : NotFound404Mobile} alt='Error' fill priority={true} />}

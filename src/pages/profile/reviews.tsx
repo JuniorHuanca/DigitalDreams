@@ -5,7 +5,7 @@ type Props = {}
 
 const Reviews = (props: Props) => {
     return (
-        <Layout tittle={'Reviews'}>
+        <Layout title={'Reviews'}>
             <div>
                 <LayoutProfile>
                     <div className="w-full h-full">

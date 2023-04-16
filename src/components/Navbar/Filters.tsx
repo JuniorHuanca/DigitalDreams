@@ -18,10 +18,10 @@ import styles from "./Filters.module.css";
 import { AiOutlineDoubleRight } from "react-icons/ai";
 import { setCurrentPage } from "@/state/globalSlice";
 type Props = {
-  tittle: string;
+  title: string;
 };
 
-const Filters = ({ tittle }: Props) => {
+const Filters = ({ title }: Props) => {
   const categories = useSelector(allCategories);
   const brands = useSelector(allBrands);
   const filters = useSelector(allFilters);
@@ -64,7 +64,7 @@ const Filters = ({ tittle }: Props) => {
   };
   return (
     <>
-      {tittle === "Products" && (
+      {title === "Products" && (
         <div className="w-full min-h-[5vh] flex flex-wrap gap-y-2 justify-evenly items-center dark:bg-primary-600 bg-grey-10 dark:text-white text-black">
           <select
             className="p-2 dark:bg-primary-500 bg-grey-50 rounded-md"
@@ -125,19 +125,8 @@ const Filters = ({ tittle }: Props) => {
           </select>
         </div>
       )}
-      {tittle === "Home" || tittle === "Detail" && (
+      {title === "Home" && (
         <div className="w-full min-h-[5vh] flex justify-evenly items-center">
-          {/* {categories
-            .slice(0, 10)
-            .map((category: { id: number; name: string }) => (
-              <Link
-                key={category.id}
-                className="p-2 font-semibold hover:scale-105 transition-all hover:text-secondary-400 rounded-md"
-                href={`/products/${category.name}`}
-              >
-                {category.name}
-              </Link>
-            ))} */}
           <div className="text-black dark:text-white uppercase underline underline-offset-4">
             <span className={` font-semibold text-lg ${styles.span}`}>
               See Categories
@@ -167,7 +156,38 @@ const Filters = ({ tittle }: Props) => {
           </div>
         </div>
       )}
-      {tittle === "Brand" && (
+      {title === "Detail" && (
+        <div className="w-full min-h-[5vh] flex justify-evenly items-center">
+          <div className="text-black dark:text-white uppercase underline underline-offset-4">
+            <span className={` font-semibold text-lg ${styles.span}`}>
+              See Categories
+              <ul
+                className={`hidden ${styles.ul} text-sm dark:bg-primary-500 bg-white rounded-xl overflow-hidden`}
+              >
+                {categories.map((category: { id: number; name: string }) => (
+                  <Link
+                    key={category.id}
+                    className="px-4 py-2 font-semibold hover:scale-105 transition-all hover:dark:text-secondary-500 hover:text-primary-500 rounded-md w-[50%]"
+                    href={`/products/${category.name}`}
+                  >
+                    <li className="flex gap-1 items-center border-b-2 border-black dark:border-white">
+                      <AiOutlineDoubleRight />
+                      {category.name}
+                    </li>
+                  </Link>
+                ))}
+                <Link
+                  href={`/products`}
+                  className="text-center w-full dark:bg-primary-400 bg-slate-300 py-2"
+                >
+                  See all Products
+                </Link>
+              </ul>
+            </span>
+          </div>
+        </div>
+      )}
+      {title === "Brand" && (
         <div className="w-full min-h-[5vh] flex flex-wrap gap-y-2 justify-evenly items-center dark:bg-primary-600 bg-grey-10 dark:text-white text-black">
           <div className="text-black dark:text-white uppercase underline underline-offset-4">
             <span className={` font-semibold text-lg ${styles.span}`}>

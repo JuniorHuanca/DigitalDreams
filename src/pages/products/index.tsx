@@ -45,8 +45,8 @@ const Products = (props: Props) => {
     };
   }, []);
   return (
-    <Layout tittle={"Products - Digital Dreams"}>
-      <Filters tittle="Products" />
+    <Layout title={"Products - Digital Dreams"}>
+      <Filters title="Products" />
       <button
         onClick={() => {
           router.back();

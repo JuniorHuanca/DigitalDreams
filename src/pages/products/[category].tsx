@@ -68,11 +68,11 @@ const Brand = (props: Props) => {
   }, [router.query.name, router.query.category]);
   return (
     <Layout
-      tittle={`${
+      title={`${
         (router.query.name as string) || (router.query.category as string)
       } - Digital Dreams`}
     >
-      <Filters tittle="Brand" />
+      <Filters title="Brand" />
       <button
         onClick={() => {
           router.back();

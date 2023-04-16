@@ -10,9 +10,9 @@ interface ISession {
 }
 interface Props {
     children: React.ReactNode;
-    tittle: string | undefined
+    title: string | undefined
 }
-const Layout = ({ children, tittle }: Props) => {
+const Layout = ({ children, title }: Props) => {
     const { data: session, status }: ISession = useSession()
     const isNonMobile = useMediaQuery("(min-width: 600px)");
     if (status === "loading") {
@@ -21,7 +21,7 @@ const Layout = ({ children, tittle }: Props) => {
     return (
         <Box display={isNonMobile ? "flex" : "block"} width="100%" height="100%">
             <Head>
-                <title>{tittle}</title>
+                <title>{title}</title>
             </Head>
             <Box flexGrow={1}>
                 <Navbar

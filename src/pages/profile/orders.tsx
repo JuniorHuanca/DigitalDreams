@@ -5,7 +5,7 @@ type Props = {}
 
 const Orders = (props: Props) => {
     return (
-        <Layout tittle={'Orders'}>
+        <Layout title={'Orders'}>
             <div>
                 <LayoutProfile>
                     <div className="w-full h-full">

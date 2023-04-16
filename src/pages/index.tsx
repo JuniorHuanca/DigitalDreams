@@ -10,9 +10,9 @@ import Filters from "@/components/Navbar/Filters";
 type Props = {};
 export default function Home(props: Props) {
   return (
-    <Layout tittle={"Digital Dreams"}>
+    <Layout title={"Digital Dreams"}>
       <div className="w-full min-h-[90vh] flex flex-col">
-        <Filters tittle="Home" />
+        <Filters title="Home" />
         <MostSelling />
         <Brands />
         <Recommended />

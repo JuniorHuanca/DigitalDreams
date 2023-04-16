@@ -162,9 +162,9 @@ const Detail = (props: Props) => {
   };
   return (
     <Layout
-      tittle={`${product.name} - Digital Dreams` || "Error 404 Digital Dreams"}
+      title={`${product.name} - Digital Dreams` || "Error 404 Digital Dreams"}
     >
-      <Filters tittle="Detail" />
+      <Filters title="Detail" />
       <div className="w-full min-h-[80vh] flex flex-col items-center">
         <button
           onClick={() => {
