@@ -125,8 +125,8 @@ const Filters = ({ tittle }: Props) => {
         </div>
       )}
       {tittle === "Home" && (
-        <div className="w-full min-h-[5vh] flex justify-evenly items-center bg-primary-500">
-          {categories
+        <div className="w-full min-h-[5vh] flex justify-evenly items-center">
+          {/* {categories
             .slice(0, 10)
             .map((category: { id: number; name: string }) => (
               <Link
@@ -136,12 +136,12 @@ const Filters = ({ tittle }: Props) => {
               >
                 {category.name}
               </Link>
-            ))}
+            ))} */}
           <Link
-            className="p-2 font-semibold hover:scale-105 transition-all text-secondary-400 hover:text-secondary-500 rounded-md"
+            className="p-2 font-semibold hover:scale-105 transition-all text-secondary-400 hover:text-secondary-500 rounded-md underline"
             href={`/products`}
           >
-            See All Products
+            See Categories
           </Link>
         </div>
       )}

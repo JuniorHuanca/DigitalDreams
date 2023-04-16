@@ -12,7 +12,7 @@ export default function Home(props: Props) {
   return (
     <Layout tittle={"Digital Dreams"}>
       <div className="w-full min-h-[90vh] flex flex-col">
-        {/* <Filters tittle="Home" /> */}
+        <Filters tittle="Home" />
         <MostSelling />
         <Brands />
         <Recommended />

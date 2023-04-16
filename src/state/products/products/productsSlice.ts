@@ -328,9 +328,24 @@ const productsSlice = createSlice({
               : [...arrayState].filter(
                   (e: IProduct) => e.brand.name === action.payload.value
                 );
+          const categories = filters.reduce(
+            (acc: { id: number; name: string }[], curr: IProduct) => {
+              if (
+                !acc.some(
+                  (category) => category.id === curr.subcategory.category.id
+                )
+              ) {
+                acc.push(curr.subcategory.category);
+              }
+              return acc;
+            },
+            []
+          );
           return {
             ...state,
             allItems: arrayState,
+            allItemsSecond: categories,
+            categories,
             [action.payload.array as keyof IProductsState]: filters,
           };
         }
