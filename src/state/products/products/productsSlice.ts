@@ -337,7 +337,9 @@ const productsSlice = createSlice({
         if (state.filters.brand) {
           if (state.allItemsSecond.length) {
             const filters = [...arrayState].filter(
-              (e: IProduct) => e.brand.name === action.payload.value
+              (e: IProduct) =>
+                e.brand.name === action.payload.value &&
+                e.subcategory.category.name === state.filters.category
             );
             return {
               ...state,

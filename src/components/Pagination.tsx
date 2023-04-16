@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "@/state/store";

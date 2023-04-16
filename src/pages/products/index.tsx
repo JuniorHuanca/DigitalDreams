@@ -5,7 +5,7 @@ import {
   selectAllProductsStatus,
 } from "@/state/products/products/productsSlice";
 import { useAppDispatch } from "@/state/store";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Card from "../../components/Card/Card";
 import { useRouter } from "next/router";
@@ -27,7 +27,6 @@ const Products = (props: Props) => {
 
   const itemsPerPage = 10;
   const currentPage = useSelector(selectCurrentPage);
-  // const [currentPage, setCurrentPage] = useState<number>(1);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = products.slice(indexOfFirstItem, indexOfLastItem);
@@ -42,10 +41,9 @@ const Products = (props: Props) => {
     })();
 
     return () => {
-      //   dispatch(cleanUpProducts());
+        dispatch(cleanUpProducts());
     };
   }, []);
-  console.log(currentPage)
   return (
     <Layout tittle={"Products - Digital Dreams"}>
       <Filters tittle="Products" />

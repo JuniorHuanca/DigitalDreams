@@ -9,7 +9,7 @@ import {
   selectAllProductsCategoriesStatus,
 } from "@/state/products/products/productsSlice";
 import { useAppDispatch } from "@/state/store";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Card from "../../components/Card/Card";
 import { useRouter } from "next/router";
@@ -19,6 +19,7 @@ import Layout from "@/components/Layouts/Layout";
 import { BiArrowBack } from "react-icons/bi";
 import Pagination from "@/components/Pagination";
 import { selectCurrentPage, setCurrentPage } from "@/state/globalSlice";
+import Filters from "@/components/Navbar/Filters";
 
 type Props = {};
 
@@ -33,7 +34,6 @@ const Brand = (props: Props) => {
   const itemsPerPage = 10;
   const currentPage = useSelector(selectCurrentPage);
 
-  // const [currentPage, setCurrentPage] = useState<number>(1);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = products.slice(indexOfFirstItem, indexOfLastItem);
@@ -52,9 +52,7 @@ const Brand = (props: Props) => {
           }
         }
         if (category && category !== "brand") {
-          if (productsCateogryStatus === EStateGeneric.IDLE) {
-            await dispatch(getAllProductsCategory(category as string));
-          }
+          await dispatch(getAllProductsCategory(category as string));
         }
       }
       dispatch(setCurrentPage(1));
@@ -68,11 +66,13 @@ const Brand = (props: Props) => {
       }
     };
   }, [router.query.name, router.query.category]);
-  console.log(router.query.category);
-  console.log(productsCateogry.length);
-  console.log(productsCateogryStatus);
   return (
-    <Layout tittle={`${router.query.name as string} - Digital Dreams`}>
+    <Layout
+      tittle={`${
+        (router.query.name as string) || (router.query.category as string)
+      } - Digital Dreams`}
+    >
+      <Filters tittle="Brand" />
       <button
         onClick={() => {
           router.back();

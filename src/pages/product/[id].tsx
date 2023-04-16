@@ -32,6 +32,7 @@ import Avatar from "react-avatar";
 import { toast } from "react-hot-toast";
 import Login from "@/components/Modals/Login";
 import { BiArrowBack } from "react-icons/bi";
+import Filters from "@/components/Navbar/Filters";
 type Props = {};
 interface ISession {
   data: any;
@@ -163,6 +164,7 @@ const Detail = (props: Props) => {
     <Layout
       tittle={`${product.name} - Digital Dreams` || "Error 404 Digital Dreams"}
     >
+      <Filters tittle="Detail" />
       <div className="w-full min-h-[80vh] flex flex-col items-center">
         <button
           onClick={() => {
