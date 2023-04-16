@@ -9,20 +9,15 @@ import {
   selectMaxPageNumLim,
   setMaxPageNumLim,
   setMinPageNumLim,
+  setCurrentPage,
 } from "@/state/globalSlice";
 import { toast } from "react-hot-toast";
 type Props = {
   items: any;
   itemsPerPage: any;
   currentPage: any;
-  setCurrentPage: any;
 };
-function Pagination({
-  items,
-  itemsPerPage,
-  currentPage,
-  setCurrentPage,
-}: Props) {
+function Pagination({ items, itemsPerPage, currentPage }: Props) {
   const dispatch = useAppDispatch();
   const pageNumberLimit = 10;
   const minPageNumLim = useSelector(selectMinPageNumLim);
@@ -37,10 +32,10 @@ function Pagination({
     const handleSubmit = () => {
       const quepage = Number(inputRef?.current?.value);
       if (!Number.isNaN(quepage) && quepage > 0 && quepage <= totales) {
-        setCurrentPage(quepage);
+        dispatch(setCurrentPage(quepage));
         toast.dismiss();
       } else {
-        setCurrentPage(1);
+        dispatch(setCurrentPage(1));
         toast.dismiss();
       }
     };
@@ -82,14 +77,14 @@ function Pagination({
   };
 
   const handleNextbtn = () => {
-    setCurrentPage(currentPage + 1);
+    dispatch(setCurrentPage(currentPage + 1));
     if (currentPage + 1 > maxPageNumLim) {
       dispatch(setMaxPageNumLim(maxPageNumLim + pageNumberLimit));
       dispatch(setMinPageNumLim(minPageNumLim + pageNumberLimit));
     }
   };
   const handlePrevbtn = () => {
-    setCurrentPage(currentPage - 1);
+    dispatch(setCurrentPage(currentPage - 1));
     if ((currentPage - 1) % pageNumberLimit == 0) {
       dispatch(setMaxPageNumLim(maxPageNumLim - pageNumberLimit));
       dispatch(setMinPageNumLim(minPageNumLim - pageNumberLimit));

@@ -16,7 +16,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-
+import styles from "./Filters.module.css";
+import { AiOutlineDoubleRight } from "react-icons/ai";
+import { setCurrentPage } from "@/state/globalSlice";
 type Props = {
   tittle: string;
 };
@@ -30,37 +32,40 @@ const Filters = ({ tittle }: Props) => {
   useEffect(() => {
     (async () => {
       if (router.isReady) {
-        // if (productsStatus === EStateGeneric.IDLE) {
         await dispatch(getAllCategories());
         await dispatch(getAllBrands());
-        // }
       }
     })();
   }, []);
   const handleSortByName = (array: any, value: any) => {
     dispatch(orderAlphabetically({ array, value }));
+    dispatch(setCurrentPage(1));
   };
   const handleSortByPrice = (array: any, value: any) => {
     dispatch(sortPrices({ array, value }));
+    dispatch(setCurrentPage(1));
   };
   const handleFilterByBrands = (array: any, value: any) => {
     dispatch(orderByFilter({ array, value }));
-    // dispatch(filterByBrand({ array, value }));
+    dispatch(setCurrentPage(1));
   };
   const handleFilterByCategory = (array: any, value: any) => {
     dispatch(orderByFilter({ array, value }));
-    // dispatch(filterByCategory({ array, value }));
+    dispatch(setCurrentPage(1));
   };
   const handleFilters = (e: any) => {
-    const newFilters = {
-      ...filters,
-      [e.target.name]: e.target.value,
-    };
-    dispatch(setFilters(newFilters));
+    const { name, value } = e.target;
+    if (value === "all") {
+      const { [name]: removedFilter, ...restFilters } = filters;
+      dispatch(setFilters(restFilters));
+    } else {
+      const newFilters = {
+        ...filters,
+        [name]: value,
+      };
+      dispatch(setFilters(newFilters));
+    }
   };
-  console.log(filters);
-  console.log(categories);
-  console.log(brands);
   return (
     <>
       {tittle === "Products" && (
@@ -89,7 +94,7 @@ const Filters = ({ tittle }: Props) => {
               handleFilterByBrands("Products".toLowerCase(), e.target.value);
             }}
           >
-            <option value="all">All Brands</option>
+            <option value="allBrand">All Brands</option>
             {brands.map((brand: { id: number; name: string }) => (
               <option key={brand.id} value={brand.name}>
                 {brand.name}
@@ -137,12 +142,33 @@ const Filters = ({ tittle }: Props) => {
                 {category.name}
               </Link>
             ))} */}
-          <Link
-            className="p-2 font-semibold hover:scale-105 transition-all text-secondary-400 hover:text-secondary-500 rounded-md underline"
-            href={`/products`}
-          >
-            See Categories
-          </Link>
+          <div className="text-black dark:text-white uppercase underline underline-offset-4">
+            <span className={` font-semibold text-lg ${styles.span}`}>
+              See Categories
+              <ul
+                className={`hidden ${styles.ul} text-sm dark:bg-primary-500 bg-white rounded-xl overflow-hidden`}
+              >
+                {categories.map((category: { id: number; name: string }) => (
+                  <Link
+                    key={category.id}
+                    className="px-4 py-2 font-semibold hover:scale-105 transition-all hover:dark:text-secondary-500 hover:text-primary-500 rounded-md w-[50%]"
+                    href={`/products/${category.name}`}
+                  >
+                    <li className="flex gap-1 items-center border-b-2 border-black dark:border-white">
+                      <AiOutlineDoubleRight />
+                      {category.name}
+                    </li>
+                  </Link>
+                ))}
+                <Link
+                  href={`/products`}
+                  className="text-center w-full dark:bg-primary-400 bg-slate-300 py-2"
+                >
+                  See all Products
+                </Link>
+              </ul>
+            </span>
+          </div>
         </div>
       )}
     </>

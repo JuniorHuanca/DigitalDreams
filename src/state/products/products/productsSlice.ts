@@ -296,7 +296,10 @@ const productsSlice = createSlice({
         ? state.allItems
         : state[action.payload.array as keyof IProductsState];
       if (Array.isArray(arrayState)) {
-        if (state.filters.category) {
+        if (
+          state.filters.category === action.payload.value ||
+          action.payload.value === "all"
+        ) {
           const filters =
             action.payload.value === "all"
               ? arrayState
@@ -321,33 +324,26 @@ const productsSlice = createSlice({
             [action.payload.array as keyof IProductsState]: filters,
           };
         }
-        if (state.filters.brand) {
-          const filters =
-            action.payload.value === "all"
-              ? arrayState
-              : [...arrayState].filter(
-                  (e: IProduct) => e.brand.name === action.payload.value
-                );
-          const categories = filters.reduce(
-            (acc: { id: number; name: string }[], curr: IProduct) => {
-              if (
-                !acc.some(
-                  (category) => category.id === curr.subcategory.category.id
-                )
-              ) {
-                acc.push(curr.subcategory.category);
-              }
-              return acc;
-            },
-            []
+        if (state.filters.brand && action.payload.value === "allBrand") {
+          const filters = [...arrayState].filter(
+            (e: IProduct) =>
+              e.subcategory.category.name === state.filters.category
           );
           return {
             ...state,
-            allItems: arrayState,
-            allItemsSecond: categories,
-            categories,
             [action.payload.array as keyof IProductsState]: filters,
           };
+        }
+        if (state.filters.brand) {
+          if (state.allItemsSecond.length) {
+            const filters = [...arrayState].filter(
+              (e: IProduct) => e.brand.name === action.payload.value
+            );
+            return {
+              ...state,
+              [action.payload.array as keyof IProductsState]: filters,
+            };
+          }
         }
       }
     },

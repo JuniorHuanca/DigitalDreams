@@ -15,6 +15,7 @@ import Layout from "@/components/Layouts/Layout";
 import Pagination from "@/components/Pagination";
 import Filters from "@/components/Navbar/Filters";
 import { BiArrowBack } from "react-icons/bi";
+import { selectCurrentPage } from "@/state/globalSlice";
 
 type Props = {};
 
@@ -25,7 +26,8 @@ const Products = (props: Props) => {
   const products = useSelector(allProducts);
 
   const itemsPerPage = 10;
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const currentPage = useSelector(selectCurrentPage);
+  // const [currentPage, setCurrentPage] = useState<number>(1);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = products.slice(indexOfFirstItem, indexOfLastItem);
@@ -43,6 +45,7 @@ const Products = (props: Props) => {
       //   dispatch(cleanUpProducts());
     };
   }, []);
+  console.log(currentPage)
   return (
     <Layout tittle={"Products - Digital Dreams"}>
       <Filters tittle="Products" />
@@ -68,7 +71,6 @@ const Products = (props: Props) => {
         items={products}
         itemsPerPage={itemsPerPage}
         currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
       />
     </Layout>
   );

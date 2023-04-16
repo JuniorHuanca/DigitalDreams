@@ -18,6 +18,7 @@ import Loader from "../../components/Loaders/Loader";
 import Layout from "@/components/Layouts/Layout";
 import { BiArrowBack } from "react-icons/bi";
 import Pagination from "@/components/Pagination";
+import { selectCurrentPage, setCurrentPage } from "@/state/globalSlice";
 
 type Props = {};
 
@@ -30,7 +31,9 @@ const Brand = (props: Props) => {
   const productsCateogry = useSelector(allProductsCategory);
 
   const itemsPerPage = 10;
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const currentPage = useSelector(selectCurrentPage);
+
+  // const [currentPage, setCurrentPage] = useState<number>(1);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = products.slice(indexOfFirstItem, indexOfLastItem);
@@ -54,7 +57,7 @@ const Brand = (props: Props) => {
           }
         }
       }
-      setCurrentPage(1)
+      dispatch(setCurrentPage(1));
     })();
 
     return () => {
@@ -105,7 +108,6 @@ const Brand = (props: Props) => {
         }
         itemsPerPage={itemsPerPage}
         currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
       />
     </Layout>
   );

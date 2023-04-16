@@ -16,6 +16,7 @@ interface IState {
   loader: boolean;
   minPageNumLim: number;
   maxPageNumLim: number;
+  currentPage: number;
 }
 
 const initialState = {
@@ -31,6 +32,7 @@ const initialState = {
   loader: false,
   minPageNumLim: 0,
   maxPageNumLim: 10,
+  currentPage: 1,
 } as IState;
 
 const globalSlice = createSlice({
@@ -72,6 +74,9 @@ const globalSlice = createSlice({
     setMaxPageNumLim: (state, action) => {
       state.maxPageNumLim = action.payload;
     },
+    setCurrentPage: (state, action) => {
+      state.currentPage = action.payload;
+    },
   },
   extraReducers: (builder) => {
     // Add reducers for additional action types here, and handle loading state as needed
@@ -80,18 +85,16 @@ const globalSlice = createSlice({
 
 export default globalSlice.reducer;
 
-export const selectIsClicked = (state: { global: { isClicked: IIsClicked } }) =>
-  state.global.isClicked;
+export const selectIsClicked = (state: RootState) => state.global.isClicked;
 
-export const selectOpenLogin = (state: { global: { openLogin: boolean } }) =>
-  state.global.openLogin;
+export const selectOpenLogin = (state: RootState) => state.global.openLogin;
 
-export const selectLoader = (state: { global: { loader: boolean } }) =>
-  state.global.loader;
+export const selectLoader = (state: RootState) => state.global.loader;
 export const selectMinPageNumLim = (state: RootState) =>
   state.global.minPageNumLim;
 export const selectMaxPageNumLim = (state: RootState) =>
   state.global.maxPageNumLim;
+export const selectCurrentPage = (state: RootState) => state.global.currentPage;
 
 export const {
   setModeInitial,
@@ -102,4 +105,5 @@ export const {
   setLoader,
   setMinPageNumLim,
   setMaxPageNumLim,
+  setCurrentPage,
 } = globalSlice.actions;
