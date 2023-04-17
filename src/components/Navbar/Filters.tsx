@@ -291,21 +291,6 @@ const Filters = ({ title }: Props) => {
               </ul>
             </span>
           </div>
-          <select
-            className="p-2 dark:bg-primary-500 bg-grey-50 rounded-md"
-            name="price"
-            onChange={(e) => {
-              handleSortByPrice(
-                products.length ? "productsBrand" : "productsCategory",
-                e.target.value
-              );
-              handleFilters(e);
-            }}
-          >
-            <option>Price</option>
-            <option value="lowest">Price: Low to High</option>
-            <option value="highest">Price: High to Low</option>
-          </select>
           {!price && (
             <button
               type="button"
