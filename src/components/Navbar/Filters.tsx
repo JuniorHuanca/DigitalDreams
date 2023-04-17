@@ -12,16 +12,25 @@ import {
 } from "@/state/products/products/productsSlice";
 import { useAppDispatch } from "@/state/store";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styles from "./Filters.module.css";
 import { AiOutlineDoubleRight } from "react-icons/ai";
 import { setCurrentPage } from "@/state/globalSlice";
+import {
+  FaLastfmSquare,
+  FaSortAlphaDownAlt,
+  FaSortAlphaUpAlt,
+  FaSortNumericUpAlt,
+  FaSortNumericDownAlt,
+} from "react-icons/fa";
 type Props = {
   title: string;
 };
 
 const Filters = ({ title }: Props) => {
+  const [price, setPrice] = useState<boolean>();
+  const [alphabetical, setAlphabetical] = useState<boolean>();
   const categories = useSelector(allCategories);
   const brands = useSelector(allBrands);
   const filters = useSelector(allFilters);
@@ -36,10 +45,14 @@ const Filters = ({ title }: Props) => {
   const handleSortByName = (array: any, value: any) => {
     dispatch(orderAlphabetically({ array, value }));
     dispatch(setCurrentPage(1));
+    setPrice(undefined);
+    setAlphabetical(!alphabetical);
   };
   const handleSortByPrice = (array: any, value: any) => {
     dispatch(sortPrices({ array, value }));
     dispatch(setCurrentPage(1));
+    setAlphabetical(undefined);
+    setPrice(!price);
   };
   const handleFilterByBrands = (array: any, value: any) => {
     dispatch(orderByFilter({ array, value }));
@@ -82,47 +95,109 @@ const Filters = ({ title }: Props) => {
             ))}
           </select>
 
-          <select
-            className="p-2 dark:bg-primary-500 bg-grey-50 rounded-md"
-            name="brand"
-            onChange={(e) => {
-              handleFilters(e);
-              handleFilterByBrands("Products".toLowerCase(), e.target.value);
-            }}
-          >
-            <option value="allBrand">All Brands</option>
-            {brands.map((brand: { id: number; name: string }) => (
-              <option key={brand.id} value={brand.name}>
-                {brand.name}
-              </option>
-            ))}
-          </select>
+          {filters.category && (
+            <select
+              className="p-2 dark:bg-primary-500 bg-grey-50 rounded-md"
+              name="brand"
+              onChange={(e) => {
+                handleFilters(e);
+                handleFilterByBrands("Products".toLowerCase(), e.target.value);
+              }}
+            >
+              <option value="allBrand">All Brands</option>
+              {brands.map((brand: { id: number; name: string }) => (
+                <option key={brand.id} value={brand.name}>
+                  {brand.name}
+                </option>
+              ))}
+            </select>
+          )}
 
-          <select
-            className="p-2 dark:bg-primary-500 bg-grey-50 rounded-md"
-            name="price"
-            onChange={(e) => {
-              handleSortByPrice("Products".toLowerCase(), e.target.value);
-              handleFilters(e);
-            }}
-          >
-            <option>Price</option>
-            <option value="lowest">Price: Low to High</option>
-            <option value="highest">Price: High to Low</option>
-          </select>
+          {!price && (
+            <button
+              type="button"
+              name="lowest"
+              className={`${
+                price === undefined
+                  ? "dark:bg-primary-500 bg-grey-50"
+                  : "dark:bg-primary-700 bg-grey-100"
+              } text-2xl p-2 rounded-md flex items-center gap-2`}
+              onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                handleSortByPrice(
+                  "Products".toLowerCase(),
+                  e.currentTarget.name
+                );
+                handleFilters(e);
+              }}
+            >
+              <FaSortNumericDownAlt />
+              <span className="text-sm">Price</span>
+            </button>
+          )}
+          {price && (
+            <button
+              type="button"
+              name="highest"
+              className={`${
+                price === undefined
+                  ? "dark:bg-primary-500 bg-grey-50"
+                  : "dark:bg-primary-700 bg-grey-100"
+              } text-2xl p-2 rounded-md flex items-center gap-2`}
+              onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                handleSortByPrice(
+                  "Products".toLowerCase(),
+                  e.currentTarget.name
+                );
+                handleFilters(e);
+              }}
+            >
+              <FaSortNumericUpAlt />
+              <span className="text-sm">Price</span>
+            </button>
+          )}
 
-          <select
-            className="p-2 dark:bg-primary-500 bg-grey-50 rounded-md"
-            name="alphabetical"
-            onChange={(e) => {
-              handleSortByName("Products".toLowerCase(), e.target.value);
-              handleFilters(e);
-            }}
-          >
-            <option>Alphabetical</option>
-            <option value="atoz">A - Z</option>
-            <option value="ztoa">Z - A</option>
-          </select>
+          {!alphabetical && (
+            <button
+              type="button"
+              name="atoz"
+              className={`${
+                alphabetical === undefined
+                  ? "dark:bg-primary-500 bg-grey-50"
+                  : "dark:bg-primary-700 bg-grey-100"
+              } text-2xl p-2 rounded-md flex items-center gap-2`}
+              onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                handleSortByName(
+                  "Products".toLowerCase(),
+                  e.currentTarget.name
+                );
+                handleFilters(e);
+              }}
+            >
+              <FaSortAlphaDownAlt />
+              <span className="text-sm">Alphabetical</span>
+            </button>
+          )}
+          {alphabetical && (
+            <button
+              type="button"
+              name="ztoa"
+              className={`${
+                alphabetical === undefined
+                  ? "dark:bg-primary-500 bg-grey-50"
+                  : "dark:bg-primary-700 bg-grey-100"
+              } text-2xl p-2 rounded-md flex items-center gap-2`}
+              onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                handleSortByName(
+                  "Products".toLowerCase(),
+                  e.currentTarget.name
+                );
+                handleFilters(e);
+              }}
+            >
+              <FaSortAlphaUpAlt />
+              <span className="text-sm">Alphabetical</span>
+            </button>
+          )}
         </div>
       )}
       {title === "Home" && (
@@ -231,22 +306,91 @@ const Filters = ({ title }: Props) => {
             <option value="lowest">Price: Low to High</option>
             <option value="highest">Price: High to Low</option>
           </select>
+          {!price && (
+            <button
+              type="button"
+              name="lowest"
+              className={`${
+                price === undefined
+                  ? "dark:bg-primary-500 bg-grey-50"
+                  : "dark:bg-primary-700 bg-grey-100"
+              } text-2xl p-2 rounded-md flex items-center gap-2`}
+              onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                handleSortByPrice(
+                  products.length ? "productsBrand" : "productsCategory",
+                  e.currentTarget.name
+                );
+                handleFilters(e);
+              }}
+            >
+              <FaSortNumericDownAlt />
+              <span className="text-sm">Price</span>
+            </button>
+          )}
+          {price && (
+            <button
+              type="button"
+              name="highest"
+              className={`${
+                price === undefined
+                  ? "dark:bg-primary-500 bg-grey-50"
+                  : "dark:bg-primary-700 bg-grey-100"
+              } text-2xl p-2 rounded-md flex items-center gap-2`}
+              onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                handleSortByPrice(
+                  products.length ? "productsBrand" : "productsCategory",
+                  e.currentTarget.name
+                );
+                handleFilters(e);
+              }}
+            >
+              <FaSortNumericUpAlt />
+              <span className="text-sm">Price</span>
+            </button>
+          )}
 
-          <select
-            className="p-2 dark:bg-primary-500 bg-grey-50 rounded-md"
-            name="alphabetical"
-            onChange={(e) => {
-              handleSortByName(
-                products.length ? "productsBrand" : "productsCategory",
-                e.target.value
-              );
-              handleFilters(e);
-            }}
-          >
-            <option>Alphabetical</option>
-            <option value="atoz">A - Z</option>
-            <option value="ztoa">Z - A</option>
-          </select>
+          {!alphabetical && (
+            <button
+              type="button"
+              name="atoz"
+              className={`${
+                alphabetical === undefined
+                  ? "dark:bg-primary-500 bg-grey-50"
+                  : "dark:bg-primary-700 bg-grey-100"
+              } text-2xl p-2 rounded-md flex items-center gap-2`}
+              onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                handleSortByName(
+                  products.length ? "productsBrand" : "productsCategory",
+                  e.currentTarget.name
+                );
+                handleFilters(e);
+              }}
+            >
+              <FaSortAlphaDownAlt />
+              <span className="text-sm">Alphabetical</span>
+            </button>
+          )}
+          {alphabetical && (
+            <button
+              type="button"
+              name="ztoa"
+              className={`${
+                alphabetical === undefined
+                  ? "dark:bg-primary-500 bg-grey-50"
+                  : "dark:bg-primary-700 bg-grey-100"
+              } text-2xl p-2 rounded-md flex items-center gap-2`}
+              onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                handleSortByName(
+                  products.length ? "productsBrand" : "productsCategory",
+                  e.currentTarget.name
+                );
+                handleFilters(e);
+              }}
+            >
+              <FaSortAlphaUpAlt />
+              <span className="text-sm">Alphabetical</span>
+            </button>
+          )}
         </div>
       )}
     </>
