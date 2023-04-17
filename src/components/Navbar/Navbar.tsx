@@ -307,7 +307,7 @@ const Navbar = ({ user }: Props) => {
               borderRadius="9px"
               gap="3rem"
               p="0.1rem 1.5rem"
-              className="relative bg-white"
+              className="relative bg-white dark:bg-primary-600"
             >
               <InputBase
                 placeholder="Search..."
