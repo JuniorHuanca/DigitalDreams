@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "@/state/store";
@@ -19,6 +19,9 @@ type Props = {
 };
 function Pagination({ items, itemsPerPage, currentPage }: Props) {
   const dispatch = useAppDispatch();
+  let quepage = 1;
+  // const [quepage, setQuepage] = useState<number>(1);
+
   const pageNumberLimit = 10;
   const minPageNumLim = useSelector(selectMinPageNumLim);
   const maxPageNumLim = useSelector(selectMaxPageNumLim);
@@ -29,8 +32,8 @@ function Pagination({ items, itemsPerPage, currentPage }: Props) {
   }
   const totales = Math.ceil(items.length / itemsPerPage);
   const goPage = () => {
+    toast.dismiss();
     const handleSubmit = () => {
-      const quepage = Number(inputRef?.current?.value);
       if (!Number.isNaN(quepage) && quepage > 0 && quepage <= totales) {
         dispatch(setCurrentPage(quepage));
         toast.dismiss();
@@ -54,6 +57,7 @@ function Pagination({ items, itemsPerPage, currentPage }: Props) {
               type="text"
               ref={inputRef}
               autoFocus
+              onChange={(e) => (quepage = Number(e.target.value))}
               onKeyDown={handleKeyDown}
             />
             <button
@@ -75,7 +79,6 @@ function Pagination({ items, itemsPerPage, currentPage }: Props) {
       }
     );
   };
-
   const handleNextbtn = () => {
     dispatch(setCurrentPage(currentPage + 1));
     if (currentPage + 1 > maxPageNumLim) {
