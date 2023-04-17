@@ -53,12 +53,20 @@ import NotificationMobile from "../Modals/NotificationMobile";
 import UserProfileMobile from "../Modals/UserProfileMobile";
 import Head from "next/head";
 import Logo from "@/assets/img/Avatar.png";
+import {
+  allProducts,
+  allProductsBySearch,
+  getAllProducts,
+  setProductsBysearch,
+} from "@/state/products/products/productsSlice";
 type Props = {
   user: any;
 };
 
 const Navbar = ({ user }: Props) => {
   const isClicked = useSelector(selectIsClicked);
+  const products = useSelector(allProducts);
+  const productsSearch = useSelector(allProductsBySearch);
   const isAboveMediumScreens = useMediaQuery("(min-width: 1060px)");
   const dispatch = useAppDispatch();
   const themeM: ITheme = useTheme();
@@ -72,8 +80,15 @@ const Navbar = ({ user }: Props) => {
   };
   useEffect(() => {
     setMounted(true);
+    dispatch(getAllProducts());
   }, [isClicked]);
   if (!mounted) return null;
+  console.log(productsSearch.length);
+
+  const handleSearch = (e: any) => {
+    const search = e.target.value;
+    dispatch(setProductsBysearch({ products, search }));
+  };
   const selectModalColor = "bg-slate-300 dark:bg-primary-600 px-2";
   return (
     <AppBar
@@ -91,14 +106,48 @@ const Navbar = ({ user }: Props) => {
             borderRadius="9px"
             gap="3rem"
             p="0.1rem 1.5rem"
+            className="relative"
           >
             <InputBase
               placeholder="Search..."
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => {
+                handleSearch(e);
+              }}
             />
-            <IconButton onClick={(e) => alert(search)}>
+            <IconButton>
               <Search />
             </IconButton>
+            {productsSearch.length ? (
+              <div className="absolute right-0 top-8 bg-white dark:bg-primary-500 w-full h-[400px] scroll-hidden overflow-y-auto z-[210] rounded-b-[9px] overflow-hidden hide-scrollbar">
+                {productsSearch.slice(0, 10).map((product) => (
+                  <div className="flex p-2 hover:dark:bg-indigo-500/40 hover:bg-slate-300">
+                    <Link
+                      className="relative h-24 w-[30%] p-1"
+                      href={`/product/${product.id}`}
+                    >
+                      <Image
+                        src={product.image}
+                        alt={product.name}
+                        fill
+                        priority={true}
+                      />
+                    </Link>
+                    <Link
+                      href={`/product/${product.id}`}
+                      className="w-[70%] p-6 font-semibold hover:text-primary-500 dark:hover:text-secondary-500 transition-all hover:scale-105"
+                    >
+                      {product.name}
+                    </Link>
+                  </div>
+                ))}
+                <Link
+                  href={`/product/search/${search}`}
+                  className="block font-semibold text-center py-4 dark:bg-indigo-500/40 bg-slate-300"
+                >
+                  See al products
+                </Link>
+              </div>
+            ) : null}
           </FlexBetween>
           <FlexBetween>
             <Link href="/" className="font-extrabold text-2xl mr-4">
@@ -255,18 +304,51 @@ const Navbar = ({ user }: Props) => {
           {/* MENU ITEMS */}
           <div className="flex w-3/4 flex-col gap-10 text-2xl">
             <FlexBetween
-              backgroundColor={themeM.palette.primary[600]}
               borderRadius="9px"
               gap="3rem"
               p="0.1rem 1.5rem"
+              className="relative bg-white"
             >
               <InputBase
                 placeholder="Search..."
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => {
+                  handleSearch(e);
+                }}
               />
               <IconButton onClick={(e) => alert(search)}>
                 <Search />
               </IconButton>
+              {productsSearch.length ? (
+                <div className="absolute right-0 top-8 bg-white dark:bg-primary-600 w-full h-[400px] scroll-hidden overflow-y-auto z-[210] rounded-b-[9px] overflow-hidden hide-scrollbar">
+                  {productsSearch.slice(0, 10).map((product) => (
+                    <div className="flex p-2 hover:dark:bg-indigo-500/40 hover:bg-slate-300 font-semibold text-sm items-center">
+                      <Link
+                        className="relative h-24 w-[30%] p-1"
+                        href={`/product/${product.id}`}
+                      >
+                        <Image
+                          src={product.image}
+                          alt={product.name}
+                          fill
+                          priority={true}
+                        />
+                      </Link>
+                      <Link
+                        href={`/product/${product.id}`}
+                        className="w-[70%] p-2 hover:text-primary-500 dark:hover:text-secondary-500 transition-all hover:scale-105"
+                      >
+                        {product.name}
+                      </Link>
+                    </div>
+                  ))}
+                  <Link
+                    href={`/product/search/${search}`}
+                    className="block font-semibold text-center py-4 text-base dark:bg-indigo-500/40 bg-slate-300"
+                  >
+                    See al products
+                  </Link>
+                </div>
+              ) : null}
             </FlexBetween>
             <div
               className={`${

@@ -124,6 +124,7 @@ export const getAllProductsCategory = createAsyncThunk(
 interface IProductsState {
   products: IProduct[];
   allItems: IProduct[];
+  productsBySearch: IProduct[];
   productsCategory: IProduct[];
   categories: [];
   allItemsSecond: [];
@@ -145,6 +146,7 @@ interface IProductsState {
 const initialState = {
   products: [],
   allItems: [],
+  productsBySearch: [],
   productsCategory: [],
   categories: [],
   allItemsSecond: [],
@@ -349,6 +351,21 @@ const productsSlice = createSlice({
         }
       }
     },
+    setProductsBysearch(state, action) {
+      const { products, search } = action.payload;
+      if(search.length > 2){
+        const filtered = products.filter((e: IProduct) => e.name.toLowerCase().includes(search.toLowerCase()));
+        return {
+          ...state,
+          productsBySearch: filtered,
+        };
+      }else{
+        return {
+          ...state,
+          productsBySearch: [],
+        };
+      }
+    },
   },
   extraReducers: (builder) => {
     // Add reducers for additional action types here, and handle loading state as needed
@@ -461,6 +478,7 @@ export const allProductsCategory = (store: RootState) =>
   store.products.productsCategory;
 export const allBrands = (store: RootState) => store.products.brands;
 export const allFilters = (store: RootState) => store.products.filters;
+export const allProductsBySearch = (store: RootState) => store.products.productsBySearch;
 
 export const {
   cleanUpProductsRecommended,
@@ -475,6 +493,7 @@ export const {
   filterByBrand,
   filterByCategory,
   orderByFilter,
+  setProductsBysearch,
 } = productsSlice.actions;
 
 export const selectAllProductsStatus = (state: {

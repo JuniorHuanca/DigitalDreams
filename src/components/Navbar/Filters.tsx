@@ -222,7 +222,7 @@ const Filters = ({ title }: Props) => {
                 ))}
                 <Link
                   href={`/products`}
-                  className="text-center w-full dark:bg-primary-400 bg-slate-300 py-2"
+                  className="text-center w-full dark:bg-indigo-500/40 bg-slate-300 py-2"
                 >
                   See all Products
                 </Link>
@@ -253,7 +253,7 @@ const Filters = ({ title }: Props) => {
                 ))}
                 <Link
                   href={`/products`}
-                  className="text-center w-full dark:bg-primary-400 bg-slate-300 py-2"
+                  className="text-center w-full dark:bg-indigo-500/40 bg-slate-300 py-2"
                 >
                   See all Products
                 </Link>
@@ -284,7 +284,7 @@ const Filters = ({ title }: Props) => {
                 ))}
                 <Link
                   href={`/products`}
-                  className="text-center w-full dark:bg-primary-400 bg-slate-300 py-2"
+                  className="text-center w-full dark:bg-indigo-500/40 bg-slate-300 py-2"
                 >
                   See all Products
                 </Link>
