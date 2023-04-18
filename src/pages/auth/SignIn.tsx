@@ -143,7 +143,6 @@ function SignIn({ session }: Props) {
         setContainerClass('');
         dispatch(setOpenLogin(true))
     };
-    // console.log(login)
     if (!mounted) return null
     return (
         <>

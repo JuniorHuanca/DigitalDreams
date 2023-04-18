@@ -85,7 +85,6 @@ export const authOptions: NextAuthOptions = {
       });
       params.token.role = role;
       if (params.isNewUser === true) {
-        console.log(params);
         emailNewUser(params.token.name as string, params.token.email as string);
         emailToUserAdmin(
           params.token.name as string,

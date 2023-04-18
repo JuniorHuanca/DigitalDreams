@@ -112,7 +112,6 @@ const Navbar = ({ user }: Props) => {
   const handleChange = (e: any) => {
     setSearch(e.target.value);
   };
-  console.log(router.asPath);
   const selectModalColor = "bg-slate-300 dark:bg-primary-600 px-2";
   return (
     <AppBar
