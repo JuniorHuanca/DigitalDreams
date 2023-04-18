@@ -355,15 +355,18 @@ const productsSlice = createSlice({
     },
     setProductsBysearch(state, action) {
       const { products, search } = action.payload;
-      console.log(search);
       if (search.length > 2) {
         const filtered = products.filter((e: IProduct) =>
           e.name.toLowerCase().includes(search.toLowerCase())
         );
-        if (filtered.length) {
+        const sorted = [...filtered].sort((a: IProduct, b: IProduct) => {
+          if (a.rating < b.rating) return 1;
+          else return -1;
+        });
+        if (sorted.length) {
           return {
             ...state,
-            productsBySearch: filtered,
+            productsBySearch: sorted,
             allProductsStatusSearch: EStateGeneric.SUCCEEDED,
           };
         } else {

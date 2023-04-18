@@ -7,7 +7,6 @@ type Props = {}
 
 const ProvidersLogin = (props: Props) => {
     const { providers } = useInfoProviders()
-    // console.log(providers)
     return (
         <div className="flex flex-row justify-evenly items-center gap-4">
             {providers?.google && (

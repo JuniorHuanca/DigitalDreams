@@ -40,7 +40,7 @@ export const updateImageOneUser = createAsyncThunk(
 );
 
 interface IUserState {
-  user: {};
+  user: any;
   oneUserStatus: EStateGeneric;
 }
 const initialState = {
