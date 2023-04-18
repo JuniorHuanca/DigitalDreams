@@ -142,6 +142,7 @@ interface IProductsState {
   allProductsStatusMostSelling: EStateGeneric;
   allProductsStatusRecommended: EStateGeneric;
   allProductsStatusRelateds: EStateGeneric;
+  allProductsStatusSearch: EStateGeneric;
 }
 const initialState = {
   products: [],
@@ -164,6 +165,7 @@ const initialState = {
   allProductsStatusMostSelling: EStateGeneric.IDLE,
   allProductsStatusRecommended: EStateGeneric.IDLE,
   allProductsStatusRelateds: EStateGeneric.IDLE,
+  allProductsStatusSearch: EStateGeneric.IDLE,
 } as IProductsState;
 
 const productsSlice = createSlice({
@@ -353,13 +355,25 @@ const productsSlice = createSlice({
     },
     setProductsBysearch(state, action) {
       const { products, search } = action.payload;
-      if(search.length > 2){
-        const filtered = products.filter((e: IProduct) => e.name.toLowerCase().includes(search.toLowerCase()));
-        return {
-          ...state,
-          productsBySearch: filtered,
-        };
-      }else{
+      console.log(search);
+      if (search.length > 2) {
+        const filtered = products.filter((e: IProduct) =>
+          e.name.toLowerCase().includes(search.toLowerCase())
+        );
+        if (filtered.length) {
+          return {
+            ...state,
+            productsBySearch: filtered,
+            allProductsStatusSearch: EStateGeneric.SUCCEEDED,
+          };
+        } else {
+          return {
+            ...state,
+            productsBySearch: [],
+            allProductsStatusSearch: EStateGeneric.FAILED,
+          };
+        }
+      } else {
         return {
           ...state,
           productsBySearch: [],
@@ -478,7 +492,8 @@ export const allProductsCategory = (store: RootState) =>
   store.products.productsCategory;
 export const allBrands = (store: RootState) => store.products.brands;
 export const allFilters = (store: RootState) => store.products.filters;
-export const allProductsBySearch = (store: RootState) => store.products.productsBySearch;
+export const allProductsBySearch = (store: RootState) =>
+  store.products.productsBySearch;
 
 export const {
   cleanUpProductsRecommended,
@@ -496,24 +511,19 @@ export const {
   setProductsBysearch,
 } = productsSlice.actions;
 
-export const selectAllProductsStatus = (state: {
-  products: { allProductsStatus: EStateGeneric };
-}) => state.products.allProductsStatus;
-export const selectAllProductsRecommendedStatus = (state: {
-  products: { allProductsStatusRecommended: EStateGeneric };
-}) => state.products.allProductsStatusRecommended;
-export const selectAllProductsBrandStatus = (state: {
-  products: { allProductsStatusBrand: EStateGeneric };
-}) => state.products.allProductsStatusBrand;
-export const selectAllProductsBrandsStatus = (state: {
-  products: { allProductsStatusBrands: EStateGeneric };
-}) => state.products.allProductsStatusBrands;
-export const selectAllProductsMostSellingStatus = (state: {
-  products: { allProductsStatusMostSelling: EStateGeneric };
-}) => state.products.allProductsStatusMostSelling;
-export const selectAllProductsRelatedsStatus = (state: {
-  products: { allProductsStatusRelateds: EStateGeneric };
-}) => state.products.allProductsStatusRelateds;
-export const selectAllProductsCategoriesStatus = (state: {
-  products: { allProductsStatusCategory: EStateGeneric };
-}) => state.products.allProductsStatusCategory;
+export const selectAllProductsStatus = (state: RootState) =>
+  state.products.allProductsStatus;
+export const selectAllProductsRecommendedStatus = (state: RootState) =>
+  state.products.allProductsStatusRecommended;
+export const selectAllProductsBrandStatus = (state: RootState) =>
+  state.products.allProductsStatusBrand;
+export const selectAllProductsBrandsStatus = (state: RootState) =>
+  state.products.allProductsStatusBrands;
+export const selectAllProductsMostSellingStatus = (state: RootState) =>
+  state.products.allProductsStatusMostSelling;
+export const selectAllProductsRelatedsStatus = (state: RootState) =>
+  state.products.allProductsStatusRelateds;
+export const selectAllProductsCategoriesStatus = (state: RootState) =>
+  state.products.allProductsStatusCategory;
+export const selectAllProductsSearchStatus = (state: RootState) =>
+  state.products.allProductsStatusSearch;

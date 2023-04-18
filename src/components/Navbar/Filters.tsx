@@ -9,6 +9,7 @@ import {
   sortPrices,
   orderByFilter,
   allProductsBrand,
+  allProductsCategory,
 } from "@/state/products/products/productsSlice";
 import { useAppDispatch } from "@/state/store";
 import Link from "next/link";
@@ -35,6 +36,7 @@ const Filters = ({ title }: Props) => {
   const brands = useSelector(allBrands);
   const filters = useSelector(allFilters);
   const dispatch = useAppDispatch();
+  const productsCateogry = useSelector(allProductsCategory);
   const products = useSelector(allProductsBrand);
   useEffect(() => {
     (async () => {
@@ -302,7 +304,11 @@ const Filters = ({ title }: Props) => {
               } text-2xl p-2 rounded-md flex items-center gap-2`}
               onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                 handleSortByPrice(
-                  products.length ? "productsBrand" : "productsCategory",
+                  products.length
+                    ? "productsBrand"
+                    : productsCateogry.length
+                    ? "productsCategory"
+                    : "productsBySearch",
                   e.currentTarget.name
                 );
                 handleFilters(e);
@@ -323,7 +329,11 @@ const Filters = ({ title }: Props) => {
               } text-2xl p-2 rounded-md flex items-center gap-2`}
               onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                 handleSortByPrice(
-                  products.length ? "productsBrand" : "productsCategory",
+                  products.length
+                    ? "productsBrand"
+                    : productsCateogry.length
+                    ? "productsCategory"
+                    : "productsBySearch",
                   e.currentTarget.name
                 );
                 handleFilters(e);
@@ -345,7 +355,11 @@ const Filters = ({ title }: Props) => {
               } text-2xl p-2 rounded-md flex items-center gap-2`}
               onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                 handleSortByName(
-                  products.length ? "productsBrand" : "productsCategory",
+                  products.length
+                    ? "productsBrand"
+                    : productsCateogry.length
+                    ? "productsCategory"
+                    : "productsBySearch",
                   e.currentTarget.name
                 );
                 handleFilters(e);
@@ -366,7 +380,11 @@ const Filters = ({ title }: Props) => {
               } text-2xl p-2 rounded-md flex items-center gap-2`}
               onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                 handleSortByName(
-                  products.length ? "productsBrand" : "productsCategory",
+                  products.length
+                    ? "productsBrand"
+                    : productsCateogry.length
+                    ? "productsCategory"
+                    : "productsBySearch",
                   e.currentTarget.name
                 );
                 handleFilters(e);

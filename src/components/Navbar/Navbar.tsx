@@ -5,6 +5,7 @@ import {
   Search,
   SettingsOutlined,
   ArrowDropDownOutlined,
+  Clear,
 } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import FlexBetween from "../FlexBetween";
@@ -13,6 +14,7 @@ import {
   selectIsClicked,
   setMode,
   cleanupModals,
+  setCurrentPage,
 } from "@/state/globalSlice";
 import profileImage from "@/assets/profile.jpeg";
 import { signIn, signOut } from "next-auth/react";
@@ -59,14 +61,18 @@ import {
   getAllProducts,
   setProductsBysearch,
 } from "@/state/products/products/productsSlice";
+import { useRouter } from "next/router";
 type Props = {
   user: any;
 };
 
 const Navbar = ({ user }: Props) => {
+  const router = useRouter();
   const isClicked = useSelector(selectIsClicked);
+  const [visible, setVisible] = useState<boolean>(false);
   const products = useSelector(allProducts);
   const productsSearch = useSelector(allProductsBySearch);
+  const productsSearchNav = productsSearch.slice(0, 10);
   const isAboveMediumScreens = useMediaQuery("(min-width: 1060px)");
   const dispatch = useAppDispatch();
   const themeM: ITheme = useTheme();
@@ -81,14 +87,32 @@ const Navbar = ({ user }: Props) => {
   useEffect(() => {
     setMounted(true);
     dispatch(getAllProducts());
+    return () => {
+      setSearch("");
+    };
   }, [isClicked]);
-  if (!mounted) return null;
-  console.log(productsSearch.length);
 
-  const handleSearch = (e: any) => {
-    const search = e.target.value;
-    dispatch(setProductsBysearch({ products, search }));
+  useEffect(() => {
+    if (mounted) {
+      if (search.length > 2) {
+        if (!router.asPath.includes("?products")) {
+          setVisible(true);
+        }
+        dispatch(setProductsBysearch({ products, search }));
+        dispatch(setCurrentPage(1));
+      } else {
+        setVisible(false);
+      }
+    }
+  }, [search, mounted, router.asPath]);
+
+  if (!mounted) {
+    return null;
+  }
+  const handleChange = (e: any) => {
+    setSearch(e.target.value);
   };
+  console.log(router.asPath);
   const selectModalColor = "bg-slate-300 dark:bg-primary-600 px-2";
   return (
     <AppBar
@@ -110,41 +134,47 @@ const Navbar = ({ user }: Props) => {
           >
             <InputBase
               placeholder="Search..."
-              onChange={(e) => {
-                handleSearch(e);
-              }}
+              value={search}
+              onChange={handleChange}
             />
-            <IconButton>
-              <Search />
+            <IconButton
+              onClick={() => {
+                setSearch("");
+                setVisible(false);
+              }}
+            >
+              {visible ? <Clear /> : <Search />}
             </IconButton>
-            {productsSearch.length ? (
-              <div className="absolute right-0 top-8 bg-white dark:bg-primary-500 w-full h-[400px] scroll-hidden overflow-y-auto z-[210] rounded-b-[9px] overflow-hidden hide-scrollbar">
-                {productsSearch.slice(0, 10).map((product, index) => (
-                  <div
-                    key={index}
-                    className="flex p-2 hover:dark:bg-indigo-500/40 hover:bg-slate-300"
-                  >
-                    <Link
-                      className="relative h-24 w-[30%] p-1"
-                      href={`/product/${product.id}`}
+            {productsSearchNav.length && visible ? (
+              <div className="absolute right-0 top-8 bg-white dark:bg-primary-500 w-full max-h-[420px] z-[210] rounded-b-[9px] overflow-hidden">
+                <div className="w-full max-h-[370px] overflow-y-auto z-[210] overflow-hidden hide-scrollbar">
+                  {productsSearchNav.map((product, index) => (
+                    <div
+                      key={index}
+                      className="flex p-2 hover:dark:bg-indigo-500/40 hover:bg-slate-300"
                     >
-                      <Image
-                        src={product.image}
-                        alt={product.name}
-                        fill
-                        priority={true}
-                      />
-                    </Link>
-                    <Link
-                      href={`/product/${product.id}`}
-                      className="w-[70%] p-6 font-semibold hover:text-primary-500 dark:hover:text-secondary-500 transition-all hover:scale-105"
-                    >
-                      {product.name}
-                    </Link>
-                  </div>
-                ))}
+                      <Link
+                        className="relative h-24 w-[30%] p-1"
+                        href={`/product/${product.id}`}
+                      >
+                        <Image
+                          src={product.image}
+                          alt={product.name}
+                          fill
+                          priority={true}
+                        />
+                      </Link>
+                      <Link
+                        href={`/product/${product.id}`}
+                        className="w-[70%] p-6 font-semibold hover:text-primary-500 dark:hover:text-secondary-500 transition-all hover:scale-105"
+                      >
+                        {product.name}
+                      </Link>
+                    </div>
+                  ))}
+                </div>
                 <Link
-                  href={`/product/search/${search}`}
+                  href={`/products/search?products=${search}`}
                   className="block font-semibold text-center py-4 dark:bg-indigo-500/40 bg-slate-300"
                 >
                   See al products
@@ -315,41 +345,44 @@ const Navbar = ({ user }: Props) => {
               <InputBase
                 placeholder="Search..."
                 onChange={(e) => {
-                  handleSearch(e);
+                  handleChange(e);
                 }}
               />
-              <IconButton onClick={(e) => alert(search)}>
+              <IconButton>
+                {/* <IconButton onClick={(e) => alert(search)}> */}
                 <Search />
               </IconButton>
-              {productsSearch.length ? (
-                <div className="absolute right-0 top-8 bg-white dark:bg-primary-600 w-full h-[400px] scroll-hidden overflow-y-auto z-[210] rounded-b-[9px] overflow-hidden hide-scrollbar">
-                  {productsSearch.slice(0, 10).map((product, index) => (
-                    <div
-                      key={index}
-                      className="flex p-2 hover:dark:bg-indigo-500/40 hover:bg-slate-300 font-semibold text-sm items-center"
-                    >
-                      <Link
-                        className="relative h-24 w-[30%] p-1"
-                        href={`/product/${product.id}`}
+              {productsSearchNav.length ? (
+                <div className="absolute right-0 top-8 bg-white dark:bg-primary-600 w-full max-h-[420px] overflow-y-auto z-[210] rounded-b-[9px] overflow-hidden">
+                  <div className="w-full h-[87%] overflow-y-auto z-[210] overflow-hidden hide-scrollbar">
+                    {productsSearchNav.map((product, index) => (
+                      <div
+                        key={index}
+                        className="flex p-2 hover:dark:bg-indigo-500/40 hover:bg-slate-300 font-semibold text-sm items-center"
                       >
-                        <Image
-                          src={product.image}
-                          alt={product.name}
-                          fill
-                          priority={true}
-                        />
-                      </Link>
-                      <Link
-                        href={`/product/${product.id}`}
-                        className="w-[70%] p-2 hover:text-primary-500 dark:hover:text-secondary-500 transition-all hover:scale-105"
-                      >
-                        {product.name}
-                      </Link>
-                    </div>
-                  ))}
+                        <Link
+                          className="relative h-24 w-[30%] p-1"
+                          href={`/product/${product.id}`}
+                        >
+                          <Image
+                            src={product.image}
+                            alt={product.name}
+                            fill
+                            priority={true}
+                          />
+                        </Link>
+                        <Link
+                          href={`/product/${product.id}`}
+                          className="w-[70%] p-4 font-semibold hover:text-primary-500 dark:hover:text-secondary-500 transition-all hover:scale-105"
+                        >
+                          {product.name}
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
                   <Link
-                    href={`/product/search/${search}`}
-                    className="block font-semibold text-center py-4 text-base dark:bg-indigo-500/40 bg-slate-300"
+                    href={`/products/search?products=${search}`}
+                    className="block h-[13%] font-semibold text-center py-4 text-base dark:bg-indigo-500/40 bg-slate-300"
                   >
                     See al products
                   </Link>

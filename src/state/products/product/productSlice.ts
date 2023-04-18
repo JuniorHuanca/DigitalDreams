@@ -193,15 +193,9 @@ const productSlice = createSlice({
       state.postReviewStatus = EStateGeneric.FAILED;
     });
 
-    builder.addCase(putOneReview.fulfilled, (state, action) => {
-      
-    });
-    builder.addCase(putOneReview.pending, (state, action) => {
-      
-    });
-    builder.addCase(putOneReview.rejected, (state, action) => {
-      
-    });
+    builder.addCase(putOneReview.fulfilled, (state, action) => {});
+    builder.addCase(putOneReview.pending, (state, action) => {});
+    builder.addCase(putOneReview.rejected, (state, action) => {});
 
     builder.addCase(deleteOneReview.fulfilled, (state, action) => {
       state.deleteReviewStatus = EStateGeneric.SUCCEEDED;
@@ -226,12 +220,9 @@ export const {
   // filterByRating
 } = productSlice.actions;
 
-export const selectOneProductStatus = (state: {
-  product: { oneProductStatus: EStateGeneric };
-}) => state.product.oneProductStatus;
-export const selectAllReviewsStatus = (state: {
-  product: { allReviewsStatus: EStateGeneric };
-}) => state.product.allReviewsStatus;
-export const selectPostReviewStatus = (state: {
-  product: { postReviewStatus: EStateGeneric };
-}) => state.product.postReviewStatus;
+export const selectOneProductStatus = (state: RootState) =>
+  state.product.oneProductStatus;
+export const selectAllReviewsStatus = (state: RootState) =>
+  state.product.allReviewsStatus;
+export const selectPostReviewStatus = (state: RootState) =>
+  state.product.postReviewStatus;
