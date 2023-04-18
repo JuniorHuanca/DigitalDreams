@@ -104,7 +104,7 @@ const Navbar = ({ user }: Props) => {
         setVisible(false);
       }
     }
-  }, [search, mounted, router.asPath]);
+  }, [search, mounted, visible]);
 
   if (!mounted) {
     return null;
