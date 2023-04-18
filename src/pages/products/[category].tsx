@@ -4,6 +4,7 @@ import {
   allProductsCategory,
   cleanUpProductsBrand,
   cleanUpProductsCategory,
+  cleanUpProductsSearch,
   getAllProductsBrand,
   getAllProductsCategory,
   selectAllProductsBrandStatus,
@@ -65,10 +66,12 @@ const Brand = (props: Props) => {
         const { name, category } = router.query;
         if (name) {
           if (productsStatus === EStateGeneric.IDLE) {
+            dispatch(cleanUpProductsSearch());
             await dispatch(getAllProductsBrand(name as string));
           }
         }
-        if (category && category !== "brand") {
+        if (category && category !== "brand" && category !== "search") {
+          dispatch(cleanUpProductsSearch());
           await dispatch(getAllProductsCategory(category as string));
         }
       }
@@ -76,7 +79,8 @@ const Brand = (props: Props) => {
     })();
 
     return () => {
-      if (router.query.category !== "brand") {
+      dispatch(setCurrentPage(1));
+      if (router.query.category !== "brand" && router.query.category !== "search") {
         dispatch(cleanUpProductsCategory());
       } else {
         dispatch(cleanUpProductsBrand());

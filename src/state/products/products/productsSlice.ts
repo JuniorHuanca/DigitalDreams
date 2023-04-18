@@ -214,6 +214,13 @@ const productsSlice = createSlice({
         allProductsStatusCategory: EStateGeneric.IDLE,
       };
     },
+    cleanUpProductsSearch: (state) => {
+      return {
+        ...state,
+        productsBySearch: [],
+        allProductsStatusSearch: EStateGeneric.IDLE,
+      };
+    },
     setFilters: (state, action) => {
       return {
         ...state,
@@ -512,6 +519,7 @@ export const {
   filterByCategory,
   orderByFilter,
   setProductsBysearch,
+  cleanUpProductsSearch,
 } = productsSlice.actions;
 
 export const selectAllProductsStatus = (state: RootState) =>
