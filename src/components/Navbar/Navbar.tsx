@@ -119,8 +119,11 @@ const Navbar = ({ user }: Props) => {
             </IconButton>
             {productsSearch.length ? (
               <div className="absolute right-0 top-8 bg-white dark:bg-primary-500 w-full h-[400px] scroll-hidden overflow-y-auto z-[210] rounded-b-[9px] overflow-hidden hide-scrollbar">
-                {productsSearch.slice(0, 10).map((product) => (
-                  <div key={index} className="flex p-2 hover:dark:bg-indigo-500/40 hover:bg-slate-300">
+                {productsSearch.slice(0, 10).map((product, index) => (
+                  <div
+                    key={index}
+                    className="flex p-2 hover:dark:bg-indigo-500/40 hover:bg-slate-300"
+                  >
                     <Link
                       className="relative h-24 w-[30%] p-1"
                       href={`/product/${product.id}`}
@@ -321,7 +324,10 @@ const Navbar = ({ user }: Props) => {
               {productsSearch.length ? (
                 <div className="absolute right-0 top-8 bg-white dark:bg-primary-600 w-full h-[400px] scroll-hidden overflow-y-auto z-[210] rounded-b-[9px] overflow-hidden hide-scrollbar">
                   {productsSearch.slice(0, 10).map((product, index) => (
-                    <div key={index} className="flex p-2 hover:dark:bg-indigo-500/40 hover:bg-slate-300 font-semibold text-sm items-center">
+                    <div
+                      key={index}
+                      className="flex p-2 hover:dark:bg-indigo-500/40 hover:bg-slate-300 font-semibold text-sm items-center"
+                    >
                       <Link
                         className="relative h-24 w-[30%] p-1"
                         href={`/product/${product.id}`}
