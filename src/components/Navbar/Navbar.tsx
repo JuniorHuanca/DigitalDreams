@@ -193,7 +193,7 @@ const Navbar = ({ user }: Props) => {
               className="rounded-full"
             ></Image>
           </FlexBetween>
-          <div className="flex bg-">
+          <div className="flex ml-20">
             <NavButton
               title=""
               customFunc={() => {
@@ -215,7 +215,7 @@ const Navbar = ({ user }: Props) => {
               dotColor={undefined}
               selected={isClicked.cart}
             />
-            <NavButton
+            {/* <NavButton
               title="Chat"
               dotColor="#03C9D7"
               customFunc={() => handleModal("chat")}
@@ -230,7 +230,7 @@ const Navbar = ({ user }: Props) => {
               color={themeM.palette.secondary[200]}
               icon={<RiNotification3Line />}
               selected={isClicked.notification}
-            />
+            /> */}
             {!user && (
               <NavButton
                 title="person"
@@ -343,16 +343,21 @@ const Navbar = ({ user }: Props) => {
             >
               <InputBase
                 placeholder="Search..."
+                value={search}
                 onChange={(e) => {
                   handleChange(e);
                 }}
               />
-              <IconButton>
-                {/* <IconButton onClick={(e) => alert(search)}> */}
-                <Search />
+              <IconButton
+                onClick={() => {
+                  setSearch("");
+                  setVisible(false);
+                }}
+              >
+                {visible ? <Clear /> : <Search />}
               </IconButton>
-              {productsSearchNav.length ? (
-                <div className="absolute right-0 top-8 bg-white dark:bg-primary-600 w-full max-h-[420px] overflow-y-auto z-[210] rounded-b-[9px] overflow-hidden">
+              {productsSearchNav.length && visible ? (
+                <div className="absolute right-0 top-8 bg-white dark:bg-primary-600 w-full max-h-[420px] h-[420px] overflow-y-auto z-[210] rounded-b-[9px] overflow-hidden hide-scrollbar">
                   <div className="w-full h-[87%] overflow-y-auto z-[210] overflow-hidden hide-scrollbar">
                     {productsSearchNav.map((product, index) => (
                       <div
@@ -407,7 +412,7 @@ const Navbar = ({ user }: Props) => {
               />
               <span style={{ color: themeM.palette.secondary[200] }}>Cart</span>
             </div>
-            <div
+            {/* <div
               className={`${
                 isClicked.chat ? selectModalColor : null
               } flex items-center cursor-pointer hover:scale-110 hover:bg-slate-300 hover:dark:bg-primary-600 rounded-lg`}
@@ -446,7 +451,7 @@ const Navbar = ({ user }: Props) => {
               <span style={{ color: themeM.palette.secondary[200] }}>
                 Notification
               </span>
-            </div>
+            </div> */}
             <div
               className={`${
                 isClicked.userProfile ? selectModalColor : null

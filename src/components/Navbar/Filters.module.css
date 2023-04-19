@@ -7,7 +7,29 @@
   flex-wrap: wrap;
   position: absolute;
   width: 240%;
-  top: 22px;
-  left: -70%;
+  max-width: 100vw;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 200;
+}
+
+@media (max-width: 400px) {
+  /* .span:hover .ul {
+    left: -50%;
+  } */
+
+  .ul a {
+    font-size: 66%;
+  }
+}
+
+@media (max-width: 300px) {
+  /* .span:hover .ul {
+    left: -35%;
+  } */
+
+  .ul a {
+    font-size: 66%;
+  }
 }

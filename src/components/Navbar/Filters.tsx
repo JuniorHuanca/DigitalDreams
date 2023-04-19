@@ -266,7 +266,7 @@ const Filters = ({ title }: Props) => {
       )}
       {title === "Brand" && (
         <div className="w-full min-h-[5vh] flex flex-wrap gap-y-2 justify-evenly items-center dark:bg-primary-600 bg-grey-10 dark:text-white text-black">
-          <div className="text-black dark:text-white uppercase underline underline-offset-4">
+          <div className="text-black dark:text-white uppercase underline underline-offset-4 w-full text-center md:w-auto md:text-start">
             <span className={` font-semibold text-lg ${styles.span}`}>
               See Categories
               <ul
