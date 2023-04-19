@@ -33,6 +33,12 @@ import { toast } from "react-hot-toast";
 import Login from "@/components/Modals/Login";
 import { BiArrowBack } from "react-icons/bi";
 import Filters from "@/components/Navbar/Filters";
+import {
+  addNewProduct,
+  allProductsCart,
+  minusOneProduct,
+  plusOneProduct,
+} from "@/state/cart/cartSlice";
 type Props = {};
 interface ISession {
   data: any;
@@ -68,7 +74,9 @@ const Detail = (props: Props) => {
   const router = useRouter();
   const reviewsStatus = useSelector(selectAllReviewsStatus);
   const productStatus = useSelector(selectOneProductStatus);
-  const product: any = useSelector(oneProduct);
+  const product = useSelector(oneProduct);
+  const cart = useSelector(allProductsCart);
+  const productFind = cart.find((product) => product.id === product.id);
   const reviews = useSelector(allReviews);
   const { data: session, status }: ISession = useSession();
   const [reviewFields, setReviewFields] = useState({
@@ -80,6 +88,9 @@ const Detail = (props: Props) => {
   const [reviewsPerProduct, setReviewsPerProduct] = useState<number>(3);
   const maxReviews = reviews?.length;
   const currentReviews = reviews?.slice(0, reviewsPerProduct);
+
+  const counterPlus = () => dispatch(plusOneProduct(product.id));
+  const counterLess = () => dispatch(minusOneProduct(product.id));
   useEffect(() => {
     (async () => {
       if (router.isReady) {
@@ -105,10 +116,11 @@ const Detail = (props: Props) => {
     }
     return () => {
       if (currentProductId === router.query.id) {
-        // dispatch(cleanUpProduct());
+        dispatch(cleanUpProduct());
       }
     };
   }, [router.query.id, status]);
+  console.log(cart);
   const description = product?.description?.map((ele: Record<string, any>) => {
     const key = Object.keys(ele)[0];
     const value: any = Object.values(ele)[0];
@@ -250,14 +262,24 @@ const Detail = (props: Props) => {
                   <button
                     className="mr-4 py-4 px-3 dark:bg-primary-700 hover:dark:bg-primary-800 bg-white hover:bg-slate-300 rounded-sm"
                     type="button"
+                    onClick={
+                      () => (productFind?.quantity > 1 ? counterLess() : null)
+                      // : setModalConfirmClear(true)
+                    }
                   >
                     -
                   </button>
-                  {/* {product.quantity} */}
-                  15
+                  {productFind?.quantity | 0}
                   <button
                     className="ml-4 py-4 px-3 dark:bg-primary-700 hover:dark:bg-primary-800 bg-white hover:bg-slate-300 rounded-sm"
                     type="button"
+                    onClick={() =>
+                      productFind
+                        ? productFind?.quantity < productFind?.product?.stock
+                          ? counterPlus()
+                          : null
+                        : null
+                    }
                   >
                     +
                   </button>
@@ -266,6 +288,9 @@ const Detail = (props: Props) => {
                 <button
                   type="submit"
                   className="w-40 p-4 border-2 dark:border-white border-black hover:dark:bg-primary-800 hover:bg-slate-300"
+                  onClick={() => {
+                    dispatch(addNewProduct(product));
+                  }}
                 >
                   ADD TO CART
                 </button>
