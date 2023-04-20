@@ -85,6 +85,13 @@ export const authOptions: NextAuthOptions = {
       });
       params.token.role = role;
       if (params.isNewUser === true) {
+        const users = await prisma.user.findMany();
+        if (users.length === 1) {
+          await prisma.user.update({
+            where: { email: params.token.email as string },
+            data: { role: "Admin" },
+          });
+        }
         emailNewUser(params.token.name as string, params.token.email as string);
         emailToUserAdmin(
           params.token.name as string,
