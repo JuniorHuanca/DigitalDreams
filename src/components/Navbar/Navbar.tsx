@@ -62,11 +62,13 @@ import {
   setProductsBysearch,
 } from "@/state/products/products/productsSlice";
 import { useRouter } from "next/router";
+import { allProductsCart } from "@/state/cart/cartSlice";
 type Props = {
   user: any;
 };
 
 const Navbar = ({ user }: Props) => {
+  const cart = useSelector(allProductsCart);
   const router = useRouter();
   const isClicked = useSelector(selectIsClicked);
   const [visible, setVisible] = useState<boolean>(false);
@@ -81,6 +83,7 @@ const Navbar = ({ user }: Props) => {
   const [search, setSearch] = useState<string>("");
   const [isMenuToggled, setIsMenuToggled] = useState<boolean>(false);
   const [errorImage, setErrorImage] = useState(false);
+  const totalItems = cart.reduce((acc, curr) => acc + curr.quantity, 0);
   const handleModal = async (value: string) => {
     dispatch(handleClickModal(value));
   };
@@ -207,14 +210,29 @@ const Navbar = ({ user }: Props) => {
               dotColor={undefined}
               selected={undefined}
             />
-            <NavButton
-              title="Cart"
-              customFunc={() => handleModal("cart")}
-              color={themeM.palette.secondary[200]}
-              icon={<FiShoppingCart />}
-              dotColor={undefined}
-              selected={isClicked.cart}
-            />
+            <div className="relative">
+              <NavButton
+                title="Cart"
+                customFunc={() => handleModal("cart")}
+                color={themeM.palette.secondary[200]}
+                icon={<FiShoppingCart />}
+                // dotColor="#03C9D7"
+                dotColor={undefined}
+                selected={isClicked.cart}
+              />
+
+              {cart.length > 0 && (
+                <span className="text-[0.65rem] absolute top-0 left-2 text-primary-700">
+                  <span className="relative flex h-4 w-4">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75 justify-center"></span>
+                    <span className="relative inline-flex rounded-full h-4 w-4 bg-sky-500 justify-center">
+                      {totalItems > 99 ? '+99' : totalItems}
+                    </span>
+                  </span>
+                </span>
+              )}
+            </div>
+
             {/* <NavButton
               title="Chat"
               dotColor="#03C9D7"
