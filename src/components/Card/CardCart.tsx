@@ -21,8 +21,8 @@ const CardCart = ({ item }: Props) => {
   const subtotalCalculation = (quantity: number, price: number) =>
     quantity * price;
   return (
-    <div className="flex items-center leading-8 gap-5 border-b-2 hover:bg-slate-300 border-slate-200 dark:border-primary-400 dark:hover:bg-primary-600 p-2">
-      <div className="relative min-h-[96px] min-w-[96px] overflow-hidden">
+    <div className="flex items-center md:gap-5 gap-1 border-b-2 hover:bg-slate-300 border-slate-200 dark:border-primary-400 dark:hover:bg-primary-600 p-2">
+      <div className="relative min-h-[60px] min-w-[60px] md:min-h-[96px] md:min-w-[96px] overflow-hidden">
         <Image className="rounded-lg" src={item.product.image} alt="" fill />
       </div>
       <div>
