@@ -18,8 +18,45 @@ const DeleteConfirmation = ({ item, cancel, type, handleDelete }: Props) => {
               removed. Please confirm if you wish to proceed with the deletion.
             </p>
             <div className="w-full flex justify-evenly">
-              <button className="p-3 rounded-lg bg-red-500 text-white" onClick={handleDelete}>Delete</button>
-              <button className="p-3 rounded-lg bg-indigo-500 text-white" type="button" onClick={() => cancel(null)}>
+              <button
+                className="p-3 rounded-lg bg-red-500 text-white"
+                type="button"
+                onClick={handleDelete}
+              >
+                Delete
+              </button>
+              <button
+                className="p-3 rounded-lg bg-indigo-500 text-white"
+                type="button"
+                onClick={() => cancel(null)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
+        {type === "product" && (
+          <div className="flex flex-col items-center gap-2">
+            <h2 className="text-xl font-semibold"><span className="underline">Delete</span> {item.name}</h2>
+            <p>
+              Are you sure you want to delete this product from your shopping
+              cart? Please note that this action cannot be undone and the
+              product will be permanently removed. Please confirm if you wish to
+              proceed with the deletion.
+            </p>
+            <div className="w-full flex justify-evenly">
+              <button
+                className="p-3 rounded-lg bg-red-500 text-white"
+                type="button"
+                onClick={handleDelete}
+              >
+                Delete
+              </button>
+              <button
+                className="p-3 rounded-lg bg-indigo-500 text-white"
+                type="button"
+                onClick={() => cancel(null)}
+              >
                 Cancel
               </button>
             </div>

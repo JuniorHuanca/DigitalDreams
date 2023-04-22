@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Card from "../../components/Card/Card";
 import { useRouter } from "next/router";
-import { EStateGeneric, ITheme } from "@/shared/util/types";
+import { EStateGeneric, IProduct, ITheme } from "@/shared/util/types";
 import Loader from "../../components/Loaders/Loader";
 import Layout from "@/components/Layouts/Layout";
 import Link from "next/link";
@@ -36,9 +36,11 @@ import Filters from "@/components/Navbar/Filters";
 import {
   addNewProduct,
   allProductsCart,
+  minusAllProducts,
   minusOneProduct,
   plusOneProduct,
 } from "@/state/cart/cartSlice";
+import DeleteConfirmation from "@/components/Modals/DeleteConfirmation";
 type Props = {};
 interface ISession {
   data: any;
@@ -69,6 +71,7 @@ const Detail = (props: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [errorImage, setErrorImage] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [modalConfirmClear, setModalConfirmClear] = useState<IProduct>();
   const { mode } = theme.palette;
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -89,8 +92,34 @@ const Detail = (props: Props) => {
   const maxReviews = reviews?.length;
   const currentReviews = reviews?.slice(0, reviewsPerProduct);
 
-  const counterPlus = () => dispatch(plusOneProduct(product.id));
+  const counterPlus = () => {
+    if (!productFind) {
+      dispatch(addNewProduct(product));
+      toast.success(
+        `${product.name} has been successfully added to your cart.`,
+        { duration: 3000 }
+      );
+    } else if (
+      productFind &&
+      productFind.quantity < productFind.product.stock
+    ) {
+      dispatch(plusOneProduct(product.id));
+      toast.success(
+        `${product.name} is already in your cart. Quantity has been updated.`,
+        { duration: 3000 }
+      );
+    } else {
+      toast.error(`There is not enough stock for "${product.name}"`, {
+        duration: 3000,
+      });
+    }
+  };
   const counterLess = () => dispatch(minusOneProduct(product.id));
+  const removeAllProducts = () => {
+    dispatch(minusAllProducts(product.id));
+    setModalConfirmClear(undefined);
+    toast.success(`${product.name} removed successfully`, { duration: 5000 });
+  };
   useEffect(() => {
     (async () => {
       if (router.isReady) {
@@ -116,11 +145,10 @@ const Detail = (props: Props) => {
     }
     return () => {
       if (currentProductId === router.query.id) {
-        dispatch(cleanUpProduct());
+        // dispatch(cleanUpProduct());
       }
     };
   }, [router.query.id, status]);
-  console.log(cart);
   const description = product?.description?.map((ele: Record<string, any>) => {
     const key = Object.keys(ele)[0];
     const value: any = Object.values(ele)[0];
@@ -263,8 +291,10 @@ const Detail = (props: Props) => {
                     className="mr-4 py-4 px-3 dark:bg-primary-700 hover:dark:bg-primary-800 bg-white hover:bg-slate-300 rounded-sm"
                     type="button"
                     onClick={
-                      () => (productFind?.quantity > 1 ? counterLess() : null)
-                      // : setModalConfirmClear(true)
+                      () =>
+                        productFind?.quantity > 1
+                          ? counterLess()
+                          : setModalConfirmClear(product)
                     }
                   >
                     -
@@ -273,13 +303,7 @@ const Detail = (props: Props) => {
                   <button
                     className="ml-4 py-4 px-3 dark:bg-primary-700 hover:dark:bg-primary-800 bg-white hover:bg-slate-300 rounded-sm"
                     type="button"
-                    onClick={() =>
-                      productFind
-                        ? productFind?.quantity < productFind?.product?.stock
-                          ? counterPlus()
-                          : null
-                        : null
-                    }
+                    onClick={() => counterPlus()}
                   >
                     +
                   </button>
@@ -289,7 +313,7 @@ const Detail = (props: Props) => {
                   type="submit"
                   className="w-40 p-4 border-2 dark:border-white border-black hover:dark:bg-primary-800 hover:bg-slate-300"
                   onClick={() => {
-                    dispatch(addNewProduct(product));
+                    counterPlus();
                   }}
                 >
                   ADD TO CART
@@ -445,6 +469,14 @@ const Detail = (props: Props) => {
                         </button>
                       )}
                       {showModal && <Login setShowModal={setShowModal} />}
+                      {modalConfirmClear && (
+                        <DeleteConfirmation
+                          item={modalConfirmClear}
+                          cancel={setModalConfirmClear}
+                          handleDelete={removeAllProducts}
+                          type={"product"}
+                        />
+                      )}
                     </form>
                   </div>
                 </div>

@@ -9,15 +9,36 @@ import {
   minusOneProduct,
   plusOneProduct,
 } from "@/state/cart/cartSlice";
+import { useState } from "react";
+import DeleteConfirmation from "../Modals/DeleteConfirmation";
+import { toast } from "react-hot-toast";
 type Props = {
   item: IProductCart;
 };
 
 const CardCart = ({ item }: Props) => {
+  const [modalConfirmClear, setModalConfirmClear] = useState<IProductCart>();
   const dispatch = useAppDispatch();
-  const counterPlus = () => dispatch(plusOneProduct(item.id));
+  const counterPlus = () => {
+    if (item.quantity < item.product.stock) {
+      dispatch(plusOneProduct(item.id));
+      toast.success(`${item.product.name} Quantity has been updated.`, {
+        duration: 3000,
+      });
+    } else {
+      toast.error(`There is not enough stock for "${item.product.name}"`, {
+        duration: 3000,
+      });
+    }
+  };
   const counterLess = () => dispatch(minusOneProduct(item.id));
-  const removeAllProducts = () => dispatch(minusAllProducts(item.id));
+  const removeAllProducts = () => {
+    dispatch(minusAllProducts(item.id));
+    setModalConfirmClear(undefined);
+    toast.success(`${item.product.name} removed successfully`, {
+      duration: 5000,
+    });
+  };
   const subtotalCalculation = (quantity: number, price: number) =>
     quantity * price;
   return (
@@ -39,9 +60,8 @@ const CardCart = ({ item }: Props) => {
             <button
               type="button"
               className="p-2 border-l-2 border-slate-200 dark:border-primary-400 text-red-600"
-              onClick={
-                () => (item.quantity > 1 ? counterLess() : null)
-                // : setModalConfirmClear(true)
+              onClick={() =>
+                item.quantity > 1 ? counterLess() : setModalConfirmClear(item)
               }
             >
               <AiOutlineMinus />
@@ -52,25 +72,27 @@ const CardCart = ({ item }: Props) => {
             <button
               type="button"
               className="p-2 border-r-2 border-slate-200 dark:border-primary-400 text-green-600"
-              onClick={() =>
-                item
-                  ? item.quantity < item.product.stock
-                    ? counterPlus()
-                    : null
-                  : null
-              }
+              onClick={() => counterPlus()}
             >
               <AiOutlinePlus />
             </button>
             <button
               className="p-2 border-r-2 border-slate-200 dark:border-primary-400 text-red-600"
-              onClick={removeAllProducts}
+              onClick={() => setModalConfirmClear(item)}
             >
               <BsTrash />
             </button>
           </div>
         </div>
       </div>
+      {modalConfirmClear && (
+        <DeleteConfirmation
+          item={modalConfirmClear}
+          cancel={setModalConfirmClear}
+          handleDelete={removeAllProducts}
+          type={"product"}
+        />
+      )}
     </div>
   );
 };
