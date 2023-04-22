@@ -79,7 +79,7 @@ const Detail = (props: Props) => {
   const productStatus = useSelector(selectOneProductStatus);
   const product = useSelector(oneProduct);
   const cart = useSelector(allProductsCart);
-  const productFind = cart.find((product) => product.id === product.id);
+  const productFind = cart.find((item) => item.id === product.id);
   const reviews = useSelector(allReviews);
   const { data: session, status }: ISession = useSession();
   const [reviewFields, setReviewFields] = useState({
@@ -145,7 +145,7 @@ const Detail = (props: Props) => {
     }
     return () => {
       if (currentProductId === router.query.id) {
-        // dispatch(cleanUpProduct());
+        dispatch(cleanUpProduct());
       }
     };
   }, [router.query.id, status]);
@@ -290,11 +290,10 @@ const Detail = (props: Props) => {
                   <button
                     className="mr-4 py-4 px-3 dark:bg-primary-700 hover:dark:bg-primary-800 bg-white hover:bg-slate-300 rounded-sm"
                     type="button"
-                    onClick={
-                      () =>
-                        productFind?.quantity > 1
-                          ? counterLess()
-                          : setModalConfirmClear(product)
+                    onClick={() =>
+                      productFind?.quantity > 1
+                        ? counterLess()
+                        : setModalConfirmClear(product)
                     }
                   >
                     -
