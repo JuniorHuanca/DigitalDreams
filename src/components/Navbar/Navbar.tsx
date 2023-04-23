@@ -62,7 +62,7 @@ import {
   setProductsBysearch,
 } from "@/state/products/products/productsSlice";
 import { useRouter } from "next/router";
-import { allProductsCart } from "@/state/cart/cartSlice";
+import { allItemsCart, allProductsCart } from "@/state/cart/cartSlice";
 type Props = {
   user: any;
 };
@@ -83,7 +83,7 @@ const Navbar = ({ user }: Props) => {
   const [search, setSearch] = useState<string>("");
   const [isMenuToggled, setIsMenuToggled] = useState<boolean>(false);
   const [errorImage, setErrorImage] = useState(false);
-  const totalItems = cart.reduce((acc, curr) => acc + curr.quantity, 0);
+  const totalItems = useSelector(allItemsCart);
   const handleModal = async (value: string) => {
     dispatch(handleClickModal(value));
   };

@@ -13,4 +13,3 @@ export const rootReducer = combineReducers({
   product: productSlice,
   cart: cartSlice,
 });
-export type RootState = ReturnType<typeof rootReducer>;

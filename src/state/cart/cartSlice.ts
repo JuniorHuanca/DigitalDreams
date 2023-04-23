@@ -6,12 +6,14 @@ interface ICart {
   cart: IProductCart[];
   subTotal: number[];
   totalSell: number;
+  itemsCart: number;
   oneUserStatus: EStateGeneric;
 }
 const initialState = {
   cart: [],
   subTotal: [],
   totalSell: 0,
+  itemsCart: 0,
   oneUserStatus: EStateGeneric.IDLE,
 } as ICart;
 
@@ -23,7 +25,7 @@ const cartSlice = createSlice({
       const product = action.payload;
       const productExists = !!state.cart.find((c) => c.id === product.id);
       if (productExists) {
-        state.cart = [...state.cart].map((c) => {
+        const filterCart = [...state.cart].map((c) => {
           if (c.id === action.payload.id && c.quantity < c.product.stock) {
             return {
               ...c,
@@ -31,16 +33,28 @@ const cartSlice = createSlice({
             };
           } else return c;
         });
+        const items = filterCart.reduce((acc, curr) => acc + curr.quantity, 0);
+        return {
+          ...state,
+          cart: filterCart,
+          itemsCart: items,
+        };
       } else {
-        state.cart = state.cart.concat({
+        const filterCart = [...state.cart].concat({
           id: product.id,
           product,
           quantity: 1,
         });
+        const items = filterCart.reduce((acc, curr) => acc + curr.quantity, 0);
+        return {
+          ...state,
+          cart: filterCart,
+          itemsCart: items,
+        };
       }
     },
     minusOneProduct: (state, action) => {
-      state.cart = [...state.cart].map((c) => {
+      const filterCart = [...state.cart].map((c) => {
         if (c.id === action.payload && c.quantity > 0) {
           return {
             ...c,
@@ -48,9 +62,15 @@ const cartSlice = createSlice({
           };
         } else return c;
       });
+      const items = filterCart.reduce((acc, curr) => acc + curr.quantity, 0);
+      return {
+        ...state,
+        cart: filterCart,
+        itemsCart: items,
+      };
     },
     plusOneProduct: (state, action) => {
-      state.cart = [...state.cart].map((c) => {
+      const filterCart = [...state.cart].map((c) => {
         if (c.id === action.payload) {
           return {
             ...c,
@@ -58,9 +78,21 @@ const cartSlice = createSlice({
           };
         } else return c;
       });
+      const items = filterCart.reduce((acc, curr) => acc + curr.quantity, 0);
+      return {
+        ...state,
+        cart: filterCart,
+        itemsCart: items,
+      };
     },
     minusAllProducts: (state, action) => {
-      state.cart = state.cart.filter((c) => c.id !== action.payload);
+      const filterCart = state.cart.filter((c) => c.id !== action.payload);
+      const items = filterCart.reduce((acc, curr) => acc + curr.quantity, 0);
+      return {
+        ...state,
+        cart: filterCart,
+        itemsCart: items,
+      };
     },
     totalPrice: (state, action) => {
       action.payload.filter((e: number) => {
@@ -68,10 +100,33 @@ const cartSlice = createSlice({
       });
     },
     setSubtotalArray: (state, action) => {
-      state.subTotal = state.subTotal.concat(action.payload);
+      return {
+        ...state,
+        subTotal: state.subTotal.concat(action.payload),
+      };
+    },
+    setCartArray: (state, action) => {
+      const items = [...action.payload].reduce(
+        (acc, curr) => acc + curr.quantity,
+        0
+      );
+      return {
+        ...state,
+        cart: action.payload,
+        itemsCart: items,
+      };
+    },
+    setItemsCart: (state, action) => {
+      return {
+        ...state,
+        itemsCart: action.payload,
+      };
     },
     clearCart: (state) => {
-      state.cart = [];
+      return {
+        ...state,
+        cart: [],
+      };
     },
   },
   extraReducers: (builder) => {
@@ -80,6 +135,7 @@ const cartSlice = createSlice({
 });
 
 export const allProductsCart = (store: RootState) => store.cart.cart;
+export const allItemsCart = (store: RootState) => store.cart.itemsCart;
 
 export const {
   addNewProduct,
@@ -89,6 +145,8 @@ export const {
   totalPrice,
   setSubtotalArray,
   clearCart,
+  setCartArray,
+  setItemsCart,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
