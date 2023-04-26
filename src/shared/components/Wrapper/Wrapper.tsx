@@ -11,6 +11,7 @@ import { RootState } from "@/state/store";
 import { store } from "@/state/store";
 import { Toaster } from "react-hot-toast";
 import { setCartArray, setItemsCart } from "@/state/cart/cartSlice";
+import { IProductCart } from "@/shared/util/types";
 interface Props {
   children?: React.ReactNode;
 }
@@ -51,18 +52,11 @@ export const Wrapper: React.FC<Props> = ({ children }) => {
       const state = JSON.parse(event.newValue as string);
       const stateCart = JSON.parse(state.cart);
       const { cart, itemsCart } = stateCart;
-      const cartCurrent = store.getState().cart.cart.concat(cart);
-      const mergedArray = cartCurrent.filter(
-        (obj, index, self) =>
-          index ===
-          self.findIndex(
-            (t) => t.id === obj.id && t.product.name === obj.product.name
-          )
-      );
-      if (cart.length !== store.getState().cart.cart.length) {
-        store.dispatch(setCartArray(mergedArray));
-      }
-      if (store.getState().cart.itemsCart !== itemsCart) {
+      if (
+        cart.length !== store.getState().cart.cart.length ||
+        itemsCart !== store.getState().cart.itemsCart
+      ) {
+        store.dispatch(setCartArray(cart));
         store.dispatch(setItemsCart(itemsCart));
       }
     }
