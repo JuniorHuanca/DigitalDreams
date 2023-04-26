@@ -77,6 +77,17 @@ const globalSlice = createSlice({
     setCurrentPage: (state, action) => {
       state.currentPage = action.payload;
     },
+    setAllModals: (state) => {
+      return {
+        ...state,
+        isClicked: {
+          chat: false,
+          cart: false,
+          userProfile: false,
+          notification: false,
+        },
+      };
+    },
   },
   extraReducers: (builder) => {
     // Add reducers for additional action types here, and handle loading state as needed
@@ -106,4 +117,5 @@ export const {
   setMinPageNumLim,
   setMaxPageNumLim,
   setCurrentPage,
+  setAllModals,
 } = globalSlice.actions;

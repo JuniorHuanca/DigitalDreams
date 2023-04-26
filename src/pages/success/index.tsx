@@ -1,18 +1,19 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { BsBagCheckFill } from "react-icons/bs";
-
 import { runFireworks } from "@/shared/util/confetti";
 import Layout from "@/components/Layouts/Layout";
+import { useAppDispatch } from "@/state/store";
+import { handleClickModal, setAllModals } from "@/state/globalSlice";
+import { clearCart, setItemsCart } from "@/state/cart/cartSlice";
 
 const Success = () => {
-  // const { setCartItems, setTotalPrice, setTotalQuantities } = useStateContext();
-
+  const dispatch = useAppDispatch();
   useEffect(() => {
     localStorage.clear();
-    // setCartItems([]);
-    // setTotalPrice(0);
-    // setTotalQuantities(0);
+    dispatch(setAllModals());
+    dispatch(clearCart());
+    dispatch(setItemsCart(0));
     runFireworks();
   }, []);
 
