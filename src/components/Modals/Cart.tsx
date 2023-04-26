@@ -7,6 +7,8 @@ import { ITheme } from "@/shared/util/types";
 import { allProductsCart } from "@/state/cart/cartSlice";
 import { useSelector } from "react-redux";
 import CardCart from "../Card/CardCart";
+import getStripe from "@/shared/util/get-stripejs";
+import { toast } from "react-hot-toast";
 
 const Cart = () => {
   const theme: ITheme = useTheme();
@@ -15,6 +17,29 @@ const Cart = () => {
     (acc, curr) => acc + curr.quantity * curr.product.price,
     0
   );
+  const handleCheckout = async () => {
+    const stripe = await getStripe();
+
+    const response = await fetch("/api/stripe", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(cart),
+    });
+
+    console.log(response);
+    console.log(stripe);
+
+    // if (response.statusCode === 500) return;
+    if (!response.ok) return;
+    const data = await response.json();
+    console.log(data);
+
+    toast.loading("Redirecting...");
+
+    stripe?.redirectToCheckout({ sessionId: data.id });
+  };
   return (
     <div className="bg-black/60 w-full fixed nav-item top-0 right-0 z-30">
       <div className="float-right h-screen transition-all duration-1000 ease-in-out dark:text-gray-200 bg-slate-100 dark:bg-primary-500 md:w-[420px] p-8">
@@ -59,6 +84,7 @@ const Cart = () => {
               <button
                 type="button"
                 className={`flex justify-center items-center gap-4 text-lg text-white p-1 w-full hover:bg-blue-600 bg-blue-500 dark:hover:bg-primary-400 dark:bg-primary-800 rounded-lg hover:scale-105 transition-transform`}
+                onClick={handleCheckout}
               >
                 Place Order
               </button>

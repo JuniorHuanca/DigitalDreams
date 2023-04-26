@@ -2,19 +2,21 @@ import Stripe from "stripe";
 import { NextApiRequest, NextApiResponse } from "next";
 import { IProductCart } from "@/shared/util/types";
 
-// const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY as string, {
-//   apiVersion: "2022-11-15",
-// });
-
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+// const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
+    console.log(process.env.STRIPE_SECRET_KEY);
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
+      apiVersion: "2022-11-15",
+    });
+
     try {
       // Create Checkout Sessions from body params.
+      console.log(req.body);
       const params = {
         submit_type: "pay",
         mode: "payment",
@@ -35,7 +37,7 @@ export default async function handler(
               currency: "usd",
               product_data: {
                 name: item.product.name,
-                images: item.product.image,
+                images: [item.product.image],
               },
               unit_amount: item.product.price * 100,
             },
@@ -49,13 +51,17 @@ export default async function handler(
         success_url: `${req.headers.origin}/success`,
         cancel_url: `${req.headers.origin}/canceled`,
       };
-      const session = await stripe.checkout.sessions.create(params);
-      res.redirect(303, session.url);
+      console.log(params);
+
+      const session = await stripe.checkout.sessions.create(params as any);
+      console.log(session);
+
+      res.status(200).json(session);
     } catch (err: any) {
-      res.status(err.statusCode || 500).json(err.message);
+      return res.status(err.statusCode || 500).json(err.message);
     }
   } else {
     res.setHeader("Allow", "POST");
-    res.status(405).end("Method Not Allowed");
+    return res.status(405).end("Method Not Allowed");
   }
 }
