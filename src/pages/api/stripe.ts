@@ -49,7 +49,7 @@ export default async function handler(
           };
         }),
         success_url: `${req.headers.origin}/success`,
-        cancel_url: `${req.headers.origin}/canceled`,
+        cancel_url: `${req.headers.origin}/wrong`,
       };
       console.log(params);
 

@@ -16,7 +16,7 @@ const Wrong = (props: Props) => {
   const { mode } = theme.palette;
   return (
     <Layout title={'Something went wrong - Digital Dreams'}>
-      <div className='relative w-full h-[90vh] flex justify-center items-center'>
+      <div className='relative w-full h-[80vh] flex justify-center items-center'>
         {mode === 'dark' && <Image src={isAboveMediumScreens ? NotFound404Dark : NotFound404DarkMobile} alt='Error' fill priority={true} />}
         {mode !== 'dark' && <Image src={isAboveMediumScreens ? NotFound404 : NotFound404Mobile} alt='Error' fill priority={true} />}
       </div>
