@@ -187,7 +187,7 @@ export default async function handler(
           };
         }),
         success_url: `${req.headers.origin}/success`,
-        cancel_url: `${req.headers.origin}/wrong`,
+        cancel_url: `${req.headers.referer}`,
       };
       console.log(params);
 

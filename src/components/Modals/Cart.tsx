@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { MdOutlineCancel } from "react-icons/md";
 import { cartData } from "@/shared/util/data";
 import Button from "@/shared/components/Button/Button";
@@ -9,9 +9,16 @@ import { useSelector } from "react-redux";
 import CardCart from "../Card/CardCart";
 import getStripe from "@/shared/util/get-stripejs";
 import { toast } from "react-hot-toast";
-
+import { useSession } from "next-auth/react";
+import Login from "./Login";
+interface ISession {
+  data: any;
+  status: string;
+}
 const Cart = () => {
   const theme: ITheme = useTheme();
+  const { data: session, status }: ISession = useSession();
+  const [showModal, setShowModal] = useState<boolean>(false);
   const cart = useSelector(allProductsCart);
   const totalPrice = cart.reduce(
     (acc, curr) => acc + curr.quantity * curr.product.price,
@@ -81,13 +88,24 @@ const Cart = () => {
               </div>
             </div>
             <div className="mt-5">
-              <button
-                type="button"
-                className={`flex justify-center items-center gap-4 text-lg text-white p-1 w-full hover:bg-blue-600 bg-blue-500 dark:hover:bg-primary-400 dark:bg-primary-800 rounded-lg hover:scale-105 transition-transform`}
-                onClick={handleCheckout}
-              >
-                Place Order
-              </button>
+              {session && (
+                <button
+                  type="button"
+                  className={`flex justify-center items-center gap-4 text-lg text-white p-1 w-full hover:bg-blue-600 bg-blue-500 dark:hover:bg-primary-400 dark:bg-primary-800 rounded-lg hover:scale-105 transition-transform`}
+                  onClick={handleCheckout}
+                >
+                  Place Order
+                </button>
+              )}
+              {!session && (
+                <button
+                  type="button"
+                  className={`flex justify-center items-center gap-4 text-lg text-white p-1 w-full hover:bg-blue-600 bg-blue-500 dark:hover:bg-primary-400 dark:bg-primary-800 rounded-lg hover:scale-105 transition-transform`}
+                  onClick={() => setShowModal(!showModal)}
+                >
+                  Place Order
+                </button>
+              )}
             </div>
           </>
         ) : (
@@ -112,6 +130,7 @@ const Cart = () => {
           </>
         )}
       </div>
+      {showModal && <Login setShowModal={setShowModal} />}
     </div>
   );
 };
