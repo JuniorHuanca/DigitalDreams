@@ -49,10 +49,10 @@ const Cart = () => {
   };
   return (
     <div className="bg-black/60 w-full fixed nav-item top-0 right-0 z-30">
-      <div className="float-right h-screen transition-all duration-1000 ease-in-out dark:text-gray-200 bg-slate-100 dark:bg-primary-500 min-w-[280px] w-full xs:max-w-[300px] p-2">
+      <div className="float-right grid grid-rows-[5%_75%_minmax(min-content,_max-content)] h-screen transition-all duration-1000 ease-in-out dark:text-gray-200 bg-slate-100 dark:bg-primary-500 min-w-[280px] w-full xs:max-w-[300px] px-1">
         {cart.length ? (
           <>
-            <div className="flex justify-between items-center">
+            <div className="p-2 flex justify-between items-center">
               <p className="font-semibold text-lg">Shopping Cart</p>
               <Button
                 icon={<MdOutlineCancel />}
@@ -66,28 +66,28 @@ const Cart = () => {
                 title="cart"
               />
             </div>
-            <div className="ss:max-h-[70vh] h-[90%] max-h-[70vh] flex flex-col justify-start">
+            <div className="flex flex-col justify-start">
               <div className="flex-1 overflow-y-auto hide-scrollbar">
                 {cart?.map((item, index) => (
                   <CardCart item={item} key={index} />
                 ))}
               </div>
             </div>
-            <div className="mt-1 mb-3">
-              <div className="flex justify-between items-center">
-                <p className="text-gray-500 dark:text-gray-200">Sub Total</p>
-                <p className="font-semibold">$ {totalPrice}</p>
+            <div className="">
+              <div className="mt-1 mb-3">
+                <div className="flex justify-between items-center">
+                  <p className="text-gray-500 dark:text-gray-200">Sub Total</p>
+                  <p className="font-semibold">$ {totalPrice}</p>
+                </div>
+                <div className="flex justify-between items-center">
+                  <p className="text-gray-500 dark:text-gray-200">Descuento</p>
+                  <p className="font-semibold">$ 0</p>
+                </div>
+                <div className="flex justify-between items-center mt-3">
+                  <p className="text-gray-500 dark:text-gray-200">Total</p>
+                  <p className="font-semibold">$ {totalPrice}</p>
+                </div>
               </div>
-              <div className="flex justify-between items-center">
-                <p className="text-gray-500 dark:text-gray-200">Descuento</p>
-                <p className="font-semibold">$ 0</p>
-              </div>
-              <div className="flex justify-between items-center mt-3">
-                <p className="text-gray-500 dark:text-gray-200">Total</p>
-                <p className="font-semibold">$ {totalPrice}</p>
-              </div>
-            </div>
-            <div className="mt-5">
               {session && (
                 <button
                   type="button"
