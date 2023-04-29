@@ -13,9 +13,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     where: {
                         id: id as string
                     },
-                    include: {
-                        affiliateStat: true
-                    }
+                    // include: {
+                    //     affiliateStat: true
+                    // }
                 });
 
                 // const affiliateSales = userWithStats?.affiliateStat.affiliateSales;
