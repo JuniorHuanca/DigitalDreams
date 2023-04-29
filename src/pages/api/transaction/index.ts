@@ -7,6 +7,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const session: any = await getSession({ req });
+  const year = new Date().getFullYear();
   const { method } = req;
   // if (!session) {
   //   return res.status(403).send("forbidden");
@@ -143,7 +144,7 @@ export default async function handler(
                   },
                 },
               });
-              return res.status(200).json({ success: false, productStat });
+              res.status(200).json({ success: false, productStat });
             } else {
               // Create a new productStat
               const productStat = await prisma.productStat.create({
@@ -160,7 +161,7 @@ export default async function handler(
                       totalUnits: quantity,
                     },
                   },
-                  year: new Date().getFullYear(),
+                  year: year,
                   dailyData: {
                     create: {
                       date: new Date().toLocaleDateString(),
@@ -170,8 +171,34 @@ export default async function handler(
                   },
                 },
               });
-              return res.status(200).json({ success: false, productStat });
+              res.status(200).json({ success: false, productStat });
             }
+            const overallStat = await prisma.overallStat.findFirst({
+              where: { year: year },
+            });
+            const users = await prisma.user.findMany({});
+            if (overallStat) {
+              await prisma.overallStat.update({
+                where: { id: overallStat.id },
+                data: {
+                  totalCustomers: users.length,
+                  yearlySalesTotal: 0,
+                  yearlyTotalSoldUnits: 0,
+                  year: year,
+                },
+              });
+            } else {
+              // await prisma.overallStat.create({
+              //   data: {
+              //     totalCustomers: users.length,
+              //     yearlySalesTotal: 0,
+              //     yearlyTotalSoldUnits: 0,
+              //     year: year,
+              //     salesByCategory: 0,
+              //   },
+              // });
+            }
+            break;
           }
           const totalPrice = cart.reduce(
             (acc: number, curr: IProductCart) =>
