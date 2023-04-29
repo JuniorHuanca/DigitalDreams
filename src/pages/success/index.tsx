@@ -5,17 +5,33 @@ import { runFireworks } from "@/shared/util/confetti";
 import Layout from "@/components/Layouts/Layout";
 import { useAppDispatch } from "@/state/store";
 import { handleClickModal, setAllModals } from "@/state/globalSlice";
-import { clearCart, setItemsCart } from "@/state/cart/cartSlice";
-
-const Success = () => {
+import {
+  allProductsCart,
+  clearCart,
+  setItemsCart,
+} from "@/state/cart/cartSlice";
+import { useSelector } from "react-redux";
+import { postTransationApi } from "@/state/cart/cartApi";
+import { useRouter } from "next/router";
+type Props = {};
+const Success = (props: Props) => {
   const dispatch = useAppDispatch();
+  const router = useRouter();
+  const cart = useSelector(allProductsCart);
+
   useEffect(() => {
-    localStorage.clear();
-    dispatch(setAllModals());
-    dispatch(clearCart());
-    dispatch(setItemsCart(0));
-    runFireworks();
-  }, []);
+    (async () => {
+      if (router.isReady) {
+        const { checkoutSession } = router.query;
+        await postTransationApi(checkoutSession, cart);
+        localStorage.clear();
+        dispatch(setAllModals());
+        dispatch(clearCart());
+        dispatch(setItemsCart(0));
+        runFireworks();
+      }
+    })();
+  }, [router.query.checkoutSession]);
 
   return (
     <Layout title={"successful purchase"}>

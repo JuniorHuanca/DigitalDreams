@@ -208,8 +208,8 @@ export interface IProduct {
   id: number;
   name: string;
   image: string;
-  brand_id: number;
-  subcategory_id: number;
+  brandId: number;
+  subcategoryId: number;
   price: number;
   description: [];
   rating: number;
@@ -224,7 +224,7 @@ export interface IProduct {
   subcategory: {
     id: number;
     name: string;
-    category_id: number;
+    categoryId: number;
     category: {
       id: number;
       name: string;

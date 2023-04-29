@@ -61,9 +61,9 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "Transaction" (
     "id" TEXT NOT NULL,
-    "user_id" TEXT,
+    "userId" TEXT,
     "cost" TEXT NOT NULL,
-    "affiliateStat_id" INTEGER,
+    "affiliateStatId" INTEGER,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -75,8 +75,8 @@ CREATE TABLE "Product" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "image" TEXT NOT NULL,
-    "brand_id" INTEGER NOT NULL,
-    "subcategory_id" INTEGER NOT NULL,
+    "brandId" INTEGER NOT NULL,
+    "subcategoryId" INTEGER NOT NULL,
     "price" DOUBLE PRECISION NOT NULL,
     "description" TEXT NOT NULL,
     "rating" DOUBLE PRECISION DEFAULT 0,
@@ -123,7 +123,7 @@ CREATE TABLE "OverallStat" (
 -- CreateTable
 CREATE TABLE "ProductStat" (
     "id" SERIAL NOT NULL,
-    "product_id" INTEGER NOT NULL,
+    "productId" INTEGER NOT NULL,
     "yearlySalesTotal" DOUBLE PRECISION NOT NULL,
     "yearlyTotalSoldUnits" INTEGER NOT NULL,
     "year" INTEGER NOT NULL,
@@ -139,7 +139,7 @@ CREATE TABLE "MonthlyData" (
     "month" TEXT NOT NULL,
     "totalSales" DOUBLE PRECISION NOT NULL,
     "totalUnits" INTEGER NOT NULL,
-    "productStat_id" INTEGER NOT NULL,
+    "productStatId" INTEGER NOT NULL,
     "overallStatId" INTEGER,
 
     CONSTRAINT "MonthlyData_pkey" PRIMARY KEY ("id")
@@ -151,7 +151,7 @@ CREATE TABLE "DailyData" (
     "date" TEXT NOT NULL,
     "totalSales" DOUBLE PRECISION NOT NULL,
     "totalUnits" INTEGER NOT NULL,
-    "productStat_id" INTEGER NOT NULL,
+    "productStatId" INTEGER NOT NULL,
     "overallStatId" INTEGER,
 
     CONSTRAINT "DailyData_pkey" PRIMARY KEY ("id")
@@ -169,7 +169,7 @@ CREATE TABLE "Category" (
 CREATE TABLE "Subcategory" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "category_id" INTEGER NOT NULL,
+    "categoryId" INTEGER NOT NULL,
 
     CONSTRAINT "Subcategory_pkey" PRIMARY KEY ("id")
 );
@@ -186,8 +186,8 @@ CREATE TABLE "Country" (
 -- CreateTable
 CREATE TABLE "Review" (
     "id" SERIAL NOT NULL,
-    "product_id" INTEGER NOT NULL,
-    "user_id" TEXT NOT NULL,
+    "productId" INTEGER NOT NULL,
+    "userId" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "rating" DOUBLE PRECISION NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -199,7 +199,7 @@ CREATE TABLE "Review" (
 -- CreateTable
 CREATE TABLE "Report" (
     "id" SERIAL NOT NULL,
-    "user_id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
     "reviewId" INTEGER,
     "reason" TEXT NOT NULL,
 
@@ -209,8 +209,8 @@ CREATE TABLE "Report" (
 -- CreateTable
 CREATE TABLE "Favorite" (
     "id" SERIAL NOT NULL,
-    "user_id" TEXT NOT NULL,
-    "product_id" INTEGER NOT NULL,
+    "userId" TEXT NOT NULL,
+    "productId" INTEGER NOT NULL,
 
     CONSTRAINT "Favorite_pkey" PRIMARY KEY ("id")
 );
@@ -240,7 +240,7 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Favorite_user_id_product_id_key" ON "Favorite"("user_id", "product_id");
+CREATE UNIQUE INDEX "Favorite_userId_productId_key" ON "Favorite"("userId", "productId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_ProductToTransaction_AB_unique" ON "_ProductToTransaction"("A", "B");
@@ -255,55 +255,55 @@ ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId"
 ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_affiliateStat_id_fkey" FOREIGN KEY ("affiliateStat_id") REFERENCES "AffiliateStat"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Transaction" ADD CONSTRAINT "Transaction_affiliateStatId_fkey" FOREIGN KEY ("affiliateStatId") REFERENCES "AffiliateStat"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Product" ADD CONSTRAINT "Product_brand_id_fkey" FOREIGN KEY ("brand_id") REFERENCES "Brand"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Product" ADD CONSTRAINT "Product_brandId_fkey" FOREIGN KEY ("brandId") REFERENCES "Brand"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Product" ADD CONSTRAINT "Product_subcategory_id_fkey" FOREIGN KEY ("subcategory_id") REFERENCES "Subcategory"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Product" ADD CONSTRAINT "Product_subcategoryId_fkey" FOREIGN KEY ("subcategoryId") REFERENCES "Subcategory"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "AffiliateStat" ADD CONSTRAINT "AffiliateStat_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ProductStat" ADD CONSTRAINT "ProductStat_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "Product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ProductStat" ADD CONSTRAINT "ProductStat_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "MonthlyData" ADD CONSTRAINT "MonthlyData_productStat_id_fkey" FOREIGN KEY ("productStat_id") REFERENCES "ProductStat"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "MonthlyData" ADD CONSTRAINT "MonthlyData_productStatId_fkey" FOREIGN KEY ("productStatId") REFERENCES "ProductStat"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "MonthlyData" ADD CONSTRAINT "MonthlyData_overallStatId_fkey" FOREIGN KEY ("overallStatId") REFERENCES "OverallStat"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "DailyData" ADD CONSTRAINT "DailyData_productStat_id_fkey" FOREIGN KEY ("productStat_id") REFERENCES "ProductStat"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "DailyData" ADD CONSTRAINT "DailyData_productStatId_fkey" FOREIGN KEY ("productStatId") REFERENCES "ProductStat"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "DailyData" ADD CONSTRAINT "DailyData_overallStatId_fkey" FOREIGN KEY ("overallStatId") REFERENCES "OverallStat"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Subcategory" ADD CONSTRAINT "Subcategory_category_id_fkey" FOREIGN KEY ("category_id") REFERENCES "Category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Subcategory" ADD CONSTRAINT "Subcategory_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Review" ADD CONSTRAINT "Review_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "Product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Review" ADD CONSTRAINT "Review_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Review" ADD CONSTRAINT "Review_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Review" ADD CONSTRAINT "Review_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Report" ADD CONSTRAINT "Report_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Report" ADD CONSTRAINT "Report_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Report" ADD CONSTRAINT "Report_reviewId_fkey" FOREIGN KEY ("reviewId") REFERENCES "Review"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Favorite" ADD CONSTRAINT "Favorite_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Favorite" ADD CONSTRAINT "Favorite_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Favorite" ADD CONSTRAINT "Favorite_product_id_fkey" FOREIGN KEY ("product_id") REFERENCES "Product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Favorite" ADD CONSTRAINT "Favorite_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_ProductToTransaction" ADD CONSTRAINT "_ProductToTransaction_A_fkey" FOREIGN KEY ("A") REFERENCES "Product"("id") ON DELETE CASCADE ON UPDATE CASCADE;

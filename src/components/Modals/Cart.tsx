@@ -34,11 +34,7 @@ const Cart = () => {
       },
       body: JSON.stringify(cart),
     });
-
     console.log(response);
-    console.log(stripe);
-
-    // if (response.statusCode === 500) return;
     if (!response.ok) return;
     const data = await response.json();
     console.log(data);
@@ -101,7 +97,8 @@ const Cart = () => {
                 <button
                   type="button"
                   className={`flex justify-center items-center gap-4 text-lg text-white p-1 w-full hover:bg-blue-600 bg-blue-500 dark:hover:bg-primary-400 dark:bg-primary-800 rounded-lg hover:scale-105 transition-transform`}
-                  onClick={() => setShowModal(!showModal)}
+                  // onClick={() => setShowModal(!showModal)}
+                  onClick={handleCheckout}
                 >
                   Place Order
                 </button>

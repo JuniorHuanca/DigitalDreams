@@ -42,7 +42,7 @@ const CardReview = ({ review, user }: Props) => {
   const [deleteModal, setDeleteModal] = useState(null);
   const [editReview, setEditReview] = useState<any>(null);
   const [reviewFields, setReviewFields] = useState({
-    review_id: review.id,
+    reviewId: review.id,
     description: review.description,
     rating: review.rating,
   });
@@ -61,8 +61,8 @@ const CardReview = ({ review, user }: Props) => {
       const response: any = await dispatch(deleteOneReview(review.id));
       if (response.payload.success) {
         toast.success("Review successfully removed", { duration: 3000 });
-        await dispatch(getOneProduct(review.product_id));
-        await dispatch(getAllReviewsProduct(review.product_id));
+        await dispatch(getOneProduct(review.productId));
+        await dispatch(getAllReviewsProduct(review.productId));
         setDeleteModal(null);
       }
     } catch (error) {
@@ -74,8 +74,8 @@ const CardReview = ({ review, user }: Props) => {
       const response: any = await dispatch(putOneReview(reviewFields));
       if (response.payload.success) {
         toast.success("Review successfully updated", { duration: 3000 });
-        await dispatch(getOneProduct(review.product_id));
-        await dispatch(getAllReviewsProduct(review.product_id));
+        await dispatch(getOneProduct(review.productId));
+        await dispatch(getAllReviewsProduct(review.productId));
         setEditReview(null);
       }
     } catch (error) {
@@ -130,7 +130,7 @@ const CardReview = ({ review, user }: Props) => {
         </div>
       )}
       <div className="absolute top-0 right-0 text-2xl p-2">
-        {review.user_id === user?.id && (
+        {review.userId === user?.id && (
           <button
             className="text-green-500 hover:animate-bell-swing-scale hover:dark:bg-primary-500 hover:bg-white rounded-xl p-1"
             type="button"
@@ -140,7 +140,7 @@ const CardReview = ({ review, user }: Props) => {
           </button>
         )}
         {user &&
-          (review.user_id === user.id ||
+          (review.userId === user.id ||
             user.role === "Admin" ||
             user.role === "Manager") && (
             <button
@@ -152,7 +152,7 @@ const CardReview = ({ review, user }: Props) => {
             </button>
           )}
 
-        {user?.name && review.user_id !== user?.id && (
+        {user?.name && review.userId !== user?.id && (
           <button
             className="text-yellow-500 hover:animate-bell-swing-scale hover:dark:bg-primary-500 hover:bg-white rounded-xl p-1"
             type="button"

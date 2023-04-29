@@ -37,13 +37,13 @@ export const postOneReview = createAsyncThunk(
   "product/postOneReview",
   async (
     {
-      product_id,
-      user_id,
+      productId,
+      userId,
       description,
       rating,
     }: {
-      product_id: number;
-      user_id: string;
+      productId: number;
+      userId: string;
       description: string;
       rating: number;
     },
@@ -51,8 +51,8 @@ export const postOneReview = createAsyncThunk(
   ) => {
     try {
       const response = await postReviewApi(
-        product_id,
-        user_id,
+        productId,
+        userId,
         description,
         rating
       );
@@ -67,14 +67,14 @@ export const putOneReview = createAsyncThunk(
   "product/putOneReview",
   async (
     {
-      review_id,
+      reviewId,
       description,
       rating,
-    }: { review_id: number; description: string; rating: number },
+    }: { reviewId: number; description: string; rating: number },
     { rejectWithValue }
   ) => {
     try {
-      const response = await putReviewApi(review_id, description, rating);
+      const response = await putReviewApi(reviewId, description, rating);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
@@ -84,9 +84,9 @@ export const putOneReview = createAsyncThunk(
 
 export const deleteOneReview = createAsyncThunk(
   "product/deleteOneReview",
-  async (review_id: number, { rejectWithValue }) => {
+  async (reviewId: number, { rejectWithValue }) => {
     try {
-      const response = await deleteReviewApi(review_id);
+      const response = await deleteReviewApi(reviewId);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);

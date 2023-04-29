@@ -1,4 +1,5 @@
 import Stripe from "stripe";
+import prisma from "@/lib/prismadb";
 import { NextApiRequest, NextApiResponse } from "next";
 import { IProductCart } from "@/shared/util/types";
 
@@ -9,14 +10,11 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    console.log(process.env.STRIPE_SECRET_KEY);
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
       apiVersion: "2022-11-15",
     });
 
     try {
-      // Create Checkout Sessions from body params.
-      console.log(req.body);
       const params = {
         submit_type: "pay",
         mode: "payment",
@@ -178,23 +176,21 @@ export default async function handler(
               },
               unit_amount: item.product.price * 100,
             },
-            adjustable_quantity: {
-              enabled: true,
-              minimum: 1,
-              maximum: item.product.stock,
-            },
+            // adjustable_quantity: {
+            //   enabled: false,
+            //   minimum: 1,
+            //   maximum: item.product.stock,
+            // },
             quantity: item.quantity,
           };
         }),
-        success_url: `${req.headers.origin}/success`,
+        success_url: `${req.headers.origin}/success?checkoutSession={CHECKOUT_SESSION_ID}`,
         cancel_url: `${req.headers.referer}`,
       };
-      console.log(params);
-
-      const session = await stripe.checkout.sessions.create(params as any);
-      console.log(session);
-
-      res.status(200).json(session);
+      const checkoutSession = await stripe.checkout.sessions.create(
+        params as any
+      );
+      res.status(200).json(checkoutSession);
     } catch (err: any) {
       return res.status(err.statusCode || 500).json(err.message);
     }

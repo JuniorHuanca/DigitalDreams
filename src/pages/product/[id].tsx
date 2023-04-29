@@ -83,8 +83,8 @@ const Detail = (props: Props) => {
   const reviews = useSelector(allReviews);
   const { data: session, status }: ISession = useSession();
   const [reviewFields, setReviewFields] = useState({
-    product_id: product.id,
-    user_id: session?.user?.id,
+    productId: product.id,
+    userId: session?.user?.id,
     description: "",
     rating: value,
   });
@@ -139,8 +139,8 @@ const Detail = (props: Props) => {
     if (session) {
       setReviewFields({
         ...reviewFields,
-        user_id: session.user.id,
-        product_id: product.id,
+        userId: session.user.id,
+        productId: product.id,
       });
     }
     return () => {
@@ -428,7 +428,7 @@ const Detail = (props: Props) => {
                             setReviewFields({
                               ...reviewFields,
                               rating: newValue as number,
-                              product_id: product.id,
+                              productId: product.id,
                             });
                           }}
                           onChangeActive={(event, newHover) => {

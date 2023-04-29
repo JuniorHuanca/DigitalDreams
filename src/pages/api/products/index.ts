@@ -39,7 +39,7 @@ export default async function handler(
             subcategories.map(async (subcategory) => {
               const product = await prisma.product.findFirst({
                 where: {
-                  subcategory_id: subcategory?.id,
+                  subcategoryId: subcategory?.id,
                 },
                 include: {
                   brand: true,
@@ -87,7 +87,7 @@ export default async function handler(
             },
           });
           const products = await prisma.product.findMany({
-            where: { brand_id: findBrand?.id },
+            where: { brandId: findBrand?.id },
             include: {
               brand: true,
               subcategory: {
@@ -112,7 +112,7 @@ export default async function handler(
             brands.map(async (category) => {
               const product = await prisma.product.findFirst({
                 where: {
-                  brand_id: category?.id,
+                  brandId: category?.id,
                 },
                 include: {
                   brand: true,

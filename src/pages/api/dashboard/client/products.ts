@@ -12,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     products.map(async (product) => {
                         const stat = await prisma.productStat.findMany({
                             where: {
-                                product_id: product.id,
+                                productId: product.id,
                             }
                         })
                         return {

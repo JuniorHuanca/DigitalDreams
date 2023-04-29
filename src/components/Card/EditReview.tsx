@@ -29,7 +29,7 @@ const EditReview = ({
   }
   useEffect(() => {
     setReviewFields({
-      review_id: editReview.id,
+      reviewId: editReview.id,
       description: editReview.description,
       rating: editReview.rating,
     });

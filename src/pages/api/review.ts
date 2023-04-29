@@ -9,10 +9,10 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
-        const { product_id } = req.query;
+        const { productId } = req.query;
         const reviews = await prisma.review.findMany({
           where: {
-            product_id: parseInt(product_id as string),
+            productId: parseInt(productId as string),
             reports: { none: {} },
             // reports: {
             //   has: false,
@@ -60,18 +60,18 @@ export default async function handler(
           }
           break;
         }
-        const { product_id, user_id, description, rating } = req.body;
+        const { productId, userId, description, rating } = req.body;
         const review = await prisma.review.create({
           data: {
-            product: { connect: { id: product_id } },
-            user: { connect: { id: user_id } },
+            product: { connect: { id: productId } },
+            user: { connect: { id: userId } },
             description,
             rating,
           },
         });
         let newRating = rating;
         const product = await prisma.product.findUnique({
-          where: { id: product_id },
+          where: { id: productId },
           include: { reviews: true },
         });
         const numReviews = product?.reviews.length || 0;
@@ -84,7 +84,7 @@ export default async function handler(
         }
         // Update the corresponding product record with the new review and rating
         const updatedProduct = await prisma.product.update({
-          where: { id: product_id },
+          where: { id: productId },
           data: {
             reviews: { connect: { id: review.id } },
             rating: parseFloat(newRating.toFixed(1)),
@@ -98,16 +98,16 @@ export default async function handler(
       break;
     case "PUT":
       try {
-        const { review_id, description, rating } = req.body;
+        const { reviewId, description, rating } = req.body;
         const review = await prisma.review.update({
-          where: { id: review_id },
+          where: { id: reviewId },
           data: {
             description,
             rating,
           },
         });
         const product = await prisma.product.findUnique({
-          where: { id: review.product_id },
+          where: { id: review.productId },
           include: { reviews: true },
         });
         const numReviews = product?.reviews.length || 0;
@@ -129,12 +129,12 @@ export default async function handler(
       break;
     case "DELETE":
       try {
-        const { review_id } = req.query;
+        const { reviewId } = req.query;
         const review = await prisma.review.delete({
-          where: { id: parseInt(review_id as string) },
+          where: { id: parseInt(reviewId as string) },
         });
         const product = await prisma.product.findUnique({
-          where: { id: review.product_id },
+          where: { id: review.productId },
           include: { reviews: true },
         });
         const numReviews = product?.reviews.length || 0;
