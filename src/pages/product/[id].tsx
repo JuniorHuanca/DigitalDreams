@@ -293,7 +293,7 @@ const Detail = (props: Props) => {
                     onClick={() =>
                       productFind?.quantity > 1
                         ? counterLess()
-                        : setModalConfirmClear(product)
+                        : productFind && setModalConfirmClear(product)
                     }
                   >
                     -
@@ -301,21 +301,27 @@ const Detail = (props: Props) => {
                   {productFind?.quantity | 0}
                   <button
                     className="ml-4 py-4 px-3 dark:bg-primary-700 hover:dark:bg-primary-800 bg-white hover:bg-slate-300 rounded-sm"
+                    disabled={product.stock ? false : true}
                     type="button"
                     onClick={() => counterPlus()}
                   >
                     +
                   </button>
                 </div>
-                <span className="my-2">Stock disponible: {product.stock}</span>
+                <span className={`my-2 ${product.stock ? "" : "line-through"}`}>
+                  {product.stock
+                    ? `Stock available: ${product.stock}`
+                    : "Product sold out"}
+                </span>
                 <button
-                  type="submit"
+                  type="button"
                   className="w-40 p-4 border-2 dark:border-white border-black hover:dark:bg-primary-800 hover:bg-slate-300"
+                  disabled={product.stock ? false : true}
                   onClick={() => {
                     counterPlus();
                   }}
                 >
-                  ADD TO CART
+                  {product.stock ? `ADD TO CART` : `NO STOCK`}
                 </button>
               </div>
             </div>
