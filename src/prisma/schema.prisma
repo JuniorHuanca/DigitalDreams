@@ -43,10 +43,10 @@ model VerificationToken {
 }
 
 model User {
-    id            String          @id @default(cuid())
+    id            String        @id @default(cuid())
     name          String?
-    email         String?         @unique
-    username      String?         @unique
+    email         String?       @unique
+    username      String?       @unique
     emailVerified DateTime?
     image         String?
     password      String?
@@ -57,14 +57,14 @@ model User {
     phoneNumber   String?
     provider      String?
     transactions  Transaction[]
-    role          Role            @default(User)
+    role          Role          @default(User)
     accounts      Account[]
     sessions      Session[]
     reviews       Review[]
     favorites     Favorite[]
     // affiliateStat AffiliateStat[]
-    createdAt     DateTime        @default(now())
-    updatedAt     DateTime        @updatedAt
+    createdAt     DateTime      @default(now())
+    updatedAt     DateTime      @updatedAt
     Report        Report[]
 }
 
@@ -75,37 +75,37 @@ enum Role {
 }
 
 model Transaction {
-    id               String         @id @default(cuid())
-    user             User?          @relation(fields: [userId], references: [id])
-    userId          String?
-    cost             String
-    products         Product[]
+    id        String    @id @default(cuid())
+    user      User?     @relation(fields: [userId], references: [id])
+    userId    String?
+    cost      String
+    products  Product[]
     // AffiliateStat    AffiliateStat? @relation(fields: [affiliateStatId], references: [id])
     // affiliateStatId Int?
-    createdAt        DateTime       @default(now())
-    updatedAt        DateTime       @updatedAt
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
 }
 
 model Product {
-    id             Int           @id @default(autoincrement())
-    transactions   Transaction[]
+    id            Int           @id @default(autoincrement())
+    transactions  Transaction[]
     // transactions   Transaction[]
-    name           String
-    image          String
-    brand          Brand         @relation(fields: [brandId], references: [id])
+    name          String
+    image         String
+    brand         Brand         @relation(fields: [brandId], references: [id])
     brandId       Int
-    subcategory    Subcategory   @relation(fields: [subcategoryId], references: [id])
+    subcategory   Subcategory   @relation(fields: [subcategoryId], references: [id])
     subcategoryId Int
-    price          Float
-    description    String
-    rating         Float?        @default(0)
-    stock          Int           @default(25)
-    soldCount      Int?
-    reviews        Review[]
-    favorites      Favorite[]
-    ProductStat    ProductStat[]
-    createdAt      DateTime      @default(now())
-    updatedAt      DateTime      @updatedAt
+    price         Float
+    description   String
+    rating        Float?        @default(0)
+    stock         Int           @default(25)
+    soldCount     Int?
+    reviews       Review[]
+    favorites     Favorite[]
+    ProductStat   ProductStat[]
+    createdAt     DateTime      @default(now())
+    updatedAt     DateTime      @updatedAt
 }
 
 model Brand {
@@ -128,7 +128,7 @@ model OverallStat {
     totalCustomers       Int
     yearlySalesTotal     Float
     yearlyTotalSoldUnits Int
-    year                 Int
+    year                 Int           @unique
     monthlyData          MonthlyData[]
     dailyData            DailyData[]
     salesByCategory      Json
@@ -139,7 +139,7 @@ model OverallStat {
 model ProductStat {
     id                   Int           @id @default(autoincrement())
     product              Product       @relation(fields: [productId], references: [id])
-    productId           Int
+    productId            Int
     yearlySalesTotal     Float
     yearlyTotalSoldUnits Int
     year                 Int
@@ -150,25 +150,25 @@ model ProductStat {
 }
 
 model MonthlyData {
-    id             Int          @id @default(autoincrement())
-    month          String
-    totalSales     Float
-    totalUnits     Int
-    productStat    ProductStat  @relation(fields: [productStatId], references: [id])
+    id            Int          @id @default(autoincrement())
+    month         String       @unique
+    totalSales    Float
+    totalUnits    Int
+    productStat   ProductStat  @relation(fields: [productStatId], references: [id])
     productStatId Int
-    OverallStat    OverallStat? @relation(fields: [overallStatId], references: [id])
-    overallStatId  Int?
+    OverallStat   OverallStat? @relation(fields: [overallStatId], references: [id])
+    overallStatId Int?
 }
 
 model DailyData {
-    id             Int          @id @default(autoincrement())
-    date           String
-    totalSales     Float
-    totalUnits     Int
-    productStat    ProductStat  @relation(fields: [productStatId], references: [id])
+    id            Int          @id @default(autoincrement())
+    date          String       @unique
+    totalSales    Float
+    totalUnits    Int
+    productStat   ProductStat  @relation(fields: [productStatId], references: [id])
     productStatId Int
-    OverallStat    OverallStat? @relation(fields: [overallStatId], references: [id])
-    overallStatId  Int?
+    OverallStat   OverallStat? @relation(fields: [overallStatId], references: [id])
+    overallStatId Int?
 }
 
 model Category {
@@ -178,11 +178,11 @@ model Category {
 }
 
 model Subcategory {
-    id          Int       @id @default(autoincrement())
-    name        String
-    category    Category  @relation(fields: [categoryId], references: [id])
+    id         Int       @id @default(autoincrement())
+    name       String
+    category   Category  @relation(fields: [categoryId], references: [id])
     categoryId Int
-    products    Product[]
+    products   Product[]
 }
 
 model Country {
@@ -194,9 +194,9 @@ model Country {
 model Review {
     id          Int      @id @default(autoincrement())
     product     Product  @relation(fields: [productId], references: [id])
-    productId  Int
+    productId   Int
     user        User     @relation(fields: [userId], references: [id])
-    userId     String
+    userId      String
     description String
     rating      Float
     reports     Report[]
@@ -207,17 +207,17 @@ model Review {
 model Report {
     id       Int     @id @default(autoincrement())
     user     User    @relation(fields: [userId], references: [id])
-    userId  String
+    userId   String
     review   Review? @relation(fields: [reviewId], references: [id])
     reviewId Int?
     reason   String
 }
 
 model Favorite {
-    id         Int     @id @default(autoincrement())
-    user       User    @relation(fields: [userId], references: [id])
+    id        Int     @id @default(autoincrement())
+    user      User    @relation(fields: [userId], references: [id])
     userId    String
-    product    Product @relation(fields: [productId], references: [id])
+    product   Product @relation(fields: [productId], references: [id])
     productId Int
 
     @@unique([userId, productId])

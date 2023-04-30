@@ -9,19 +9,22 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
-        // const productStat = await prisma.productStat.findMany({
-        //   include: {
-        //     product: true,
-        //   },
-        // });
-        // res.status(200).json(productStat);
-        const productStat = await prisma.overallStat.findMany({
+        const { overallStat } = req.query;
+        if (overallStat) {
+          const productStat = await prisma.overallStat.findMany({
+            include: {
+              monthlyData: true,
+              dailyData: true,
+            },
+          });
+          return res.status(200).json(productStat);
+        }
+        const productStat = await prisma.productStat.findMany({
           include: {
-            monthlyData: true,
-            dailyData: true,
+            product: true,
           },
         });
-        res.status(200).json(productStat);
+        return res.status(200).json(productStat);
       } catch (error) {
         res.status(400).json({ success: false });
       }

@@ -229,6 +229,15 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "OverallStat_year_key" ON "OverallStat"("year");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "MonthlyData_month_key" ON "MonthlyData"("month");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "DailyData_date_key" ON "DailyData"("date");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Favorite_userId_productId_key" ON "Favorite"("userId", "productId");
 
 -- CreateIndex
