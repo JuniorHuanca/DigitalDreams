@@ -8,6 +8,10 @@ export default async function handler(
 ) {
   const session: any = await getSession({ req });
   const year = new Date().getFullYear();
+  const date = new Date().toLocaleDateString();
+  const month = new Date().toLocaleString("default", {
+    month: "long",
+  });
   const { method } = req;
   // if (!session) {
   //   return res.status(403).send("forbidden");
@@ -55,13 +59,62 @@ export default async function handler(
               where: { productId: productId },
             });
             if (productStat) {
+              const users = await prisma.user.findMany({});
+              const salesData = await prisma.dailyData.findMany({});
+              const yearlySalesTotal = salesData
+                .map((sale) => sale.totalSales)
+                .reduce((acc, curr) => acc + curr, 0);
+              const yearlyTotalSoldUnits = salesData
+                .map((sale) => sale.totalUnits)
+                .reduce((acc, curr) => acc + curr, 0);
+              const products = await prisma.productStat.findMany({
+                include: {
+                  product: {
+                    include: {
+                      subcategory: {
+                        include: {
+                          category: true,
+                        },
+                      },
+                    },
+                  },
+                },
+              });
+              const salesByCategory = {} as any;
+
+              products.forEach((item) => {
+                if (salesByCategory[item.product.subcategory.category.name]) {
+                  salesByCategory[item.product.subcategory.category.name] +=
+                    item.yearlySalesTotal;
+                } else {
+                  salesByCategory[item.product.subcategory.category.name] =
+                    item.yearlySalesTotal;
+                }
+              });
               // Update the existing
+              const overallStatFind = await prisma.overallStat.findFirst({
+                where: { year: year },
+              });
+
+              let overallStat;
+
+              if (overallStatFind) {
+                overallStat = overallStatFind;
+              } else {
+                overallStat = await prisma.overallStat.create({
+                  data: {
+                    totalCustomers: users.length,
+                    yearlySalesTotal: yearlySalesTotal,
+                    yearlyTotalSoldUnits: yearlyTotalSoldUnits,
+                    year: year,
+                    salesByCategory: salesByCategory,
+                  },
+                });
+              }
               const monthlyData = await prisma.monthlyData.findFirst({
                 where: {
                   productStatId: productStat.id,
-                  month: new Date().toLocaleString("default", {
-                    month: "long",
-                  }),
+                  month: month,
                 },
               });
               if (monthlyData) {
@@ -72,24 +125,24 @@ export default async function handler(
                       monthlyData.totalSales +
                       cartItem.product.price * quantity,
                     totalUnits: monthlyData.totalUnits + quantity,
+                    OverallStat: { connect: { id: overallStat.id } },
                   },
                 });
               } else {
                 await prisma.monthlyData.create({
                   data: {
-                    month: new Date().toLocaleString("default", {
-                      month: "long",
-                    }),
+                    month: month,
                     totalSales: cartItem.product.price * quantity,
                     totalUnits: quantity,
                     productStat: { connect: { id: productStat.id } },
+                    OverallStat: { connect: { id: overallStat.id } },
                   },
                 });
               }
               const dailyData = await prisma.dailyData.findFirst({
                 where: {
                   productStatId: productStat.id,
-                  date: new Date().toLocaleDateString(),
+                  date: date,
                 },
               });
               if (dailyData) {
@@ -99,15 +152,17 @@ export default async function handler(
                     totalSales:
                       dailyData.totalSales + cartItem.product.price * quantity,
                     totalUnits: dailyData.totalUnits + quantity,
+                    OverallStat: { connect: { id: overallStat.id } },
                   },
                 });
               } else {
                 await prisma.dailyData.create({
                   data: {
-                    date: new Date().toLocaleDateString(),
+                    date: date,
                     totalSales: cartItem.product.price * quantity,
                     totalUnits: quantity,
                     productStat: { connect: { id: productStat.id } },
+                    OverallStat: { connect: { id: overallStat.id } },
                   },
                 });
               }
@@ -125,28 +180,56 @@ export default async function handler(
                   },
                   dailyData: {
                     connect: { id: productStat.id },
-                    // connectOrCreate: {
-                    //   where: {
-                    //     id: productStat.id,
-                    //   },
-                    //   create: {
-                    //     date: new Date().toLocaleDateString(),
-                    //     totalSales: cartItem.product.price * quantity,
-                    //     totalUnits: quantity,
-                    //   },
-                    //   // update: {
-                    //   //   totalSales:
-                    //   //     dailyData.totalSales +
-                    //   //     cartItem.product.price * quantity,
-                    //   //   totalUnits: dailyData.totalUnits + quantity,
-                    //   // },
-                    // },
                   },
                 },
               });
               res.status(200).json({ success: false, productStat });
             } else {
               // Create a new productStat
+
+              const users = await prisma.user.findMany({});
+              const salesData = await prisma.dailyData.findMany({});
+              const yearlySalesTotal = salesData
+                .map((sale) => sale.totalSales)
+                .reduce((acc, curr) => acc + curr, 0);
+              const yearlyTotalSoldUnits = salesData
+                .map((sale) => sale.totalUnits)
+                .reduce((acc, curr) => acc + curr, 0);
+              const products = await prisma.productStat.findMany({
+                include: {
+                  product: {
+                    include: {
+                      subcategory: {
+                        include: {
+                          category: true,
+                        },
+                      },
+                    },
+                  },
+                },
+              });
+              const salesByCategory = {} as any;
+
+              products.forEach((item) => {
+                if (salesByCategory[item.product.subcategory.category.name]) {
+                  salesByCategory[item.product.subcategory.category.name] +=
+                    item.yearlySalesTotal;
+                } else {
+                  salesByCategory[item.product.subcategory.category.name] =
+                    item.yearlySalesTotal;
+                }
+              });
+              // Update the existing
+              const overallStat = await prisma.overallStat.create({
+                data: {
+                  totalCustomers: users.length,
+                  yearlySalesTotal: yearlySalesTotal,
+                  yearlyTotalSoldUnits: yearlyTotalSoldUnits,
+                  year: year,
+                  salesByCategory: salesByCategory,
+                },
+              });
+
               const productStat = await prisma.productStat.create({
                 data: {
                   product: { connect: { id: productId } },
@@ -154,9 +237,7 @@ export default async function handler(
                   yearlyTotalSoldUnits: quantity,
                   monthlyData: {
                     create: {
-                      month: new Date().toLocaleString("default", {
-                        month: "long",
-                      }),
+                      month: month,
                       totalSales: cartItem.product.price * quantity,
                       totalUnits: quantity,
                     },
@@ -164,39 +245,44 @@ export default async function handler(
                   year: year,
                   dailyData: {
                     create: {
-                      date: new Date().toLocaleDateString(),
+                      date: date,
                       totalSales: cartItem.product.price * quantity,
                       totalUnits: quantity,
                     },
                   },
                 },
               });
-              res.status(200).json({ success: false, productStat });
-            }
-            const overallStat = await prisma.overallStat.findFirst({
-              where: { year: year },
-            });
-            const users = await prisma.user.findMany({});
-            if (overallStat) {
-              await prisma.overallStat.update({
-                where: { id: overallStat.id },
-                data: {
-                  totalCustomers: users.length,
-                  yearlySalesTotal: 0,
-                  yearlyTotalSoldUnits: 0,
-                  year: year,
-                },
+              const monthlyDataList = await prisma.monthlyData.findMany({
+                where: { productStatId: productStat.id },
               });
-            } else {
-              // await prisma.overallStat.create({
+              for (const monthlyData of monthlyDataList) {
+                await prisma.monthlyData.update({
+                  where: { id: monthlyData.id },
+                  data: { OverallStat: { connect: { id: overallStat.id } } },
+                });
+              }
+              const dailyDataList = await prisma.dailyData.findMany({
+                where: { productStatId: productStat.id },
+              });
+              for (const dailyData of dailyDataList) {
+                await prisma.dailyData.update({
+                  where: { id: dailyData.id },
+                  data: { OverallStat: { connect: { id: overallStat.id } } },
+                });
+              }
+              // await prisma.dailyData.update({
+              //   where: { id: productStat.id },
               //   data: {
-              //     totalCustomers: users.length,
-              //     yearlySalesTotal: 0,
-              //     yearlyTotalSoldUnits: 0,
-              //     year: year,
-              //     salesByCategory: 0,
+              //     OverallStat: { connect: { id: overallStat.id } },
               //   },
               // });
+              // await prisma.monthlyData.update({
+              //   where: { id: productStat.id },
+              //   data: {
+              //     OverallStat: { connect: { id: overallStat.id } },
+              //   },
+              // });
+              res.status(200).json({ success: false, productStat });
             }
             break;
           }

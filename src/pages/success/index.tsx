@@ -20,12 +20,12 @@ const Success = (props: Props) => {
   const cart = useSelector(allProductsCart);
 
   useEffect(() => {
+    dispatch(setAllModals());
     (async () => {
       if (router.isReady) {
         const { checkoutSession } = router.query;
         await postTransationApi(checkoutSession, cart);
         localStorage.clear();
-        dispatch(setAllModals());
         dispatch(clearCart());
         dispatch(setItemsCart(0));
         runFireworks();

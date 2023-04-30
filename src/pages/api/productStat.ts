@@ -9,9 +9,16 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
-        const productStat = await prisma.productStat.findMany({
+        // const productStat = await prisma.productStat.findMany({
+        //   include: {
+        //     product: true,
+        //   },
+        // });
+        // res.status(200).json(productStat);
+        const productStat = await prisma.overallStat.findMany({
           include: {
-            product: true,
+            monthlyData: true,
+            dailyData: true,
           },
         });
         res.status(200).json(productStat);
