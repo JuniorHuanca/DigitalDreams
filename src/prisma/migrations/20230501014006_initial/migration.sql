@@ -60,9 +60,10 @@ CREATE TABLE "User" (
 
 -- CreateTable
 CREATE TABLE "Transaction" (
-    "id" TEXT NOT NULL,
+    "id" SERIAL NOT NULL,
     "userId" TEXT,
-    "cost" TEXT NOT NULL,
+    "checkoutSession" TEXT NOT NULL,
+    "cost" DOUBLE PRECISION NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -207,7 +208,7 @@ CREATE TABLE "Favorite" (
 -- CreateTable
 CREATE TABLE "_ProductToTransaction" (
     "A" INTEGER NOT NULL,
-    "B" TEXT NOT NULL
+    "B" INTEGER NOT NULL
 );
 
 -- CreateIndex
@@ -227,6 +228,9 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Transaction_checkoutSession_key" ON "Transaction"("checkoutSession");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "OverallStat_year_key" ON "OverallStat"("year");

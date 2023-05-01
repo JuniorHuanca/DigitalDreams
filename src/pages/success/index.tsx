@@ -13,6 +13,7 @@ import {
 import { useSelector } from "react-redux";
 import { postTransationApi } from "@/state/cart/cartApi";
 import { useRouter } from "next/router";
+import { getTransactionApi } from "@/state/transaction/transactionApi";
 type Props = {};
 const Success = (props: Props) => {
   const dispatch = useAppDispatch();
@@ -20,14 +21,15 @@ const Success = (props: Props) => {
   const cart = useSelector(allProductsCart);
 
   useEffect(() => {
+    runFireworks();
     dispatch(setAllModals());
+    // dispatch(setItemsCart(0));
     (async () => {
       if (router.isReady) {
         const { checkoutSession } = router.query;
         await postTransationApi(checkoutSession, cart);
-        localStorage.clear();
-        dispatch(clearCart());
-        dispatch(setItemsCart(0));
+        // localStorage.clear();
+        // dispatch(clearCart());
         runFireworks();
       }
     })();
@@ -69,4 +71,20 @@ const Success = (props: Props) => {
   );
 };
 
+export async function getServerSideProps(context: any) {
+  const { checkoutSession } = context.query;
+  const res = await getTransactionApi(checkoutSession);
+  console.log(res.data);
+  if (res.data.transaction) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {},
+  };
+}
 export default Success;

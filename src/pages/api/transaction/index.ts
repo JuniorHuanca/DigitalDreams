@@ -19,7 +19,15 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
-        const { monthlyData, dailyData } = req.query;
+        const { monthlyData, dailyData, checkoutSession } = req.query;
+        if (checkoutSession) {
+          const transaction = await prisma.transaction.findFirst({
+            where: { checkoutSession: checkoutSession as string },
+          });
+          return transaction
+            ? res.status(200).json({ success: true, transaction })
+            : res.status(200).json({ success: false });
+        }
         if (monthlyData) {
           const data = await prisma.monthlyData.findMany({
             // include: {
@@ -36,6 +44,8 @@ export default async function handler(
           });
           return res.status(200).json(data);
         }
+        const data = await prisma.transaction.findMany({});
+        return res.status(200).json(data);
       } catch (error) {
         res.status(400).json({ success: false });
       }
@@ -44,15 +54,33 @@ export default async function handler(
       try {
         const { checkoutSession, cart } = req.body;
         if (checkoutSession) {
+          const totalPrice: number = cart.reduce(
+            (acc: number, curr: IProductCart) =>
+              acc + curr.quantity * curr.product.price,
+            0
+          );
+          const transaction = await prisma.transaction.upsert({
+            where: {
+              checkoutSession: checkoutSession,
+            },
+            update: {},
+            create: {
+              user: { connect: { id: session.user.id } },
+              cost: totalPrice,
+              checkoutSession: checkoutSession,
+            },
+          });
           for (const cartItem of cart) {
             const productId: number = cartItem.product.id;
             const quantity: number = cartItem.quantity;
-
             await prisma.product.update({
               where: { id: productId },
               data: {
                 stock: { decrement: quantity },
                 soldCount: { increment: quantity },
+                transactions: {
+                  connect: { id: transaction.id },
+                },
               },
             });
             const productStat = await prisma.productStat.findFirst({
@@ -81,7 +109,6 @@ export default async function handler(
                 },
               });
               const salesByCategory = {} as any;
-
               products.forEach((item) => {
                 if (salesByCategory[item.product.subcategory.category.name]) {
                   salesByCategory[item.product.subcategory.category.name] +=
@@ -91,13 +118,10 @@ export default async function handler(
                     item.yearlySalesTotal;
                 }
               });
-              // Update the existing
               const overallStatFind = await prisma.overallStat.findFirst({
                 where: { year: year },
               });
-
               let overallStat;
-
               if (overallStatFind) {
                 overallStat = overallStatFind;
               } else {
@@ -175,10 +199,7 @@ export default async function handler(
                   yearlyTotalSoldUnits: { increment: quantity },
                 },
               });
-              // res.status(200).json({ success: true, productStat });
             } else {
-              // Create a new productStat
-
               const users = await prisma.user.findMany({});
               const salesData = await prisma.dailyData.findMany({});
               const yearlySalesTotal = salesData
@@ -187,8 +208,6 @@ export default async function handler(
               const yearlyTotalSoldUnits = salesData
                 .map((sale) => sale.totalUnits)
                 .reduce((acc, curr) => acc + curr, 0);
-              //aqui no debemos crear otro monthlyData y dailyData, debemos buscar si ya existe uno, si existe tomamos ese y lo modificamos, sino recien modificamos, asi tenemos toda  la data de un mes en un solo lugar
-
               const productStat = await prisma.productStat.create({
                 data: {
                   product: { connect: { id: productId } },
@@ -211,7 +230,6 @@ export default async function handler(
                 },
               });
               const salesByCategories = {} as any;
-
               productsFind.forEach((item) => {
                 if (salesByCategories[item.product.subcategory.category.name]) {
                   salesByCategories[item.product.subcategory.category.name] +=
@@ -258,7 +276,6 @@ export default async function handler(
                   dailyData: { connect: { id: dailyDataFind.id } },
                 },
               });
-
               const products = await prisma.productStat.findMany({
                 include: {
                   product: {
@@ -273,7 +290,6 @@ export default async function handler(
                 },
               });
               const salesByCategory = {} as any;
-
               products.forEach((item) => {
                 if (salesByCategory[item.product.subcategory.category.name]) {
                   salesByCategory[item.product.subcategory.category.name] +=
@@ -283,7 +299,6 @@ export default async function handler(
                     item.yearlySalesTotal;
                 }
               });
-              // Update the existing
               const overallStat = await prisma.overallStat.upsert({
                 where: { year: year },
                 update: {
@@ -317,23 +332,9 @@ export default async function handler(
                   data: { OverallStat: { connect: { id: overallStat.id } } },
                 });
               }
-              // res.status(200).json({ success: true, productStat });
             }
           }
-          // const totalPrice = cart.reduce(
-          //   (acc: number, curr: IProductCart) =>
-          //     acc + curr.quantity * curr.product.price,
-          //   0
-          // );
-          // const productIds = cart.map((cartItem: IProductCart) => cartItem.id);
-          // const transaction = await prisma.transaction.create({
-          //   data: {
-          //     user: { connect: { id: session?.user.id } },
-          //     cost: totalPrice,
-          //     products: { connect: { id: productIds } },
-          //   },
-          // });
-          return res.status(200).json({ success: true, message: "ok" });
+          return res.status(200).json({ success: true, transaction });
         }
         return res.status(400).json({ success: false });
       } catch (error) {

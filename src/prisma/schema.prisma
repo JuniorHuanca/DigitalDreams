@@ -75,15 +75,16 @@ enum Role {
 }
 
 model Transaction {
-    id        String    @id @default(cuid())
-    user      User?     @relation(fields: [userId], references: [id])
-    userId    String?
-    cost      String
-    products  Product[]
+    id              Int       @id @default(autoincrement())
+    user            User?     @relation(fields: [userId], references: [id])
+    userId          String?
+    checkoutSession String    @unique
+    cost            Float
+    products        Product[]
     // AffiliateStat    AffiliateStat? @relation(fields: [affiliateStatId], references: [id])
     // affiliateStatId Int?
-    createdAt DateTime  @default(now())
-    updatedAt DateTime  @updatedAt
+    createdAt       DateTime  @default(now())
+    updatedAt       DateTime  @updatedAt
 }
 
 model Product {
