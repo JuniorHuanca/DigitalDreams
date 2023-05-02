@@ -23,8 +23,8 @@ const Success = (props: Props) => {
 
   useEffect(() => {
     setMounted(true);
-    runFireworks();
     dispatch(setAllModals());
+    runFireworks();
   }, [router.query.checkoutSession]);
 
   useEffect(() => {

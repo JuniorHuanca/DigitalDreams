@@ -1,4 +1,3 @@
-import ProductStat from "@/lib/models/ProductStat";
 import prisma from "@/lib/prismadb";
 import { IProductCart } from "@/shared/util/types";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -7,17 +6,17 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  // const session: any = await getSession({ req });
-  const session: any = {
-    user: {
-      name: "Brayan_libra1@hotmail.com",
-      email: "Brayan_libra1@hotmail.com",
-      image: "",
-      id: "clh5j0pww0000t39g7vnckt0w",
-      role: "Admin",
-    },
-    expires: "2023-06-01T00:08:52.277Z",
-  };
+  const session: any = await getSession({ req });
+  // const session: any = {
+  //   user: {
+  //     name: "Brayan_libra1@hotmail.com",
+  //     email: "Brayan_libra1@hotmail.com",
+  //     image: "",
+  //     id: "clh5j0pww0000t39g7vnckt0w",
+  //     role: "Admin",
+  //   },
+  //   expires: "2023-06-01T00:08:52.277Z",
+  // };
   const year = new Date().getFullYear();
   const date = new Date().toLocaleDateString();
   const month = new Date().toLocaleString("default", {
@@ -67,7 +66,6 @@ export default async function handler(
     case "POST":
       try {
         const { checkoutSession, cart } = req.body;
-        console.log(checkoutSession, cart);
         if (checkoutSession) {
           const totalPrice: number = cart.reduce(
             (acc: number, curr: IProductCart) =>
