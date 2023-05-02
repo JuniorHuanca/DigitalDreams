@@ -6,19 +6,20 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const session: any = await getSession({ req });
-  // const session: any = {
-  //   user: {
-  //     name: "Brayan_libra1@hotmail.com",
-  //     email: "Brayan_libra1@hotmail.com",
-  //     image: "",
-  //     id: "clh5picc50000t3fgxjarufd1",
-  //     role: "Admin",
-  //   },
-  //   expires: "2023-06-01T00:08:52.277Z",
-  // };
-  const year = new Date().getFullYear();
-  const date = new Date().toLocaleDateString();
+  // const session: any = await getSession({ req });
+  const session: any = {
+    user: {
+      name: "Brayan_libra1@hotmail.com",
+      email: "Brayan_libra1@hotmail.com",
+      image: "",
+      id: "clh6wpes00000t3h4esi2gmi0",
+      role: "Admin",
+    },
+    expires: "2023-06-01T00:08:52.277Z",
+  };
+  const year = 2024;
+  const date = "3/5/2023";
+  // const date = new Date().toLocaleDateString();
   const month = new Date().toLocaleString("default", {
     month: "long",
   });
@@ -153,32 +154,84 @@ export default async function handler(
               //     },
               //   });
               // }
-              await prisma.monthlyData.upsert({
-                where: { productStatId: productStat.id },
-                create: {
+              const existingMonthlyData = await prisma.monthlyData.findFirst({
+                where: {
+                  productStatId: productStat.id,
                   month: month,
-                  totalSales: cartItem.product.price * quantity,
-                  totalUnits: quantity,
-                  productStat: { connect: { id: productStat.id } },
-                },
-                update: {
-                  totalSales: { increment: cartItem.product.price * quantity },
-                  totalUnits: { increment: quantity },
                 },
               });
-              await prisma.dailyData.upsert({
-                where: { productStatId: productStat.id },
-                create: {
+              if (existingMonthlyData) {
+                await prisma.monthlyData.update({
+                  where: { id: existingMonthlyData.id },
+                  data: {
+                    totalSales: {
+                      increment: cartItem.product.price * quantity,
+                    },
+                    totalUnits: { increment: quantity },
+                  },
+                });
+              } else {
+                await prisma.monthlyData.create({
+                  data: {
+                    month: month,
+                    totalSales: cartItem.product.price * quantity,
+                    totalUnits: quantity,
+                    productStat: { connect: { id: productStat.id } },
+                  },
+                });
+              }
+              const existingDailyData = await prisma.dailyData.findFirst({
+                where: {
+                  productStatId: productStat.id,
                   date: date,
-                  totalSales: cartItem.product.price * quantity,
-                  totalUnits: quantity,
-                  productStat: { connect: { id: productStat.id } },
-                },
-                update: {
-                  totalSales: { increment: cartItem.product.price * quantity },
-                  totalUnits: { increment: quantity },
                 },
               });
+              if (existingDailyData) {
+                await prisma.dailyData.update({
+                  where: { id: existingDailyData.id },
+                  data: {
+                    totalSales: {
+                      increment: cartItem.product.price * quantity,
+                    },
+                    totalUnits: { increment: quantity },
+                  },
+                });
+              } else {
+                await prisma.dailyData.create({
+                  data: {
+                    date: date,
+                    totalSales: cartItem.product.price * quantity,
+                    totalUnits: quantity,
+                    productStat: { connect: { id: productStat.id } },
+                  },
+                });
+              }
+              // await prisma.monthlyData.upsert({
+              //   where: { productStatId: productStat.id },
+              //   create: {
+              //     month: month,
+              //     totalSales: cartItem.product.price * quantity,
+              //     totalUnits: quantity,
+              //     productStat: { connect: { id: productStat.id } },
+              //   },
+              //   update: {
+              //     totalSales: { increment: cartItem.product.price * quantity },
+              //     totalUnits: { increment: quantity },
+              //   },
+              // });
+              // await prisma.dailyData.upsert({
+              //   where: { productStatId: productStat.id },
+              //   create: {
+              //     date: date,
+              //     totalSales: cartItem.product.price * quantity,
+              //     totalUnits: quantity,
+              //     productStat: { connect: { id: productStat.id } },
+              //   },
+              //   update: {
+              //     totalSales: { increment: cartItem.product.price * quantity },
+              //     totalUnits: { increment: quantity },
+              //   },
+              // });
 
               await prisma.productStat.update({
                 where: { id: productStat.id },
@@ -190,7 +243,7 @@ export default async function handler(
                 },
               });
             } else {
-              await prisma.productStat.create({
+              const productStat = await prisma.productStat.create({
                 include: {
                   monthlyData: true,
                   dailyData: true,
@@ -200,52 +253,112 @@ export default async function handler(
                   yearlySalesTotal: cartItem.product.price * quantity,
                   yearlyTotalSoldUnits: quantity,
                   year: year,
-                  monthlyData: {
-                    connectOrCreate: [
-                      {
-                        create: {
-                          month: month,
-                          totalSales: cartItem.product.price * quantity,
-                          totalUnits: quantity,
-                        },
-                        where: {
-                          // month: month,
-                          productStatId: productId,
-                        },
-                      },
-                    ],
-                  },
-                  dailyData: {
-                    connectOrCreate: [
-                      {
-                        create: {
-                          date: date,
-                          totalSales: cartItem.product.price * quantity,
-                          totalUnits: quantity,
-                        },
-                        where: {
-                          // date: date,
-                          productStatId: productId,
-                        },
-                      },
-                    ],
-                  },
+                  // monthlyData: {
+                  //   connectOrCreate: [
+                  //     {
+                  //       create: {
+                  //         month: month,
+                  //         totalSales: cartItem.product.price * quantity,
+                  //         totalUnits: quantity,
+                  //       },
+                  //       where: {
+                  //         // month: month,
+                  //         productStatId: productId,
+                  //       },
+                  //     },
+                  //   ],
+                  // },
+                  // dailyData: {
+                  //   connectOrCreate: [
+                  //     {
+                  //       create: {
+                  //         date: date,
+                  //         totalSales: cartItem.product.price * quantity,
+                  //         totalUnits: quantity,
+                  //       },
+                  //       where: {
+                  //         // date: date,
+                  //         productStatId: productId,
+                  //       },
+                  //     },
+                  //   ],
+                  // },
                 },
               });
+              const existingMonthlyData = await prisma.monthlyData.findFirst({
+                where: {
+                  productStatId: productId,
+                  month: month,
+                },
+              });
+              const existingDailyData = await prisma.dailyData.findFirst({
+                where: {
+                  productStatId: productId,
+                  date: date,
+                },
+              });
+              if (existingMonthlyData) {
+                await prisma.monthlyData.update({
+                  where: { id: existingMonthlyData.id },
+                  data: {
+                    totalSales: {
+                      increment: cartItem.product.price * quantity,
+                    },
+                    totalUnits: { increment: quantity },
+                  },
+                });
+              } else {
+                await prisma.monthlyData.create({
+                  data: {
+                    month: month,
+                    totalSales: cartItem.product.price * quantity,
+                    totalUnits: quantity,
+                    productStat: { connect: { id: productStat.id } },
+                  },
+                });
+              }
+              if (existingDailyData) {
+                await prisma.dailyData.update({
+                  where: { id: existingDailyData.id },
+                  data: {
+                    totalSales: {
+                      increment: cartItem.product.price * quantity,
+                    },
+                    totalUnits: { increment: quantity },
+                  },
+                });
+              } else {
+                await prisma.dailyData.create({
+                  data: {
+                    date: date,
+                    totalSales: cartItem.product.price * quantity,
+                    totalUnits: quantity,
+                    productStat: { connect: { id: productStat.id } },
+                  },
+                });
+              }
             }
           }
           const users = await prisma.user.findMany({});
           const salesDataMonthly = await prisma.monthlyData.findMany({
             where: {
+              month: month,
               productStatId: {
                 not: null,
+              },
+              productStat: {
+                year: year,
               },
             },
           });
           const salesDataDaily = await prisma.dailyData.findMany({
             where: {
+              date: date,
               productStatId: {
                 not: null,
+              },
+              productStat: {
+                year: year,
               },
             },
           });
@@ -352,8 +465,10 @@ export default async function handler(
             await prisma.monthlyData.update({
               where: { id: existingMonthlyData.id },
               data: {
-                totalSales: { increment: totalSalesMonthly },
-                totalUnits: { increment: totalUnitsMonthly },
+                // totalSales: { increment: totalSalesMonthly },
+                // totalUnits: { increment: totalUnitsMonthly },
+                totalSales: totalSalesMonthly,
+                totalUnits: totalUnitsMonthly,
               },
             });
           } else {
@@ -381,8 +496,10 @@ export default async function handler(
             await prisma.dailyData.update({
               where: { id: existingDailyData.id },
               data: {
-                totalSales: { increment: totalSalesDataDaily },
-                totalUnits: { increment: totalUnitsDataDaily },
+                // totalSales: { increment: totalSalesDataDaily },
+                // totalUnits: { increment: totalUnitsDataDaily },
+                totalSales: totalSalesMonthly,
+                totalUnits: totalUnitsMonthly,
               },
             });
           } else {

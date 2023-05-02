@@ -236,21 +236,6 @@ CREATE UNIQUE INDEX "Transaction_checkoutSession_key" ON "Transaction"("checkout
 CREATE UNIQUE INDEX "OverallStat_year_key" ON "OverallStat"("year");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "ProductStat_productId_key" ON "ProductStat"("productId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "MonthlyData_productStatId_key" ON "MonthlyData"("productStatId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "MonthlyData_overallStatId_key" ON "MonthlyData"("overallStatId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "DailyData_productStatId_key" ON "DailyData"("productStatId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "DailyData_overallStatId_key" ON "DailyData"("overallStatId");
-
--- CreateIndex
 CREATE UNIQUE INDEX "Favorite_userId_productId_key" ON "Favorite"("userId", "productId");
 
 -- CreateIndex

@@ -140,7 +140,7 @@ model OverallStat {
 model ProductStat {
     id                   Int           @id @default(autoincrement())
     product              Product       @relation(fields: [productId], references: [id])
-    productId            Int           @unique
+    productId            Int
     yearlySalesTotal     Float
     yearlyTotalSoldUnits Int
     year                 Int
@@ -156,9 +156,9 @@ model MonthlyData {
     totalSales    Float
     totalUnits    Int
     productStat   ProductStat? @relation(fields: [productStatId], references: [id])
-    productStatId Int?         @unique
+    productStatId Int?
     OverallStat   OverallStat? @relation(fields: [overallStatId], references: [id])
-    overallStatId Int?         @unique
+    overallStatId Int?
 }
 
 model DailyData {
@@ -167,9 +167,9 @@ model DailyData {
     totalSales    Float
     totalUnits    Int
     productStat   ProductStat? @relation(fields: [productStatId], references: [id])
-    productStatId Int?         @unique
+    productStatId Int?
     OverallStat   OverallStat? @relation(fields: [overallStatId], references: [id])
-    overallStatId Int?         @unique
+    overallStatId Int?
 }
 
 model Category {
