@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { BsBagCheckFill } from "react-icons/bs";
 import { runFireworks } from "@/shared/util/confetti";
@@ -19,22 +19,31 @@ const Success = (props: Props) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const cart = useSelector(allProductsCart);
+  const [mounted, setMounted] = useState<boolean>(false);
 
   useEffect(() => {
+    setMounted(true);
     runFireworks();
     dispatch(setAllModals());
-    // dispatch(setItemsCart(0));
-    (async () => {
-      if (router.isReady) {
-        const { checkoutSession } = router.query;
-        await postTransationApi(checkoutSession, cart);
-        // localStorage.clear();
-        // dispatch(clearCart());
-        runFireworks();
-      }
-    })();
   }, [router.query.checkoutSession]);
 
+  useEffect(() => {
+    if (mounted) {
+      const { checkoutSession } = router.query;
+      (async () => {
+        const response = await postTransationApi(checkoutSession, cart);
+        console.log(response);
+        if (response.data.success) {
+          dispatch(setItemsCart(0));
+          localStorage.clear();
+          dispatch(clearCart());
+        }
+      })();
+    }
+  }, [mounted]);
+  if (!mounted) {
+    return null;
+  }
   return (
     <Layout title={"successful purchase"}>
       <div className="min-h-[80vh] flex items-center justify-center">

@@ -129,7 +129,7 @@ CREATE TABLE "MonthlyData" (
     "month" TEXT NOT NULL,
     "totalSales" DOUBLE PRECISION NOT NULL,
     "totalUnits" INTEGER NOT NULL,
-    "productStatId" INTEGER NOT NULL,
+    "productStatId" INTEGER,
     "overallStatId" INTEGER,
 
     CONSTRAINT "MonthlyData_pkey" PRIMARY KEY ("id")
@@ -236,10 +236,19 @@ CREATE UNIQUE INDEX "Transaction_checkoutSession_key" ON "Transaction"("checkout
 CREATE UNIQUE INDEX "OverallStat_year_key" ON "OverallStat"("year");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "MonthlyData_month_key" ON "MonthlyData"("month");
+CREATE UNIQUE INDEX "ProductStat_productId_key" ON "ProductStat"("productId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "DailyData_date_key" ON "DailyData"("date");
+CREATE UNIQUE INDEX "MonthlyData_productStatId_key" ON "MonthlyData"("productStatId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "MonthlyData_overallStatId_key" ON "MonthlyData"("overallStatId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "DailyData_productStatId_key" ON "DailyData"("productStatId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "DailyData_overallStatId_key" ON "DailyData"("overallStatId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Favorite_userId_productId_key" ON "Favorite"("userId", "productId");
@@ -269,7 +278,7 @@ ALTER TABLE "Product" ADD CONSTRAINT "Product_subcategoryId_fkey" FOREIGN KEY ("
 ALTER TABLE "ProductStat" ADD CONSTRAINT "ProductStat_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "MonthlyData" ADD CONSTRAINT "MonthlyData_productStatId_fkey" FOREIGN KEY ("productStatId") REFERENCES "ProductStat"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "MonthlyData" ADD CONSTRAINT "MonthlyData_productStatId_fkey" FOREIGN KEY ("productStatId") REFERENCES "ProductStat"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "MonthlyData" ADD CONSTRAINT "MonthlyData_overallStatId_fkey" FOREIGN KEY ("overallStatId") REFERENCES "OverallStat"("id") ON DELETE SET NULL ON UPDATE CASCADE;

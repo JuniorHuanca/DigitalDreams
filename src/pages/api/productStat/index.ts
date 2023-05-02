@@ -9,9 +9,12 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
-        const { overallStat } = req.query;
-        if (overallStat) {
-          const productStat = await prisma.overallStat.findMany({
+        const { overallStat, id } = req.query;
+        if (id) {
+          const productStat = await prisma.productStat.findFirst({
+            where: {
+              productId: parseInt(id as string),
+            },
             include: {
               monthlyData: true,
               dailyData: true,
@@ -19,12 +22,24 @@ export default async function handler(
           });
           return res.status(200).json(productStat);
         }
+        if (overallStat) {
+          const overallStat = await prisma.overallStat.findMany({
+            include: {
+              monthlyData: true,
+              dailyData: true,
+            },
+          });
+          return res.status(200).json(overallStat);
+        }
+        const productStat1 = await prisma.productStat.findFirst({
+          where: { productId: 244, year: 2023 },
+        });
         const productStat = await prisma.productStat.findMany({
           include: {
             product: true,
           },
         });
-        return res.status(200).json(productStat);
+        return res.status(200).json({productStat, productStat1});
       } catch (error) {
         res.status(400).json({ success: false });
       }

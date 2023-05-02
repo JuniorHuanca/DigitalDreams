@@ -6,6 +6,11 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const { method } = req;
+  const year = new Date().getFullYear();
+  const date = new Date().toLocaleDateString();
+  const month = new Date().toLocaleString("default", {
+    month: "long",
+  });
   switch (method) {
     case "GET":
       try {
@@ -13,9 +18,9 @@ export default async function handler(
         // const currentMonth = "December";
         // const currentYear = 2022;
         // const currentDay = "2022-12-15";
-        const currentMonth = "November";
-        const currentYear = 2023;
-        const currentDay = "2021-01-31";
+        const currentMonth = month;
+        const currentYear = year;
+        const currentDay = date;
 
         /* Recent Transactions */
         const transactions = await prisma.transaction.findMany({
@@ -36,7 +41,7 @@ export default async function handler(
             dailyData: true,
           },
         });
-        res.status(200).json(overallStat);
+        return res.status(200).json(overallStat);
         // const {
         //     totalCustomers,
         //     yearlyTotalSoldUnits,
@@ -63,9 +68,9 @@ export default async function handler(
         //     todayStats,
         //     transactions,
         // });
-        res.status(200).json(overallStat);
+      
       } catch (error: any) {
-        res.status(404).json({ message: error.message });
+        return res.status(404).json({ message: error.message });
       }
   }
 }
