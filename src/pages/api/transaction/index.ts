@@ -12,7 +12,7 @@ export default async function handler(
   //     name: "Brayan_libra1@hotmail.com",
   //     email: "Brayan_libra1@hotmail.com",
   //     image: "",
-  //     id: "clh5j0pww0000t39g7vnckt0w",
+  //     id: "clh5picc50000t3fgxjarufd1",
   //     role: "Admin",
   //   },
   //   expires: "2023-06-01T00:08:52.277Z",
@@ -235,11 +235,38 @@ export default async function handler(
             }
           }
           const users = await prisma.user.findMany({});
-          const salesData = await prisma.monthlyData.findMany({});
-          const yearlySalesTotal = salesData
+          const salesDataMonthly = await prisma.monthlyData.findMany({
+            where: {
+              productStatId: {
+                not: null,
+              },
+            },
+          });
+          const salesDataDaily = await prisma.dailyData.findMany({
+            where: {
+              productStatId: {
+                not: null,
+              },
+            },
+          });
+          const totalSalesMonthly = salesDataMonthly
             .map((sale) => sale.totalSales)
             .reduce((acc, curr) => acc + curr, 0);
-          const yearlyTotalSoldUnits = salesData
+          const totalSalesDataDaily = salesDataDaily
+            .map((sale) => sale.totalSales)
+            .reduce((acc, curr) => acc + curr, 0);
+
+          const totalUnitsMonthly = salesDataMonthly
+            .map((sale) => sale.totalUnits)
+            .reduce((acc, curr) => acc + curr, 0);
+          const totalUnitsDataDaily = salesDataDaily
+            .map((sale) => sale.totalUnits)
+            .reduce((acc, curr) => acc + curr, 0);
+
+          const yearlySalesTotal = salesDataMonthly
+            .map((sale) => sale.totalSales)
+            .reduce((acc, curr) => acc + curr, 0);
+          const yearlyTotalSoldUnits = salesDataMonthly
             .map((sale) => sale.totalUnits)
             .reduce((acc, curr) => acc + curr, 0);
           const products = await prisma.productStat.findMany({
@@ -281,6 +308,97 @@ export default async function handler(
               salesByCategory: salesByCategory,
             },
           });
+          // await prisma.overallStat.update({
+          //   where: { id: overallStat.id },
+          //   data: {
+          //     monthlyData: {
+          //       connectOrCreate: [
+          //         {
+          //           create: {
+          //             month: month,
+          //             totalSales: totalSalesMonthly,
+          //             totalUnits: totalUnitsMonthly,
+          //           },
+          //           where: {
+          //             overallStatId: overallStat.id,
+          //           },
+          //         },
+          //       ],
+          //     },
+          //     dailyData: {
+          //       connectOrCreate: [
+          //         {
+          //           create: {
+          //             date: date,
+          //             totalSales: totalSalesDataDaily,
+          //             totalUnits: totalUnitsDataDaily,
+          //           },
+          //           where: {
+          //             overallStatId: overallStat.id,
+          //           },
+          //         },
+          //       ],
+          //     },
+          //   },
+          // });
+          const existingMonthlyData = await prisma.monthlyData.findFirst({
+            where: {
+              overallStatId: overallStat.id,
+              month: month,
+            },
+          });
+
+          if (existingMonthlyData) {
+            await prisma.monthlyData.update({
+              where: { id: existingMonthlyData.id },
+              data: {
+                totalSales: { increment: totalSalesMonthly },
+                totalUnits: { increment: totalUnitsMonthly },
+              },
+            });
+          } else {
+            await prisma.monthlyData.create({
+              data: {
+                month: month,
+                totalSales: totalSalesMonthly,
+                totalUnits: totalUnitsMonthly,
+                OverallStat: {
+                  connect: {
+                    id: overallStat.id,
+                  },
+                },
+              },
+            });
+          }
+          const existingDailyData = await prisma.dailyData.findFirst({
+            where: {
+              overallStatId: overallStat.id,
+              date: date,
+            },
+          });
+
+          if (existingDailyData) {
+            await prisma.dailyData.update({
+              where: { id: existingDailyData.id },
+              data: {
+                totalSales: { increment: totalSalesDataDaily },
+                totalUnits: { increment: totalUnitsDataDaily },
+              },
+            });
+          } else {
+            await prisma.dailyData.create({
+              data: {
+                date: date,
+                totalSales: totalSalesDataDaily,
+                totalUnits: totalUnitsDataDaily,
+                OverallStat: {
+                  connect: {
+                    id: overallStat.id,
+                  },
+                },
+              },
+            });
+          }
           return res
             .status(200)
             .json({ success: true, transaction, overallStat });

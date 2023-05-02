@@ -37,9 +37,11 @@ export default async function handler(
         const productStat = await prisma.productStat.findMany({
           include: {
             product: true,
+            monthlyData: true,
+            dailyData: true,
           },
         });
-        return res.status(200).json({productStat, productStat1});
+        return res.status(200).json({ productStat, productStat1 });
       } catch (error) {
         res.status(400).json({ success: false });
       }

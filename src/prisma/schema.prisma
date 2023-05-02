@@ -166,8 +166,8 @@ model DailyData {
     date          String
     totalSales    Float
     totalUnits    Int
-    productStat   ProductStat  @relation(fields: [productStatId], references: [id])
-    productStatId Int          @unique
+    productStat   ProductStat? @relation(fields: [productStatId], references: [id])
+    productStatId Int?         @unique
     OverallStat   OverallStat? @relation(fields: [overallStatId], references: [id])
     overallStatId Int?         @unique
 }

@@ -141,7 +141,7 @@ CREATE TABLE "DailyData" (
     "date" TEXT NOT NULL,
     "totalSales" DOUBLE PRECISION NOT NULL,
     "totalUnits" INTEGER NOT NULL,
-    "productStatId" INTEGER NOT NULL,
+    "productStatId" INTEGER,
     "overallStatId" INTEGER,
 
     CONSTRAINT "DailyData_pkey" PRIMARY KEY ("id")
@@ -284,7 +284,7 @@ ALTER TABLE "MonthlyData" ADD CONSTRAINT "MonthlyData_productStatId_fkey" FOREIG
 ALTER TABLE "MonthlyData" ADD CONSTRAINT "MonthlyData_overallStatId_fkey" FOREIGN KEY ("overallStatId") REFERENCES "OverallStat"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "DailyData" ADD CONSTRAINT "DailyData_productStatId_fkey" FOREIGN KEY ("productStatId") REFERENCES "ProductStat"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "DailyData" ADD CONSTRAINT "DailyData_productStatId_fkey" FOREIGN KEY ("productStatId") REFERENCES "ProductStat"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "DailyData" ADD CONSTRAINT "DailyData_overallStatId_fkey" FOREIGN KEY ("overallStatId") REFERENCES "OverallStat"("id") ON DELETE SET NULL ON UPDATE CASCADE;
