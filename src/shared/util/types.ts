@@ -1,3 +1,16 @@
+export const year = new Date().getFullYear();
+export const date = new Date().toLocaleDateString();
+export const month = new Date().toLocaleString("default", {
+  month: "long",
+});
+const today = new Date();
+export const lastYear = today.getFullYear() - 1;
+export const yesterday = new Date(today);
+yesterday.setDate(today.getDate() - 1);
+const mesAnterior = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+export const lastMonth = mesAnterior.toLocaleString("default", { month: "long" });
+
+
 export interface IGrey {
   0: string;
   10: string;

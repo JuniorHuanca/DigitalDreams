@@ -88,7 +88,7 @@ export const navItems = [
 
 export const columns = [
     {
-        field: "_id",
+        field: "id",
         headerName: "ID",
         flex: 1,
     },

@@ -11,7 +11,7 @@
 import BreakdownChart from "@/components/Dashboard/BreakdownChart";
 import DataGridCustom from "@/components/DataGridCustom";
 import FlexBetween from "@/components/FlexBetween";
-import Header from '@/components/Dashboard/Header';
+import Header from "@/components/Dashboard/Header";
 import OverviewChart from "@/components/Dashboard/OverviewChart";
 import StatBox from "@/components/Dashboard/StatBox";
 import { columns } from "@/shared/util/data";
@@ -33,13 +33,12 @@ import {
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import LayoutDashboard from "@/components/Layouts/LayoutDashboard";
-type Props = {}
+type Props = {};
 
 const Dashboard = (props: Props) => {
   const theme: ITheme = useTheme();
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
   const { data, isLoading } = useGetDashboardQuery(null);
-
   return (
     <LayoutDashboard>
       <Box m="1.5rem 2.5rem">
@@ -69,14 +68,16 @@ const Dashboard = (props: Props) => {
           gridAutoRows="160px"
           gap="20px"
           sx={{
-            "& > div": { gridColumn: isNonMediumScreens ? undefined : "span 12" },
+            "& > div": {
+              gridColumn: isNonMediumScreens ? undefined : "span 12",
+            },
           }}
         >
           {/* ROW 1 */}
           <StatBox
             title="Total Customers"
             value={data && data.totalCustomers}
-            increase="+14%"
+            increase={(data && `${data.customers}%`) || "0%"}
             description="Since last month"
             icon={
               <Email
@@ -87,7 +88,7 @@ const Dashboard = (props: Props) => {
           <StatBox
             title="Sales Today"
             value={data && data.todayStats.totalSales}
-            increase="+21%"
+            increase={(data && `${data.dailySales}%`) || "0%"}
             description="Since last month"
             icon={
               <PointOfSale
@@ -110,7 +111,7 @@ const Dashboard = (props: Props) => {
           <StatBox
             title="Monthly Sales"
             value={data && data.thisMonthStats.totalSales}
-            increase="+5%"
+            increase={(data && `${data.monthlySales}%`) || "0%"}
             description="Since last month"
             icon={
               <PersonAdd
@@ -121,7 +122,7 @@ const Dashboard = (props: Props) => {
           <StatBox
             title="Yearly Sales"
             value={data && data.yearlySalesTotal}
-            increase="+43%"
+            increase={(data && `${data.yearSales}%`) || "0%"}
             description="Since last month"
             icon={
               <Traffic
@@ -162,9 +163,9 @@ const Dashboard = (props: Props) => {
           >
             <DataGrid
               loading={isLoading || !data}
-              getRowId={(row) => row._id}
+              getRowId={(row) => row.id}
               rows={(data && data.transactions) || []}
-              columns={(columns) as any}
+              columns={columns as any}
               components={{ Toolbar: DataGridCustom }}
             />
           </Box>
@@ -178,7 +179,10 @@ const Dashboard = (props: Props) => {
               backgroundColor: `${theme.palette.background.alt}`,
             }}
           >
-            <Typography variant="h6" sx={{ color: theme.palette.secondary[100] }}>
+            <Typography
+              variant="h6"
+              sx={{ color: theme.palette.secondary[100] }}
+            >
               Sales By Category
             </Typography>
             <BreakdownChart isDashboard={true} />
@@ -197,4 +201,4 @@ const Dashboard = (props: Props) => {
   );
 };
 
-export default Dashboard
+export default Dashboard;
