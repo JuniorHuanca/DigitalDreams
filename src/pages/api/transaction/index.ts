@@ -6,20 +6,19 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  // const session: any = await getSession({ req });
-  const session: any = {
-    user: {
-      name: "Brayan_libra1@hotmail.com",
-      email: "Brayan_libra1@hotmail.com",
-      image: "",
-      id: "clh6wpes00000t3h4esi2gmi0",
-      role: "Admin",
-    },
-    expires: "2023-06-01T00:08:52.277Z",
-  };
-  const year = 2024;
-  const date = "3/5/2023";
-  // const date = new Date().toLocaleDateString();
+  const session: any = await getSession({ req });
+  // const session: any = {
+  //   user: {
+  //     name: "Brayan_libra1@hotmail.com",
+  //     email: "Brayan_libra1@hotmail.com",
+  //     image: "",
+  //     id: "clh6wpes00000t3h4esi2gmi0",
+  //     role: "Admin",
+  //   },
+  //   expires: "2023-06-01T00:08:52.277Z",
+  // };
+  const year = new Date().getFullYear();
+  const date = new Date().toLocaleDateString();
   const month = new Date().toLocaleString("default", {
     month: "long",
   });
