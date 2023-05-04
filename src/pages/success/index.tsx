@@ -32,7 +32,6 @@ const Success = (props: Props) => {
       const { checkoutSession } = router.query;
       (async () => {
         const response = await postTransationApi(checkoutSession, cart);
-        console.log(response);
         if (response.data.success) {
           dispatch(setItemsCart(0));
           localStorage.clear();
@@ -83,7 +82,6 @@ const Success = (props: Props) => {
 export async function getServerSideProps(context: any) {
   const { checkoutSession } = context.query;
   const res = await getTransactionApi(checkoutSession);
-  console.log(res.data);
   if (res.data.transaction) {
     return {
       redirect: {
