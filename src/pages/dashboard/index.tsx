@@ -78,7 +78,7 @@ const Dashboard = (props: Props) => {
             title="Total Customers"
             value={data && data.totalCustomers}
             increase={(data && `${data.customers}%`) || "0%"}
-            description="Since last month"
+            description="Since last year"
             icon={
               <Email
                 sx={{ color: theme.palette.secondary[300], fontSize: "26px" }}
@@ -89,7 +89,7 @@ const Dashboard = (props: Props) => {
             title="Sales Today"
             value={data && data.todayStats.totalSales}
             increase={(data && `${data.dailySales}%`) || "0%"}
-            description="Since last month"
+            description="Since last day"
             icon={
               <PointOfSale
                 sx={{ color: theme.palette.secondary[300], fontSize: "26px" }}
@@ -123,7 +123,7 @@ const Dashboard = (props: Props) => {
             title="Yearly Sales"
             value={data && data.yearlySalesTotal}
             increase={(data && `${data.yearSales}%`) || "0%"}
-            description="Since last month"
+            description="Since last year"
             icon={
               <Traffic
                 sx={{ color: theme.palette.secondary[300], fontSize: "26px" }}

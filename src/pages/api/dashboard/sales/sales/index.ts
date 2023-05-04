@@ -27,7 +27,40 @@ export default async function handler(
           dailyData,
           monthlyData,
         } = overallStat as any;
+        const currentMonth = monthlyData.pop();
 
+        const months = [
+          "enero",
+          "febrero",
+          "marzo",
+          "abril",
+          "mayo",
+          "junio",
+          "julio",
+          "agosto",
+          "septiembre",
+          "octubre",
+          "noviembre",
+          "diciembre",
+        ];
+
+        const previousMonths = [];
+
+        for (let i = 0; i < months.indexOf(currentMonth.month); i++) {
+          const monthObj = {
+            id: i + 10,
+            month: months[i],
+            totalSales: 0,
+            totalUnits: 0,
+            productStatId: null,
+            overallStatId: 1,
+          };
+
+          previousMonths.push(monthObj);
+        }
+
+        console.log(currentMonth);
+        console.log(previousMonths);
         console.log(overallStat);
         // res.status(200).json(overallStat);
         res.status(200).json({
@@ -36,7 +69,7 @@ export default async function handler(
           yearlyTotalSoldUnits,
           salesByCategory,
           dailyData,
-          monthlyData,
+          monthlyData: previousMonths.concat(currentMonth),
         });
       } catch (error: any) {
         res.status(400).json({ success: false, error: error });

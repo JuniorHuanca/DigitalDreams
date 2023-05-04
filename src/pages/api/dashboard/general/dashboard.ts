@@ -1,5 +1,12 @@
 import prisma from "@/lib/prismadb";
-import { date, lastMonth, lastYear, month, year, yesterday } from "@/shared/util/types";
+import {
+  date,
+  lastMonth,
+  lastYear,
+  month,
+  year,
+  yesterday,
+} from "@/shared/util/types";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -11,15 +18,6 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
-        // hardcoded values
-        // const currentMonth = "December";
-        // const currentYear = 2022;
-        // const currentDay = "2022-12-15";
-        const currentMonth = month;
-        const currentYear = year;
-        const currentDay = "3/5/2023";
-
-        /* Recent Transactions */
         const transactions = await prisma.transaction.findMany({
           take: 50,
           orderBy: {
@@ -29,9 +27,6 @@ export default async function handler(
             products: true,
           },
         });
-
-        /* Overall Stats */
-        // const overallStat = await OverallStat.find({ year: currentYear });
         const overallStat = await prisma.overallStat.findFirst({
           where: {
             year: year,
@@ -41,13 +36,26 @@ export default async function handler(
             dailyData: true,
           },
         });
-        //   const todayStats = overallStat[0].dailyData.find(({ date }: { date: string }) => {
-        //     return date === currentDay;
-        // });
-        console.log(lastYear, yesterday.toLocaleDateString(), lastMonth);
+        const lastOverallStat = await prisma.overallStat.findFirst({
+          where: {
+            year: lastYear,
+          },
+          include: {
+            monthlyData: true,
+            dailyData: true,
+          },
+        });
         const todayStats = await prisma.dailyData.findFirst({
           where: {
             date: date,
+            overallStatId: {
+              not: null,
+            },
+          },
+        });
+        const lastTodayStats = await prisma.dailyData.findFirst({
+          where: {
+            date: yesterday.toLocaleDateString(),
             overallStatId: {
               not: null,
             },
@@ -61,6 +69,14 @@ export default async function handler(
             },
           },
         });
+        const lastMonthStats = await prisma.monthlyData.findFirst({
+          where: {
+            month: lastMonth,
+            overallStatId: {
+              not: null,
+            },
+          },
+        });
         console.log(todayStats);
         const {
           totalCustomers,
@@ -69,16 +85,32 @@ export default async function handler(
           monthlyData,
           salesByCategory,
         } = overallStat as any;
-        const valorAnterior = 100;
-        const valorActual = 114;
+        const aumentoPorcentual = (
+          valorAnterior: number | undefined,
+          valorActual: number | undefined
+        ) => {
+          if (valorAnterior !== undefined && valorActual !== undefined) {
+            return ((valorActual - valorAnterior) / valorAnterior) * 100;
+          } else {
+            return 0;
+          }
+        };
 
-        const aumentoPorcentual =
-          ((valorActual - valorAnterior) / valorAnterior) * 100;
-
-        const customers = aumentoPorcentual.toFixed(2);
-        const dailySales = aumentoPorcentual.toFixed(2);
-        const monthlySales = aumentoPorcentual.toFixed(2);
-        const yearSales = aumentoPorcentual.toFixed(2);
+        const customers = Number(
+          aumentoPorcentual(lastOverallStat?.totalCustomers, totalCustomers)
+        ).toFixed(2);
+        const dailySales = Number(
+          aumentoPorcentual(lastTodayStats?.totalSales, todayStats?.totalSales)
+        ).toFixed(2);
+        const monthlySales = Number(
+          aumentoPorcentual(
+            lastMonthStats?.totalSales,
+            thisMonthStats?.totalSales
+          )
+        ).toFixed(2);
+        const yearSales = Number(
+          aumentoPorcentual(lastOverallStat?.yearlySalesTotal, yearlySalesTotal)
+        ).toFixed(2);
         return res.status(200).json({
           totalCustomers,
           yearlyTotalSoldUnits,
@@ -93,16 +125,6 @@ export default async function handler(
           monthlySales,
           yearSales,
         });
-        // res.status(200).json({
-        //     totalCustomers,
-        //     yearlyTotalSoldUnits,
-        //     yearlySalesTotal,
-        //     monthlyData,
-        //     salesByCategory,
-        //     thisMonthStats,
-        //     todayStats,
-        //     transactions,
-        // });
       } catch (error: any) {
         return res.status(404).json({ message: error.message });
       }
