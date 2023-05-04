@@ -87,7 +87,7 @@ const Dashboard = (props: Props) => {
           />
           <StatBox
             title="Sales Today"
-            value={data && data.todayStats.totalSales}
+            value={data && data.todayStats?.totalSales}
             increase={(data && `${data.dailySales}%`) || "0%"}
             description="Since last day"
             icon={
@@ -110,7 +110,7 @@ const Dashboard = (props: Props) => {
           </Box>
           <StatBox
             title="Monthly Sales"
-            value={data && data.thisMonthStats.totalSales}
+            value={data && data.thisMonthStats?.totalSales}
             increase={(data && `${data.monthlySales}%`) || "0%"}
             description="Since last month"
             icon={

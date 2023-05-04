@@ -58,11 +58,6 @@ export default async function handler(
 
           previousMonths.push(monthObj);
         }
-
-        console.log(currentMonth);
-        console.log(previousMonths);
-        console.log(overallStat);
-        // res.status(200).json(overallStat);
         res.status(200).json({
           totalCustomers,
           yearlySalesTotal,
