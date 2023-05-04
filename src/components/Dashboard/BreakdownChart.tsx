@@ -18,6 +18,12 @@ const BreakdownChart = ({ isDashboard = false }: Props) => {
     theme.palette.secondary[300],
     theme.palette.secondary[300],
     theme.palette.secondary[500],
+    theme.palette.secondary[500],
+    theme.palette.secondary[300],
+    theme.palette.secondary[300],
+    theme.palette.secondary[500],
+    theme.palette.secondary[500],
+    theme.palette.secondary[300],
   ];
   const formattedData = Object.entries(data.salesByCategory).map(
     ([category, sales], i) => ({
@@ -67,7 +73,7 @@ const BreakdownChart = ({ isDashboard = false }: Props) => {
           },
           tooltip: {
             container: {
-              color: theme.palette.primary.main,
+              color: theme.palette.primary[600],
             },
           },
         }}
@@ -113,7 +119,7 @@ const BreakdownChart = ({ isDashboard = false }: Props) => {
               {
                 on: "hover",
                 style: {
-                  itemTextColor: theme.palette.primary[500],
+                  itemTextColor: theme.palette.primary[100],
                 },
               },
             ],
@@ -124,7 +130,7 @@ const BreakdownChart = ({ isDashboard = false }: Props) => {
         position="absolute"
         top="50%"
         left="50%"
-        color={theme.palette.secondary[400]}
+        color={theme.palette.primary[100]}
         textAlign="center"
         sx={{
           transform: isDashboard

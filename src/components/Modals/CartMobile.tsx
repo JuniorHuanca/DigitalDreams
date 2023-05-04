@@ -15,7 +15,7 @@ interface ISession {
   data: any;
   status: string;
 }
-const Cart = () => {
+const CartMobile = () => {
   const theme: ITheme = useTheme();
   const { data: session, status }: ISession = useSession();
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -135,4 +135,4 @@ const Cart = () => {
   );
 };
 
-export default Cart;
+export default CartMobile;

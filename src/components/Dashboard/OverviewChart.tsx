@@ -86,7 +86,7 @@ const OverviewChart = ({ isDashboard = false, view }: Props) => {
         },
         tooltip: {
           container: {
-            color: theme.palette.primary.main,
+            color: theme.palette.primary[600],
           },
         },
       }}

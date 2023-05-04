@@ -1,10 +1,5 @@
 import {
-  LightModeOutlined,
-  DarkModeOutlined,
-  AccountCircle,
   Search,
-  SettingsOutlined,
-  ArrowDropDownOutlined,
   Clear,
 } from "@mui/icons-material";
 import { useEffect, useState } from "react";
@@ -13,23 +8,15 @@ import {
   handleClickModal,
   selectIsClicked,
   setMode,
-  cleanupModals,
   setCurrentPage,
 } from "@/state/globalSlice";
-import profileImage from "@/assets/profile.jpeg";
-import { signIn, signOut } from "next-auth/react";
 import { useSelector } from "react-redux";
 import Avatar from "react-avatar";
 import {
   AppBar,
-  Button,
-  Box,
-  Typography,
   IconButton,
   InputBase,
   Toolbar,
-  Menu,
-  MenuItem,
   useTheme,
 } from "@mui/material";
 import Image from "next/image";
@@ -41,8 +28,7 @@ import NavButton from "./NavButton";
 import { WiSolarEclipse } from "react-icons/wi";
 import { FiShoppingCart } from "react-icons/fi";
 import { AiOutlineBars, AiOutlineClose } from "react-icons/ai";
-import { BsChatLeft, BsMoon, BsFilePersonFill } from "react-icons/bs";
-import { RiNotification3Line } from "react-icons/ri";
+import { BsMoon, BsFilePersonFill } from "react-icons/bs";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { useAppDispatch } from "@/state/store";
 import Notification from "../Modals/Notification";
@@ -53,7 +39,6 @@ import CartMobile from "../Modals/CartMobile";
 import ChatMobile from "../Modals/ChatMobile";
 import NotificationMobile from "../Modals/NotificationMobile";
 import UserProfileMobile from "../Modals/UserProfileMobile";
-import Head from "next/head";
 import Logo from "@/assets/img/Avatar.png";
 import {
   allProducts,
