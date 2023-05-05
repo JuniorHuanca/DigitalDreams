@@ -8,8 +8,9 @@ export const lastYear = today.getFullYear() - 1;
 export const yesterday = new Date(today);
 yesterday.setDate(today.getDate() - 1);
 const mesAnterior = new Date(today.getFullYear(), today.getMonth() - 1, 1);
-export const lastMonth = mesAnterior.toLocaleString("default", { month: "long" });
-
+export const lastMonth = mesAnterior.toLocaleString("default", {
+  month: "long",
+});
 
 export interface IGrey {
   0: string;
@@ -224,7 +225,7 @@ export interface IProduct {
   brandId: number;
   subcategoryId: number;
   price: number;
-  description: [];
+  description: any;
   rating: number;
   stock: number;
   soldCount: number;
@@ -243,6 +244,10 @@ export interface IProduct {
       name: string;
     };
   };
+}
+export interface IPdashboard extends IProduct {
+  ProductStat: any;
+  description: string;
 }
 
 export interface IProductCart {

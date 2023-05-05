@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { EStateGeneric, IProduct } from "@/shared/util/types";
+import { EStateGeneric, IPdashboard, IProduct } from "@/shared/util/types";
 import {
   getProductsBrandByApi,
   getProductsBrandsByApi,
@@ -10,6 +10,7 @@ import {
   getCategoriesByApi,
   getProductsCategoryByApi,
   getBrandsByApi,
+  getProductsDashboardByApi,
 } from "./productsApi";
 import { RootState } from "@/state/store";
 
@@ -18,6 +19,17 @@ export const getAllProducts = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getProductsByApi();
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const getAllProductsDashboard = createAsyncThunk(
+  "products/getAllProductsDashboard",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await getProductsDashboardByApi();
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
@@ -123,6 +135,7 @@ export const getAllProductsCategory = createAsyncThunk(
 
 interface IProductsState {
   products: IProduct[];
+  productsDashboard: IPdashboard[];
   allItems: IProduct[];
   productsBySearch: IProduct[];
   productsCategory: IProduct[];
@@ -136,6 +149,7 @@ interface IProductsState {
   productsRecommended: IProduct[];
   productsRelateds: IProduct[];
   allProductsStatus: EStateGeneric;
+  allProductsStatusDashboard: EStateGeneric;
   allProductsStatusCategory: EStateGeneric;
   allProductsStatusBrand: EStateGeneric;
   allProductsStatusBrands: EStateGeneric;
@@ -146,6 +160,7 @@ interface IProductsState {
 }
 const initialState = {
   products: [],
+  productsDashboard: [],
   allItems: [],
   productsBySearch: [],
   productsCategory: [],
@@ -159,6 +174,7 @@ const initialState = {
   productsRecommended: [],
   productsRelateds: [],
   allProductsStatus: EStateGeneric.IDLE,
+  allProductsStatusDashboard: EStateGeneric.IDLE,
   allProductsStatusCategory: EStateGeneric.IDLE,
   allProductsStatusBrand: EStateGeneric.IDLE,
   allProductsStatusBrands: EStateGeneric.IDLE,
@@ -177,6 +193,13 @@ const productsSlice = createSlice({
         ...state,
         products: [],
         allProductsStatus: EStateGeneric.IDLE,
+      };
+    },
+    cleanUpProductsDashboard: (state) => {
+      return {
+        ...state,
+        productsDashboard: [],
+        allProductsStatusDashboard: EStateGeneric.IDLE,
       };
     },
     cleanUpProductsRecommended: (state) => {
@@ -404,6 +427,17 @@ const productsSlice = createSlice({
       state.allProductsStatus = EStateGeneric.FAILED;
     });
 
+    builder.addCase(getAllProductsDashboard.fulfilled, (state, action) => {
+      state.productsDashboard = action.payload;
+      state.allProductsStatusDashboard = EStateGeneric.SUCCEEDED;
+    });
+    builder.addCase(getAllProductsDashboard.pending, (state, action) => {
+      state.allProductsStatusDashboard = EStateGeneric.PENDING;
+    });
+    builder.addCase(getAllProductsDashboard.rejected, (state, action) => {
+      state.allProductsStatusDashboard = EStateGeneric.FAILED;
+    });
+
     builder.addCase(getAllProductsRecommended.fulfilled, (state, action) => {
       state.productsRecommended = action.payload.products;
       state.allProductsStatusRecommended = EStateGeneric.SUCCEEDED;
@@ -487,6 +521,8 @@ const productsSlice = createSlice({
 export default productsSlice.reducer;
 
 export const allProducts = (store: RootState) => store.products.products;
+export const allProductsDashboard = (store: RootState) =>
+  store.products.productsDashboard;
 export const allProductsRecommended = (store: RootState) =>
   store.products.productsRecommended;
 export const allProductsBrand = (store: RootState) =>
@@ -509,6 +545,7 @@ export const {
   cleanUpProductsRecommended,
   cleanUpProductsBrand,
   cleanUpProducts,
+  cleanUpProductsDashboard,
   cleanUpProductsMostSelling,
   cleanUpProductsRelated,
   cleanUpProductsCategory,
@@ -524,6 +561,8 @@ export const {
 
 export const selectAllProductsStatus = (state: RootState) =>
   state.products.allProductsStatus;
+export const selectAllProductsStatusDashboard = (state: RootState) =>
+  state.products.allProductsStatusDashboard;
 export const selectAllProductsRecommendedStatus = (state: RootState) =>
   state.products.allProductsStatusRecommended;
 export const selectAllProductsBrandStatus = (state: RootState) =>

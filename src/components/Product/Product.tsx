@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 
 type Props = {
-  id: string;
+  id: number;
   image: string;
   name: string;
   description: string;
@@ -48,8 +48,8 @@ const Product = ({
       <CardContent>
         <Typography
           sx={{ fontSize: 14 }}
-          color={theme.palette.secondary[700]}
-          gutterBottom
+          color={theme.palette.primary[100]}
+          fontWeight="bold"
         >
           {category}
         </Typography>
@@ -57,22 +57,22 @@ const Product = ({
           {name}
         </Typography>
         <img src={image} alt={name} className="w-full h-52" />
-        <Typography sx={{ mb: "1.5rem" }} color={theme.palette.secondary[400]}>
+        <Typography
+          fontWeight="bold"
+          sx={{ mb: "1.5rem" }}
+          color={theme.palette.primary[100]}
+        >
           ${Number(price).toFixed(2)}
         </Typography>
         <Rating value={rating} readOnly />
       </CardContent>
       <CardActions>
-        <Button
-          color="success"
-          sx={{
-            variant: "primary",
-          }}
-          size="small"
+        <button
+          className="uppercase text-xs hover:bg-slate-400 hover:border-[1px] p-2 transition-all"
           onClick={() => setIsExpanded(!isExpanded)}
         >
           {isExpanded ? "See Less" : "See More"}
-        </Button>
+        </button>
       </CardActions>
       <Collapse
         in={isExpanded}

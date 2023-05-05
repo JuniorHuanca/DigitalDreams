@@ -19,83 +19,130 @@ import { useSelector } from "react-redux";
 import { selectCurrentPage } from "@/state/globalSlice";
 import Pagination from "@/components/Pagination";
 import Filters from "@/components/Navbar/Filters";
-
-interface IData {
-  id: string;
-  image: string;
-  name: string;
-  description: string;
-  price: number;
-  rating: number;
-  category: string;
-  stock: number;
-  ProductStat: any;
-}
-
+import {
+  allProductsDashboard,
+  cleanUpProductsDashboard,
+  getAllProductsDashboard,
+  selectAllProductsStatusDashboard,
+} from "@/state/products/products/productsSlice";
+import { useEffect } from "react";
+import { useAppDispatch } from "@/state/store";
+import { useRouter } from "next/router";
+import { EStateGeneric, ITheme } from "@/shared/util/types";
+import NotFound from "@/assets/404Products.gif";
+import NotFoundMobile from "@/assets/404MobileProducts.gif";
+import NotFoundDark from "@/assets/404ProductsDark.gif";
+import NotFoundDarkMobile from "@/assets/404MobileProductsDark.gif";
+import Image from "next/image";
 type Props = {};
 
 const Products = (props: Props) => {
-  const { data, isLoading } = useGetProductsQuery(null);
+  // const { data, isLoading } = useGetProductsQuery(null);
+  const theme: ITheme = useTheme();
+  const { mode } = theme.palette;
   const isNonMobile = useMediaQuery("(min-width: 1000px)");
+  const isAboveSmallScreens = useMediaQuery("(min-width: 620px)");
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const productsStatus = useSelector(selectAllProductsStatusDashboard);
+  const products = useSelector(allProductsDashboard);
+
   const itemsPerPage = 24;
   const currentPage = useSelector(selectCurrentPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = products.slice(indexOfFirstItem, indexOfLastItem);
+
+  useEffect(() => {
+    (async () => {
+      if (router.isReady) {
+        if (productsStatus === EStateGeneric.IDLE) {
+          await dispatch(getAllProductsDashboard());
+        }
+      }
+    })();
+
+    return () => {
+      dispatch(cleanUpProductsDashboard());
+    };
+  }, []);
   return (
-    <LayoutDashboard>
+    <LayoutDashboard title={"Dashboard - Products"}>
       <Box m="1.5rem 2.5rem">
         <Header title="PRODUCTS" subtitle="See your list of products" />
-        {/* <Filters title="Products" /> */}
-        {data || !isLoading ? (
-          <Box
-            mt="20px"
-            display="grid"
-            gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-            justifyContent="space-between"
-            rowGap="20px"
-            columnGap="1.33%"
-            sx={{
-              "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-            }}
-          >
-            {currentItems.map(
-              ({
-                id,
-                image,
-                name,
-                description,
-                price,
-                rating,
-                category,
-                stock,
-                ProductStat,
-              }: IData) => (
-                <Product
-                  key={id}
-                  id={id}
-                  name={name}
-                  description={description}
-                  price={price}
-                  rating={rating}
-                  category={category}
-                  supply={stock}
-                  ProductStat={ProductStat}
-                  image={image}
-                />
-              )
-            )}
-          </Box>
-        ) : (
-          <Box height="80vh">
-            <Loader />
-          </Box>
+        {productsStatus === EStateGeneric.SUCCEEDED && (
+          <>
+            <Filters title="productsDashboard" />
+            <Box
+              mt="20px"
+              display="grid"
+              gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+              justifyContent="space-between"
+              rowGap="20px"
+              columnGap="1.33%"
+              sx={{
+                "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+              }}
+            >
+              {currentItems.map(
+                ({
+                  id,
+                  image,
+                  name,
+                  description,
+                  price,
+                  rating,
+                  subcategory: { category },
+                  stock,
+                  ProductStat,
+                }) => (
+                  <Product
+                    key={id}
+                    id={id}
+                    name={name}
+                    description={description}
+                    price={price}
+                    rating={rating}
+                    category={category.name}
+                    supply={stock}
+                    ProductStat={ProductStat}
+                    image={image}
+                  />
+                )
+              )}
+            </Box>
+            <Pagination
+              items={products}
+              itemsPerPage={itemsPerPage}
+              currentPage={currentPage}
+            />
+          </>
         )}
-        <Pagination
-          items={data}
-          itemsPerPage={itemsPerPage}
-          currentPage={currentPage}
-        />
+        {productsStatus === EStateGeneric.PENDING && (
+          <div className="relative w-full h-[70vh] flex justify-center items-center">
+            <Loader />
+          </div>
+        )}
+        {productsStatus === EStateGeneric.FAILED && (
+          <div className="relative w-full h-[70vh] flex justify-center items-center">
+            {mode === "dark" && (
+              <Image
+                src={isAboveSmallScreens ? NotFoundDark : NotFoundDarkMobile}
+                alt="Error"
+                fill
+                priority={true}
+              />
+            )}
+            {mode !== "dark" && (
+              <Image
+                src={isAboveSmallScreens ? NotFound : NotFoundMobile}
+                alt="Error"
+                fill
+                priority={true}
+              />
+            )}
+          </div>
+        )}
       </Box>
     </LayoutDashboard>
   );

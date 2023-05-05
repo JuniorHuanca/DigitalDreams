@@ -1,6 +1,8 @@
 import axios from "axios";
 
 export const getProductsByApi = () => axios.get(`/api/products`);
+export const getProductsDashboardByApi = () =>
+  axios.get(`/api/dashboard/client/products`);
 export const getProductsRecommendedByApi = () =>
   axios.get(`/api/products?recommended=true`);
 export const getProductsBrandsByApi = () =>
@@ -15,5 +17,4 @@ export const getCategoriesByApi = () =>
   axios.get(`/api/products?categories=true`);
 export const getProductsCategoryByApi = (name: string) =>
   axios.get(`/api/products?category=${name}`);
-export const getBrandsByApi = () =>
-  axios.get(`/api/products?allBrands=true`);
+export const getBrandsByApi = () => axios.get(`/api/products?allBrands=true`);

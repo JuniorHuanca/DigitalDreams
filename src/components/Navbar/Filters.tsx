@@ -79,10 +79,121 @@ const Filters = ({ title }: Props) => {
   };
   return (
     <>
-      {title === "Products" && (
-        <div className="w-full min-h-[5vh] flex flex-wrap gap-y-2 justify-evenly items-center dark:bg-primary-600 bg-grey-10 dark:text-white text-black">
+      {title === "productsDashboard" && (
+        <div className="w-full min-h-[5vh] flex flex-wrap gap-y-2 justify-evenly items-center dark:bg-primary-600 bg-grey-50 dark:text-white text-black">
           <select
-            className="p-2 dark:bg-primary-500 bg-grey-50 rounded-md"
+            className="p-2 dark:bg-primary-500 bg-grey-0 rounded-md"
+            name="category"
+            onChange={(e) => {
+              handleFilters(e);
+              handleFilterByCategory("productsDashboard", e.target.value);
+            }}
+          >
+            <option value="all">All Categories</option>
+            {categories.map((category: { id: number; name: string }) => (
+              <option key={category.id} value={category.name}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+
+          {filters.category && (
+            <select
+              className="p-2 dark:bg-primary-500 bg-grey-0 rounded-md"
+              name="brand"
+              onChange={(e) => {
+                handleFilters(e);
+                handleFilterByBrands("productsDashboard", e.target.value);
+              }}
+            >
+              <option value="allBrand">All Brands</option>
+              {brands.map((brand: { id: number; name: string }) => (
+                <option key={brand.id} value={brand.name}>
+                  {brand.name}
+                </option>
+              ))}
+            </select>
+          )}
+
+          {!price && (
+            <button
+              type="button"
+              name="lowest"
+              className={`${
+                price === undefined
+                  ? "dark:bg-primary-500  bg-grey-0"
+                  : "dark:bg-primary-700 bg-grey-100"
+              } text-2xl p-2 rounded-md flex items-center gap-2`}
+              onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                handleSortByPrice("productsDashboard", e.currentTarget.name);
+                handleFilters(e);
+              }}
+            >
+              <FaSortNumericDownAlt />
+              <span className="text-sm">Price</span>
+            </button>
+          )}
+          {price && (
+            <button
+              type="button"
+              name="highest"
+              className={`${
+                price === undefined
+                  ? "dark:bg-primary-500  bg-grey-0"
+                  : "dark:bg-primary-700 bg-grey-100"
+              } text-2xl p-2 rounded-md flex items-center gap-2`}
+              onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                handleSortByPrice("productsDashboard", e.currentTarget.name);
+                handleFilters(e);
+              }}
+            >
+              <FaSortNumericUpAlt />
+              <span className="text-sm">Price</span>
+            </button>
+          )}
+
+          {!alphabetical && (
+            <button
+              type="button"
+              name="atoz"
+              className={`${
+                alphabetical === undefined
+                  ? "dark:bg-primary-500  bg-grey-0"
+                  : "dark:bg-primary-700 bg-grey-100"
+              } text-2xl p-2 rounded-md flex items-center gap-2`}
+              onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                handleSortByName("productsDashboard", e.currentTarget.name);
+                handleFilters(e);
+              }}
+            >
+              <FaSortAlphaDownAlt />
+              <span className="text-sm">Alphabetical</span>
+            </button>
+          )}
+          {alphabetical && (
+            <button
+              type="button"
+              name="ztoa"
+              className={`${
+                alphabetical === undefined
+                  ? "dark:bg-primary-500  bg-grey-0"
+                  : "dark:bg-primary-700 bg-grey-100"
+              } text-2xl p-2 rounded-md flex items-center gap-2`}
+              onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+                handleSortByName("productsDashboard", e.currentTarget.name);
+                handleFilters(e);
+              }}
+            >
+              <FaSortAlphaUpAlt />
+              <span className="text-sm">Alphabetical</span>
+            </button>
+          )}
+        </div>
+      )}
+      {title === "Products" && (
+        <div className="w-full min-h-[5vh] flex flex-wrap gap-y-2 justify-evenly items-center dark:bg-primary-600 bg-grey-50 dark:text-white text-black">
+          <select
+            className="p-2 dark:bg-primary-500 bg-grey-0 rounded-md"
             name="category"
             onChange={(e) => {
               handleFilters(e);
@@ -99,7 +210,7 @@ const Filters = ({ title }: Props) => {
 
           {filters.category && (
             <select
-              className="p-2 dark:bg-primary-500 bg-grey-50 rounded-md"
+              className="p-2 dark:bg-primary-500 bg-grey-0 rounded-md"
               name="brand"
               onChange={(e) => {
                 handleFilters(e);
@@ -121,7 +232,7 @@ const Filters = ({ title }: Props) => {
               name="lowest"
               className={`${
                 price === undefined
-                  ? "dark:bg-primary-500 bg-grey-50"
+                  ? "dark:bg-primary-500 bg-grey-0"
                   : "dark:bg-primary-700 bg-grey-100"
               } text-2xl p-2 rounded-md flex items-center gap-2`}
               onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
@@ -142,7 +253,7 @@ const Filters = ({ title }: Props) => {
               name="highest"
               className={`${
                 price === undefined
-                  ? "dark:bg-primary-500 bg-grey-50"
+                  ? "dark:bg-primary-500 bg-grey-0"
                   : "dark:bg-primary-700 bg-grey-100"
               } text-2xl p-2 rounded-md flex items-center gap-2`}
               onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
@@ -164,7 +275,7 @@ const Filters = ({ title }: Props) => {
               name="atoz"
               className={`${
                 alphabetical === undefined
-                  ? "dark:bg-primary-500 bg-grey-50"
+                  ? "dark:bg-primary-500 bg-grey-0"
                   : "dark:bg-primary-700 bg-grey-100"
               } text-2xl p-2 rounded-md flex items-center gap-2`}
               onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
@@ -185,7 +296,7 @@ const Filters = ({ title }: Props) => {
               name="ztoa"
               className={`${
                 alphabetical === undefined
-                  ? "dark:bg-primary-500 bg-grey-50"
+                  ? "dark:bg-primary-500 bg-grey-0"
                   : "dark:bg-primary-700 bg-grey-100"
               } text-2xl p-2 rounded-md flex items-center gap-2`}
               onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
@@ -265,7 +376,7 @@ const Filters = ({ title }: Props) => {
         </div>
       )}
       {title === "Brand" && (
-        <div className="w-full min-h-[5vh] flex flex-wrap gap-y-2 justify-evenly items-center dark:bg-primary-600 bg-grey-10 dark:text-white text-black">
+        <div className="w-full min-h-[5vh] flex flex-wrap gap-y-2 justify-evenly items-center dark:bg-primary-600 bg-grey-50 dark:text-white text-black">
           <div className="text-black dark:text-white uppercase underline underline-offset-4 w-full text-center md:w-auto md:text-start">
             <span className={` font-semibold text-lg ${styles.span}`}>
               See Categories
@@ -299,7 +410,7 @@ const Filters = ({ title }: Props) => {
               name="lowest"
               className={`${
                 price === undefined
-                  ? "dark:bg-primary-500 bg-grey-50"
+                  ? "dark:bg-primary-500 bg-grey-0"
                   : "dark:bg-primary-700 bg-grey-100"
               } text-2xl p-2 rounded-md flex items-center gap-2`}
               onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
@@ -324,7 +435,7 @@ const Filters = ({ title }: Props) => {
               name="highest"
               className={`${
                 price === undefined
-                  ? "dark:bg-primary-500 bg-grey-50"
+                  ? "dark:bg-primary-500 bg-grey-0"
                   : "dark:bg-primary-700 bg-grey-100"
               } text-2xl p-2 rounded-md flex items-center gap-2`}
               onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
@@ -350,7 +461,7 @@ const Filters = ({ title }: Props) => {
               name="atoz"
               className={`${
                 alphabetical === undefined
-                  ? "dark:bg-primary-500 bg-grey-50"
+                  ? "dark:bg-primary-500 bg-grey-0"
                   : "dark:bg-primary-700 bg-grey-100"
               } text-2xl p-2 rounded-md flex items-center gap-2`}
               onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
@@ -375,7 +486,7 @@ const Filters = ({ title }: Props) => {
               name="ztoa"
               className={`${
                 alphabetical === undefined
-                  ? "dark:bg-primary-500 bg-grey-50"
+                  ? "dark:bg-primary-500 bg-grey-0"
                   : "dark:bg-primary-700 bg-grey-100"
               } text-2xl p-2 rounded-md flex items-center gap-2`}
               onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
