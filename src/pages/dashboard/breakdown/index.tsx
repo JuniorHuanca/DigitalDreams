@@ -1,13 +1,13 @@
-import BreakdownChart from '@/components/Dashboard/BreakdownChart';
-import Header from '@/components/Dashboard/Header';
-import LayoutDashboard from '@/components/Layouts/LayoutDashboard';
-import { Box } from '@mui/material'
+import BreakdownChart from "@/components/Dashboard/BreakdownChart";
+import Header from "@/components/Dashboard/Header";
+import LayoutDashboard from "@/components/Layouts/LayoutDashboard";
+import { Box } from "@mui/material";
 
-type Props = {}
+type Props = {};
 
 const Breakdown = (props: Props) => {
   return (
-    <LayoutDashboard>
+    <LayoutDashboard title={"Breakdown - Dashboard"}>
       <Box m="1.5rem 2.5rem">
         <Header title="BREAKDOWN" subtitle="Breakdown of Sales By Category" />
         <Box mt="40px" height="75vh">
@@ -15,7 +15,7 @@ const Breakdown = (props: Props) => {
         </Box>
       </Box>
     </LayoutDashboard>
-  )
-}
+  );
+};
 
-export default Breakdown
+export default Breakdown;

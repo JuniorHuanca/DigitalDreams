@@ -1,15 +1,15 @@
-import CustomColumnMenu from '@/components/CustomColumnMenu';
-import DataGridCustom from '@/components/DataGridCustom';
-import Header from '@/components/Dashboard/Header';
-import { ITheme } from '@/shared/util/types';
-import { useGetUserPerformanceQuery } from '@/state/api';
-import { Box, useTheme } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
-import React from 'react'
-import { useSelector } from 'react-redux';
-import LayoutDashboard from '@/components/Layouts/LayoutDashboard';
+import CustomColumnMenu from "@/components/CustomColumnMenu";
+import DataGridCustom from "@/components/DataGridCustom";
+import Header from "@/components/Dashboard/Header";
+import { ITheme } from "@/shared/util/types";
+import { useGetUserPerformanceQuery } from "@/state/api";
+import { Box, useTheme } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
+import React from "react";
+import { useSelector } from "react-redux";
+import LayoutDashboard from "@/components/Layouts/LayoutDashboard";
 
-type Props = {}
+type Props = {};
 
 const Performance = (props: Props) => {
   const theme: ITheme = useTheme();
@@ -37,18 +37,19 @@ const Performance = (props: Props) => {
       headerName: "# of Products",
       flex: 0.5,
       sortable: false,
-      renderCell: (params: { value: string | any[]; }) => params.value.length,
+      renderCell: (params: { value: string | any[] }) => params.value.length,
     },
     {
       field: "cost",
       headerName: "Cost",
       flex: 1,
-      renderCell: (params: { value: any; }) => `$${Number(params.value).toFixed(2)}`,
+      renderCell: (params: { value: any }) =>
+        `$${Number(params.value).toFixed(2)}`,
     },
   ];
 
   return (
-    <LayoutDashboard>
+    <LayoutDashboard title={"Performance - Dashboard"}>
       <Box m="1.5rem 2.5rem">
         <Header
           title="PERFORMANCE"
@@ -84,9 +85,9 @@ const Performance = (props: Props) => {
         >
           <DataGrid
             loading={isLoading || !data}
-            getRowId={(row: { _id: any; }) => row._id}
+            getRowId={(row: { _id: any }) => row._id}
             rows={(data && data.sales) || []}
-            columns={(columns) as any}
+            columns={columns as any}
             components={{
               Toolbar: DataGridCustom,
               ColumnMenu: CustomColumnMenu,
@@ -96,6 +97,6 @@ const Performance = (props: Props) => {
       </Box>
     </LayoutDashboard>
   );
-}
+};
 
-export default Performance
+export default Performance;

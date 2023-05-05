@@ -1,12 +1,12 @@
-import Header from '@/components/Dashboard/Header';
-import LayoutDashboard from '@/components/Layouts/LayoutDashboard';
-import { ILine, ITheme, SalesData } from '@/shared/util/types';
-import { useGetSalesQuery } from '@/state/api';
-import { Box, useTheme } from '@mui/material';
-import { ResponsiveLine } from '@nivo/line';
-import React, { useMemo } from 'react'
+import Header from "@/components/Dashboard/Header";
+import LayoutDashboard from "@/components/Layouts/LayoutDashboard";
+import { ILine, ITheme, SalesData } from "@/shared/util/types";
+import { useGetSalesQuery } from "@/state/api";
+import { Box, useTheme } from "@mui/material";
+import { ResponsiveLine } from "@nivo/line";
+import React, { useMemo } from "react";
 
-type Props = {}
+type Props = {};
 
 const Monthly = (props: Props) => {
   const { data } = useGetSalesQuery(null);
@@ -27,29 +27,31 @@ const Monthly = (props: Props) => {
       data: [],
     };
 
-    Object.values((monthlyData) as SalesData).forEach(({ month, totalSales, totalUnits }) => {
-      totalSalesLine.data = [
-        ...totalSalesLine.data,
-        { x: month, y: totalSales },
-      ];
-      totalUnitsLine.data = [
-        ...totalUnitsLine.data,
-        { x: month, y: totalUnits },
-      ];
-    });
+    Object.values(monthlyData as SalesData).forEach(
+      ({ month, totalSales, totalUnits }) => {
+        totalSalesLine.data = [
+          ...totalSalesLine.data,
+          { x: month, y: totalSales },
+        ];
+        totalUnitsLine.data = [
+          ...totalUnitsLine.data,
+          { x: month, y: totalUnits },
+        ];
+      }
+    );
 
     const formattedData = [totalSalesLine, totalUnitsLine];
     return [formattedData];
   }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <LayoutDashboard>
+    <LayoutDashboard title={"Monthy Sales - Dashboard"}>
       <Box m="1.5rem 2.5rem">
         <Header title="MONTHLY SALES" subtitle="Chart of monthlysales" />
         <Box height="75vh">
           {data ? (
             <ResponsiveLine
-              data={(formattedData) as any}
+              data={formattedData as any}
               theme={{
                 axis: {
                   domain: {
@@ -157,6 +159,6 @@ const Monthly = (props: Props) => {
       </Box>
     </LayoutDashboard>
   );
-}
+};
 
-export default Monthly
+export default Monthly;

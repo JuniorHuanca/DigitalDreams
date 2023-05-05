@@ -1,13 +1,13 @@
-import Header from '@/components/Dashboard/Header';
-import LayoutDashboard from '@/components/Layouts/LayoutDashboard';
-import { ILine, ITheme, SalesData } from '@/shared/util/types';
-import { useGetSalesQuery } from '@/state/api';
-import { Box, useTheme } from '@mui/material';
-import { ResponsiveLine } from '@nivo/line';
-import React, { useMemo, useState } from 'react'
+import Header from "@/components/Dashboard/Header";
+import LayoutDashboard from "@/components/Layouts/LayoutDashboard";
+import { ILine, ITheme, SalesData } from "@/shared/util/types";
+import { useGetSalesQuery } from "@/state/api";
+import { Box, useTheme } from "@mui/material";
+import { ResponsiveLine } from "@nivo/line";
+import React, { useMemo, useState } from "react";
 import DatePicker from "react-datepicker";
 
-type Props = {}
+type Props = {};
 
 const Daily = (props: Props) => {
   const [startDate, setStartDate] = useState(new Date("2023-02-01"));
@@ -30,28 +30,30 @@ const Daily = (props: Props) => {
       data: [],
     };
 
-    Object.values((dailyData) as SalesData).forEach(({ date, totalSales, totalUnits }) => {
-      const dateFormatted = new Date(date);
-      if (dateFormatted >= startDate && dateFormatted <= endDate) {
-        const splitDate = date.substring(date.indexOf("-") + 1);
+    Object.values(dailyData as SalesData).forEach(
+      ({ date, totalSales, totalUnits }) => {
+        const dateFormatted = new Date(date);
+        if (dateFormatted >= startDate && dateFormatted <= endDate) {
+          const splitDate = date.substring(date.indexOf("-") + 1);
 
-        totalSalesLine.data = [
-          ...totalSalesLine.data,
-          { x: splitDate, y: totalSales },
-        ];
-        totalUnitsLine.data = [
-          ...totalUnitsLine.data,
-          { x: splitDate, y: totalUnits },
-        ];
+          totalSalesLine.data = [
+            ...totalSalesLine.data,
+            { x: splitDate, y: totalSales },
+          ];
+          totalUnitsLine.data = [
+            ...totalUnitsLine.data,
+            { x: splitDate, y: totalUnits },
+          ];
+        }
       }
-    });
+    );
 
     const formattedData = [totalSalesLine, totalUnitsLine];
     return [formattedData];
   }, [data, startDate, endDate]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <LayoutDashboard>
+    <LayoutDashboard title={"Daily Sales - Dashboard"}>
       <Box m="1.5rem 2.5rem">
         <Header title="DAILY SALES" subtitle="Chart of daily sales" />
         <Box height="75vh">
@@ -79,7 +81,7 @@ const Daily = (props: Props) => {
 
           {data ? (
             <ResponsiveLine
-              data={(formattedData) as any}
+              data={formattedData as any}
               theme={{
                 axis: {
                   domain: {
@@ -187,6 +189,6 @@ const Daily = (props: Props) => {
       </Box>
     </LayoutDashboard>
   );
-}
+};
 
-export default Daily
+export default Daily;

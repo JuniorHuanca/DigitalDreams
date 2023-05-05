@@ -4,8 +4,6 @@
 // import Header from '@/components/Dashboard/Header';
 // import { scheduleData } from '@/shared/util/data';
 
-
-
 // type Props = {
 //     children: JSX.Element
 // }
@@ -72,71 +70,71 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
 import {
-    Box,
-    List,
-    ListItem,
-    ListItemText,
-    Typography,
-    useTheme,
+  Box,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+  useTheme,
 } from "@mui/material";
 import Header from "@/components/Dashboard/Header";
 import { ITheme } from "@/shared/util/types";
 import LayoutDashboard from "@/components/Layouts/LayoutDashboard";
 const Calendar = () => {
-    const theme: ITheme = useTheme();
-    const [currentEvents, setCurrentEvents] = useState([]);
+  const theme: ITheme = useTheme();
+  const [currentEvents, setCurrentEvents] = useState([]);
 
-    const handleDateClick = (selected: any) => {
-        const title = prompt("Please enter a new title for your event");
-        const calendarApi = selected.view.calendar;
-        calendarApi.unselect();
+  const handleDateClick = (selected: any) => {
+    const title = prompt("Please enter a new title for your event");
+    const calendarApi = selected.view.calendar;
+    calendarApi.unselect();
 
-        if (title) {
-            calendarApi.addEvent({
-                id: `${selected.dateStr}-${title}`,
-                title,
-                start: selected.startStr,
-                end: selected.endStr,
-                allDay: selected.allDay,
-            });
-        }
-    };
+    if (title) {
+      calendarApi.addEvent({
+        id: `${selected.dateStr}-${title}`,
+        title,
+        start: selected.startStr,
+        end: selected.endStr,
+        allDay: selected.allDay,
+      });
+    }
+  };
 
-    const handleEventClick = (selected: any) => {
-        if (
-            window.confirm(
-                `Are you sure you want to delete the event '${selected.event.title}'`
-            )
-        ) {
-            selected.event.remove();
-        }
-    };
+  const handleEventClick = (selected: any) => {
+    if (
+      window.confirm(
+        `Are you sure you want to delete the event '${selected.event.title}'`
+      )
+    ) {
+      selected.event.remove();
+    }
+  };
 
-    return (
-        <LayoutDashboard>
-            <Box m="20px">
-                <Header title="Calendar" subtitle="Full Calendar Interactive Page" />
+  return (
+    <LayoutDashboard title={"Calendar - Dashboard"}>
+      <Box m="20px">
+        <Header title="Calendar" subtitle="Full Calendar Interactive Page" />
 
-                <Box display="flex" justifyContent="space-between">
-                    {/* CALENDAR SIDEBAR */}
-                    <Box
-                        flex="1 1 20%"
-                        // backgroundColor={theme.palette.primary[400]}
-                        p="15px"
-                        borderRadius="4px"
-                    >
-                        <Typography variant="h5">Events</Typography>
-                        <List>
-                            {currentEvents.map((event: any) => (
-                                <ListItem
-                                    key={event.id}
-                                    sx={{
-                                        backgroundColor: theme.palette.secondary[500],
-                                        margin: "10px 0",
-                                        borderRadius: "2px",
-                                    }}
-                                >
-                                    {/* <ListItemText
+        <Box display="flex" justifyContent="space-between">
+          {/* CALENDAR SIDEBAR */}
+          <Box
+            flex="1 1 20%"
+            // backgroundColor={theme.palette.primary[400]}
+            p="15px"
+            borderRadius="4px"
+          >
+            <Typography variant="h5">Events</Typography>
+            <List>
+              {currentEvents.map((event: any) => (
+                <ListItem
+                  key={event.id}
+                  sx={{
+                    backgroundColor: theme.palette.secondary[500],
+                    margin: "10px 0",
+                    borderRadius: "2px",
+                  }}
+                >
+                  {/* <ListItemText
                                     primary={event.title}
                                     secondary={
                                         <Typography>
@@ -148,14 +146,14 @@ const Calendar = () => {
                                         </Typography>
                                     }
                                 /> */}
-                                </ListItem>
-                            ))}
-                        </List>
-                    </Box>
+                </ListItem>
+              ))}
+            </List>
+          </Box>
 
-                    {/* CALENDAR */}
-                    <Box flex="1 1 100%" ml="15px">
-                        {/* <FullCalendar
+          {/* CALENDAR */}
+          <Box flex="1 1 100%" ml="15px">
+            {/* <FullCalendar
                         height="75vh"
                         plugins={[
                             dayGridPlugin,
@@ -189,11 +187,11 @@ const Calendar = () => {
                             },
                         ]}
                     /> */}
-                    </Box>
-                </Box>
-            </Box>
-        </LayoutDashboard>
-    );
+          </Box>
+        </Box>
+      </Box>
+    </LayoutDashboard>
+  );
 };
 
 export default Calendar;
