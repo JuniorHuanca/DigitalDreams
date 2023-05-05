@@ -40,7 +40,7 @@ const Dashboard = (props: Props) => {
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
   const { data, isLoading } = useGetDashboardQuery(null);
   return (
-    <LayoutDashboard>
+    <LayoutDashboard title={"Dashboard"}>
       <Box m="1.5rem 2.5rem">
         <FlexBetween>
           <Header title="DASHBOARD" subtitle="Welcome to your dashboard" />
