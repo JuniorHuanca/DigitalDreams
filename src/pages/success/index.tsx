@@ -31,12 +31,12 @@ const Success = (props: Props) => {
     if (mounted) {
       const { checkoutSession } = router.query;
       (async () => {
-        // const response = await postTransationApi(checkoutSession, cart);
-        // if (response.data.success) {
-        //   dispatch(setItemsCart(0));
-        //   localStorage.clear();
-        //   dispatch(clearCart());
-        // }
+        const response = await postTransationApi(checkoutSession, cart);
+        if (response.data.success) {
+          dispatch(setItemsCart(0));
+          localStorage.clear();
+          dispatch(clearCart());
+        }
       })();
     }
   }, [mounted]);
@@ -81,15 +81,15 @@ const Success = (props: Props) => {
 
 export async function getServerSideProps(context: any) {
   const { checkoutSession } = context.query;
-  // const res = await getTransactionApi(checkoutSession);
-  // if (res.data.transaction) {
-  //   return {
-  //     redirect: {
-  //       destination: "/",
-  //       permanent: false,
-  //     },
-  //   };
-  // }
+  const res = await getTransactionApi(checkoutSession);
+  if (res.data.transaction) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
   return {
     props: {},
   };
