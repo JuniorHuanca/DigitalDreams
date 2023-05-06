@@ -31,12 +31,12 @@ const Success = (props: Props) => {
     if (mounted) {
       const { checkoutSession } = router.query;
       (async () => {
-        const response = await postTransationApi(checkoutSession, cart);
-        if (response.data.success) {
-          dispatch(setItemsCart(0));
-          localStorage.clear();
-          dispatch(clearCart());
-        }
+        // const response = await postTransationApi(checkoutSession, cart);
+        // if (response.data.success) {
+        //   dispatch(setItemsCart(0));
+        //   localStorage.clear();
+        //   dispatch(clearCart());
+        // }
       })();
     }
   }, [mounted]);
