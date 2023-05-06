@@ -124,6 +124,12 @@ export default async function handler(
           dailySales,
           monthlySales,
           yearSales,
+          date,
+          lastMonth,
+          lastYear,
+          month,
+          year,
+          yesterday,
         });
       } catch (error: any) {
         return res.status(404).json({ message: error.message });
