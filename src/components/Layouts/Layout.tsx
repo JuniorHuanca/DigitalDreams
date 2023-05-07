@@ -26,7 +26,11 @@ const Layout = ({ children, title }: Props) => {
   }, [status, session]);
 
   if (status === "loading" || !mounted) {
-    return <Loader />;
+    return (
+      <div className="w-screen h-screen">
+        <Loader />
+      </div>
+    );
   }
   return (
     <Box display={isNonMobile ? "flex" : "block"} width="100%" height="100%">
