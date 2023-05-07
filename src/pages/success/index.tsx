@@ -14,8 +14,10 @@ import { useSelector } from "react-redux";
 import { postTransationApi } from "@/state/cart/cartApi";
 import { useRouter } from "next/router";
 import { getTransactionApi } from "@/state/transaction/transactionApi";
-type Props = {};
-const Success = (props: Props) => {
+type Props = {
+  checkoutSession: string;
+};
+const Success = ({ checkoutSession }: Props) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const cart = useSelector(allProductsCart);
@@ -25,11 +27,11 @@ const Success = (props: Props) => {
     setMounted(true);
     dispatch(setAllModals());
     runFireworks();
-  }, [router.query.checkoutSession]);
+  }, [checkoutSession]);
 
   useEffect(() => {
     if (mounted) {
-      const { checkoutSession } = router.query;
+      // const { checkoutSession } = router.query;
       (async () => {
         const response = await postTransationApi(checkoutSession, cart);
         if (response.data.success) {
@@ -79,19 +81,28 @@ const Success = (props: Props) => {
   );
 };
 
-// export async function getServerSideProps(context: any) {
-//   const { checkoutSession } = context.query;
-//   const res = await getTransactionApi(checkoutSession);
-//   if (res.data.transaction) {
-//     return {
-//       redirect: {
-//         destination: "/",
-//         permanent: false,
-//       },
-//     };
-//   }
-//   return {
-//     props: {},
-//   };
-// }
+export async function getServerSideProps(context: any) {
+  const { checkoutSession } = context.query;
+  if (checkoutSession) {
+    const res = await getTransactionApi(checkoutSession);
+    if (res.data.transaction) {
+      return {
+        redirect: {
+          destination: "/",
+          permanent: false,
+        },
+      };
+    }
+    return {
+      props: { checkoutSession },
+    };
+  } else {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+}
 export default Success;
