@@ -21,25 +21,25 @@ const Success = (props: Props) => {
   const cart = useSelector(allProductsCart);
   const [mounted, setMounted] = useState<boolean>(false);
 
-  // useEffect(() => {
-  //   setMounted(true);
-  //   dispatch(setAllModals());
-  //   runFireworks();
-  // }, [router.query.checkoutSession]);
+  useEffect(() => {
+    setMounted(true);
+    dispatch(setAllModals());
+    runFireworks();
+  }, [router.query.checkoutSession]);
 
-  // useEffect(() => {
-  //   if (mounted) {
-  //     const { checkoutSession } = router.query;
-  //     (async () => {
-  //       const response = await postTransationApi(checkoutSession, cart);
-  //       if (response.data.success) {
-  //         dispatch(setItemsCart(0));
-  //         localStorage.clear();
-  //         dispatch(clearCart());
-  //       }
-  //     })();
-  //   }
-  // }, [mounted]);
+  useEffect(() => {
+    if (mounted) {
+      const { checkoutSession } = router.query;
+      (async () => {
+        const response = await postTransationApi(checkoutSession, cart);
+        if (response.data.success) {
+          dispatch(setItemsCart(0));
+          localStorage.clear();
+          dispatch(clearCart());
+        }
+      })();
+    }
+  }, [mounted]);
   if (!mounted) {
     return null;
   }
