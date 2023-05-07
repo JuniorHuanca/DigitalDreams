@@ -14,10 +14,8 @@ import { useSelector } from "react-redux";
 import { postTransationApi } from "@/state/cart/cartApi";
 import { useRouter } from "next/router";
 import { getTransactionApi } from "@/state/transaction/transactionApi";
-type Props = {
-  checkoutSession: string;
-};
-const Success = ({ checkoutSession }: Props) => {
+type Props = {};
+const Success = (props: Props) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const cart = useSelector(allProductsCart);
@@ -26,22 +24,30 @@ const Success = ({ checkoutSession }: Props) => {
   useEffect(() => {
     setMounted(true);
     dispatch(setAllModals());
-    runFireworks();
-  }, [checkoutSession]);
+  }, [router.query.checkoutSession]);
 
   useEffect(() => {
-    if (mounted) {
-      // const { checkoutSession } = router.query;
+    const { checkoutSession } = router.query;
+    if (mounted && checkoutSession) {
+      runFireworks();
       (async () => {
-        const response = await postTransationApi(checkoutSession, cart);
-        if (response.data.success) {
-          dispatch(setItemsCart(0));
-          localStorage.clear();
-          dispatch(clearCart());
+        const res = await getTransactionApi(checkoutSession as string);
+        console.log(res);
+        if (res.data.transaction) {
+          return router.push("/");
+        } else {
+          const response = await postTransationApi(checkoutSession, cart);
+          console.log(response);
+
+          if (response.data.success) {
+            dispatch(setItemsCart(0));
+            localStorage.clear();
+            dispatch(clearCart());
+          }
         }
       })();
     }
-  }, [mounted]);
+  }, [mounted, router.query.checkoutSession]);
   if (!mounted) {
     return null;
   }
@@ -81,28 +87,19 @@ const Success = ({ checkoutSession }: Props) => {
   );
 };
 
-export async function getServerSideProps(context: any) {
-  const { checkoutSession } = context.query;
-  if (checkoutSession) {
-    const res = await getTransactionApi(checkoutSession);
-    if (res.data.transaction) {
-      return {
-        redirect: {
-          destination: "/",
-          permanent: false,
-        },
-      };
-    }
-    return {
-      props: { checkoutSession },
-    };
-  } else {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-}
+// export async function getServerSideProps(context: any) {
+//   const { checkoutSession } = context.query;
+//   const res = await getTransactionApi(checkoutSession);
+//   if (res.data.transaction) {
+//     return {
+//       redirect: {
+//         destination: "/",
+//         permanent: false,
+//       },
+//     };
+//   }
+//   return {
+//     props: {},
+//   };
+// }
 export default Success;
