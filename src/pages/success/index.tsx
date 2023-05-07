@@ -79,19 +79,19 @@ const Success = (props: Props) => {
   );
 };
 
-export async function getServerSideProps(context: any) {
-  const { checkoutSession } = context.query;
-  const res = await getTransactionApi(checkoutSession);
-  if (res.data.transaction) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-  return {
-    props: {},
-  };
-}
+// export async function getServerSideProps(context: any) {
+//   const { checkoutSession } = context.query;
+//   const res = await getTransactionApi(checkoutSession);
+//   if (res.data.transaction) {
+//     return {
+//       redirect: {
+//         destination: "/",
+//         permanent: false,
+//       },
+//     };
+//   }
+//   return {
+//     props: {},
+//   };
+// }
 export default Success;
