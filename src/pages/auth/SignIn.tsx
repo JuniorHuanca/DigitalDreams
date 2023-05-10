@@ -121,7 +121,8 @@ function SignIn({ session }: Props) {
       });
       if (response?.ok) {
         resetForm();
-        router.back();
+        // router.back();
+        router.push('/')
       }
       if (response?.error) {
         setNumLoginAttempts(numLoginAttempts + 1);

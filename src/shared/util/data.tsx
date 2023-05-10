@@ -24,14 +24,14 @@ export const navItems = [
         text: "Dashboard",
         icon: <HomeOutlined />,
     },
-    {
-        text: "Aplications",
-        icon: null,
-    },
-    {
-        text: "Calendar",
-        icon: <CalendarMonth />,
-    },
+    // {
+    //     text: "Aplications",
+    //     icon: null,
+    // },
+    // {
+    //     text: "Calendar",
+    //     icon: <CalendarMonth />,
+    // },
     {
         text: "Client Facing",
         icon: null,
@@ -48,10 +48,10 @@ export const navItems = [
         text: "Transactions",
         icon: <ReceiptLongOutlined />,
     },
-    {
-        text: "Geography",
-        icon: <PublicOutlined />,
-    },
+    // {
+    //     text: "Geography",
+    //     icon: <PublicOutlined />,
+    // },
     {
         text: "Sales",
         icon: null,
@@ -80,10 +80,10 @@ export const navItems = [
         text: "Admin",
         icon: <AdminPanelSettingsOutlined />,
     },
-    {
-        text: "Performance",
-        icon: <TrendingUpOutlined />,
-    },
+    // {
+    //     text: "Performance",
+    //     icon: <TrendingUpOutlined />,
+    // },
 ];
 
 export const columns = [

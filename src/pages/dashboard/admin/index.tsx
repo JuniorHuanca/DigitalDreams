@@ -1,17 +1,59 @@
-import CustomColumnMenu from '@/components/CustomColumnMenu';
-import DataGridCustom from '@/components/DataGridCustom';
-import Header from '@/components/Dashboard/Header';
-import { ITheme } from '@/shared/util/types';
-import { useGetAdminsQuery } from '@/state/api';
-import { Box, useTheme, Typography } from '@mui/material';
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import CustomColumnMenu from "@/components/CustomColumnMenu";
+import DataGridCustom from "@/components/DataGridCustom";
+import Header from "@/components/Dashboard/Header";
+import { ITheme } from "@/shared/util/types";
+import { useGetAdminsQuery } from "@/state/api";
+import {
+  Box,
+  useTheme,
+  Typography,
+  SelectChangeEvent,
+  Select,
+} from "@mui/material";
+import {
+  DataGrid,
+  GridColDef,
+  GridRenderCellParams,
+  GridToolbar,
+  useGridApiContext,
+} from "@mui/x-data-grid";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
-import LayoutDashboard from '@/components/Layouts/LayoutDashboard';
+import LayoutDashboard from "@/components/Layouts/LayoutDashboard";
 
-type Props = {}
+type Props = {};
+function SelectEditInputCell(props: GridRenderCellParams) {
+  const { id, value, field } = props;
+  const apiRef = useGridApiContext();
 
+  const handleChange = async (event: SelectChangeEvent) => {
+    await apiRef.current.setEditCellValue({
+      id,
+      field,
+      value: event.target.value,
+    });
+    // apiRef.current.stopCellEditMode({ id, field });
+  };
+
+  return (
+    <Select
+      value={value}
+      onChange={handleChange}
+      size="small"
+      sx={{ height: 1 }}
+      native
+      autoFocus
+    >
+      <option>Admin</option>
+      <option>Manager</option>
+      <option>User</option>
+    </Select>
+  );
+}
+const renderSelectEditInputCell: GridColDef["renderCell"] = (params) => {
+  return <SelectEditInputCell {...params} />;
+};
 const Admin = (props: Props) => {
   const theme: ITheme = useTheme();
   const { data, isLoading } = useGetAdminsQuery(null);
@@ -26,11 +68,13 @@ const Admin = (props: Props) => {
       field: "name",
       headerName: "Name",
       flex: 0.5,
+      editable: true,
     },
     {
       field: "email",
       headerName: "Email",
       flex: 1,
+      editable: true,
     },
     // {
     //   field: "phoneNumber",
@@ -44,16 +88,22 @@ const Admin = (props: Props) => {
       field: "country",
       headerName: "Country",
       flex: 0.4,
+      editable: true,
+
     },
     {
       field: "occupation",
       headerName: "Occupation",
       flex: 1,
+      editable: true,
+
     },
     {
       field: "role",
       headerName: "Role",
       flex: 0.5,
+      renderEditCell: renderSelectEditInputCell,
+      editable: true,
       renderCell: ({ row: { role } }: { row: { role: string } }) => {
         return (
           <Box
@@ -66,8 +116,8 @@ const Admin = (props: Props) => {
               role === "Admin"
                 ? theme.palette.primary[600]
                 : role === "Manager"
-                  ? theme.palette.primary[700]
-                  : theme.palette.primary[800]
+                ? theme.palette.primary[700]
+                : theme.palette.primary[800]
             }
             borderRadius="4px"
           >
@@ -82,6 +132,28 @@ const Admin = (props: Props) => {
       },
     },
   ];
+  function handleCellEditCommit(params: any) {
+    const dataToUpdate = {
+      id: params.id,
+      field: params.field,
+      value: params.value,
+    };
+    console.log(dataToUpdate);
+    // fetch('/my-api/endpoint', {
+    //   method: 'PATCH',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(dataToUpdate),
+    // })
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     // Manejar la respuesta del servidor si es necesario
+    //   })
+    //   .catch(error => {
+    //     // Manejar errores de red si es necesario
+    //   });
+  }
 
   return (
     <LayoutDashboard title={"Admins - Dashboard"}>
@@ -124,6 +196,8 @@ const Admin = (props: Props) => {
               Toolbar: GridToolbar,
               ColumnMenu: CustomColumnMenu,
             }}
+            onCellEditCommit={handleCellEditCommit}
+            // experimentalFeatures={{ newEditingApi: true }}
           />
         </Box>
       </Box>
@@ -131,4 +205,4 @@ const Admin = (props: Props) => {
   );
 };
 
-export default Admin
+export default Admin;
