@@ -25,3 +25,27 @@ https://digitaldreams.vercel.app/
 
 - [@Junior Huanca](https://github.com/JuniorHuanca)
 
+
+## API Reference
+Endpoints created:
+
+#### Get all products
+
+```http
+  Get /api/products
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `none` | `any` | All products in the store |
+
+#### Get product
+
+```http
+  GET /api/products/${id}
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `string` | **Required**. Id of item to fetch |
+
