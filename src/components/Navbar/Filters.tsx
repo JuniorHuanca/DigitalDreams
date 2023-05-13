@@ -80,7 +80,7 @@ const Filters = ({ title }: Props) => {
   return (
     <>
       {title === "productsDashboard" && (
-        <div className="w-full min-h-[5vh] flex flex-wrap gap-y-2 justify-evenly items-center dark:bg-primary-600 bg-grey-50 dark:text-white text-black">
+        <div className="w-full min-h-[5vh] flex flex-wrap gap-y-2 justify-evenly items-center dark:bg-primary-600 bg-grey-10 dark:text-white text-black">
           <select
             className="p-2 dark:bg-primary-500 bg-grey-0 rounded-md"
             name="category"
@@ -191,7 +191,7 @@ const Filters = ({ title }: Props) => {
         </div>
       )}
       {title === "Products" && (
-        <div className="w-full min-h-[5vh] flex flex-wrap gap-y-2 justify-evenly items-center dark:bg-primary-600 bg-grey-50 dark:text-white text-black">
+        <div className="w-full min-h-[5vh] flex flex-wrap gap-y-2 justify-evenly items-center dark:bg-primary-600 bg-grey-10 dark:text-white text-black">
           <select
             className="p-2 dark:bg-primary-500 bg-grey-0 rounded-md"
             name="category"
@@ -376,7 +376,7 @@ const Filters = ({ title }: Props) => {
         </div>
       )}
       {title === "Brand" && (
-        <div className="w-full min-h-[5vh] flex flex-wrap gap-y-2 justify-evenly items-center dark:bg-primary-600 bg-grey-50 dark:text-white text-black">
+        <div className="w-full min-h-[5vh] flex flex-wrap gap-y-2 justify-evenly items-center dark:bg-primary-600 bg-grey-10 dark:text-white text-black">
           <div className="text-black dark:text-white uppercase underline underline-offset-4 w-full text-center md:w-auto md:text-start">
             <span className={` font-semibold text-lg ${styles.span}`}>
               See Categories
