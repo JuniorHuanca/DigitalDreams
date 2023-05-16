@@ -131,7 +131,12 @@ details[open] summary~* {
     transform: translateX(-50%);
   }
 }
-
+@media screen and (max-width:800px) {
+  .track {
+    animation: marquee 10s linear infinite;
+    width: 550%;
+  }
+}
 
 /* estilos para el nuevo nav */
 .nav {
@@ -235,12 +240,7 @@ details[open] summary~* {
 }
 
 /* acaba */
-@media screen and (max-width:800px) {
-  .track {
-    animation: marquee 10s linear infinite;
-    width: 550%;
-  }
-}
+
 
 @tailwind base;
 @tailwind components;

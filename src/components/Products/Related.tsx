@@ -7,13 +7,13 @@ import {
 import { useAppDispatch } from "@/state/store";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import Card from "../Card/Card";
 import { useRouter } from "next/router";
 import { EStateGeneric } from "@/shared/util/types";
 import Loader from "../Loaders/Loader";
 import { Navigation, Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import useMediaQuery from "@/shared/util/useMediaQuery";
+import CardRelated from "../Card/CardRelated";
 type Props = {
   name: string;
   id: number;
@@ -111,7 +111,7 @@ const Related = ({ name, id }: Props) => {
           <div className="marquee">
             <div className="maylike-products-container track">
               {products.map((item) => (
-                <Card key={item.id} product={item} />
+                <CardRelated key={item.id} product={item} />
               ))}
             </div>
           </div>
