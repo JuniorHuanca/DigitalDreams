@@ -8,7 +8,7 @@ type Props = {
 
 const Card = ({ product }: Props) => {
   return (
-    <div className="flex flex-col items-center p-2 max-w-[270px] min-w-[270px] xs:max-w-[240px] xs:min-w-[240px] h-[350px] bg-gradient-to-b rounded-xl dark:from-primary-500 dark:to-primary-700 from-slate-50 to-white hover:scale-95 hover:shadow-xl hover:shadow-slate-400 dark:shadow-indigo-500 transition-all">
+    <div className="flex flex-col items-center p-2 max-w-[90%] min-w-[90%] xs:max-w-[240px] xs:min-w-[240px] h-[400px] xs:h-[350px] bg-gradient-to-b rounded-xl dark:from-primary-500 dark:to-primary-700 from-slate-50 to-white hover:scale-95 hover:shadow-xl hover:shadow-slate-400 dark:shadow-indigo-500 transition-all">
       <Link
         href={`/product/${product.id}`}
         className="w-full relative h-[57%] rounded-xl overflow-hidden"
