@@ -22,8 +22,8 @@ const Success = (props: Props) => {
   const [mounted, setMounted] = useState<boolean>(false);
 
   useEffect(() => {
-    setMounted(true);
-    dispatch(setAllModals());
+      setMounted(true);
+      dispatch(setAllModals());
   }, [router.query.checkoutSession]);
 
   useEffect(() => {

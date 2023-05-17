@@ -1,4 +1,5 @@
 import prisma from "@/lib/prismadb";
+import { emailOrderConfirmation } from "@/shared/util/emails/orderConfirmation";
 import { IProductCart } from "@/shared/util/types";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
@@ -23,9 +24,9 @@ export default async function handler(
     month: "long",
   });
   const { method } = req;
-  // if (!session) {
-  //   return res.status(403).send("forbidden");
-  // }
+  if (!session) {
+    return res.status(403).send("forbidden");
+  }
   switch (method) {
     case "GET":
       try {
@@ -515,6 +516,8 @@ export default async function handler(
               },
             });
           }
+          emailOrderConfirmation(session.user, transaction.id, cart);
+          console.log(cart)
           return res
             .status(200)
             .json({ success: true, transaction, overallStat });
