@@ -1,50 +1,65 @@
-import prisma from '@/lib/prismadb';
-import { NextApiRequest, NextApiResponse } from "next"
+import prisma from "@/lib/prismadb";
+import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    const { method } = req
-    switch (method) {
-        case 'GET':
-            try {
-                // sort should look like this: { "field": "userId", "sort": "desc"}
-                const { page = 1, pageSize = 20, sort = null, search = "" } = req.query;
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const { method } = req;
+  switch (method) {
+    case "GET":
+      try {
+        const { page = 1, pageSize = 20, sort = null, search = "" } = req.query;
+        const generateSort = () => {
+          const sortParsed = JSON.parse(sort as string);
+          const sortFormatted = {
+            [sortParsed.field]: (sortParsed.sort = "asc" ? 1 : -1),
+          };
 
-                // formatted sort should look like { userId: -1 }
-                const generateSort = () => {
-                    const sortParsed = JSON.parse(sort as string);
-                    const sortFormatted = {
-                        [sortParsed.field]: (sortParsed.sort = "asc" ? 1 : -1),
-                    };
-
-                    return sortFormatted;
-                };
-                const sortFormatted = Boolean(sort) ? generateSort() : {};
-
-                // const transactions = await Transaction.find({
-                //     $or: [
-                //         { cost: { $regex: new RegExp(search as string, "i") } },
-                //         { userId: { $regex: new RegExp(search as string, "i") } },
-                //     ],
-                // })
-                //     .sort(sortFormatted as any)
-                //     .skip((page as number) * (pageSize as number))
-                //     .limit(pageSize as number);
-
-                // const total = await Transaction.countDocuments({
-                //     name: { $regex: search, $options: "i" },
-                // });
-
-                // res.status(200).json({
-                //     transactions,
-                //     total,
-                // });
-                res.status(503).json({ success: false })
-            } catch (error: any) {
-                res.status(404).json({ message: error.message });
-            }
-            break
-        default:
-            res.status(400).json({ success: false })
-            break
-    }
+          return sortFormatted;
+        };
+        const searchValue = Number(search);
+        if (search) {
+          const transactions = await prisma.transaction.findMany({
+            where: {
+              OR: [
+                !isNaN(searchValue)
+                  ? { cost: { equals: parseInt(search as string) } }
+                  : { userId: search as string },
+              ],
+            },
+            orderBy: {
+              cost: "desc",
+            },
+            include: {
+              products: true,
+            },
+          });
+          return res.status(200).json({
+            success: true,
+            transactions,
+            total: transactions.length,
+          });
+        }
+        const transactions = await prisma.transaction.findMany({
+          orderBy: {
+            cost: "desc",
+          },
+          include: {
+            products: true,
+          },
+        });
+        res.status(200).json({
+          success: true,
+          transactions,
+          total: transactions.length,
+        });
+      } catch (error: any) {
+        res.status(404).json({ message: error.message });
+      }
+      break;
+    default:
+      res.status(400).json({ success: false });
+      break;
+  }
 }

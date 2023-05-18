@@ -28,9 +28,10 @@ const Transactions = (props: Props) => {
 
   const columns = [
     {
-      field: "_id",
+      field: "id",
       headerName: "ID",
       flex: 1,
+      sortable: true,
     },
     {
       field: "userId",
@@ -45,9 +46,9 @@ const Transactions = (props: Props) => {
     {
       field: "products",
       headerName: "# of Products",
-      flex: 0.5,
+      flex: 1,
       sortable: false,
-      renderCell: (params: { value: string | any[] }) => params.value.length,
+      renderCell: (params: { value: any }) => params.value.length,
     },
     {
       field: "cost",
@@ -58,6 +59,9 @@ const Transactions = (props: Props) => {
     },
   ];
 
+
+  console.log(search)
+  console.log(searchInput)
   return (
     <LayoutDashboard title={"Transactions - Dashboard"}>
       <Box m="1.5rem 2.5rem">
@@ -91,7 +95,7 @@ const Transactions = (props: Props) => {
         >
           <DataGrid
             loading={isLoading || !data}
-            getRowId={(row) => row._id}
+            getRowId={(row) => row.id}
             rows={(data && data.transactions) || []}
             columns={columns as any}
             // rowCount={(data && data.total) || 0}
@@ -99,8 +103,8 @@ const Transactions = (props: Props) => {
             pagination
             page={page}
             pageSize={pageSize}
-            paginationMode="server"
-            sortingMode="server"
+            // paginationMode="server"
+            // sortingMode="server"
             onPageChange={(newPage) => setPage(newPage)}
             onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
             onSortModelChange={(newSortModel) => setSort(newSortModel)}
