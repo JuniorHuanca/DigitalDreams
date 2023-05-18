@@ -44,17 +44,11 @@ export default async function handler(
             where: {
               month,
             },
-            // include: {
-            //   accounts: true,
-            // },
           });
           return res.status(200).json(data);
         }
         if (dailyData) {
           const data = await prisma.dailyData.findMany({
-            // include: {
-            //   accounts: true,
-            // },
           });
           return res.status(200).json(data);
         }
@@ -80,17 +74,6 @@ export default async function handler(
               checkoutSession: checkoutSession,
             },
           });
-          // const transaction = await prisma.transaction.upsert({
-          //   where: {
-          //     checkoutSession: checkoutSession,
-          //   },
-          //   update: {},
-          //   create: {
-          //     user: { connect: { id: session.user.id } },
-          //     cost: totalPrice,
-          //     checkoutSession: checkoutSession,
-          //   },
-          // });
           for (const cartItem of cart) {
             const productId: number = cartItem.product.id;
             const quantity: number = cartItem.quantity;
@@ -108,52 +91,6 @@ export default async function handler(
               where: { productId: productId, year: year },
             });
             if (productStat) {
-              // const monthlyData = await prisma.monthlyData.findUnique({
-              //   where: { month: month, productStatId: productStat.id },
-              // });
-              // const dailyData = await prisma.dailyData.findUnique({
-              //   where: { date: date, productStatId: productStat.id },
-              // });
-              // if (monthlyData) {
-              //   await prisma.monthlyData.update({
-              //     where: { id: monthlyData.id },
-              //     data: {
-              //       totalSales: {
-              //         increment: cartItem.product.price * quantity,
-              //       },
-              //       totalUnits: { increment: quantity },
-              //     },
-              //   });
-              // } else {
-              //   await prisma.monthlyData.create({
-              //     data: {
-              //       month: month,
-              //       totalSales: cartItem.product.price * quantity,
-              //       totalUnits: quantity,
-              //       productStat: { connect: { id: productStat.id } },
-              //     },
-              //   });
-              // }
-              // if (dailyData) {
-              //   await prisma.dailyData.update({
-              //     where: { id: dailyData.id },
-              //     data: {
-              //       totalSales: {
-              //         increment: cartItem.product.price * quantity,
-              //       },
-              //       totalUnits: { increment: quantity },
-              //     },
-              //   });
-              // } else {
-              //   await prisma.dailyData.create({
-              //     data: {
-              //       date: date,
-              //       totalSales: cartItem.product.price * quantity,
-              //       totalUnits: quantity,
-              //       productStat: { connect: { id: productStat.id } },
-              //     },
-              //   });
-              // }
               const existingMonthlyData = await prisma.monthlyData.findFirst({
                 where: {
                   productStatId: productStat.id,
@@ -206,33 +143,6 @@ export default async function handler(
                   },
                 });
               }
-              // await prisma.monthlyData.upsert({
-              //   where: { productStatId: productStat.id },
-              //   create: {
-              //     month: month,
-              //     totalSales: cartItem.product.price * quantity,
-              //     totalUnits: quantity,
-              //     productStat: { connect: { id: productStat.id } },
-              //   },
-              //   update: {
-              //     totalSales: { increment: cartItem.product.price * quantity },
-              //     totalUnits: { increment: quantity },
-              //   },
-              // });
-              // await prisma.dailyData.upsert({
-              //   where: { productStatId: productStat.id },
-              //   create: {
-              //     date: date,
-              //     totalSales: cartItem.product.price * quantity,
-              //     totalUnits: quantity,
-              //     productStat: { connect: { id: productStat.id } },
-              //   },
-              //   update: {
-              //     totalSales: { increment: cartItem.product.price * quantity },
-              //     totalUnits: { increment: quantity },
-              //   },
-              // });
-
               await prisma.productStat.update({
                 where: { id: productStat.id },
                 data: {
@@ -253,36 +163,6 @@ export default async function handler(
                   yearlySalesTotal: cartItem.product.price * quantity,
                   yearlyTotalSoldUnits: quantity,
                   year: year,
-                  // monthlyData: {
-                  //   connectOrCreate: [
-                  //     {
-                  //       create: {
-                  //         month: month,
-                  //         totalSales: cartItem.product.price * quantity,
-                  //         totalUnits: quantity,
-                  //       },
-                  //       where: {
-                  //         // month: month,
-                  //         productStatId: productId,
-                  //       },
-                  //     },
-                  //   ],
-                  // },
-                  // dailyData: {
-                  //   connectOrCreate: [
-                  //     {
-                  //       create: {
-                  //         date: date,
-                  //         totalSales: cartItem.product.price * quantity,
-                  //         totalUnits: quantity,
-                  //       },
-                  //       where: {
-                  //         // date: date,
-                  //         productStatId: productId,
-                  //       },
-                  //     },
-                  //   ],
-                  // },
                 },
               });
               const existingMonthlyData = await prisma.monthlyData.findFirst({
@@ -421,39 +301,6 @@ export default async function handler(
               salesByCategory: salesByCategory,
             },
           });
-          // await prisma.overallStat.update({
-          //   where: { id: overallStat.id },
-          //   data: {
-          //     monthlyData: {
-          //       connectOrCreate: [
-          //         {
-          //           create: {
-          //             month: month,
-          //             totalSales: totalSalesMonthly,
-          //             totalUnits: totalUnitsMonthly,
-          //           },
-          //           where: {
-          //             overallStatId: overallStat.id,
-          //           },
-          //         },
-          //       ],
-          //     },
-          //     dailyData: {
-          //       connectOrCreate: [
-          //         {
-          //           create: {
-          //             date: date,
-          //             totalSales: totalSalesDataDaily,
-          //             totalUnits: totalUnitsDataDaily,
-          //           },
-          //           where: {
-          //             overallStatId: overallStat.id,
-          //           },
-          //         },
-          //       ],
-          //     },
-          //   },
-          // });
           const existingMonthlyData = await prisma.monthlyData.findFirst({
             where: {
               overallStatId: overallStat.id,
@@ -517,7 +364,6 @@ export default async function handler(
             });
           }
           emailOrderConfirmation(session.user, transaction.id, cart);
-          console.log(cart)
           return res
             .status(200)
             .json({ success: true, transaction, overallStat });

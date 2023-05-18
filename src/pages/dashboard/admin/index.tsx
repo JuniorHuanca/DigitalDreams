@@ -21,6 +21,7 @@ import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettin
 import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import LayoutDashboard from "@/components/Layouts/LayoutDashboard";
+import { toast } from "react-hot-toast";
 
 type Props = {};
 function SelectEditInputCell(props: GridRenderCellParams) {
@@ -74,7 +75,6 @@ const Admin = (props: Props) => {
       field: "email",
       headerName: "Email",
       flex: 1,
-      editable: true,
     },
     // {
     //   field: "phoneNumber",
@@ -89,14 +89,12 @@ const Admin = (props: Props) => {
       headerName: "Country",
       flex: 0.4,
       editable: true,
-
     },
     {
       field: "occupation",
       headerName: "Occupation",
       flex: 1,
       editable: true,
-
     },
     {
       field: "role",
@@ -138,21 +136,25 @@ const Admin = (props: Props) => {
       field: params.field,
       value: params.value,
     };
-    console.log(dataToUpdate);
-    // fetch('/my-api/endpoint', {
-    //   method: 'PATCH',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(dataToUpdate),
-    // })
-    //   .then(response => response.json())
-    //   .then(data => {
-    //     // Manejar la respuesta del servidor si es necesario
-    //   })
-    //   .catch(error => {
-    //     // Manejar errores de red si es necesario
-    //   });
+    fetch("/api/dashboard/management/admins", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(dataToUpdate),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status) {
+          return toast.error(data.message);
+        }
+        return toast.success(data.message);
+      })
+      .catch((error) => {
+        toast.error(
+          "Sorry, an error occurred in the system. We are working to fix it as soon as possible."
+        );
+      });
   }
 
   return (
