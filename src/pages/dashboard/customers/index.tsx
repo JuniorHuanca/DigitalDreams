@@ -2,7 +2,13 @@ import DataGridCustom from "@/components/DataGridCustom";
 import Header from "@/components/Dashboard/Header";
 import { ITheme } from "@/shared/util/types";
 import { useGetCustomersQuery } from "@/state/api";
-import { Box, useTheme, Typography } from "@mui/material";
+import {
+  Box,
+  useTheme,
+  Typography,
+  SelectChangeEvent,
+  Select,
+} from "@mui/material";
 import {
   DataGrid,
   GridToolbar,
@@ -13,6 +19,8 @@ import {
   GridCellEditStopParams,
   GridCellEditStopReasons,
   MuiEvent,
+  useGridApiContext,
+  GridRenderCellParams,
 } from "@mui/x-data-grid";
 import {
   AdminPanelSettingsOutlined,
@@ -20,8 +28,39 @@ import {
   SecurityOutlined,
 } from "@mui/icons-material";
 import LayoutDashboard from "@/components/Layouts/LayoutDashboard";
+import { toast } from "react-hot-toast";
 type Props = {};
+function SelectEditInputCell(props: GridRenderCellParams) {
+  const { id, value, field } = props;
+  const apiRef = useGridApiContext();
 
+  const handleChange = async (event: SelectChangeEvent) => {
+    await apiRef.current.setEditCellValue({
+      id,
+      field,
+      value: event.target.value,
+    });
+    // apiRef.current.stopCellEditMode({ id, field });
+  };
+
+  return (
+    <Select
+      value={value}
+      onChange={handleChange}
+      size="small"
+      sx={{ height: 1 }}
+      native
+      autoFocus
+    >
+      <option>Admin</option>
+      <option>Manager</option>
+      <option>User</option>
+    </Select>
+  );
+}
+const renderSelectEditInputCell: GridColDef["renderCell"] = (params) => {
+  return <SelectEditInputCell {...params} />;
+};
 const Customers = (props: Props) => {
   const theme: ITheme = useTheme();
   const { data, isLoading } = useGetCustomersQuery(null);
@@ -74,6 +113,7 @@ const Customers = (props: Props) => {
       headerName: "Role",
       editable: true,
       flex: 0.5,
+      renderEditCell: renderSelectEditInputCell,
       renderCell: ({ row: { role } }: { row: { role: string } }) => {
         return (
           <Box
@@ -102,18 +142,32 @@ const Customers = (props: Props) => {
       },
     },
   ];
-  // async function handleEdit(params: GridValueGetterParams) {
-  //     const id = params.row.id
-  //     const value = params.row.name
-  //     const response = await fetch('/api/client/customers', {
-  //         method: 'PATCH',
-  //         headers: {
-  //             'Content-Type': 'application/json'
-  //         },
-  //         body: JSON.stringify({ value, id })
-  //     });
-  //     return await response.json();
-  // }
+  function handleCellEditCommit(params: any) {
+    const dataToUpdate = {
+      id: params.id,
+      field: params.field,
+      value: params.value,
+    };
+    fetch("/api/dashboard/management/users", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(dataToUpdate),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status) {
+          return toast.error(data.message);
+        }
+        return toast.success(data.message);
+      })
+      .catch((error) => {
+        toast.error(
+          "Sorry, an error occurred in the system. We are working to fix it as soon as possible."
+        );
+      });
+  }
   return (
     <LayoutDashboard title={"Customers - Dashboard"}>
       <Box m="1.5rem 2.5rem">
@@ -126,15 +180,15 @@ const Customers = (props: Props) => {
               border: "none",
             },
             "& .MuiDataGrid-cell": {
-              backgroundColor: theme.palette.background.alt,
+              // backgroundColor: theme.palette.background.alt,
               borderBottom: "none",
             },
             "& .MuiDataGrid-cell:hover": {
               backgroundColor: theme.palette.primary[700],
             },
             "& .MuiDataGrid-columnHeaders": {
-              backgroundColor: theme.palette.primary[800],
-              color: theme.palette.secondary[50],
+              backgroundColor: theme.palette.background.alt,
+              color: theme.palette.secondary[100],
               borderBottom: "none",
             },
             "& .MuiDataGrid-virtualScroller": {
@@ -156,6 +210,7 @@ const Customers = (props: Props) => {
             rows={data || []}
             columns={columns as any}
             components={{ Toolbar: GridToolbar }}
+            onCellEditCommit={handleCellEditCommit}
           />
         </Box>
       </Box>

@@ -13,28 +13,10 @@ export default async function handler(
   }
 
   switch (method) {
-    case "GET":
-      try {
-        const admins = await prisma.user.findMany({
-          where: {
-            OR: [
-              {
-                role: "Admin",
-              },
-              {
-                role: "Manager",
-              },
-            ],
-          },
-        });
-        res.status(200).json(admins);
-      } catch (error: any) {
-        res.status(400).json({ success: false, error: error });
-      }
-      break;
     case "PATCH":
       try {
         const { id, field, value } = req.body;
+        console.log(id, field, value);
         if (session.user.role !== "Admin") {
           return res.status(403).json({
             message: "You need the administrator role to make changes.",
@@ -59,6 +41,7 @@ export default async function handler(
         res
           .status(201)
           .json({ userUpdate, message: "It was successfully updated." });
+        res.status(200).json({ success: true });
       } catch (error: any) {
         res.status(400).json({ success: false, error: error });
       }

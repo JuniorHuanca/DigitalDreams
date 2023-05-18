@@ -131,6 +131,23 @@ const UserProfileMobile = ({ user }: Props) => {
             </div>
           </Link>
         )}
+        {user?.role === "Manager" && (
+          <Link href={"/dashboard"}>
+            <div className="flex gap-2 ss:gap-5 border-b-1 border-color p-4 hover:bg-slate-300 cursor-pointer dark:hover:bg-primary-600">
+              <button className=" text-xl rounded-lg p-2 ss:p-3 bg-blue-600 dark:bg-slate-50 text-primary-700">
+                <MdAdminPanelSettings />
+              </button>
+
+              <div>
+                <p className="font-semibold dark:text-gray-200 ">Dashboard</p>
+                <p className="text-gray-500 text-sm dark:text-gray-400">
+                  {" "}
+                  Account and performance summary{" "}
+                </p>
+              </div>
+            </div>
+          </Link>
+        )}
       </div>
       <div className="mt-5">
         {user && (

@@ -13,7 +13,7 @@ export default withAuth(
         const { pathname } = req.nextUrl;
         // `/dashboard` requires admin role
         if (pathname.startsWith("/dashboard")) {
-          return token?.role === "Admin";
+          return token?.role === "Admin" || token?.role === "Manager";
         }
         // `/other` only requires the user to be logged in
         return !!token;
