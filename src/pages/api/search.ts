@@ -12,6 +12,7 @@ export default async function handler(
       try {
         const products = await prisma.product.findMany({
           where: {
+            deleted: false,
             OR: [
               { name: { contains: search as string, mode: "insensitive" } },
               // { city: { contains: search, mode: "insensitive" } },

@@ -37,7 +37,9 @@ const DeleteConfirmation = ({ item, cancel, type, handleDelete }: Props) => {
         )}
         {type === "product" && (
           <div className="flex flex-col items-center gap-2">
-            <h2 className="text-xl font-semibold"><span className="underline">Delete</span> {item.name}</h2>
+            <h2 className="text-xl font-semibold">
+              <span className="underline">Delete</span> {item.name}
+            </h2>
             <p>
               Are you sure you want to delete this product from your shopping
               cart? Please note that this action cannot be undone and the
@@ -54,6 +56,88 @@ const DeleteConfirmation = ({ item, cancel, type, handleDelete }: Props) => {
               </button>
               <button
                 className="p-3 rounded-lg bg-indigo-500 text-white"
+                type="button"
+                onClick={() => cancel(null)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
+        {type === "productDashbordDelete" && (
+          <div className="flex flex-col items-center gap-2">
+            <h2 className="text-xl font-semibold">
+              <span className="underline">Delete</span> {item.name}
+            </h2>
+            <p>
+              Are you sure you want to delete this product? Please note that
+              this action cannot be undone and the product will be permanently
+              removed. Please confirm if you wish to proceed with the deletion.
+            </p>
+            <div className="w-full flex justify-evenly">
+              <button
+                className="p-3 rounded-lg bg-red-500 text-white"
+                type="button"
+                onClick={handleDelete}
+              >
+                Delete
+              </button>
+              <button
+                className="p-3 rounded-lg bg-indigo-500 text-white"
+                type="button"
+                onClick={() => cancel(null)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
+        {type === "productDashbord" && (
+          <div className="flex flex-col items-center gap-2">
+            <h2 className="text-xl font-semibold">
+              <span className="underline">Delete</span> {item.name}
+            </h2>
+            <p>
+              Are you sure you want to delete this product? Note that this
+              action still has the possibility to be changed later
+            </p>
+            <div className="w-full flex justify-evenly">
+              <button
+                className="p-3 rounded-lg bg-red-500 text-white"
+                type="button"
+                onClick={handleDelete}
+              >
+                Delete
+              </button>
+              <button
+                className="p-3 rounded-lg bg-indigo-500 text-white"
+                type="button"
+                onClick={() => cancel(null)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
+        {type === "restoreProductDashbord" && (
+          <div className="flex flex-col items-center gap-2">
+            <h2 className="text-xl font-semibold">
+              <span className="underline">Restore</span> {item.name}
+            </h2>
+            <p>
+              Are you sure you want to restore this product? Said action will
+              put the product online again.
+            </p>
+            <div className="w-full flex justify-evenly">
+              <button
+                className="p-3 rounded-lg bg-indigo-500 text-white"
+                type="button"
+                onClick={handleDelete}
+              >
+                Restore
+              </button>
+              <button
+                className="p-3 rounded-lg bg-red-500 text-white"
                 type="button"
                 onClick={() => cancel(null)}
               >

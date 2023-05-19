@@ -82,6 +82,7 @@ CREATE TABLE "Product" (
     "rating" DOUBLE PRECISION DEFAULT 0,
     "stock" INTEGER NOT NULL DEFAULT 25,
     "soldCount" INTEGER,
+    "deleted" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 

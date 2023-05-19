@@ -3,6 +3,8 @@ import axios from "axios";
 export const getProductsByApi = () => axios.get(`/api/products`);
 export const getProductsDashboardByApi = () =>
   axios.get(`/api/dashboard/client/products`);
+export const getRemovedProductsDashboardByApi = () =>
+  axios.get(`/api/dashboard/client/products?deleted=true`);
 export const getProductsRecommendedByApi = () =>
   axios.get(`/api/products?recommended=true`);
 export const getProductsBrandsByApi = () =>

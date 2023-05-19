@@ -40,6 +40,7 @@ export default async function handler(
               const product = await prisma.product.findFirst({
                 where: {
                   subcategoryId: subcategory?.id,
+                  deleted: false,
                 },
                 include: {
                   brand: true,
@@ -61,6 +62,9 @@ export default async function handler(
         }
         if (mostSelling) {
           const products = await prisma.product.findMany({
+            where: {
+              deleted: false,
+            },
             take: 20,
             include: {
               brand: true,
@@ -87,7 +91,7 @@ export default async function handler(
             },
           });
           const products = await prisma.product.findMany({
-            where: { brandId: findBrand?.id },
+            where: { brandId: findBrand?.id, deleted: false },
             include: {
               brand: true,
               subcategory: {
@@ -113,6 +117,7 @@ export default async function handler(
               const product = await prisma.product.findFirst({
                 where: {
                   brandId: category?.id,
+                  deleted: false,
                 },
                 include: {
                   brand: true,
@@ -135,6 +140,7 @@ export default async function handler(
         if (category) {
           const products = await prisma.product.findMany({
             where: {
+              deleted: false,
               subcategory: { category: { name: category as string } },
             },
             include: {
@@ -179,6 +185,7 @@ export default async function handler(
         if (related && id) {
           const products = await prisma.product.findMany({
             where: {
+              deleted: false,
               NOT: {
                 id: parseInt(id as string),
               },
@@ -212,6 +219,9 @@ export default async function handler(
               });
         }
         const products = await prisma.product.findMany({
+          where: {
+            deleted: false,
+          },
           include: {
             brand: true,
             subcategory: {

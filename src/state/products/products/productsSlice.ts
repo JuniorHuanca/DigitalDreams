@@ -11,6 +11,7 @@ import {
   getProductsCategoryByApi,
   getBrandsByApi,
   getProductsDashboardByApi,
+  getRemovedProductsDashboardByApi,
 } from "./productsApi";
 import { RootState } from "@/state/store";
 
@@ -25,11 +26,24 @@ export const getAllProducts = createAsyncThunk(
     }
   }
 );
+
 export const getAllProductsDashboard = createAsyncThunk(
   "products/getAllProductsDashboard",
   async (_, { rejectWithValue }) => {
     try {
       const response = await getProductsDashboardByApi();
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const getAllRemovedProductsDashboard = createAsyncThunk(
+  "products/getAllRemovedProductsDashboard",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await getRemovedProductsDashboardByApi();
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
@@ -136,6 +150,7 @@ export const getAllProductsCategory = createAsyncThunk(
 interface IProductsState {
   products: IProduct[];
   productsDashboard: IPdashboard[];
+  removedProductsDashboard: IPdashboard[];
   allItems: IProduct[];
   productsBySearch: IProduct[];
   productsCategory: IProduct[];
@@ -150,6 +165,7 @@ interface IProductsState {
   productsRelateds: IProduct[];
   allProductsStatus: EStateGeneric;
   allProductsStatusDashboard: EStateGeneric;
+  allRemovedProductsStatusDashboard: EStateGeneric;
   allProductsStatusCategory: EStateGeneric;
   allProductsStatusBrand: EStateGeneric;
   allProductsStatusBrands: EStateGeneric;
@@ -161,6 +177,7 @@ interface IProductsState {
 const initialState = {
   products: [],
   productsDashboard: [],
+  removedProductsDashboard: [],
   allItems: [],
   productsBySearch: [],
   productsCategory: [],
@@ -175,6 +192,7 @@ const initialState = {
   productsRelateds: [],
   allProductsStatus: EStateGeneric.IDLE,
   allProductsStatusDashboard: EStateGeneric.IDLE,
+  allRemovedProductsStatusDashboard: EStateGeneric.IDLE,
   allProductsStatusCategory: EStateGeneric.IDLE,
   allProductsStatusBrand: EStateGeneric.IDLE,
   allProductsStatusBrands: EStateGeneric.IDLE,
@@ -200,6 +218,13 @@ const productsSlice = createSlice({
         ...state,
         productsDashboard: [],
         allProductsStatusDashboard: EStateGeneric.IDLE,
+      };
+    },
+    cleanUpRemovedProductsDashboard: (state) => {
+      return {
+        ...state,
+        removedProductsDashboard: [],
+        allRemovedProductsStatusDashboard: EStateGeneric.IDLE,
       };
     },
     cleanUpProductsRecommended: (state) => {
@@ -438,6 +463,17 @@ const productsSlice = createSlice({
       state.allProductsStatusDashboard = EStateGeneric.FAILED;
     });
 
+    builder.addCase(getAllRemovedProductsDashboard.fulfilled, (state, action) => {
+      state.removedProductsDashboard = action.payload;
+      state.allRemovedProductsStatusDashboard = EStateGeneric.SUCCEEDED;
+    });
+    builder.addCase(getAllRemovedProductsDashboard.pending, (state, action) => {
+      state.allRemovedProductsStatusDashboard = EStateGeneric.PENDING;
+    });
+    builder.addCase(getAllRemovedProductsDashboard.rejected, (state, action) => {
+      state.allRemovedProductsStatusDashboard = EStateGeneric.FAILED;
+    });
+
     builder.addCase(getAllProductsRecommended.fulfilled, (state, action) => {
       state.productsRecommended = action.payload.products;
       state.allProductsStatusRecommended = EStateGeneric.SUCCEEDED;
@@ -523,6 +559,8 @@ export default productsSlice.reducer;
 export const allProducts = (store: RootState) => store.products.products;
 export const allProductsDashboard = (store: RootState) =>
   store.products.productsDashboard;
+export const allRemovedProductsDashboard = (store: RootState) =>
+  store.products.removedProductsDashboard;
 export const allProductsRecommended = (store: RootState) =>
   store.products.productsRecommended;
 export const allProductsBrand = (store: RootState) =>
@@ -546,6 +584,7 @@ export const {
   cleanUpProductsBrand,
   cleanUpProducts,
   cleanUpProductsDashboard,
+  cleanUpRemovedProductsDashboard,
   cleanUpProductsMostSelling,
   cleanUpProductsRelated,
   cleanUpProductsCategory,
@@ -563,6 +602,8 @@ export const selectAllProductsStatus = (state: RootState) =>
   state.products.allProductsStatus;
 export const selectAllProductsStatusDashboard = (state: RootState) =>
   state.products.allProductsStatusDashboard;
+export const selectAllRemovedProductsStatusDashboard = (state: RootState) =>
+  state.products.allRemovedProductsStatusDashboard;
 export const selectAllProductsRecommendedStatus = (state: RootState) =>
   state.products.allProductsStatusRecommended;
 export const selectAllProductsBrandStatus = (state: RootState) =>

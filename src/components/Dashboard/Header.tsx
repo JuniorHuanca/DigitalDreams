@@ -11,7 +11,7 @@ const Header = ({ title, subtitle }: Props) => {
         <Box>
             <Typography
                 variant="h2"
-                color={theme.palette.secondary[100]}
+                // color={theme.palette.secondary[100]}
                 fontWeight="bold"
                 sx={{ mb: "5px" }}
             >

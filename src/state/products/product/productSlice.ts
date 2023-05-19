@@ -1,11 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { EStateGeneric, IProduct } from "@/shared/util/types";
 import {
+  deleteProductByApi,
+  deleteProductForEverByApi,
   deleteReviewApi,
   getProductByApi,
   getReviewsProductByApi,
   postReviewApi,
   putReviewApi,
+  restoreProductByApi,
 } from "./productApi";
 import { RootState } from "@/state/store";
 
@@ -93,6 +96,42 @@ export const deleteOneReview = createAsyncThunk(
     }
   }
 );
+
+export const deleteOneProduct = createAsyncThunk(
+  "product/deleteOneProduct",
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const response = await deleteProductByApi(id);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const deleteOneProductForEver = createAsyncThunk(
+  "product/deleteOneProductForEver",
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const response = await deleteProductForEverByApi(id);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const restoreOneProduct = createAsyncThunk(
+  "product/restoreOneProduct",
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const response = await restoreProductByApi(id);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 interface IProductState {
   product: IProduct;
   reviews: [];
@@ -100,6 +139,7 @@ interface IProductState {
   allReviewsStatus: EStateGeneric;
   postReviewStatus: EStateGeneric;
   deleteReviewStatus: EStateGeneric;
+  deleteProductStatus: EStateGeneric;
 }
 const initialState = {
   product: {},
@@ -108,6 +148,7 @@ const initialState = {
   allReviewsStatus: EStateGeneric.IDLE,
   postReviewStatus: EStateGeneric.IDLE,
   deleteReviewStatus: EStateGeneric.IDLE,
+  deleteProductStatus: EStateGeneric.IDLE,
 } as IProductState;
 
 const productSlice = createSlice({
@@ -206,6 +247,24 @@ const productSlice = createSlice({
     builder.addCase(deleteOneReview.rejected, (state, action) => {
       state.deleteReviewStatus = EStateGeneric.FAILED;
     });
+
+    builder.addCase(deleteOneProduct.fulfilled, (state, action) => {
+      state.deleteProductStatus = EStateGeneric.SUCCEEDED;
+    });
+    builder.addCase(deleteOneProduct.pending, (state, action) => {
+      state.deleteProductStatus = EStateGeneric.PENDING;
+    });
+    builder.addCase(deleteOneProduct.rejected, (state, action) => {
+      state.deleteProductStatus = EStateGeneric.FAILED;
+    });
+
+    builder.addCase(restoreOneProduct.fulfilled, (state, action) => {});
+    builder.addCase(restoreOneProduct.pending, (state, action) => {});
+    builder.addCase(restoreOneProduct.rejected, (state, action) => {});
+
+    builder.addCase(deleteOneProductForEver.fulfilled, (state, action) => {});
+    builder.addCase(deleteOneProductForEver.pending, (state, action) => {});
+    builder.addCase(deleteOneProductForEver.rejected, (state, action) => {});
   },
 });
 

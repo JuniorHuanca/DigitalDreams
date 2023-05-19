@@ -12,6 +12,18 @@ import {
   useTheme,
   useMediaQuery,
 } from "@mui/material";
+import DeleteConfirmation from "@/components/Modals/DeleteConfirmation";
+import { toast } from "react-hot-toast";
+import { useAppDispatch } from "@/state/store";
+import {
+  deleteOneProduct,
+  deleteOneProductForEver,
+  restoreOneProduct,
+} from "@/state/products/product/productSlice";
+import {
+  getAllProductsDashboard,
+  getAllRemovedProductsDashboard,
+} from "@/state/products/products/productsSlice";
 
 type Props = {
   id: number;
@@ -37,8 +49,49 @@ const Product = ({
   ProductStat,
   deleted,
 }: Props) => {
+  const dispatch = useAppDispatch();
   const theme: ITheme = useTheme();
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const [deleteModal, setDeleteModal] = useState<any>(null);
+  const [deleteModalForEver, setDeleteModalForEver] = useState<any>(null);
+  const [restoreModal, setRestoreModal] = useState<any>(null);
+  const handleDeleteForEver = async () => {
+    try {
+      const response: any = await dispatch(deleteOneProductForEver(id));
+      if (response.payload.success) {
+        toast.success("Product successfully deleted");
+        await dispatch(getAllProductsDashboard());
+        await dispatch(getAllRemovedProductsDashboard());
+        setDeleteModal(null);
+      }
+    } catch (error) {
+      toast.error("something went wrong");
+    }
+  };
+  const handleDelete = async () => {
+    try {
+      const response: any = await dispatch(deleteOneProduct(id));
+      if (response.payload.success) {
+        toast.success("Product successfully removed");
+        await dispatch(getAllProductsDashboard());
+        setDeleteModal(null);
+      }
+    } catch (error) {
+      toast.error("something went wrong");
+    }
+  };
+  const handleRestore = async () => {
+    try {
+      const response: any = await dispatch(restoreOneProduct(id));
+      if (response.payload.success) {
+        toast.success("Product successfully restored");
+        await dispatch(getAllRemovedProductsDashboard());
+        setDeleteModal(null);
+      }
+    } catch (error) {
+      toast.error("something went wrong");
+    }
+  };
   return (
     <Card
       sx={{
@@ -81,17 +134,65 @@ const Product = ({
           </button>
         )}
         {!deleted && (
-          <button className="uppercase text-xs bg-red-500/60 dark:bg-red-500/75 hover:border-[1px] p-2 transition-all">
+          <button
+            className="uppercase text-xs bg-red-500/60 dark:bg-red-500/75 hover:border-[1px] p-2 transition-all"
+            onClick={() =>
+              setDeleteModal({
+                id,
+                image,
+                name,
+                description,
+                price,
+                rating,
+                category,
+                supply,
+                ProductStat,
+                deleted,
+              })
+            }
+          >
             delete
           </button>
         )}
         {deleted && (
-          <button className="uppercase text-xs bg-blue-500/60 dark:bg-blue-500/75 hover:border-[1px] p-2 transition-all">
+          <button
+            className="uppercase text-xs bg-blue-500/60 dark:bg-blue-500/75 hover:border-[1px] p-2 transition-all"
+            onClick={() =>
+              setRestoreModal({
+                id,
+                image,
+                name,
+                description,
+                price,
+                rating,
+                category,
+                supply,
+                ProductStat,
+                deleted,
+              })
+            }
+          >
             restore
           </button>
         )}
         {deleted && (
-          <button className="uppercase text-xs bg-red-500/60 dark:bg-red-500/75 hover:border-[1px] p-2 transition-all">
+          <button
+            className="uppercase text-xs bg-red-500/60 dark:bg-red-500/75 hover:border-[1px] p-2 transition-all"
+            onClick={() =>
+              setDeleteModalForEver({
+                id,
+                image,
+                name,
+                description,
+                price,
+                rating,
+                category,
+                supply,
+                ProductStat,
+                deleted,
+              })
+            }
+          >
             delete
           </button>
         )}
@@ -116,6 +217,30 @@ const Product = ({
           </Typography>
         </CardContent>
       </Collapse>
+      {deleteModal && (
+        <DeleteConfirmation
+          item={deleteModal}
+          cancel={setDeleteModal}
+          type="productDashbord"
+          handleDelete={handleDelete}
+        />
+      )}
+      {deleteModalForEver && (
+        <DeleteConfirmation
+          item={deleteModalForEver}
+          cancel={setDeleteModal}
+          type="productDashbordDelete"
+          handleDelete={handleDeleteForEver}
+        />
+      )}
+      {restoreModal && (
+        <DeleteConfirmation
+          item={restoreModal}
+          cancel={setRestoreModal}
+          type="restoreProductDashbord"
+          handleDelete={handleRestore}
+        />
+      )}
     </Card>
   );
 };
