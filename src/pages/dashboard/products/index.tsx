@@ -1,151 +1,69 @@
-import {
-  Box,
-  Card,
-  CardActions,
-  CardContent,
-  Collapse,
-  Button,
-  Typography,
-  Rating,
-  useTheme,
-  useMediaQuery,
-} from "@mui/material";
-import { useGetProductsQuery } from "@/state/api";
-import Header from "@/components/Dashboard/Header";
-import Product from "@/components/Product/Product";
-import Loader from "@/components/Loaders/Loader";
+import { Box } from "@mui/material";
 import LayoutDashboard from "@/components/Layouts/LayoutDashboard";
-import { useSelector } from "react-redux";
-import { selectCurrentPage } from "@/state/globalSlice";
-import Pagination from "@/components/Pagination";
-import Filters from "@/components/Navbar/Filters";
-import {
-  allProductsDashboard,
-  cleanUpProductsDashboard,
-  getAllProductsDashboard,
-  selectAllProductsStatusDashboard,
-} from "@/state/products/products/productsSlice";
-import { useEffect } from "react";
-import { useAppDispatch } from "@/state/store";
-import { useRouter } from "next/router";
-import { EStateGeneric, ITheme } from "@/shared/util/types";
-import NotFound from "@/assets/404Products.gif";
-import NotFoundMobile from "@/assets/404MobileProducts.gif";
-import NotFoundDark from "@/assets/404ProductsDark.gif";
-import NotFoundDarkMobile from "@/assets/404MobileProductsDark.gif";
-import Image from "next/image";
+import { FiberNew, ShoppingCartOutlined, Delete } from "@mui/icons-material";
+import { useState } from "react";
+import NewProduct from "@/components/Dashboard/Products/NewProduct";
+import RemovedProducts from "@/components/Dashboard/Products/RemovedProducts";
+import Products from "@/components/Dashboard/Products/Products";
 type Props = {};
 
-const Products = (props: Props) => {
-  // const { data, isLoading } = useGetProductsQuery(null);
-  const theme: ITheme = useTheme();
-  const { mode } = theme.palette;
-  const isNonMobile = useMediaQuery("(min-width: 1000px)");
-  const isAboveSmallScreens = useMediaQuery("(min-width: 620px)");
-  const dispatch = useAppDispatch();
-  const router = useRouter();
-  const productsStatus = useSelector(selectAllProductsStatusDashboard);
-  const products = useSelector(allProductsDashboard);
-
-  const itemsPerPage = 24;
-  const currentPage = useSelector(selectCurrentPage);
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = products.slice(indexOfFirstItem, indexOfLastItem);
-
-  useEffect(() => {
-    (async () => {
-      if (router.isReady) {
-        if (productsStatus === EStateGeneric.IDLE) {
-          await dispatch(getAllProductsDashboard());
-        }
-      }
-    })();
-
-    return () => {
-      dispatch(cleanUpProductsDashboard());
-    };
-  }, []);
+const ProductsDashboard = (props: Props) => {
+  const [component, setComponent] = useState({
+    products: true,
+    new: false,
+    removed: false,
+  });
   return (
     <LayoutDashboard title={"Dashboard - Products"}>
       <Box m="1.5rem 2.5rem">
-        <Header title="PRODUCTS" subtitle="See your list of products" />
-        {productsStatus === EStateGeneric.SUCCEEDED && (
-          <>
-            <Filters title="productsDashboard" />
-            <Box
-              mt="20px"
-              display="grid"
-              gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-              justifyContent="space-between"
-              rowGap="20px"
-              columnGap="1.33%"
-              sx={{
-                "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-              }}
-            >
-              {currentItems.map(
-                ({
-                  id,
-                  image,
-                  name,
-                  description,
-                  price,
-                  rating,
-                  subcategory: { category },
-                  stock,
-                  ProductStat,
-                }) => (
-                  <Product
-                    key={id}
-                    id={id}
-                    name={name}
-                    description={description}
-                    price={price}
-                    rating={rating}
-                    category={category.name}
-                    supply={stock}
-                    ProductStat={ProductStat}
-                    image={image}
-                  />
-                )
-              )}
-            </Box>
-            <Pagination
-              items={products}
-              itemsPerPage={itemsPerPage}
-              currentPage={currentPage}
-            />
-          </>
-        )}
-        {productsStatus === EStateGeneric.PENDING && (
-          <div className="relative w-full h-[70vh] flex justify-center items-center">
-            <Loader />
-          </div>
-        )}
-        {productsStatus === EStateGeneric.FAILED && (
-          <div className="relative w-full h-[70vh] flex justify-center items-center">
-            {mode === "dark" && (
-              <Image
-                src={isAboveSmallScreens ? NotFoundDark : NotFoundDarkMobile}
-                alt="Error"
-                fill
-                priority={true}
-              />
-            )}
-            {mode !== "dark" && (
-              <Image
-                src={isAboveSmallScreens ? NotFound : NotFoundMobile}
-                alt="Error"
-                fill
-                priority={true}
-              />
-            )}
-          </div>
-        )}
+        {/* <Header title="PRODUCTS" subtitle="See your list of products" /> */}
+        <div className="flex justify-evenly py-2">
+          <button
+            className="flex gap-2 items-center rounded-lg px-4 py-2 bg-white dark:bg-primary-500"
+            onClick={() =>
+              setComponent({
+                products: true,
+                new: false,
+                removed: false,
+              })
+            }
+          >
+            <ShoppingCartOutlined />
+            PRODUCTS
+          </button>
+          <button
+            className="flex gap-2 items-center rounded-lg px-4 py-2 bg-white dark:bg-primary-500"
+            onClick={() =>
+              setComponent({
+                products: false,
+                new: true,
+                removed: false,
+              })
+            }
+          >
+            <FiberNew />
+            NEW PRODUCT
+          </button>
+          <button
+            className="flex gap-2 items-center rounded-lg px-4 py-2 bg-white dark:bg-primary-500"
+            onClick={() =>
+              setComponent({
+                products: false,
+                new: false,
+                removed: true,
+              })
+            }
+          >
+            <Delete />
+            REMOVED PRODUCTS
+          </button>
+        </div>
+        {component.products && <Products />}
+        {component.new && <NewProduct />}
+        {component.removed && <RemovedProducts />}
       </Box>
     </LayoutDashboard>
   );
 };
 
-export default Products;
+export default ProductsDashboard;

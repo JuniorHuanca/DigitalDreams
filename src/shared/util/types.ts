@@ -231,6 +231,7 @@ export interface IProduct {
   soldCount: number;
   createdAt: Date;
   updatedAt: Date;
+  deleted: boolean;
   brand: {
     id: number;
     name: string;

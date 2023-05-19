@@ -23,6 +23,7 @@ type Props = {
   category: string;
   supply: number;
   ProductStat: any;
+  deleted: boolean;
 };
 const Product = ({
   id,
@@ -34,6 +35,7 @@ const Product = ({
   category,
   supply,
   ProductStat,
+  deleted,
 }: Props) => {
   const theme: ITheme = useTheme();
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
@@ -73,6 +75,26 @@ const Product = ({
         >
           {isExpanded ? "See Less" : "See More"}
         </button>
+        {!deleted && (
+          <button className="uppercase text-xs bg-green-500/60 dark:bg-green-500/75 hover:border-[1px] p-2 transition-all">
+            edit
+          </button>
+        )}
+        {!deleted && (
+          <button className="uppercase text-xs bg-red-500/60 dark:bg-red-500/75 hover:border-[1px] p-2 transition-all">
+            delete
+          </button>
+        )}
+        {deleted && (
+          <button className="uppercase text-xs bg-blue-500/60 dark:bg-blue-500/75 hover:border-[1px] p-2 transition-all">
+            restore
+          </button>
+        )}
+        {deleted && (
+          <button className="uppercase text-xs bg-red-500/60 dark:bg-red-500/75 hover:border-[1px] p-2 transition-all">
+            delete
+          </button>
+        )}
       </CardActions>
       <Collapse
         in={isExpanded}

@@ -385,10 +385,11 @@ const Navbar = ({ user }: Props) => {
                   )
                 }
                 dotColor={undefined}
-                customFunc={() => {
-                  dispatch(setMode());
-                  setTheme(theme === "light" ? "dark" : "light");
-                }}
+                // customFunc={() => {
+                //   dispatch(setMode());
+                //   setTheme(theme === "light" ? "dark" : "light");
+                // }}
+                customFunc={() => null}
                 selected={undefined}
               />
               <span style={{ color: themeM.palette.secondary[200] }}>

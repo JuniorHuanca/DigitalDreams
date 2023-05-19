@@ -25,7 +25,6 @@ export const emailOrderConfirmation = async (
         <li>
           <div>
           <p>${item.product.image}</p>
-            <img src={${item.product.image}} alt="${item.product.name}" style="width:120px; height: auto;" />
           </div>
           <div>
             <h3>${item.product.name}</h3>
