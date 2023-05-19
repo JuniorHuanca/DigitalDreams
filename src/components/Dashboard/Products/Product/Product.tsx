@@ -228,7 +228,7 @@ const Product = ({
       {deleteModalForEver && (
         <DeleteConfirmation
           item={deleteModalForEver}
-          cancel={setDeleteModal}
+          cancel={setDeleteModalForEver}
           type="productDashbordDelete"
           handleDelete={handleDeleteForEver}
         />
