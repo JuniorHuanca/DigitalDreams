@@ -22,13 +22,9 @@ const CardCart = ({ item }: Props) => {
   const counterPlus = () => {
     if (item.quantity < item.product.stock) {
       dispatch(plusOneProduct(item.id));
-      toast.success(`${item.product.name} Quantity has been updated.`, {
-        duration: 3000,
-      });
+      toast.success(`${item.product.name} Quantity has been updated.`);
     } else {
-      toast.error(`There is not enough stock for "${item.product.name}"`, {
-        duration: 3000,
-      });
+      toast.error(`There is not enough stock for "${item.product.name}"`);
     }
   };
   const counterLess = () => dispatch(minusOneProduct(item.id));

@@ -96,8 +96,7 @@ const Detail = (props: Props) => {
     if (!productFind) {
       dispatch(addNewProduct(product));
       toast.success(
-        `${product.name} has been successfully added to your cart.`,
-        { duration: 3000 }
+        `${product.name} has been successfully added to your cart.`
       );
     } else if (
       productFind &&
@@ -105,8 +104,7 @@ const Detail = (props: Props) => {
     ) {
       dispatch(plusOneProduct(product.id));
       toast.success(
-        `${product.name} is already in your cart. Quantity has been updated.`,
-        { duration: 3000 }
+        `${product.name} is already in your cart. Quantity has been updated.`
       );
     } else {
       toast.error(`There is not enough stock for "${product.name}"`, {
@@ -118,7 +116,7 @@ const Detail = (props: Props) => {
   const removeAllProducts = () => {
     dispatch(minusAllProducts(product.id));
     setModalConfirmClear(undefined);
-    toast.success(`${product.name} removed successfully`, { duration: 5000 });
+    toast.success(`${product.name} removed successfully`);
   };
   useEffect(() => {
     (async () => {
