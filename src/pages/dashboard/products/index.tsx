@@ -17,8 +17,9 @@ const ProductsDashboard = (props: Props) => {
     <LayoutDashboard title={"Dashboard - Products"}>
       <Box m="1.5rem 2.5rem">
         {/* <Header title="PRODUCTS" subtitle="See your list of products" /> */}
-        <div className="flex justify-evenly py-2">
+        <div className="flex flex-wrap gap-2 justify-evenly py-2">
           <button
+            type="button"
             className="flex gap-2 items-center rounded-lg px-4 py-2 bg-white dark:bg-primary-500"
             onClick={() =>
               setComponent({
@@ -32,6 +33,7 @@ const ProductsDashboard = (props: Props) => {
             PRODUCTS
           </button>
           <button
+            type="button"
             className="flex gap-2 items-center rounded-lg px-4 py-2 bg-white dark:bg-primary-500"
             onClick={() =>
               setComponent({
@@ -45,6 +47,7 @@ const ProductsDashboard = (props: Props) => {
             NEW PRODUCT
           </button>
           <button
+            type="button"
             className="flex gap-2 items-center rounded-lg px-4 py-2 bg-white dark:bg-primary-500"
             onClick={() =>
               setComponent({
