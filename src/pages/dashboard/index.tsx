@@ -33,6 +33,8 @@ import {
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import LayoutDashboard from "@/components/Layouts/LayoutDashboard";
+import { MdCategory } from "react-icons/md";
+import { AiOutlineCloudUpload } from "react-icons/ai";
 type Props = {};
 
 const Dashboard = (props: Props) => {
@@ -55,8 +57,15 @@ const Dashboard = (props: Props) => {
                 padding: "10px 20px",
               }}
             >
-              <DownloadOutlined sx={{ mr: "10px" }} />
-              Download Reports
+              {/* brands: 48
+              <br />
+              categories: 16
+              <br />
+              subcategories: 34
+              <br />
+              products: 828
+              <br /> */}
+              <AiOutlineCloudUpload size={28} /> POST DATA
             </Button>
           </Box>
         </FlexBetween>
