@@ -5,6 +5,30 @@ export const getProductByApi = (id: string) => axios.get(`/api/products/${id}`);
 export const getReviewsProductByApi = (id: string) =>
   axios.get(`/api/review?productId=${id}`);
 
+export const postProductByApi = (
+  name: string,
+  price: string,
+  description: string,
+  stock: string,
+  brand: string,
+  subcategory: string,
+  enable: boolean,
+  image: any
+) => {
+  const formData = new FormData();
+  formData.append("name", name);
+  formData.append("price", price);
+  formData.append("description", description);
+  formData.append("stock", stock);
+  formData.append("brand", brand);
+  formData.append("subcategory", subcategory);
+  formData.append("enable", enable.toString());
+  formData.append("image", image);
+  return axios.post(`/api/products/2121`, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+};
+
 export const postReviewApi = (
   productId: number,
   userId: string,

@@ -13,16 +13,38 @@ import {
 } from "react-icons/ai";
 import { BsFillChatSquareTextFill } from "react-icons/bs";
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import {
+  allBrands,
+  allSubcategorias,
+  getAllBrands,
+  getAllSubcategorias,
+  postOneProduct,
+  selectPostOneProductStatus,
+} from "@/state/products/product/productSlice";
+import { useAppDispatch } from "@/state/store";
+import LoaderModal from "@/components/Loaders/LoaderModal";
+import { EStateGeneric } from "@/shared/util/types";
 type Props = {};
 
 const NewProduct = (props: Props) => {
+  const [image, setImage] = useState(null);
+  const [pathImage, setPathImage] = useState<any>();
+  const ref = useRef<any>(null);
+  const router = useRouter();
+  const brands = useSelector(allBrands);
+  const subcategorias = useSelector(allSubcategorias);
+  const status = useSelector(selectPostOneProductStatus);
+  const dispatch = useAppDispatch();
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
     price: Yup.number().required("Price is required"),
     description: Yup.string().required("Description is required"),
     stock: Yup.number().required("Stock is required"),
-    brand: Yup.string().required("Brand ID is required"),
-    subcategory: Yup.string().required("Subcategory ID is required"),
+    brand: Yup.string().required("Brand is required"),
+    subcategory: Yup.string().required("Subcategory is required"),
   });
 
   const formik = useFormik({
@@ -33,6 +55,7 @@ const NewProduct = (props: Props) => {
       stock: "",
       brand: "",
       subcategory: "",
+      enable: true,
     },
     validationSchema,
     onSubmit,
@@ -46,31 +69,85 @@ const NewProduct = (props: Props) => {
       stock: string;
       brand: string;
       subcategory: string;
+      enable: boolean;
     },
     { resetForm }: { resetForm: any }
   ) {
     try {
+      const res = await dispatch(postOneProduct({ ...values, image }));
+      console.log(res);
+      if (res.payload.success) {
+        toast.success("Product created successfully");
+        resetForm();
+        setImage(null);
+        setPathImage(null);
+      } else {
+        toast.error(res.payload.error);
+      }
     } catch (error) {
-      toast.error("An error occurred while registering.", { duration: 3000 });
+      toast.error("An error occurred while registering.");
     }
   }
+  useEffect(() => {
+    (async () => {
+      if (router.isReady) {
+        await dispatch(getAllBrands());
+        await dispatch(getAllSubcategorias());
+      }
+    })();
+  }, []);
+  console.log(formik.values);
   return (
     <div>
       <Header title="NEW PRODUCT" subtitle="add a new product to the list" />
       <form
-        onSubmit={formik.handleSubmit}
+        // onSubmit={formik.handleSubmit}
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (
+            !formik.values.name ||
+            !formik.values.price ||
+            !formik.values.description ||
+            !formik.values.stock ||
+            !formik.values.brand ||
+            !formik.values.subcategory ||
+            !image
+          ) {
+            return toast.error(
+              "Please complete all fields before submitting the form"
+            );
+          }
+          formik.handleSubmit();
+        }}
         className="flex flex-wrap gap-4 justify-center items-center mt-4"
       >
         <div className="flex flex-col items-center gap-1 w-full ss:w-[48%] max-w-[500px]">
           <div className="relative w-full max-w-[350px] dark:bg-primary-500 bg-white">
-            <Image src={Logo} alt="Logo" />
+            {/* <Image src={pathImage || Logo} alt="Logo" /> */}
+            <Image
+              src={pathImage || Logo}
+              alt="Logo"
+              width={500}
+              height={500}
+            />
           </div>
           <label className="flex items-center justify-center  px-4 py-2 cursor-pointer rounded-lg bg-indigo-500 text-white">
             <span className="mr-2">Seleccionar archivo</span>
             <input
+              ref={ref}
               type="file"
               className="hidden"
-              {...formik.getFieldProps("file")}
+              onChange={() => {
+                setImage(ref.current?.files[0]);
+                const reader = new FileReader();
+                const file = ref.current?.files[0];
+                if (file) {
+                  reader.readAsDataURL(file);
+                  reader.onload = function load() {
+                    setPathImage(reader.result);
+                  };
+                }
+              }}
             />
           </label>
         </div>
@@ -120,6 +197,12 @@ const NewProduct = (props: Props) => {
                   : "description"
               }
               {...formik.getFieldProps("description")}
+              onBlur={(e) => {
+                formik.handleBlur(e);
+                if (formik.errors.description) {
+                  return toast.error(formik.errors.description);
+                }
+              }}
             />
           </div>
           <div className="flex justify-center w-full max-w-[500px]">
@@ -146,11 +229,19 @@ const NewProduct = (props: Props) => {
                   : ""
               } dark:bg-primary-500 bg-white w-[90%] dark:text-white focus:outline-none p-4 rounded-r-sm`}
               {...formik.getFieldProps("brand")}
+              onBlur={(e) => {
+                formik.handleBlur(e);
+                if (formik.errors.brand) {
+                  return toast.error(formik.errors.brand);
+                }
+              }}
             >
               <option value="">Seleccione marca</option>
-              <option value="marca1">Marca 1</option>
-              <option value="marca2">Marca 2</option>
-              <option value="marca3">Marca 3</option>
+              {brands.map((e: any, i) => (
+                <option key={i} value={e.id}>
+                  {e.name}
+                </option>
+              ))}
             </select>
             <button
               type="button"
@@ -183,12 +274,19 @@ const NewProduct = (props: Props) => {
                   : ""
               } dark:bg-primary-500 bg-white w-[90%] dark:text-white focus:outline-none p-4 rounded-r-sm`}
               {...formik.getFieldProps("subcategory")}
+              onBlur={(e) => {
+                formik.handleBlur(e);
+                if (formik.errors.subcategory) {
+                  return toast.error(formik.errors.subcategory);
+                }
+              }}
             >
               <option value="">Seleccione categoría</option>
-              <option value="categoria1">Categoría 1</option>
-              <option value="categoria2">Categoría 2</option>
-              <option value="categoria3">Categoría 3</option>
-              {/* Agrega más opciones según tus necesidades */}
+              {subcategorias.map((e: any, i) => (
+                <option key={i} value={e.id}>
+                  {e.name}
+                </option>
+              ))}
             </select>
             <button
               type="button"
@@ -235,7 +333,8 @@ const NewProduct = (props: Props) => {
                 <input
                   className="cursor-pointer w-5 h-5 my-auto"
                   type="checkbox"
-                  name="enable"
+                  checked={formik.values.enable}
+                  {...formik.getFieldProps("enable")}
                 />
                 <label
                   htmlFor="enable"
@@ -257,6 +356,7 @@ const NewProduct = (props: Props) => {
           </button>
         </div>
       </form>
+      {status === EStateGeneric.PENDING && <LoaderModal />}
     </div>
   );
 };

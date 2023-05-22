@@ -1,3 +1,5 @@
+import { toast } from "react-hot-toast";
+
 type Props = {
   formik: any;
   fieldName: string;
@@ -25,6 +27,7 @@ const InputField = ({
         {icon}
       </span>
       <input
+        {...formik.getFieldProps(fieldName)}
         className={`${
           formik.touched[fieldName] && formik.errors[fieldName]
             ? "border-2 border-red-500 placeholder:text-red-500"
@@ -35,7 +38,12 @@ const InputField = ({
             ? formik.errors[fieldName]
             : placeholder
         }
-        {...formik.getFieldProps(fieldName)}
+        onBlur={(e) => {
+          formik.handleBlur(e);
+          if (formik.errors[fieldName]) {
+            return toast.error(formik.errors[fieldName]);
+          }
+        }}
         type="text"
       />
     </div>

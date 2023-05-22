@@ -8,11 +8,54 @@ import {
   getProductByApi,
   getReviewsProductByApi,
   getSubcategoriasNameByApi,
+  postProductByApi,
   postReviewApi,
   putReviewApi,
   restoreProductByApi,
 } from "./productApi";
 import { RootState } from "@/state/store";
+
+export const postOneProduct = createAsyncThunk(
+  "product/postOneProduct",
+  async (
+    {
+      name,
+      price,
+      description,
+      stock,
+      brand,
+      subcategory,
+      enable,
+      image,
+    }: {
+      name: string;
+      price: string;
+      description: string;
+      stock: string;
+      brand: string;
+      subcategory: string;
+      enable: boolean;
+      image: any;
+    },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await postProductByApi(
+        name,
+        price,
+        description,
+        stock,
+        brand,
+        subcategory,
+        enable,
+        image
+      );
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 
 export const getOneProduct = createAsyncThunk(
   "product/getOneProduct",
@@ -168,6 +211,7 @@ interface IProductState {
   postReviewStatus: EStateGeneric;
   deleteReviewStatus: EStateGeneric;
   deleteProductStatus: EStateGeneric;
+  postProductStatus: EStateGeneric;
 }
 const initialState = {
   product: {},
@@ -179,6 +223,7 @@ const initialState = {
   postReviewStatus: EStateGeneric.IDLE,
   deleteReviewStatus: EStateGeneric.IDLE,
   deleteProductStatus: EStateGeneric.IDLE,
+  postProductStatus: EStateGeneric.IDLE,
 } as IProductState;
 
 const productSlice = createSlice({
@@ -307,6 +352,16 @@ const productSlice = createSlice({
     });
     builder.addCase(getAllSubcategorias.pending, (state, action) => {});
     builder.addCase(getAllSubcategorias.rejected, (state, action) => {});
+
+    builder.addCase(postOneProduct.fulfilled, (state, action) => {
+      state.postProductStatus = EStateGeneric.SUCCEEDED;
+    });
+    builder.addCase(postOneProduct.pending, (state, action) => {
+      state.postProductStatus = EStateGeneric.PENDING;
+    });
+    builder.addCase(postOneProduct.rejected, (state, action) => {
+      state.postProductStatus = EStateGeneric.FAILED;
+    });
   },
 });
 
@@ -330,3 +385,5 @@ export const selectAllReviewsStatus = (state: RootState) =>
   state.product.allReviewsStatus;
 export const selectPostReviewStatus = (state: RootState) =>
   state.product.postReviewStatus;
+export const selectPostOneProductStatus = (state: RootState) =>
+  state.product.postProductStatus;
