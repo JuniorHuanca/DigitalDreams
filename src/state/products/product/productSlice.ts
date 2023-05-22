@@ -4,8 +4,10 @@ import {
   deleteProductByApi,
   deleteProductForEverByApi,
   deleteReviewApi,
+  getBrandsNameByApi,
   getProductByApi,
   getReviewsProductByApi,
+  getSubcategoriasNameByApi,
   postReviewApi,
   putReviewApi,
   restoreProductByApi,
@@ -132,9 +134,35 @@ export const restoreOneProduct = createAsyncThunk(
     }
   }
 );
+
+export const getAllBrands = createAsyncThunk(
+  "product/getAllBrands",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await getBrandsNameByApi();
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const getAllSubcategorias = createAsyncThunk(
+  "product/getAllSubcategorias",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await getSubcategoriasNameByApi();
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 interface IProductState {
   product: IProduct;
   reviews: [];
+  brands: [];
+  subcategorias: [];
   oneProductStatus: EStateGeneric;
   allReviewsStatus: EStateGeneric;
   postReviewStatus: EStateGeneric;
@@ -144,6 +172,8 @@ interface IProductState {
 const initialState = {
   product: {},
   reviews: [],
+  brands: [],
+  subcategorias: [],
   oneProductStatus: EStateGeneric.IDLE,
   allReviewsStatus: EStateGeneric.IDLE,
   postReviewStatus: EStateGeneric.IDLE,
@@ -265,6 +295,18 @@ const productSlice = createSlice({
     builder.addCase(deleteOneProductForEver.fulfilled, (state, action) => {});
     builder.addCase(deleteOneProductForEver.pending, (state, action) => {});
     builder.addCase(deleteOneProductForEver.rejected, (state, action) => {});
+
+    builder.addCase(getAllBrands.fulfilled, (state, action) => {
+      state.brands = action.payload;
+    });
+    builder.addCase(getAllBrands.pending, (state, action) => {});
+    builder.addCase(getAllBrands.rejected, (state, action) => {});
+
+    builder.addCase(getAllSubcategorias.fulfilled, (state, action) => {
+      state.subcategorias = action.payload;
+    });
+    builder.addCase(getAllSubcategorias.pending, (state, action) => {});
+    builder.addCase(getAllSubcategorias.rejected, (state, action) => {});
   },
 });
 
@@ -272,6 +314,9 @@ export default productSlice.reducer;
 
 export const oneProduct = (store: RootState) => store.product.product;
 export const allReviews = (store: RootState) => store.product.reviews;
+export const allBrands = (store: RootState) => store.product.brands;
+export const allSubcategorias = (store: RootState) =>
+  store.product.subcategorias;
 
 export const {
   cleanUpProduct,

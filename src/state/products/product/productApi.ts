@@ -29,3 +29,8 @@ export const deleteProductForEverByApi = (id: number) =>
 
 export const restoreProductByApi = (id: number) =>
   axios.patch(`/api/products/${id}?deleted=false`);
+
+export const getBrandsNameByApi = () => axios.get(`/api/data?brandsQ=true`);
+
+export const getSubcategoriasNameByApi = () =>
+  axios.get(`/api/data?subcategoriesQ=true`);
