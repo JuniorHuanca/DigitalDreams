@@ -45,6 +45,11 @@ Endpoints created:
   GET /api/products/${id}
 ```
 
+#### Get data
+```http
+  GET /api/data
+```
+
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
 | `id`      | `string` | **Required**. Id of item to fetch |
