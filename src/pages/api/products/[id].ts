@@ -98,6 +98,68 @@ export default async function handler(
       break;
     case "PATCH":
       try {
+        form.parse(
+          req,
+          async (err: any, fields: any, files: { image: { path: string } }) => {
+            const {
+              id,
+              name,
+              price,
+              description,
+              stock,
+              brand,
+              subcategory,
+              enable,
+            } = fields;
+            if (err) {
+              console.error(err);
+              res.status(500).json({ message: "Error al procesar la imagen." });
+              return;
+            }
+            try {
+              const active = JSON.parse(enable);
+              if (files.image) {
+                const result = await cloudinary.uploader.upload(files.image.path);
+                var image = result.secure_url.replace(/\.(png|jpeg|jpg)$/, ".webp");
+                const product = await prisma.product.update({
+                  where: {
+                    id: parseInt(id as string)
+                  },
+                  data: {
+                    name: name,
+                    price: parseFloat(price),
+                    description: description,
+                    stock: parseInt(stock),
+                    brandId: parseInt(brand),
+                    image: image,
+                    subcategoryId: parseInt(subcategory),
+                    deleted: !active,
+                  },
+                });
+                return res.status(200).json({ success: true, product });
+              } else {
+                const product = await prisma.product.update({
+                  where: {
+                    id: parseInt(id as string)
+                  },
+                  data: {
+                    name: name,
+                    price: parseFloat(price),
+                    description: description,
+                    stock: parseInt(stock),
+                    brandId: parseInt(brand),
+                    subcategoryId: parseInt(subcategory),
+                    deleted: !active,
+                  },
+                });
+                return res.status(200).json({ success: true, product });
+              }
+            } catch (error: any) {
+              console.error(error);
+              res.status(400).json({ success: false, error: error.message });
+            }
+          }
+        );
         if (deleted) {
           const product = await prisma.product.update({
             where: {

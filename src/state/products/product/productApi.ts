@@ -29,6 +29,32 @@ export const postProductByApi = (
   });
 };
 
+export const patchProductByApi = (
+  id: number,
+  name: string,
+  price: string,
+  description: string,
+  stock: string,
+  brand: string,
+  subcategory: string,
+  enable: boolean,
+  image: any
+) => {
+  const formData = new FormData();
+  formData.append("id", id.toString());
+  formData.append("name", name);
+  formData.append("price", price);
+  formData.append("description", description);
+  formData.append("stock", stock);
+  formData.append("brand", brand);
+  formData.append("subcategory", subcategory);
+  formData.append("enable", enable.toString());
+  formData.append("image", image);
+  return axios.patch(`/api/products/2121`, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+};
+
 export const postReviewApi = (
   productId: number,
   userId: string,

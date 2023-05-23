@@ -8,6 +8,7 @@ import {
   getProductByApi,
   getReviewsProductByApi,
   getSubcategoriasNameByApi,
+  patchProductByApi,
   postProductByApi,
   postReviewApi,
   putReviewApi,
@@ -62,6 +63,51 @@ export const getOneProduct = createAsyncThunk(
   async (id: string, { rejectWithValue }) => {
     try {
       const response = await getProductByApi(id);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const patchOneProduct = createAsyncThunk(
+  "product/patchOneProduct",
+  async (
+    {
+      id,
+      name,
+      price,
+      description,
+      stock,
+      brand,
+      subcategory,
+      enable,
+      image,
+    }: {
+      id: number;
+      name: string;
+      price: string;
+      description: string;
+      stock: string;
+      brand: string;
+      subcategory: string;
+      enable: boolean;
+      image: any;
+    },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await patchProductByApi(
+        id,
+        name,
+        price,
+        description,
+        stock,
+        brand,
+        subcategory,
+        enable,
+        image
+      );
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
@@ -212,6 +258,7 @@ interface IProductState {
   deleteReviewStatus: EStateGeneric;
   deleteProductStatus: EStateGeneric;
   postProductStatus: EStateGeneric;
+  patchProductStatus: EStateGeneric;
 }
 const initialState = {
   product: {},
@@ -224,6 +271,7 @@ const initialState = {
   deleteReviewStatus: EStateGeneric.IDLE,
   deleteProductStatus: EStateGeneric.IDLE,
   postProductStatus: EStateGeneric.IDLE,
+  patchProductStatus: EStateGeneric.IDLE,
 } as IProductState;
 
 const productSlice = createSlice({
@@ -309,9 +357,9 @@ const productSlice = createSlice({
       state.postReviewStatus = EStateGeneric.FAILED;
     });
 
-    builder.addCase(putOneReview.fulfilled, (state, action) => {});
-    builder.addCase(putOneReview.pending, (state, action) => {});
-    builder.addCase(putOneReview.rejected, (state, action) => {});
+    builder.addCase(putOneReview.fulfilled, (state, action) => { });
+    builder.addCase(putOneReview.pending, (state, action) => { });
+    builder.addCase(putOneReview.rejected, (state, action) => { });
 
     builder.addCase(deleteOneReview.fulfilled, (state, action) => {
       state.deleteReviewStatus = EStateGeneric.SUCCEEDED;
@@ -333,25 +381,25 @@ const productSlice = createSlice({
       state.deleteProductStatus = EStateGeneric.FAILED;
     });
 
-    builder.addCase(restoreOneProduct.fulfilled, (state, action) => {});
-    builder.addCase(restoreOneProduct.pending, (state, action) => {});
-    builder.addCase(restoreOneProduct.rejected, (state, action) => {});
+    builder.addCase(restoreOneProduct.fulfilled, (state, action) => { });
+    builder.addCase(restoreOneProduct.pending, (state, action) => { });
+    builder.addCase(restoreOneProduct.rejected, (state, action) => { });
 
-    builder.addCase(deleteOneProductForEver.fulfilled, (state, action) => {});
-    builder.addCase(deleteOneProductForEver.pending, (state, action) => {});
-    builder.addCase(deleteOneProductForEver.rejected, (state, action) => {});
+    builder.addCase(deleteOneProductForEver.fulfilled, (state, action) => { });
+    builder.addCase(deleteOneProductForEver.pending, (state, action) => { });
+    builder.addCase(deleteOneProductForEver.rejected, (state, action) => { });
 
     builder.addCase(getAllBrands.fulfilled, (state, action) => {
       state.brands = action.payload;
     });
-    builder.addCase(getAllBrands.pending, (state, action) => {});
-    builder.addCase(getAllBrands.rejected, (state, action) => {});
+    builder.addCase(getAllBrands.pending, (state, action) => { });
+    builder.addCase(getAllBrands.rejected, (state, action) => { });
 
     builder.addCase(getAllSubcategorias.fulfilled, (state, action) => {
       state.subcategorias = action.payload;
     });
-    builder.addCase(getAllSubcategorias.pending, (state, action) => {});
-    builder.addCase(getAllSubcategorias.rejected, (state, action) => {});
+    builder.addCase(getAllSubcategorias.pending, (state, action) => { });
+    builder.addCase(getAllSubcategorias.rejected, (state, action) => { });
 
     builder.addCase(postOneProduct.fulfilled, (state, action) => {
       state.postProductStatus = EStateGeneric.SUCCEEDED;
@@ -362,8 +410,18 @@ const productSlice = createSlice({
     builder.addCase(postOneProduct.rejected, (state, action) => {
       state.postProductStatus = EStateGeneric.FAILED;
     });
+
+    builder.addCase(patchOneProduct.fulfilled, (state, action) => {
+      state.patchProductStatus = EStateGeneric.SUCCEEDED;
+    });
+    builder.addCase(patchOneProduct.pending, (state, action) => {
+      state.patchProductStatus = EStateGeneric.PENDING;
+    });
+    builder.addCase(patchOneProduct.rejected, (state, action) => {
+      state.patchProductStatus = EStateGeneric.FAILED;
+    });
   },
-});
+})
 
 export default productSlice.reducer;
 
@@ -387,3 +445,5 @@ export const selectPostReviewStatus = (state: RootState) =>
   state.product.postReviewStatus;
 export const selectPostOneProductStatus = (state: RootState) =>
   state.product.postProductStatus;
+export const selectPatchOneProductStatus = (state: RootState) =>
+  state.product.patchProductStatus;
