@@ -70,7 +70,7 @@ const EditProduct = ({ item, cancel }: Props) => {
 
   async function onSubmit(
     values: {
-      id: number,
+      id: number;
       name: string;
       price: string;
       description: string;
@@ -89,7 +89,7 @@ const EditProduct = ({ item, cancel }: Props) => {
         resetForm();
         setImage(null);
         setPathImage(null);
-        cancel(null)
+        cancel(null);
       } else {
         toast.error(res.payload.error);
       }
@@ -167,34 +167,38 @@ const EditProduct = ({ item, cancel }: Props) => {
               icon={
                 <MdOutlineDriveFileRenameOutline
                   size={28}
-                  className={`${!formik.errors.name && formik.values.name
+                  className={`${
+                    !formik.errors.name && formik.values.name
                       ? "fill-[#6366f1]"
                       : "fill-gray-400"
-                    }`}
+                  }`}
                 />
               }
               width="w-full max-w-[500px]"
             />
             <div className="flex justify-center w-full max-w-[500px]">
               <span
-                className={`${formik.touched.description && formik.errors.description
+                className={`${
+                  formik.touched.description && formik.errors.description
                     ? "bg-red-500"
                     : "dark:bg-primary-500 bg-white"
-                  } selection:icon flex items-center p-2 rounded-l-sm`}
+                } selection:icon flex items-center p-2 rounded-l-sm`}
               >
                 <BsFillChatSquareTextFill
                   size={28}
-                  className={`${!formik.errors.description && formik.values.description
+                  className={`${
+                    !formik.errors.description && formik.values.description
                       ? "fill-[#6366f1]"
                       : "fill-gray-400"
-                    }`}
+                  }`}
                 />
               </span>
               <textarea
-                className={`${formik.touched.description && formik.errors.description
+                className={`${
+                  formik.touched.description && formik.errors.description
                     ? "border-2 border-red-500 placeholder:text-red-500"
                     : ""
-                  } dark:bg-primary-500 bg-white w-full dark:text-white focus:outline-none p-4 rounded-r-sm`}
+                } dark:bg-primary-500 bg-white w-full dark:text-white focus:outline-none p-4 rounded-r-sm`}
                 placeholder={
                   formik.touched.description && formik.errors.description
                     ? formik.errors.description
@@ -211,24 +215,27 @@ const EditProduct = ({ item, cancel }: Props) => {
             </div>
             <div className="flex justify-center w-full max-w-[500px]">
               <span
-                className={`${formik.touched.brand && formik.errors.brand
+                className={`${
+                  formik.touched.brand && formik.errors.brand
                     ? "bg-red-500"
                     : "dark:bg-primary-500 bg-white"
-                  } selection:icon flex items-center p-2 rounded-l-sm`}
+                } selection:icon flex items-center p-2 rounded-l-sm`}
               >
                 <AiFillTags
                   size={28}
-                  className={`${!formik.errors.brand && formik.values.brand
+                  className={`${
+                    !formik.errors.brand && formik.values.brand
                       ? "fill-[#6366f1]"
                       : "fill-gray-400"
-                    }`}
+                  }`}
                 />
               </span>
               <select
-                className={`${formik.touched.brand && formik.errors.brand
+                className={`${
+                  formik.touched.brand && formik.errors.brand
                     ? "border-2 border-red-500 placeholder:text-red-500"
                     : ""
-                  } dark:bg-primary-500 bg-white w-[90%] dark:text-white focus:outline-none p-4 rounded-r-sm`}
+                } dark:bg-primary-500 bg-white w-[90%] dark:text-white focus:outline-none p-4 rounded-r-sm`}
                 {...formik.getFieldProps("brand")}
                 onBlur={(e) => {
                   formik.handleBlur(e);
@@ -253,24 +260,27 @@ const EditProduct = ({ item, cancel }: Props) => {
             </div>
             <div className="flex justify-center w-full max-w-[500px]">
               <span
-                className={`${formik.touched.subcategory && formik.errors.subcategory
+                className={`${
+                  formik.touched.subcategory && formik.errors.subcategory
                     ? "bg-red-500"
                     : "dark:bg-primary-500 bg-white"
-                  } selection:icon flex items-center p-2 rounded-l-sm`}
+                } selection:icon flex items-center p-2 rounded-l-sm`}
               >
                 <MdCategory
                   size={28}
-                  className={`${!formik.errors.subcategory && formik.values.subcategory
+                  className={`${
+                    !formik.errors.subcategory && formik.values.subcategory
                       ? "fill-[#6366f1]"
                       : "fill-gray-400"
-                    }`}
+                  }`}
                 />
               </span>
               <select
-                className={`${formik.touched.subcategory && formik.errors.subcategory
+                className={`${
+                  formik.touched.subcategory && formik.errors.subcategory
                     ? "border-2 border-red-500 placeholder:text-red-500"
                     : ""
-                  } dark:bg-primary-500 bg-white w-[90%] dark:text-white focus:outline-none p-4 rounded-r-sm`}
+                } dark:bg-primary-500 bg-white w-[90%] dark:text-white focus:outline-none p-4 rounded-r-sm`}
                 {...formik.getFieldProps("subcategory")}
                 onBlur={(e) => {
                   formik.handleBlur(e);
@@ -301,10 +311,11 @@ const EditProduct = ({ item, cancel }: Props) => {
                 icon={
                   <RiMoneyDollarCircleFill
                     size={28}
-                    className={`${!formik.errors.price && formik.values.price
+                    className={`${
+                      !formik.errors.price && formik.values.price
                         ? "fill-[#6366f1]"
                         : "fill-gray-400"
-                      }`}
+                    }`}
                   />
                 }
                 width="w-[45%] ss:w-1/3 max-w-[250px]"
@@ -316,10 +327,11 @@ const EditProduct = ({ item, cancel }: Props) => {
                 icon={
                   <AiOutlineStock
                     size={28}
-                    className={`${!formik.errors.stock && formik.values.stock
+                    className={`${
+                      !formik.errors.stock && formik.values.stock
                         ? "fill-[#6366f1]"
                         : "fill-gray-400"
-                      }`}
+                    }`}
                   />
                 }
                 width="w-[45%] ss:w-1/3 max-w-[250px]"

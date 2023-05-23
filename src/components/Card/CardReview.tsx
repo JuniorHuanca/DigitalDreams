@@ -40,7 +40,7 @@ const CardReview = ({ review, user }: Props) => {
   const dispatch = useAppDispatch();
   const createdAt = new Date(review.createdAt);
   const updatedAt = new Date(review.updatedAt);
-  const status = useSelector(selectPostReportReviewStatus)
+  const status = useSelector(selectPostReportReviewStatus);
   const [errorImage, setErrorImage] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showModalReport, setShowModalReport] = useState<boolean>(false);
@@ -54,10 +54,12 @@ const CardReview = ({ review, user }: Props) => {
   const handleClick = () => {
     setShowModal(!showModal);
   };
-  const formattedCreatedAt = `${createdAt.getDate()}/${createdAt.getMonth() + 1
-    }/${createdAt.getFullYear()} ${createdAt.getHours()}:${createdAt.getMinutes()}`;
-  const formattedUpdatedAt = `${updatedAt.getDate()}/${updatedAt.getMonth() + 1
-    }/${updatedAt.getFullYear()} ${updatedAt.getHours()}:${updatedAt.getMinutes()}`;
+  const formattedCreatedAt = `${createdAt.getDate()}/${
+    createdAt.getMonth() + 1
+  }/${createdAt.getFullYear()} ${createdAt.getHours()}:${createdAt.getMinutes()}`;
+  const formattedUpdatedAt = `${updatedAt.getDate()}/${
+    updatedAt.getMonth() + 1
+  }/${updatedAt.getFullYear()} ${updatedAt.getHours()}:${updatedAt.getMinutes()}`;
 
   const handleDelete = async () => {
     try {
