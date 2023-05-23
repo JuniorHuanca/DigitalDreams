@@ -10,6 +10,7 @@ import {
   getSubcategoriasNameByApi,
   patchProductByApi,
   postProductByApi,
+  postReportReviewApi,
   postReviewApi,
   putReviewApi,
   restoreProductByApi,
@@ -157,6 +158,33 @@ export const postOneReview = createAsyncThunk(
   }
 );
 
+export const postOneReportReview = createAsyncThunk(
+  "product/postOneReportReview",
+  async (
+    {
+      userId,
+      reason,
+      reviewId,
+    }: {
+      userId: number,
+      reason: string,
+      reviewId: string,
+    },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await postReportReviewApi(
+        userId,
+        reason,
+        reviewId
+      );
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const putOneReview = createAsyncThunk(
   "product/putOneReview",
   async (
@@ -259,6 +287,7 @@ interface IProductState {
   deleteProductStatus: EStateGeneric;
   postProductStatus: EStateGeneric;
   patchProductStatus: EStateGeneric;
+  postReportReviewStatus: EStateGeneric;
 }
 const initialState = {
   product: {},
@@ -272,6 +301,7 @@ const initialState = {
   deleteProductStatus: EStateGeneric.IDLE,
   postProductStatus: EStateGeneric.IDLE,
   patchProductStatus: EStateGeneric.IDLE,
+  postReportReviewStatus: EStateGeneric.IDLE,
 } as IProductState;
 
 const productSlice = createSlice({
@@ -355,6 +385,16 @@ const productSlice = createSlice({
     });
     builder.addCase(postOneReview.rejected, (state, action) => {
       state.postReviewStatus = EStateGeneric.FAILED;
+    });
+
+    builder.addCase(postOneReportReview.fulfilled, (state, action) => {
+      state.postReportReviewStatus = EStateGeneric.SUCCEEDED;
+    });
+    builder.addCase(postOneReportReview.pending, (state, action) => {
+      state.postReportReviewStatus = EStateGeneric.PENDING;
+    });
+    builder.addCase(postOneReportReview.rejected, (state, action) => {
+      state.postReportReviewStatus = EStateGeneric.FAILED;
     });
 
     builder.addCase(putOneReview.fulfilled, (state, action) => { });
@@ -447,3 +487,5 @@ export const selectPostOneProductStatus = (state: RootState) =>
   state.product.postProductStatus;
 export const selectPatchOneProductStatus = (state: RootState) =>
   state.product.patchProductStatus;
+export const selectPostReportReviewStatus = (state: RootState) =>
+  state.product.postReportReviewStatus;

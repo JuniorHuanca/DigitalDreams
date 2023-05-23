@@ -55,6 +55,12 @@ export const patchProductByApi = (
   });
 };
 
+export const postReportReviewApi = (
+  userId: number,
+  reason: string,
+  reviewId: string,
+) => axios.post(`/api/review?report=true`, { userId, reason, reviewId });
+
 export const postReviewApi = (
   productId: number,
   userId: string,

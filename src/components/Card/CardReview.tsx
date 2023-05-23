@@ -13,9 +13,12 @@ import {
   getAllReviewsProduct,
   getOneProduct,
   putOneReview,
+  selectPostReportReviewStatus,
 } from "@/state/products/product/productSlice";
 import { useAppDispatch } from "@/state/store";
 import EditReview from "./EditReview";
+import { useSelector } from "react-redux";
+import Reports from "../Modals/Reports";
 
 type Props = {
   review: any;
@@ -37,8 +40,10 @@ const CardReview = ({ review, user }: Props) => {
   const dispatch = useAppDispatch();
   const createdAt = new Date(review.createdAt);
   const updatedAt = new Date(review.updatedAt);
+  const status = useSelector(selectPostReportReviewStatus)
   const [errorImage, setErrorImage] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [showModalReport, setShowModalReport] = useState<boolean>(false);
   const [deleteModal, setDeleteModal] = useState(null);
   const [editReview, setEditReview] = useState<any>(null);
   const [reviewFields, setReviewFields] = useState({
@@ -49,12 +54,10 @@ const CardReview = ({ review, user }: Props) => {
   const handleClick = () => {
     setShowModal(!showModal);
   };
-  const formattedCreatedAt = `${createdAt.getDate()}/${
-    createdAt.getMonth() + 1
-  }/${createdAt.getFullYear()} ${createdAt.getHours()}:${createdAt.getMinutes()}`;
-  const formattedUpdatedAt = `${updatedAt.getDate()}/${
-    updatedAt.getMonth() + 1
-  }/${updatedAt.getFullYear()} ${updatedAt.getHours()}:${updatedAt.getMinutes()}`;
+  const formattedCreatedAt = `${createdAt.getDate()}/${createdAt.getMonth() + 1
+    }/${createdAt.getFullYear()} ${createdAt.getHours()}:${createdAt.getMinutes()}`;
+  const formattedUpdatedAt = `${updatedAt.getDate()}/${updatedAt.getMonth() + 1
+    }/${updatedAt.getFullYear()} ${updatedAt.getHours()}:${updatedAt.getMinutes()}`;
 
   const handleDelete = async () => {
     try {
@@ -156,6 +159,7 @@ const CardReview = ({ review, user }: Props) => {
           <button
             className="text-yellow-500 hover:animate-bell-swing-scale hover:dark:bg-primary-500 hover:bg-white rounded-xl p-1"
             type="button"
+            onClick={() => setShowModalReport(true)}
           >
             <MdReportProblem />
           </button>
@@ -171,6 +175,7 @@ const CardReview = ({ review, user }: Props) => {
         )}
       </div>
       {showModal && <Login setShowModal={setShowModal} />}
+      {showModalReport && <Reports setShowModal={setShowModalReport} />}
       {deleteModal && (
         <DeleteConfirmation
           item={deleteModal}
