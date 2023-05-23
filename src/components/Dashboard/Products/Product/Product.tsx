@@ -24,6 +24,7 @@ import {
   getAllProductsDashboard,
   getAllRemovedProductsDashboard,
 } from "@/state/products/products/productsSlice";
+import EditProduct from "../EditProduct";
 
 type Props = {
   id: number;
@@ -32,8 +33,10 @@ type Props = {
   description: string;
   price: number;
   rating: number;
-  category: string;
-  supply: number;
+  // subcategory: any;
+  brand: any;
+  subcategory: any;
+  stock: number;
   ProductStat: any;
   deleted: boolean;
 };
@@ -44,8 +47,9 @@ const Product = ({
   description,
   price,
   rating,
-  category,
-  supply,
+  subcategory,
+  brand,
+  stock,
   ProductStat,
   deleted,
 }: Props) => {
@@ -53,6 +57,7 @@ const Product = ({
   const theme: ITheme = useTheme();
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const [deleteModal, setDeleteModal] = useState<any>(null);
+  const [editModal, setEditModal] = useState<any>(null);
   const [deleteModalForEver, setDeleteModalForEver] = useState<any>(null);
   const [restoreModal, setRestoreModal] = useState<any>(null);
   const handleDeleteForEver = async () => {
@@ -106,7 +111,7 @@ const Product = ({
           color={theme.palette.primary[100]}
           fontWeight="bold"
         >
-          {category}
+          {subcategory.name}
         </Typography>
         <Typography variant="h5" component="div" className="h-28">
           {name}
@@ -129,7 +134,24 @@ const Product = ({
           {isExpanded ? "See Less" : "See More"}
         </button>
         {!deleted && (
-          <button className="uppercase text-xs bg-green-500/60 dark:bg-green-500/75 hover:border-[1px] p-2 transition-all">
+          <button
+            className="uppercase text-xs bg-green-500/60 dark:bg-green-500/75 hover:border-[1px] p-2 transition-all"
+            onClick={() =>
+              setEditModal({
+                id,
+                image,
+                name,
+                description,
+                price,
+                rating,
+                subcategory,
+                stock,
+                ProductStat,
+                deleted,
+                brand,
+              })
+            }
+          >
             edit
           </button>
         )}
@@ -144,8 +166,8 @@ const Product = ({
                 description,
                 price,
                 rating,
-                category,
-                supply,
+                subcategory,
+                stock,
                 ProductStat,
                 deleted,
               })
@@ -165,8 +187,8 @@ const Product = ({
                 description,
                 price,
                 rating,
-                category,
-                supply,
+                subcategory,
+                stock,
                 ProductStat,
                 deleted,
               })
@@ -186,8 +208,8 @@ const Product = ({
                 description,
                 price,
                 rating,
-                category,
-                supply,
+                subcategory,
+                stock,
                 ProductStat,
                 deleted,
               })
@@ -208,7 +230,7 @@ const Product = ({
         <CardContent>
           <Typography variant="body2">Description: {description}</Typography>
           <Typography>id: {id}</Typography>
-          <Typography>Supply Left: {supply}</Typography>
+          <Typography>Stock Left: {stock}</Typography>
           <Typography>
             Yearly Sales This Year: {ProductStat?.yearlySalesTotal}
           </Typography>
@@ -241,6 +263,7 @@ const Product = ({
           handleDelete={handleRestore}
         />
       )}
+      {editModal && <EditProduct cancel={setEditModal} item={editModal}/>}
     </Card>
   );
 };
