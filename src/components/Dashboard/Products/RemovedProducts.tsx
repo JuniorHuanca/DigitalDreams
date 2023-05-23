@@ -82,20 +82,23 @@ const RemovedProducts = (props: Props) => {
                 description,
                 price,
                 rating,
-                subcategory: { category },
+                subcategory,
                 stock,
                 ProductStat,
+                brand,
                 deleted,
               }) => (
                 <Product
                   key={id}
                   id={id}
                   name={name}
+                  brand={brand}
+                  subcategory={subcategory}
                   description={description}
                   price={price}
                   rating={rating}
-                  category={category.name}
-                  supply={stock}
+                  // category={category}
+                  stock={stock}
                   ProductStat={ProductStat}
                   image={image}
                   deleted={deleted}
