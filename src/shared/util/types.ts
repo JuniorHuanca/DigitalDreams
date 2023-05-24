@@ -218,34 +218,34 @@ export enum EStateGeneric {
   FAILED = "failed",
 }
 
-export interface IProduct {
-  id: number;
-  name: string;
-  image: string;
-  brandId: number;
-  subcategoryId: number;
-  price: number;
-  description: any;
-  rating: number;
-  stock: number;
-  soldCount: number;
-  createdAt: Date;
-  updatedAt: Date;
-  deleted: boolean;
-  brand: {
-    id: number;
-    name: string;
-  };
-  subcategory: {
-    id: number;
-    name: string;
-    categoryId: number;
-    category: {
-      id: number;
-      name: string;
-    };
-  };
-}
+// export interface IProduct {
+//   id: number;
+//   name: string;
+//   image: string;
+//   brandId: number;
+//   subcategoryId: number;
+//   price: number;
+//   description: any;
+//   rating: number;
+//   stock: number;
+//   soldCount: number;
+//   createdAt: Date;
+//   updatedAt: Date;
+//   deleted: boolean;
+//   brand: {
+//     id: number;
+//     name: string;
+//   };
+//   subcategory: {
+//     id: number;
+//     name: string;
+//     categoryId: number;
+//     category: {
+//       id: number;
+//       name: string;
+//     };
+//   };
+// }
 export interface IPdashboard extends IProduct {
   ProductStat: any;
   description: string;
@@ -255,4 +255,73 @@ export interface IProductCart {
   id: any;
   quantity: any;
   product: IProduct;
+}
+
+export interface IReport {
+  id: number;
+  userId: string;
+  reviewId: number;
+  reason: string;
+  review: IReview;
+  user: IUser;
+}
+
+export interface IReview {
+  id: number;
+  productId: number;
+  userId: string;
+  description: string;
+  rating: number;
+  createdAt: Date;
+  updatedAt: Date;
+  product?: IProduct;
+}
+
+export interface IProduct {
+  id: number;
+  name: string;
+  image: string;
+  brandId: number;
+  subcategoryId: number;
+  price: number;
+  description: string;
+  rating: number;
+  stock: number;
+  soldCount: number;
+  deleted: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  brand: IBrand;
+  subcategory: Subcategory;
+}
+
+export interface IBrand {
+  id: number;
+  name: string;
+}
+
+export interface Subcategory {
+  id: number;
+  name: string;
+  categoryId: number;
+  category: IBrand;
+}
+
+export interface IUser {
+  id: string;
+  name: string;
+  email: string;
+  username: string;
+  emailVerified: null;
+  image: string;
+  password: string;
+  city?: string;
+  state?: string;
+  country?: string;
+  occupation?: string;
+  phoneNumber?: string;
+  provider: string;
+  role: string;
+  createdAt: Date;
+  updatedAt: Date;
 }

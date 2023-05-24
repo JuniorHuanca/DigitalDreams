@@ -10,7 +10,8 @@ import {
     AdminPanelSettingsOutlined,
     TrendingUpOutlined,
     PieChartOutlined,
-    CalendarMonth
+    CalendarMonth,
+    CommentsDisabled
 } from "@mui/icons-material";
 
 import { BsKanban, BsBarChart, BsBoxSeam, BsShield, BsChatLeft } from 'react-icons/bs';
@@ -39,6 +40,10 @@ export const navItems = [
     {
         text: "Products",
         icon: <ShoppingCartOutlined />,
+    },
+    {
+        text: "Comments",
+        icon: <CommentsDisabled />,
     },
     {
         text: "Customers",
