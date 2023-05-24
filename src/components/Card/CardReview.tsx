@@ -19,6 +19,8 @@ import { useAppDispatch } from "@/state/store";
 import EditReview from "./EditReview";
 import { useSelector } from "react-redux";
 import Reports from "../Modals/Reports";
+import { EStateGeneric } from "@/shared/util/types";
+import LoaderModal from "../Loaders/LoaderModal";
 
 type Props = {
   review: any;
@@ -177,7 +179,13 @@ const CardReview = ({ review, user }: Props) => {
         )}
       </div>
       {showModal && <Login setShowModal={setShowModal} />}
-      {showModalReport && <Reports setShowModal={setShowModalReport} />}
+      {showModalReport && (
+        <Reports
+          setShowModal={setShowModalReport}
+          review={review}
+          user={user}
+        />
+      )}
       {deleteModal && (
         <DeleteConfirmation
           item={deleteModal}
@@ -186,6 +194,7 @@ const CardReview = ({ review, user }: Props) => {
           handleDelete={handleDelete}
         />
       )}
+      {/* {status === EStateGeneric.PENDING && <LoaderModal />} */}
     </div>
   );
 };

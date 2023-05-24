@@ -166,18 +166,14 @@ export const postOneReportReview = createAsyncThunk(
       reason,
       reviewId,
     }: {
-      userId: number,
-      reason: string,
-      reviewId: string,
+      userId: number;
+      reason: string;
+      reviewId: string;
     },
     { rejectWithValue }
   ) => {
     try {
-      const response = await postReportReviewApi(
-        userId,
-        reason,
-        reviewId
-      );
+      const response = await postReportReviewApi(userId, reason, reviewId);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
@@ -397,9 +393,9 @@ const productSlice = createSlice({
       state.postReportReviewStatus = EStateGeneric.FAILED;
     });
 
-    builder.addCase(putOneReview.fulfilled, (state, action) => { });
-    builder.addCase(putOneReview.pending, (state, action) => { });
-    builder.addCase(putOneReview.rejected, (state, action) => { });
+    builder.addCase(putOneReview.fulfilled, (state, action) => {});
+    builder.addCase(putOneReview.pending, (state, action) => {});
+    builder.addCase(putOneReview.rejected, (state, action) => {});
 
     builder.addCase(deleteOneReview.fulfilled, (state, action) => {
       state.deleteReviewStatus = EStateGeneric.SUCCEEDED;
@@ -421,25 +417,25 @@ const productSlice = createSlice({
       state.deleteProductStatus = EStateGeneric.FAILED;
     });
 
-    builder.addCase(restoreOneProduct.fulfilled, (state, action) => { });
-    builder.addCase(restoreOneProduct.pending, (state, action) => { });
-    builder.addCase(restoreOneProduct.rejected, (state, action) => { });
+    builder.addCase(restoreOneProduct.fulfilled, (state, action) => {});
+    builder.addCase(restoreOneProduct.pending, (state, action) => {});
+    builder.addCase(restoreOneProduct.rejected, (state, action) => {});
 
-    builder.addCase(deleteOneProductForEver.fulfilled, (state, action) => { });
-    builder.addCase(deleteOneProductForEver.pending, (state, action) => { });
-    builder.addCase(deleteOneProductForEver.rejected, (state, action) => { });
+    builder.addCase(deleteOneProductForEver.fulfilled, (state, action) => {});
+    builder.addCase(deleteOneProductForEver.pending, (state, action) => {});
+    builder.addCase(deleteOneProductForEver.rejected, (state, action) => {});
 
     builder.addCase(getAllBrands.fulfilled, (state, action) => {
       state.brands = action.payload;
     });
-    builder.addCase(getAllBrands.pending, (state, action) => { });
-    builder.addCase(getAllBrands.rejected, (state, action) => { });
+    builder.addCase(getAllBrands.pending, (state, action) => {});
+    builder.addCase(getAllBrands.rejected, (state, action) => {});
 
     builder.addCase(getAllSubcategorias.fulfilled, (state, action) => {
       state.subcategorias = action.payload;
     });
-    builder.addCase(getAllSubcategorias.pending, (state, action) => { });
-    builder.addCase(getAllSubcategorias.rejected, (state, action) => { });
+    builder.addCase(getAllSubcategorias.pending, (state, action) => {});
+    builder.addCase(getAllSubcategorias.rejected, (state, action) => {});
 
     builder.addCase(postOneProduct.fulfilled, (state, action) => {
       state.postProductStatus = EStateGeneric.SUCCEEDED;
@@ -461,7 +457,7 @@ const productSlice = createSlice({
       state.patchProductStatus = EStateGeneric.FAILED;
     });
   },
-})
+});
 
 export default productSlice.reducer;
 

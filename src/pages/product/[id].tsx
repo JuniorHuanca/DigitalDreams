@@ -8,6 +8,7 @@ import {
   selectAllReviewsStatus,
   allReviews,
   getAllReviewsProduct,
+  selectPostReportReviewStatus,
 } from "@/state/products/product/productSlice";
 import { useAppDispatch } from "@/state/store";
 import { useEffect, useState } from "react";
@@ -41,6 +42,7 @@ import {
   plusOneProduct,
 } from "@/state/cart/cartSlice";
 import DeleteConfirmation from "@/components/Modals/DeleteConfirmation";
+import LoaderModal from "@/components/Loaders/LoaderModal";
 type Props = {};
 interface ISession {
   data: any;
@@ -77,6 +79,7 @@ const Detail = (props: Props) => {
   const router = useRouter();
   const reviewsStatus = useSelector(selectAllReviewsStatus);
   const productStatus = useSelector(selectOneProductStatus);
+  const reportStatus = useSelector(selectPostReportReviewStatus);
   const product = useSelector(oneProduct);
   const cart = useSelector(allProductsCart);
   const productFind = cart.find((item) => item.id === product.id);
@@ -107,9 +110,7 @@ const Detail = (props: Props) => {
         `${product.name} is already in your cart. Quantity has been updated.`
       );
     } else {
-      toast.error(`There is not enough stock for "${product.name}"`, {
-        duration: 3000,
-      });
+      toast.error(`There is not enough stock for "${product.name}"`);
     }
   };
   const counterLess = () => dispatch(minusOneProduct(product.id));
@@ -126,7 +127,6 @@ const Detail = (props: Props) => {
         if (currentProductId !== id) {
           setCurrentProductId(id as string);
           await dispatch(getOneProduct(id as string));
-          await dispatch(getAllReviewsProduct(id as string));
         }
         // }
         if (reviewsStatus === EStateGeneric.IDLE) {
@@ -179,12 +179,12 @@ const Detail = (props: Props) => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (!reviewFields.description || !reviewFields.rating) {
-      toast.error("All fields are required", { duration: 5000 });
+      toast.error("All fields are required");
       return;
     }
     const response = await dispatch(postOneReview(reviewFields));
     if (response.payload.success) {
-      toast.success("Review created successfully", { duration: 5000 });
+      toast.success("Review created successfully");
       const { id } = router.query;
       setValue(0);
       setReviewFields({
@@ -195,7 +195,7 @@ const Detail = (props: Props) => {
       await dispatch(getOneProduct(id as string));
       await dispatch(getAllReviewsProduct(id as string));
     } else {
-      toast.error("Error creating review", { duration: 5000 });
+      toast.error("Error creating review");
     }
   };
   return (
@@ -487,6 +487,7 @@ const Detail = (props: Props) => {
             </div>
           </div>
         )}
+        {reportStatus === EStateGeneric.PENDING && <LoaderModal />}
       </div>
     </Layout>
   );
