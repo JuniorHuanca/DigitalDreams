@@ -4,6 +4,10 @@ import LayoutDashboard from "@/components/Layouts/LayoutDashboard";
 import LoaderModal from "@/components/Loaders/LoaderModal";
 import { EStateGeneric, IReview } from "@/shared/util/types";
 import {
+  selectDeleteReviewStatus,
+  selectRestoreReviewStatus,
+} from "@/state/products/product/productSlice";
+import {
   getAllReports,
   selectAllReports,
   selectAllReportsStatus,
@@ -20,6 +24,8 @@ const Comments = (props: Props) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const reportsStatus = useSelector(selectAllReportsStatus);
+  const statusDeleteReview = useSelector(selectDeleteReviewStatus);
+  const statusRestoreReview = useSelector(selectRestoreReviewStatus);
   const reports = useSelector(selectAllReports);
   useEffect(() => {
     (async () => {
@@ -47,7 +53,8 @@ const Comments = (props: Props) => {
           ))}
         </div>
       </Box>
-      {/* {status === EStateGeneric.PENDING && <LoaderModal />} */}
+      {statusDeleteReview === EStateGeneric.PENDING && <LoaderModal />}
+      {statusRestoreReview === EStateGeneric.PENDING && <LoaderModal />}
     </LayoutDashboard>
   );
 };

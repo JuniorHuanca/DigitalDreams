@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 type Props = {
   item: any;
   cancel: (value: any) => void;
@@ -27,6 +29,38 @@ const DeleteConfirmation = ({ item, cancel, type, handleDelete }: Props) => {
               </button>
               <button
                 className="p-3 rounded-lg bg-indigo-500 text-white"
+                type="button"
+                onClick={() => cancel(null)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
+        {type === "reviewRestore" && (
+          <div className="flex flex-col items-center gap-2">
+            <h2 className="text-xl font-semibold">Restore Review</h2>
+            <p>
+              Are you sure you want to restore this review? Please note that the
+              review will be visible again in the product
+              <Link
+                href={`/product/${item.product.id}`}
+                className="font-semibold"
+              >
+                {" "}
+                "{`${item.product.name}`}"
+              </Link>
+            </p>
+            <div className="w-full flex justify-evenly">
+              <button
+                className="p-3 rounded-lg bg-indigo-500 text-white"
+                type="button"
+                onClick={handleDelete}
+              >
+                Restore
+              </button>
+              <button
+                className="p-3 rounded-lg bg-red-500 text-white"
                 type="button"
                 onClick={() => cancel(null)}
               >

@@ -1,5 +1,12 @@
 
 ![Logo](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/th5xamgrr6se0x5ro4g6.png)
+![Alt text](src/assets/Logos/Designer%20(3).png)
+![Alt text](src/assets/Logos/Designer%20(4).png)
+![Alt text](src/assets/Logos/Designer%20(5).png)
+![Alt text](src/assets/Logos/Designer%20(6).png)
+![Alt text](src/assets/Logos/Designer%20(7).png)
+![Alt text](src/assets/Logos/Designer%20(8).png)
+
 
 
 # Digital Dreams

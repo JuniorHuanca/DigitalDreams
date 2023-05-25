@@ -14,6 +14,7 @@ import {
   postReviewApi,
   putReviewApi,
   restoreProductByApi,
+  restoreReviewByApi,
 } from "./productApi";
 import { RootState } from "@/state/store";
 
@@ -248,6 +249,18 @@ export const restoreOneProduct = createAsyncThunk(
   }
 );
 
+export const restoreOneReview = createAsyncThunk(
+  "product/restoreOneReview",
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const response = await restoreReviewByApi(id);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const getAllBrands = createAsyncThunk(
   "product/getAllBrands",
   async (_, { rejectWithValue }) => {
@@ -282,6 +295,7 @@ interface IProductState {
   deleteReviewStatus: EStateGeneric;
   deleteProductStatus: EStateGeneric;
   postProductStatus: EStateGeneric;
+  restoreReviewStatus: EStateGeneric;
   patchProductStatus: EStateGeneric;
   postReportReviewStatus: EStateGeneric;
 }
@@ -296,6 +310,7 @@ const initialState = {
   deleteReviewStatus: EStateGeneric.IDLE,
   deleteProductStatus: EStateGeneric.IDLE,
   postProductStatus: EStateGeneric.IDLE,
+  restoreReviewStatus: EStateGeneric.IDLE,
   patchProductStatus: EStateGeneric.IDLE,
   postReportReviewStatus: EStateGeneric.IDLE,
 } as IProductState;
@@ -421,6 +436,16 @@ const productSlice = createSlice({
     builder.addCase(restoreOneProduct.pending, (state, action) => {});
     builder.addCase(restoreOneProduct.rejected, (state, action) => {});
 
+    builder.addCase(restoreOneReview.fulfilled, (state, action) => {
+      state.restoreReviewStatus = EStateGeneric.SUCCEEDED;
+    });
+    builder.addCase(restoreOneReview.pending, (state, action) => {
+      state.restoreReviewStatus = EStateGeneric.PENDING;
+    });
+    builder.addCase(restoreOneReview.rejected, (state, action) => {
+      state.restoreReviewStatus = EStateGeneric.FAILED;
+    });
+
     builder.addCase(deleteOneProductForEver.fulfilled, (state, action) => {});
     builder.addCase(deleteOneProductForEver.pending, (state, action) => {});
     builder.addCase(deleteOneProductForEver.rejected, (state, action) => {});
@@ -485,3 +510,7 @@ export const selectPatchOneProductStatus = (state: RootState) =>
   state.product.patchProductStatus;
 export const selectPostReportReviewStatus = (state: RootState) =>
   state.product.postReportReviewStatus;
+export const selectDeleteReviewStatus = (state: RootState) =>
+  state.product.deleteReviewStatus;
+export const selectRestoreReviewStatus = (state: RootState) =>
+  state.product.restoreReviewStatus;

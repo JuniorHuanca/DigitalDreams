@@ -8,7 +8,10 @@ import { BsFillTrashFill } from "react-icons/bs";
 import DeleteConfirmation from "../Modals/DeleteConfirmation";
 import { useAppDispatch } from "@/state/store";
 import { toast } from "react-hot-toast";
-import { deleteOneReview } from "@/state/products/product/productSlice";
+import {
+  deleteOneReview,
+  restoreOneReview,
+} from "@/state/products/product/productSlice";
 import { getAllReports } from "@/state/reviews/reviews/reviewsSlice";
 
 type Props = {
@@ -48,6 +51,18 @@ const ReportReview = ({ review }: Props) => {
       if (response.payload.success) {
         toast.success("Review successfully removed");
         setDeleteModal(null);
+        await dispatch(getAllReports());
+      }
+    } catch (error) {
+      toast.error("something went wrong");
+    }
+  };
+  const handleRestore = async () => {
+    try {
+      const response: any = await dispatch(restoreOneReview(review.id));
+      if (response.payload.success) {
+        toast.success("Review successfully restored");
+        setEditReview(null);
         await dispatch(getAllReports());
       }
     } catch (error) {
@@ -139,6 +154,14 @@ const ReportReview = ({ review }: Props) => {
           cancel={setDeleteModal}
           type="review"
           handleDelete={handleDelete}
+        />
+      )}
+      {editReview && (
+        <DeleteConfirmation
+          item={editReview}
+          cancel={setEditReview}
+          type="reviewRestore"
+          handleDelete={handleRestore}
         />
       )}
     </div>
