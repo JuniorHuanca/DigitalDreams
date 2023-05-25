@@ -48,7 +48,7 @@ const DeleteConfirmation = ({ item, cancel, type, handleDelete }: Props) => {
                 className="font-semibold"
               >
                 {" "}
-                "{`${item.product.name}`}"
+                &quot;{`${item.product.name}`}&quot;
               </Link>
             </p>
             <div className="w-full flex justify-evenly">

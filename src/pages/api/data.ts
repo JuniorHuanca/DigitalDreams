@@ -52,7 +52,7 @@ export default async function handler(
         const subcategories = await prisma.subcategory.findMany();
         const products = await prisma.product.findMany();
         return res.status(200).json({
-          success: true,
+          // success: true,
           brands: brands.length,
           categories: categories.length,
           countries: countries.length,

@@ -35,12 +35,35 @@ import { DataGrid } from "@mui/x-data-grid";
 import LayoutDashboard from "@/components/Layouts/LayoutDashboard";
 import { MdCategory } from "react-icons/md";
 import { AiOutlineCloudUpload } from "react-icons/ai";
+import { useEffect, useState } from "react";
+import { getDataApi, postDataApi } from "@/shared/util/dataApi";
+import { toast } from "react-hot-toast";
 type Props = {};
 
 const Dashboard = (props: Props) => {
   const theme: ITheme = useTheme();
   const isNonMediumScreens = useMediaQuery("(min-width: 1200px)");
   const { data, isLoading } = useGetDashboardQuery(null);
+  const [dataValues, setDataValues] = useState(null);
+  useEffect(() => {
+    (async () => {
+      const response = await getDataApi();
+      if (response.data && response.data.products > 0) {
+        setDataValues(response.data);
+      }
+    })();
+  }, []);
+  const handlePostData = async () => {
+    toast.promise(
+      postDataApi(),
+      {
+        loading: "loading...",
+        success: <b>all data in the app! refresh page to get data</b>,
+        error: <b>Something went wrong</b>,
+      },
+      { duration: 5000 }
+    );
+  };
   return (
     <LayoutDashboard title={"Dashboard"}>
       <Box m="1.5rem 2.5rem">
@@ -55,17 +78,15 @@ const Dashboard = (props: Props) => {
                 fontSize: "14px",
                 fontWeight: "bold",
                 padding: "10px 20px",
+                // maxWidth: "170px",
               }}
             >
-              {/* brands: 48
-              <br />
-              categories: 16
-              <br />
-              subcategories: 34
-              <br />
-              products: 828
-              <br /> */}
-              <AiOutlineCloudUpload size={28} /> POST DATA
+              {dataValues && <pre>{JSON.stringify(dataValues, null, 2)}</pre>}
+              {!dataValues && (
+                <div onClick={handlePostData}>
+                  <AiOutlineCloudUpload size={28} /> POST DATA
+                </div>
+              )}
             </Button>
           </Box>
         </FlexBetween>

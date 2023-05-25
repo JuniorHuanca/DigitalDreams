@@ -26,6 +26,7 @@ import Image from "next/image";
 import Avatar from "react-avatar";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
+import Link from "next/link";
 type Props = {
   user: any;
   // {
@@ -81,7 +82,7 @@ const Sidebar = ({
               <FlexBetween color={theme.palette.secondary.main}>
                 <Box display="flex" alignItems="center" gap="0.5rem">
                   <Typography variant="h4" fontWeight="bold">
-                    DIGITALDREAMS
+                    <Link href="/">DIGITALDREAMS</Link>
                   </Typography>
                 </Box>
                 {!isNonMobile && (
