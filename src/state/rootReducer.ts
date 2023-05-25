@@ -5,6 +5,7 @@ import productsSlice from "./products/products/productsSlice";
 import productSlice from "./products/product/productSlice";
 import cartSlice from "./cart/cartSlice";
 import reviewsSlice from "./reviews/reviews/reviewsSlice";
+import profileSlice from "./profile/favorites/favoritesSlice";
 import { api } from "./api";
 export const rootReducer = combineReducers({
   global: globalSlice,
@@ -14,4 +15,5 @@ export const rootReducer = combineReducers({
   product: productSlice,
   cart: cartSlice,
   reviews: reviewsSlice,
+  profile: profileSlice,
 });

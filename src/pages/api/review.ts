@@ -9,20 +9,37 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
-        const { productId } = req.query;
-        const reviews = await prisma.review.findMany({
-          where: {
-            productId: parseInt(productId as string),
-            reports: { none: {} },
-            // reports: {
-            //   has: false,
-            //   count: { lt: 3 },
-            // },
-          },
-          include: { user: true },
-          orderBy: { createdAt: "desc" },
-        });
-        res.status(201).json({ success: true, reviews });
+        const { productId, userId } = req.query;
+        if (productId) {
+          const reviews = await prisma.review.findMany({
+            where: {
+              productId: parseInt(productId as string),
+              // reports: { none: {} },
+              // reports: {
+              //   has: false,
+              //   count: { lt: 3 },
+              // },
+            },
+            include: { user: true },
+            orderBy: { createdAt: "desc" },
+          });
+          return res.status(200).json({ success: true, reviews });
+        }
+        if (userId) {
+          const reviews = await prisma.review.findMany({
+            where: {
+              userId: userId as string,
+              // reports: { none: {} },
+              // reports: {
+              //   has: false,
+              //   count: { lt: 3 },
+              // },
+            },
+            include: { product: true },
+            orderBy: { createdAt: "desc" },
+          });
+          return res.status(200).json({ success: true, reviews });
+        }
       } catch (error) {
         res.status(400).json({ success: false, error: error });
       }
