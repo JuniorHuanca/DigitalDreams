@@ -9,7 +9,7 @@ const LoaderModal = (props: Props) => {
   const theme: ITheme = useTheme();
 
   return (
-    <div className="fixed top-0 w-screen h-screen bg-black/60 z-[9999]">
+    <div className="fixed top-0 left-0 w-screen h-screen bg-black/60 z-[9999]">
       <FlexCenter>
         <div className={`${styles.loader} ${styles.loader1}`}>
           <div

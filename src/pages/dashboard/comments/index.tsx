@@ -1,6 +1,8 @@
 import Header from "@/components/Dashboard/Header";
+import ReportReview from "@/components/Dashboard/ReportReview";
 import LayoutDashboard from "@/components/Layouts/LayoutDashboard";
-import { EStateGeneric } from "@/shared/util/types";
+import LoaderModal from "@/components/Loaders/LoaderModal";
+import { EStateGeneric, IReview } from "@/shared/util/types";
 import {
   getAllReports,
   selectAllReports,
@@ -32,16 +34,20 @@ const Comments = (props: Props) => {
     //   dispatch(cleanUpProductsDashboard());
     // };
   }, []);
-  console.log(reports);
   return (
     <LayoutDashboard title={"Comments - Dashboard"}>
-      <Box m="1.5rem 2.5rem">
+      <Box m={{ xs: ".5rem", lg: "1.5rem 2.5rem" }}>
         <Header
           title="COMMENTS"
           subtitle="see all the comments that have been reported"
         />
-        <div className="flex flex-wrap gap-2 justify-evenly py-2"></div>
+        <div className="flex flex-wrap flex-col gap-2 justify-evenly py-2 w-full sm:w-full p-2">
+          {reports.map((review: IReview, index) => (
+            <ReportReview key={index} review={review} />
+          ))}
+        </div>
       </Box>
+      {/* {status === EStateGeneric.PENDING && <LoaderModal />} */}
     </LayoutDashboard>
   );
 };

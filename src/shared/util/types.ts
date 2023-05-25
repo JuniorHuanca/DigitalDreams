@@ -262,7 +262,7 @@ export interface IReport {
   userId: string;
   reviewId: number;
   reason: string;
-  review: IReview;
+  review?: IReview;
   user: IUser;
 }
 
@@ -270,6 +270,7 @@ export interface IReview {
   id: number;
   productId: number;
   userId: string;
+  user: IUser;
   description: string;
   rating: number;
   createdAt: Date;
@@ -284,7 +285,7 @@ export interface IProduct {
   brandId: number;
   subcategoryId: number;
   price: number;
-  description: string;
+  description: any;
   rating: number;
   stock: number;
   soldCount: number;

@@ -119,7 +119,7 @@ const CardReview = ({ review, user }: Props) => {
           reviewFields={reviewFields}
         />
       ) : (
-        <div className="flex flex-col">
+        <div className="flex flex-col overflow-y-auto max-h-[250px]">
           <p className="flex gap-2 items-center">
             <Rating
               value={review.rating}
@@ -194,7 +194,6 @@ const CardReview = ({ review, user }: Props) => {
           handleDelete={handleDelete}
         />
       )}
-      {/* {status === EStateGeneric.PENDING && <LoaderModal />} */}
     </div>
   );
 };

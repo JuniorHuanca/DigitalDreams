@@ -17,14 +17,14 @@ export const getAllReports = createAsyncThunk(
 
 interface IReviewsState {
   reviews: IReview;
-  allReviewsReportsStatus: EStateGeneric;
   reports: [];
+  allReviewsReportsStatus: EStateGeneric;
   allReportsStatus: EStateGeneric;
 }
 const initialState = {
   reviews: {},
-  allReviewsReportsStatus: EStateGeneric.IDLE,
   reports: [],
+  allReviewsReportsStatus: EStateGeneric.IDLE,
   allReportsStatus: EStateGeneric.IDLE,
 } as IReviewsState;
 
