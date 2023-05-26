@@ -44,6 +44,7 @@ import {
 } from "@/state/cart/cartSlice";
 import DeleteConfirmation from "@/components/Modals/DeleteConfirmation";
 import LoaderModal from "@/components/Loaders/LoaderModal";
+import { BsFillHeartFill } from "react-icons/bs";
 type Props = {};
 interface ISession {
   data: any;
@@ -282,7 +283,7 @@ const Detail = (props: Props) => {
                   {isOpen ? "Hide description" : "Show description"}
                 </summary>
                 {isOpen && (
-                  <div className="h-[210px] overflow-auto description">
+                  <div className="h-[210px] overflow-auto scroll-white">
                     {description}
                   </div>
                 )}
@@ -316,16 +317,22 @@ const Detail = (props: Props) => {
                     ? `Stock available: ${product.stock}`
                     : "Product sold out"}
                 </span>
-                <button
-                  type="button"
-                  className="w-40 p-4 border-2 dark:border-white border-black hover:dark:bg-primary-800 hover:bg-slate-300"
-                  disabled={product.stock ? false : true}
-                  onClick={() => {
-                    counterPlus();
-                  }}
-                >
-                  {product.stock ? `ADD TO CART` : `NO STOCK`}
-                </button>
+                <div className="flex gap-4">
+                  <button
+                    type="button"
+                    className="w-40 p-4 border-2 dark:border-white border-black hover:dark:bg-primary-800 hover:bg-slate-300"
+                    disabled={product.stock ? false : true}
+                    onClick={() => {
+                      counterPlus();
+                    }}
+                  >
+                    {product.stock ? `ADD TO CART` : `NO STOCK`}
+                  </button>
+                  <button className="bg-pink-500 hover:bg-pink-600  text-white font-bold py-2 px-4 rounded flex justify-center items-center gap-2 border-none bg-transparent favorite">
+                    <BsFillHeartFill className="w-8 h-8 hover:scale-125 cursor-pointer transition-all fill-[#fd1853] hover:fill-black icon" />
+                    FAVORITE
+                  </button>
+                </div>
               </div>
             </div>
             <Related name={product.subcategory.name} id={product.id} />

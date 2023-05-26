@@ -1,7 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { EStateGeneric, IFavorite } from "@/shared/util/types";
 import { RootState } from "@/state/store";
-import { getFavoritesUserByApi } from "./favoritesApi";
+import {
+  deleteFavoritesUserByApi,
+  getFavoritesUserByApi,
+} from "./favoritesApi";
 
 export const getAllFavorites = createAsyncThunk(
   "profile/getAllFavorites",
@@ -15,19 +18,44 @@ export const getAllFavorites = createAsyncThunk(
   }
 );
 
+export const deleteOneFavorite = createAsyncThunk(
+  "profile/deleteOneFavorite",
+  async (
+    { userId, productId }: { userId: string; productId: number },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await deleteFavoritesUserByApi(userId, productId);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 interface IProfileState {
   favorites: IFavorite[];
   allFavoritesStatus: EStateGeneric;
+  deleteFavoriteStatus: EStateGeneric;
 }
 const initialState = {
   favorites: [],
   allFavoritesStatus: EStateGeneric.IDLE,
+  deleteFavoriteStatus: EStateGeneric.IDLE,
 } as IProfileState;
 
 const profileSlice = createSlice({
   name: "profile",
   initialState,
-  reducers: {},
+  reducers: {
+    cleanUpProductsFavorites: (state) => {
+      return {
+        ...state,
+        favorites: [],
+        allFavoritesStatus: EStateGeneric.IDLE,
+      };
+    },
+  },
   extraReducers: (builder) => {
     // Add reducers for additional action types here, and handle loading state as needed
     builder.addCase(getAllFavorites.fulfilled, (state, action) => {
@@ -40,12 +68,25 @@ const profileSlice = createSlice({
     builder.addCase(getAllFavorites.rejected, (state, action) => {
       state.allFavoritesStatus = EStateGeneric.FAILED;
     });
+
+    builder.addCase(deleteOneFavorite.fulfilled, (state, action) => {
+      state.deleteFavoriteStatus = EStateGeneric.SUCCEEDED;
+    });
+    builder.addCase(deleteOneFavorite.pending, (state, action) => {
+      state.deleteFavoriteStatus = EStateGeneric.PENDING;
+    });
+    builder.addCase(deleteOneFavorite.rejected, (state, action) => {
+      state.deleteFavoriteStatus = EStateGeneric.FAILED;
+    });
   },
 });
+export default profileSlice.reducer;
 
 export const selectAllFavoritesStatus = (state: RootState) =>
   state.profile.allFavoritesStatus;
+export const selectDeleteFavoriteStatus = (state: RootState) =>
+  state.profile.deleteFavoriteStatus;
 
-export default profileSlice.reducer;
+export const { cleanUpProductsFavorites } = profileSlice.actions;
 
 export const selectAllFavorites = (state: RootState) => state.profile.favorites;

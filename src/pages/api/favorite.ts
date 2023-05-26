@@ -20,7 +20,11 @@ export default async function handler(
             userId: userId as string,
           },
           include: {
-            product: true,
+            product: {
+              include: {
+                brand: true,
+              }
+            },
           },
         });
         res.status(201).json({ success: true, favorites });
