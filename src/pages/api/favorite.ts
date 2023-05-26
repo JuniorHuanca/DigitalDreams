@@ -10,6 +10,7 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
+        console.log(userId)
         if (!userId)
           return res
             .status(400)
@@ -17,6 +18,9 @@ export default async function handler(
         const favorites = await prisma.favorite.findMany({
           where: {
             userId: userId as string,
+          },
+          include: {
+            product: true,
           },
         });
         res.status(201).json({ success: true, favorites });

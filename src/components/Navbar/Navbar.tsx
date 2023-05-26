@@ -145,7 +145,8 @@ const Navbar = ({ user }: Props) => {
                           src={product.image}
                           alt={product.name}
                           fill
-                          priority={true}
+                          priority
+                          sizes="(max-width: 768px) 100vw, 700px"
                         />
                       </Link>
                       <Link
@@ -175,6 +176,7 @@ const Navbar = ({ user }: Props) => {
               alt=""
               width={55}
               height={55}
+              priority
               className="rounded-full"
             ></Image>
           </FlexBetween>
@@ -254,6 +256,7 @@ const Navbar = ({ user }: Props) => {
                       alt="user"
                       width={32}
                       height={32}
+                      priority
                       onError={() => setErrorImage(true)}
                     />
                   ) : (
@@ -323,7 +326,8 @@ const Navbar = ({ user }: Props) => {
                               src={product.image}
                               alt={product.name}
                               fill
-                              priority={true}
+                              sizes="(max-width: 768px) 100vw, 700px"
+                              priority
                             />
                           </Link>
                           <Link
@@ -361,6 +365,7 @@ const Navbar = ({ user }: Props) => {
                 alt=""
                 width={40}
                 height={55}
+                priority
                 className="rounded-full"
               ></Image>
               <Link href="/" className="font-extrabold text-sm ml-1">

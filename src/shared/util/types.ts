@@ -278,6 +278,12 @@ export interface IReview {
   product?: IProduct;
 }
 
+export interface IFavorite {
+  id: number;
+  userId: string;
+  productId: number;
+  product: IProduct;
+}
 export interface IProduct {
   id: number;
   name: string;

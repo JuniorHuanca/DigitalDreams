@@ -99,7 +99,7 @@ function Pagination({ items, itemsPerPage, currentPage }: Props) {
         onClick={handlePrevbtn}
         disabled={currentPage == pages[0] ? true : false}
       >
-        <Image width={40} height={40} src={left} alt="left" />
+        <Image width={40} height={40} src={left} alt="left" priority />
       </button>
 
       <div onClick={goPage}>
@@ -110,7 +110,7 @@ function Pagination({ items, itemsPerPage, currentPage }: Props) {
         onClick={handleNextbtn}
         disabled={currentPage == pages[pages.length - 1] ? true : false}
       >
-        <Image width={40} height={40} src={right} alt="right" />
+        <Image width={40} height={40} src={right} alt="right" priority />
       </button>
     </div>
   );

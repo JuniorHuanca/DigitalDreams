@@ -13,7 +13,13 @@ const Card = ({ product }: Props) => {
         href={`/product/${product.id}`}
         className="w-full relative h-[57%] rounded-xl overflow-hidden"
       >
-        <Image src={product.image} alt={product.name} fill loading="lazy" />
+        <Image
+          src={product.image}
+          alt={product.name}
+          fill
+          priority
+          sizes="(max-width: 768px) 100vw, 700px"
+        />
       </Link>
       <Link
         href={`/product/${product.id}`}

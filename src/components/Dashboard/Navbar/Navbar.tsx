@@ -174,6 +174,7 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }: Props) => {
                             src={product.image}
                             alt={product.name}
                             fill
+                            sizes="(max-width: 768px) 100vw, 700px"
                             priority={true}
                           />
                         </Link>
@@ -274,6 +275,7 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }: Props) => {
                       alt="user"
                       width={32}
                       height={32}
+                      priority
                       onError={() => setErrorImage(true)}
                     />
                   ) : (
@@ -308,6 +310,7 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }: Props) => {
               src={Logo}
               alt=""
               width={40}
+              priority
               height={55}
               className="rounded-full"
             ></Image>
@@ -391,7 +394,8 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }: Props) => {
                             src={product.image}
                             alt={product.name}
                             fill
-                            priority={true}
+                            sizes="(max-width: 768px) 100vw, 700px"
+                            priority
                           />
                         </Link>
                         <Link

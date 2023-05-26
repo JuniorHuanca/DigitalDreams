@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { EStateGeneric } from "@/shared/util/types";
+import { EStateGeneric, IFavorite } from "@/shared/util/types";
 import { RootState } from "@/state/store";
 import { getFavoritesUserByApi } from "./favoritesApi";
 
@@ -8,7 +8,7 @@ export const getAllFavorites = createAsyncThunk(
   async (userId: string, { rejectWithValue }) => {
     try {
       const response = await getFavoritesUserByApi(userId);
-      return response.data;
+      return response.data.favorites;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
     }
@@ -16,7 +16,7 @@ export const getAllFavorites = createAsyncThunk(
 );
 
 interface IProfileState {
-  favorites: any;
+  favorites: IFavorite[];
   allFavoritesStatus: EStateGeneric;
 }
 const initialState = {

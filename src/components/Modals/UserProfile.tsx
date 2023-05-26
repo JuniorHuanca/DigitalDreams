@@ -44,6 +44,7 @@ const UserProfile = ({ user }: Props) => {
                 src={user.image}
                 alt={user.name}
                 fill
+                priority
                 onError={() => setErrorImage(true)}
               />
             ) : (

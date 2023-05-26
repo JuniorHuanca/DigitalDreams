@@ -64,7 +64,12 @@ const Login = ({
           >
             <div className="flex w-full h-[12%] items-center">
               <div className="w-12 h-12">
-                <Image src={Logo} alt="Logo" className="rounded-full p-2" />
+                <Image
+                  src={Logo}
+                  alt="Logo"
+                  className="rounded-full p-2"
+                  priority
+                />
               </div>
               <p className="px-4  text-black">DigitalDreams</p>
             </div>
@@ -229,7 +234,12 @@ const Login = ({
           >
             <div className="flex w-full h-[12%] items-center">
               <div className="w-12 h-12">
-                <Image src={Logo} alt="Logo" className="rounded-full p-2" />
+                <Image
+                  src={Logo}
+                  alt="Logo"
+                  className="rounded-full p-2"
+                  priority
+                />
               </div>
               <p className="px-4  text-black">DigitalDreams</p>
             </div>

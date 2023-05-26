@@ -1,7 +1,7 @@
 import { signIn } from "next-auth/react";
 import { GiEntryDoor } from "react-icons/gi";
-import Image from 'next/image'
-import Logo from '@/assets/img/Avatar.png'
+import Image from "next/image";
+import Logo from "@/assets/img/Avatar.png";
 type Props = {
   setShowModal: (value: boolean) => void;
 };
@@ -19,7 +19,7 @@ const Login = ({ setShowModal }: Props) => {
           X
         </button>
         <div className="w-32 h-w-32">
-          <Image src={Logo} alt="Logo" className="rounded-full p-2" />
+          <Image src={Logo} alt="Logo" className="rounded-full p-2" priority />
         </div>
         <h2 className="text-xl font-semibold">¡Alert!</h2>
         <p className="text-lg text-center">

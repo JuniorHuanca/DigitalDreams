@@ -227,7 +227,8 @@ const Detail = (props: Props) => {
                 src={isAboveSmallScreens ? NotFoundDark : NotFoundDarkMobile}
                 alt="Error"
                 fill
-                priority={true}
+                priority
+                sizes="(max-width: 768px) 100vw, 700px"
               />
             )}
             {mode !== "dark" && (
@@ -235,7 +236,8 @@ const Detail = (props: Props) => {
                 src={isAboveSmallScreens ? NotFound : NotFoundMobile}
                 alt="Error"
                 fill
-                priority={true}
+                priority
+                sizes="(max-width: 768px) 100vw, 700px"
               />
             )}
           </div>
@@ -254,7 +256,8 @@ const Detail = (props: Props) => {
                   src={product.image}
                   alt={product.name}
                   fill
-                  priority={true}
+                  priority
+                  sizes="(max-width: 768px) 100vw, 700px"
                 />
               </div>
             </div>
@@ -404,6 +407,8 @@ const Detail = (props: Props) => {
                               src={session.user.image}
                               alt={session.user.name}
                               fill
+                              sizes="(max-width: 768px) 100vw, 700px"
+                              priority
                               onError={() => setErrorImage(true)}
                             />
                           ) : (

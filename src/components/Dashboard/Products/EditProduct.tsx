@@ -135,8 +135,8 @@ const EditProduct = ({ item, cancel }: Props) => {
               <Image
                 src={pathImage || Logo}
                 alt="Logo"
-                width={500}
-                height={500}
+                fill
+                sizes="(max-width: 768px) 100vw, 700px"
               />
             </div>
             <label className="flex items-center justify-center  px-4 py-2 cursor-pointer rounded-lg bg-indigo-500 text-white">

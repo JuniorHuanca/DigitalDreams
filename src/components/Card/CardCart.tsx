@@ -40,7 +40,13 @@ const CardCart = ({ item }: Props) => {
   return (
     <div className="flex items-center md:gap-5 gap-1 border-b-2 hover:bg-slate-300 border-slate-200 dark:border-primary-400 dark:hover:bg-primary-600 p-2">
       <div className="relative min-h-[60px] min-w-[60px] md:min-h-[96px] md:min-w-[96px] overflow-hidden">
-        <Image className="rounded-lg" src={item.product.image} alt="" fill />
+        <Image
+          className="rounded-lg"
+          src={item.product.image}
+          alt=""
+          fill
+          sizes="(max-width: 768px) 100vw, 700px"
+        />
       </div>
       <div>
         <p className="font-semibold ">{item.product.name}</p>

@@ -161,6 +161,7 @@ const Sidebar = ({
                     width={32}
                     height={32}
                     onError={() => setErrorImage(true)}
+                    priority
                   />
                 ) : (
                   <Avatar name={user && user.name} size="40" round={true} />

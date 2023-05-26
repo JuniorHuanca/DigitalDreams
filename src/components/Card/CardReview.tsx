@@ -99,6 +99,7 @@ const CardReview = ({ review, user }: Props) => {
               src={review.user.image}
               alt={review.user.name}
               fill
+              sizes="(max-width: 768px) 100vw, 700px"
               onError={() => setErrorImage(true)}
             />
           ) : (

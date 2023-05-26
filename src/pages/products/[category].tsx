@@ -80,7 +80,10 @@ const Brand = (props: Props) => {
 
     return () => {
       dispatch(setCurrentPage(1));
-      if (router.query.category !== "brand" && router.query.category !== "search") {
+      if (
+        router.query.category !== "brand" &&
+        router.query.category !== "search"
+      ) {
         dispatch(cleanUpProductsCategory());
       } else {
         dispatch(cleanUpProductsBrand());
@@ -133,7 +136,8 @@ const Brand = (props: Props) => {
                   src={isAboveSmallScreens ? NotFoundDark : NotFoundDarkMobile}
                   alt="Error"
                   fill
-                  priority={true}
+                  priority
+                  sizes="(max-width: 768px) 100vw, 700px"
                 />
               )}
               {mode !== "dark" && (
@@ -141,7 +145,8 @@ const Brand = (props: Props) => {
                   src={isAboveSmallScreens ? NotFound : NotFoundMobile}
                   alt="Error"
                   fill
-                  priority={true}
+                  priority
+                  sizes="(max-width: 768px) 100vw, 700px"
                 />
               )}
             </div>

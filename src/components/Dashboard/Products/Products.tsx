@@ -121,7 +121,8 @@ const Products = (props: Props) => {
               src={isAboveSmallScreens ? NotFoundDark : NotFoundDarkMobile}
               alt="Error"
               fill
-              priority={true}
+              sizes="(max-width: 768px) 100vw, 700px"
+              priority
             />
           )}
           {mode !== "dark" && (
@@ -129,6 +130,7 @@ const Products = (props: Props) => {
               src={isAboveSmallScreens ? NotFound : NotFoundMobile}
               alt="Error"
               fill
+              sizes="(max-width: 768px) 100vw, 700px"
               priority={true}
             />
           )}

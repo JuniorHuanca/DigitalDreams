@@ -38,7 +38,7 @@ const Chat = () => {
                 alt={item.message}
               /> */}
                 <div className='flex h-16 w-16'>
-                  <Image className="rounded-3xl" src={item.image} alt={item.message} />
+                  <Image className="rounded-3xl" src={item.image} alt={item.message} priority/>
                 </div>
                 <span
                   className="absolute inline-flex rounded-full h-2 w-2 right-0 -top-1 bg-[#03C9D7]"
