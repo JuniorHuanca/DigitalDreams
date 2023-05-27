@@ -133,10 +133,11 @@ const profileSlice = createSlice({
 
     builder.addCase(getOneFavorite.fulfilled, (state, action) => {
       state.favorite = action.payload.success;
-      console.log(action.payload);
     });
     builder.addCase(getOneFavorite.pending, (state, action) => {});
-    builder.addCase(getOneFavorite.rejected, (state, action) => {});
+    builder.addCase(getOneFavorite.rejected, (state, action) => {
+      state.favorite = (action.payload as { success: boolean }).success;
+    });
   },
 });
 export default profileSlice.reducer;

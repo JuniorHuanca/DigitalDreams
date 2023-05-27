@@ -48,6 +48,7 @@ import { BsFillHeartFill } from "react-icons/bs";
 import { FaShoppingCart } from "react-icons/fa";
 import {
   cleanUpProductFavorite,
+  deleteOneFavorite,
   getOneFavorite,
   postOneFavorite,
   selectOneFavorite,
@@ -84,6 +85,7 @@ const Detail = (props: Props) => {
   const [errorImage, setErrorImage] = useState<boolean>(false);
   // const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const isFavorite = useSelector(selectOneFavorite);
+  // const isFavorite = true;
   const [showModal, setShowModal] = useState<boolean>(false);
   const [modalConfirmClear, setModalConfirmClear] = useState<IProduct>();
   const { mode } = theme.palette;
@@ -135,12 +137,27 @@ const Detail = (props: Props) => {
   };
 
   const handleFavorite = async () => {
-    const response = await dispatch(
-      postOneFavorite({ userId: session?.user.id, productId: product.id })
-    );
-    if (response.payload.success) {
-      toast.success("The product was added to your favorites");
+    if (isFavorite) {
+      const response = await dispatch(
+        deleteOneFavorite({ userId: session?.user.id, productId: product.id })
+      );
+      if (response.payload.success) {
+        toast.success("The product was removed from your favorites");
+      }
+    } else {
+      const response = await dispatch(
+        postOneFavorite({ userId: session?.user.id, productId: product.id })
+      );
+      if (response.payload.success) {
+        toast.success("The product was added to your favorites");
+      }
     }
+    await dispatch(
+      getOneFavorite({
+        userId: session?.user.id,
+        productId: product.id,
+      })
+    );
   };
   useEffect(() => {
     (async () => {
@@ -151,20 +168,9 @@ const Detail = (props: Props) => {
           setCurrentProductId(id as string);
           await dispatch(getOneProduct(id as string));
         }
-        // const response = await dispatch(
-        //   getOneFavorite({ userId: session?.user.id, productId: product.id })
-        // );
-        // console.log(response);
-        // }
         if (reviewsStatus === EStateGeneric.IDLE) {
           await dispatch(getAllReviewsProduct(id as string));
         }
-      }
-      if (product.id) {
-        console.log(session?.user.id, product.id);
-        dispatch(
-          getOneFavorite({ userId: session?.user.id, productId: product.id })
-        );
       }
     })();
     if (session) {
@@ -173,12 +179,19 @@ const Detail = (props: Props) => {
         userId: session.user.id,
         productId: product.id,
       });
+      const { id } = router.query;
+      dispatch(
+        getOneFavorite({
+          userId: session?.user.id,
+          productId: parseInt(id as string),
+        })
+      );
     }
     return () => {
       if (currentProductId === router.query.id) {
         dispatch(cleanUpProduct());
-        // dispatch(cleanUpProductFavorite());
       }
+      dispatch(cleanUpProductFavorite());
     };
   }, [router.query.id, status]);
   const description = product?.description?.map((ele: Record<string, any>) => {
@@ -232,7 +245,6 @@ const Detail = (props: Props) => {
       toast.error("Error creating review");
     }
   };
-  console.log(isFavorite);
   return (
     <Layout
       title={`${product.name} - Digital Dreams` || "Error 404 Digital Dreams"}
@@ -380,7 +392,7 @@ const Detail = (props: Props) => {
                   >
                     <BsFillHeartFill
                       className={`w-8 h-8 fill-white icon ${
-                        isFavorite ? "fill-pink-500 scale-125" : "fill-white"
+                        isFavorite ? "fill-[#ec4899] scale-125" : "fill-white"
                       }`}
                     />
                     FAVORITE
