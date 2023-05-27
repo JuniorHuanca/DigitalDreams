@@ -383,20 +383,39 @@ const Detail = (props: Props) => {
                     <FaShoppingCart className="w-8 h-8 cursor-pointer" />
                     {product.stock ? `ADD TO CART` : `NO STOCK`}
                   </button>
-                  <button
-                    className={`hover:bg-pink-600 text-white font-bold py-2 px-4 rounded flex justify-center items-center gap-2 border-none favorite ${
-                      isFavorite ? "bg-pink-600" : "bg-pink-500"
-                    }`}
-                    // onClick={() => setIsFavorite(!isFavorite)}
-                    onClick={handleFavorite}
-                  >
-                    <BsFillHeartFill
-                      className={`w-8 h-8 fill-white icon ${
-                        isFavorite ? "fill-[#ec4899] scale-125" : "fill-white"
+                  {session && (
+                    <button
+                      type="button"
+                      className={`hover:bg-pink-600 text-white font-bold py-2 px-4 rounded flex justify-center items-center gap-2 border-none favorite ${
+                        isFavorite ? "bg-pink-600" : "bg-pink-500"
                       }`}
-                    />
-                    FAVORITE
-                  </button>
+                      // onClick={() => setIsFavorite(!isFavorite)}
+                      onClick={handleFavorite}
+                    >
+                      <BsFillHeartFill
+                        className={`w-8 h-8 fill-white icon ${
+                          isFavorite ? "fill-[#ec4899] scale-125" : "fill-white"
+                        }`}
+                      />
+                      FAVORITE
+                    </button>
+                  )}
+                  {!session && (
+                    <button
+                      type="button"
+                      onClick={handleClick}
+                      className={`hover:bg-pink-600 text-white font-bold py-2 px-4 rounded flex justify-center items-center gap-2 border-none favorite ${
+                        isFavorite ? "bg-pink-600" : "bg-pink-500"
+                      }`}
+                    >
+                      <BsFillHeartFill
+                        className={`w-8 h-8 fill-white icon ${
+                          isFavorite ? "fill-[#ec4899] scale-125" : "fill-white"
+                        }`}
+                      />
+                      FAVORITE
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

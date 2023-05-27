@@ -10,7 +10,6 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
-        console.log(userId);
         if (productId) {
           const favorite = await prisma.favorite.findFirstOrThrow({
             where: {
