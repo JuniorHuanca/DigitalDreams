@@ -10,7 +10,16 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
-        console.log(userId)
+        console.log(userId);
+        if (productId) {
+          const favorite = await prisma.favorite.findFirstOrThrow({
+            where: {
+              userId: userId as string,
+              productId: parseInt(productId as string),
+            },
+          });
+          return res.status(200).json({ success: true, favorite });
+        }
         if (!userId)
           return res
             .status(400)
@@ -23,7 +32,7 @@ export default async function handler(
             product: {
               include: {
                 brand: true,
-              }
+              },
             },
           },
         });

@@ -28,7 +28,7 @@ const Sidebar = (props: Props) => {
   ];
 
   return (
-    <div className="sticky flex flex-col justify-evenly h-full w-[50px] sm:w-[20%] bg-slate-100 dark:bg-primary-500 rounded-lg">
+    <div className="sticky flex flex-col justify-evenly h-full w-[50px] sm:w-[20%] bg-slate-200 dark:bg-primary-500 rounded-lg">
       {isAboveMediumScreens ? (
         links.map((e, index) => (
           <Link
@@ -36,9 +36,9 @@ const Sidebar = (props: Props) => {
             key={index}
           >
             <div
-              className={`w-full flex justify-evenly items-center p-6 hover:dark:bg-primary-400 hover:bg-slate-200 text-base ${
+              className={`w-full flex justify-evenly items-center p-6 hover:dark:bg-indigo-900 hover:bg-slate-300 text-base ${
                 e.name === parts[parts.length - 1]
-                  ? "text-secondary-500 dark:bg-primary-400 bg-slate-200"
+                  ? "dark:text-yellow-400 text-sky-500 dark:bg-indigo-900 bg-slate-300"
                   : ""
               }`}
             >
@@ -54,9 +54,9 @@ const Sidebar = (props: Props) => {
               key={index}
             >
               <div
-                className={`w-full flex justify-evenly items-center py-6 hover:dark:bg-primary-400 hover:bg-slate-200 text-base ${
+                className={`w-full flex justify-evenly items-center py-6 hover:dark:bg-indigo-900 hover:bg-slate-300 text-base ${
                   e.name === parts[parts.length - 1]
-                    ? "text-secondary-500 dark:bg-primary-400 bg-slate-200"
+                    ? "dark:text-yellow-400 text-sky-500 dark:bg-indigo-900 bg-slate-300"
                     : ""
                 }`}
               >

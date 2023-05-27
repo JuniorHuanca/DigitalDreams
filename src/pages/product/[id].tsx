@@ -45,6 +45,14 @@ import {
 import DeleteConfirmation from "@/components/Modals/DeleteConfirmation";
 import LoaderModal from "@/components/Loaders/LoaderModal";
 import { BsFillHeartFill } from "react-icons/bs";
+import { FaShoppingCart } from "react-icons/fa";
+import {
+  cleanUpProductFavorite,
+  getOneFavorite,
+  postOneFavorite,
+  selectOneFavorite,
+  selectPostFavoriteStatus,
+} from "@/state/profile/favorites/favoritesSlice";
 type Props = {};
 interface ISession {
   data: any;
@@ -74,6 +82,8 @@ const Detail = (props: Props) => {
   const theme: ITheme = useTheme();
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const [errorImage, setErrorImage] = useState<boolean>(false);
+  // const [isFavorite, setIsFavorite] = useState<boolean>(false);
+  const isFavorite = useSelector(selectOneFavorite);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [modalConfirmClear, setModalConfirmClear] = useState<IProduct>();
   const { mode } = theme.palette;
@@ -82,6 +92,7 @@ const Detail = (props: Props) => {
   const reviewsStatus = useSelector(selectAllReviewsStatus);
   const statusDeleteReview = useSelector(selectDeleteReviewStatus);
   const productStatus = useSelector(selectOneProductStatus);
+  const favoriteStatus = useSelector(selectPostFavoriteStatus);
   const reportStatus = useSelector(selectPostReportReviewStatus);
   const product = useSelector(oneProduct);
   const cart = useSelector(allProductsCart);
@@ -109,9 +120,9 @@ const Detail = (props: Props) => {
       productFind.quantity < productFind.product.stock
     ) {
       dispatch(plusOneProduct(product.id));
-      toast.success(
-        `${product.name} is already in your cart. Quantity has been updated.`
-      );
+      // toast.success(
+      //   `${product.name} is already in your cart. Quantity has been updated.`
+      // );
     } else {
       toast.error(`There is not enough stock for "${product.name}"`);
     }
@@ -122,6 +133,15 @@ const Detail = (props: Props) => {
     setModalConfirmClear(undefined);
     toast.success(`${product.name} removed successfully`);
   };
+
+  const handleFavorite = async () => {
+    const response = await dispatch(
+      postOneFavorite({ userId: session?.user.id, productId: product.id })
+    );
+    if (response.payload.success) {
+      toast.success("The product was added to your favorites");
+    }
+  };
   useEffect(() => {
     (async () => {
       if (router.isReady) {
@@ -131,10 +151,20 @@ const Detail = (props: Props) => {
           setCurrentProductId(id as string);
           await dispatch(getOneProduct(id as string));
         }
+        // const response = await dispatch(
+        //   getOneFavorite({ userId: session?.user.id, productId: product.id })
+        // );
+        // console.log(response);
         // }
         if (reviewsStatus === EStateGeneric.IDLE) {
           await dispatch(getAllReviewsProduct(id as string));
         }
+      }
+      if (product.id) {
+        console.log(session?.user.id, product.id);
+        dispatch(
+          getOneFavorite({ userId: session?.user.id, productId: product.id })
+        );
       }
     })();
     if (session) {
@@ -147,6 +177,7 @@ const Detail = (props: Props) => {
     return () => {
       if (currentProductId === router.query.id) {
         dispatch(cleanUpProduct());
+        // dispatch(cleanUpProductFavorite());
       }
     };
   }, [router.query.id, status]);
@@ -201,6 +232,7 @@ const Detail = (props: Props) => {
       toast.error("Error creating review");
     }
   };
+  console.log(isFavorite);
   return (
     <Layout
       title={`${product.name} - Digital Dreams` || "Error 404 Digital Dreams"}
@@ -318,7 +350,7 @@ const Detail = (props: Props) => {
                     : "Product sold out"}
                 </span>
                 <div className="flex gap-4">
-                  <button
+                  {/* <button
                     type="button"
                     className="w-40 p-4 border-2 dark:border-white border-black hover:dark:bg-primary-800 hover:bg-slate-300"
                     disabled={product.stock ? false : true}
@@ -327,9 +359,30 @@ const Detail = (props: Props) => {
                     }}
                   >
                     {product.stock ? `ADD TO CART` : `NO STOCK`}
+                  </button> */}
+                  <button
+                    type="button"
+                    className="bg-indigo-700 hover:bg-indigo-800 p-4 font-bold rounded text-white flex justify-center items-center gap-2"
+                    disabled={product.stock ? false : true}
+                    onClick={() => {
+                      counterPlus();
+                    }}
+                  >
+                    <FaShoppingCart className="w-8 h-8 cursor-pointer" />
+                    {product.stock ? `ADD TO CART` : `NO STOCK`}
                   </button>
-                  <button className="bg-pink-500 hover:bg-pink-600  text-white font-bold py-2 px-4 rounded flex justify-center items-center gap-2 border-none bg-transparent favorite">
-                    <BsFillHeartFill className="w-8 h-8 hover:scale-125 cursor-pointer transition-all fill-[#fd1853] hover:fill-black icon" />
+                  <button
+                    className={`hover:bg-pink-600 text-white font-bold py-2 px-4 rounded flex justify-center items-center gap-2 border-none favorite ${
+                      isFavorite ? "bg-pink-600" : "bg-pink-500"
+                    }`}
+                    // onClick={() => setIsFavorite(!isFavorite)}
+                    onClick={handleFavorite}
+                  >
+                    <BsFillHeartFill
+                      className={`w-8 h-8 fill-white icon ${
+                        isFavorite ? "fill-pink-500 scale-125" : "fill-white"
+                      }`}
+                    />
                     FAVORITE
                   </button>
                 </div>
@@ -503,6 +556,7 @@ const Detail = (props: Props) => {
         )}
         {statusDeleteReview === EStateGeneric.PENDING && <LoaderModal />}
         {reportStatus === EStateGeneric.PENDING && <LoaderModal />}
+        {favoriteStatus === EStateGeneric.PENDING && <LoaderModal />}
       </div>
     </Layout>
   );
