@@ -10,6 +10,7 @@ import {
   getAllReviewsProduct,
   selectPostReportReviewStatus,
   selectDeleteReviewStatus,
+  selectPutReviewStatus,
 } from "@/state/products/product/productSlice";
 import { useAppDispatch } from "@/state/store";
 import { useEffect, useState } from "react";
@@ -93,6 +94,7 @@ const Detail = (props: Props) => {
   const router = useRouter();
   const reviewsStatus = useSelector(selectAllReviewsStatus);
   const statusDeleteReview = useSelector(selectDeleteReviewStatus);
+  const statusPutReview = useSelector(selectPutReviewStatus);
   const productStatus = useSelector(selectOneProductStatus);
   const favoriteStatus = useSelector(selectPostFavoriteStatus);
   const reportStatus = useSelector(selectPostReportReviewStatus);
@@ -585,6 +587,7 @@ const Detail = (props: Props) => {
             </div>
           </div>
         )}
+        {statusPutReview === EStateGeneric.PENDING && <LoaderModal />}
         {statusDeleteReview === EStateGeneric.PENDING && <LoaderModal />}
         {reportStatus === EStateGeneric.PENDING && <LoaderModal />}
         {favoriteStatus === EStateGeneric.PENDING && <LoaderModal />}

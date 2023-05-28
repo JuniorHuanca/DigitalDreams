@@ -12,7 +12,6 @@ import {
 } from "@/state/products/product/productSlice";
 import EditReview from "./EditReview";
 import { getAllReviews } from "@/state/profile/profile/profileSlice";
-
 type Props = {
   review: IReview;
   userId: string;

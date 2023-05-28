@@ -16,6 +16,7 @@ import {
 import { useAppDispatch } from "@/state/store";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { BiMessageAltError } from "react-icons/bi";
 import { useSelector } from "react-redux";
 type Props = {};
 interface ISession {
@@ -29,6 +30,7 @@ const Favorites = (props: Props) => {
   const favoritesStatus = useSelector(selectAllFavoritesStatus);
   const deleteFavoriteStatus = useSelector(selectDeleteFavoriteStatus);
   const favorites = useSelector(selectAllFavorites);
+  const isEmpty = favorites.length === 0;
 
   const itemsPerPage = 10;
   const currentPage = useSelector(selectCurrentPage);
@@ -67,7 +69,7 @@ const Favorites = (props: Props) => {
                 <h1 className="p-4 text-xl sm:text-4xl font-bold mb-4">
                   My Favorites
                 </h1>
-                {favoritesStatus === EStateGeneric.SUCCEEDED && (
+                {favoritesStatus === EStateGeneric.SUCCEEDED && !isEmpty && (
                   <div className="w-full h-full flex flex-wrap justify-center gap-4 overflow-y-auto scroll-white">
                     {currentItems.map(
                       ({ userId, productId, product }, index) => (
@@ -79,6 +81,16 @@ const Favorites = (props: Props) => {
                         />
                       )
                     )}
+                  </div>
+                )}
+                {favoritesStatus === EStateGeneric.SUCCEEDED && isEmpty && (
+                  <div className="flex flex-col justify-center items-center p-4 gap-4 sm:gap-2">
+                    <p className="text-5xl sm:text-8xl">
+                      <BiMessageAltError />
+                    </p>
+                    <h2 className="text-center text-4xl sm:text-5xl sm:text-start font-semibold">
+                      You don&apos;t have favorite products yet
+                    </h2>
                   </div>
                 )}
                 {favorites.length > itemsPerPage && (

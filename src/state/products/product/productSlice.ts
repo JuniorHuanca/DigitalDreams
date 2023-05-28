@@ -298,6 +298,7 @@ interface IProductState {
   restoreReviewStatus: EStateGeneric;
   patchProductStatus: EStateGeneric;
   postReportReviewStatus: EStateGeneric;
+  putReviewStatus: EStateGeneric;
 }
 const initialState = {
   product: {},
@@ -313,6 +314,7 @@ const initialState = {
   restoreReviewStatus: EStateGeneric.IDLE,
   patchProductStatus: EStateGeneric.IDLE,
   postReportReviewStatus: EStateGeneric.IDLE,
+  putReviewStatus: EStateGeneric.IDLE,
 } as IProductState;
 
 const productSlice = createSlice({
@@ -408,9 +410,15 @@ const productSlice = createSlice({
       state.postReportReviewStatus = EStateGeneric.FAILED;
     });
 
-    builder.addCase(putOneReview.fulfilled, (state, action) => {});
-    builder.addCase(putOneReview.pending, (state, action) => {});
-    builder.addCase(putOneReview.rejected, (state, action) => {});
+    builder.addCase(putOneReview.fulfilled, (state, action) => {
+      state.putReviewStatus = EStateGeneric.SUCCEEDED;
+    });
+    builder.addCase(putOneReview.pending, (state, action) => {
+      state.putReviewStatus = EStateGeneric.PENDING;
+    });
+    builder.addCase(putOneReview.rejected, (state, action) => {
+      state.putReviewStatus = EStateGeneric.FAILED;
+    });
 
     builder.addCase(deleteOneReview.fulfilled, (state, action) => {
       state.deleteReviewStatus = EStateGeneric.SUCCEEDED;
@@ -510,6 +518,8 @@ export const selectPatchOneProductStatus = (state: RootState) =>
   state.product.patchProductStatus;
 export const selectPostReportReviewStatus = (state: RootState) =>
   state.product.postReportReviewStatus;
+export const selectPutReviewStatus = (state: RootState) =>
+  state.product.putReviewStatus;
 export const selectDeleteReviewStatus = (state: RootState) =>
   state.product.deleteReviewStatus;
 export const selectRestoreReviewStatus = (state: RootState) =>
