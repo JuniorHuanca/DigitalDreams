@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { EStateGeneric, IFavorite } from "@/shared/util/types";
+import { EStateGeneric, IFavorite, IReview } from "@/shared/util/types";
 import { RootState } from "@/state/store";
 import {
   deleteFavoritesUserByApi,
   getFavoriteUserByApi,
   getFavoritesUserByApi,
+  getReviewsUserByApi,
   postFavoriteUserByApi,
 } from "./favoritesApi";
 
@@ -14,6 +15,18 @@ export const getAllFavorites = createAsyncThunk(
     try {
       const response = await getFavoritesUserByApi(userId);
       return response.data.favorites;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const getAllReviews = createAsyncThunk(
+  "profile/getAllReviews",
+  async (userId: string, { rejectWithValue }) => {
+    try {
+      const response = await getReviewsUserByApi(userId);
+      return response.data.reviews;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
     }
@@ -67,15 +80,19 @@ export const postOneFavorite = createAsyncThunk(
 
 interface IProfileState {
   favorites: IFavorite[];
+  reviews: IReview[];
   favorite: boolean;
   allFavoritesStatus: EStateGeneric;
+  allReviewsStatus: EStateGeneric;
   deleteFavoriteStatus: EStateGeneric;
   postFavoriteStatus: EStateGeneric;
 }
 const initialState = {
   favorites: [],
+  reviews: [],
   favorite: false,
   allFavoritesStatus: EStateGeneric.IDLE,
+  allReviewsStatus: EStateGeneric.IDLE,
   deleteFavoriteStatus: EStateGeneric.IDLE,
   postFavoriteStatus: EStateGeneric.IDLE,
 } as IProfileState;
@@ -89,6 +106,13 @@ const profileSlice = createSlice({
         ...state,
         favorites: [],
         allFavoritesStatus: EStateGeneric.IDLE,
+      };
+    },
+    cleanUpReviews: (state) => {
+      return {
+        ...state,
+        reviews: [],
+        allReviewsStatus: EStateGeneric.IDLE,
       };
     },
     cleanUpProductFavorite: (state) => {
@@ -109,6 +133,17 @@ const profileSlice = createSlice({
     });
     builder.addCase(getAllFavorites.rejected, (state, action) => {
       state.allFavoritesStatus = EStateGeneric.FAILED;
+    });
+
+    builder.addCase(getAllReviews.fulfilled, (state, action) => {
+      state.reviews = action.payload;
+      state.allReviewsStatus = EStateGeneric.SUCCEEDED;
+    });
+    builder.addCase(getAllReviews.pending, (state, action) => {
+      state.allReviewsStatus = EStateGeneric.PENDING;
+    });
+    builder.addCase(getAllReviews.rejected, (state, action) => {
+      state.allReviewsStatus = EStateGeneric.FAILED;
     });
 
     builder.addCase(deleteOneFavorite.fulfilled, (state, action) => {
@@ -142,6 +177,8 @@ const profileSlice = createSlice({
 });
 export default profileSlice.reducer;
 
+export const selectAllReviewsStatus = (state: RootState) =>
+  state.profile.allReviewsStatus;
 export const selectAllFavoritesStatus = (state: RootState) =>
   state.profile.allFavoritesStatus;
 export const selectDeleteFavoriteStatus = (state: RootState) =>
@@ -149,8 +186,12 @@ export const selectDeleteFavoriteStatus = (state: RootState) =>
 export const selectPostFavoriteStatus = (state: RootState) =>
   state.profile.postFavoriteStatus;
 
-export const { cleanUpProductsFavorites, cleanUpProductFavorite } =
-  profileSlice.actions;
+export const {
+  cleanUpProductsFavorites,
+  cleanUpProductFavorite,
+  cleanUpReviews,
+} = profileSlice.actions;
 
 export const selectAllFavorites = (state: RootState) => state.profile.favorites;
+export const selectAllReviews = (state: RootState) => state.profile.reviews;
 export const selectOneFavorite = (state: RootState) => state.profile.favorite;

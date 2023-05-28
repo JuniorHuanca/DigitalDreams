@@ -47,7 +47,7 @@ const CardReview = ({ review, user }: Props) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showModalReport, setShowModalReport] = useState<boolean>(false);
   const [deleteModal, setDeleteModal] = useState(null);
-  const [editReview, setEditReview] = useState<any>(null);
+  const [editReview, setEditReview] = useState(null);
   const [reviewFields, setReviewFields] = useState({
     reviewId: review.id,
     description: review.description,
