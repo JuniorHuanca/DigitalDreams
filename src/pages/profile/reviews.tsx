@@ -8,7 +8,7 @@ import {
   cleanUpReviews,
   getAllReviews,
   selectAllReviews,
-} from "@/state/profile/favorites/favoritesSlice";
+} from "@/state/profile/profile/profileSlice";
 import { useAppDispatch } from "@/state/store";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";

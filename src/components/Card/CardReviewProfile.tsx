@@ -11,7 +11,7 @@ import {
   putOneReview,
 } from "@/state/products/product/productSlice";
 import EditReview from "./EditReview";
-import { getAllReviews } from "@/state/profile/favorites/favoritesSlice";
+import { getAllReviews } from "@/state/profile/profile/profileSlice";
 
 type Props = {
   review: IReview;
@@ -90,9 +90,9 @@ const CardReviewProfile = ({ review, userId }: Props) => {
         <>
           <div className="flex flex-wrap items-center space-x-2 text-sm">
             <div>
-              <a href="#" className="text-blue-500 font-bold hover:underline">
+              <p className="text-blue-500 font-bold hover:underline">
                 #{review.id}
-              </a>
+              </p>
             </div>
             <div className="dark:text-white text-gray-500">
               {formatDate(review.createdAt)}
@@ -106,6 +106,7 @@ const CardReviewProfile = ({ review, userId }: Props) => {
           <a
             href={`/product/${review.productId}`}
             target="_blank"
+            rel="noreferrer"
             className="flex items-center dark:text-white gap-2 text-gray-700"
           >
             <img

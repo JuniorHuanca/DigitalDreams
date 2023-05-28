@@ -53,7 +53,7 @@ import {
   postOneFavorite,
   selectOneFavorite,
   selectPostFavoriteStatus,
-} from "@/state/profile/favorites/favoritesSlice";
+} from "@/state/profile/profile/profileSlice";
 type Props = {};
 interface ISession {
   data: any;

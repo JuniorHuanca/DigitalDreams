@@ -7,7 +7,7 @@ import {
   getFavoritesUserByApi,
   getReviewsUserByApi,
   postFavoriteUserByApi,
-} from "./favoritesApi";
+} from "./profileApi";
 
 export const getAllFavorites = createAsyncThunk(
   "profile/getAllFavorites",

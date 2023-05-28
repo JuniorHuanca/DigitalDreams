@@ -8,7 +8,7 @@ import { useAppDispatch } from "@/state/store";
 import {
   deleteOneFavorite,
   getAllFavorites,
-} from "@/state/profile/favorites/favoritesSlice";
+} from "@/state/profile/profile/profileSlice";
 import { toast } from "react-hot-toast";
 
 type Props = {
