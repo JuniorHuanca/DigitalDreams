@@ -85,6 +85,11 @@ const Reviews = (props: Props) => {
                     </h2>
                   </div>
                 )}
+                {reviewsStatus === EStateGeneric.PENDING && (
+                  <div className="w-full h-[70vh] flex justify-center items-center">
+                    <Loader />
+                  </div>
+                )}
               </div>
             </div>
           </div>
