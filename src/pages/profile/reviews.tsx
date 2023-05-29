@@ -5,7 +5,6 @@ import Loader from "@/components/Loaders/Loader";
 import LoaderModal from "@/components/Loaders/LoaderModal";
 import { EStateGeneric } from "@/shared/util/types";
 import {
-  selectAllReviewsStatus,
   selectDeleteReviewStatus,
   selectPutReviewStatus,
 } from "@/state/products/product/productSlice";
@@ -13,6 +12,7 @@ import {
   cleanUpReviews,
   getAllReviews,
   selectAllReviews,
+  selectAllReviewsStatus,
 } from "@/state/profile/profile/profileSlice";
 import { useAppDispatch } from "@/state/store";
 import { useSession } from "next-auth/react";
@@ -64,7 +64,7 @@ const Reviews = (props: Props) => {
                 <h1 className="p-4 text-xl sm:text-4xl font-bold mb-4">
                   My Reviews
                 </h1>
-                {!isEmpty && (
+                {reviewsStatus === EStateGeneric.SUCCEEDED && !isEmpty && (
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3  overflow-y-auto scroll-white">
                     {reviews.map((review) => (
                       <CardReviewProfile
@@ -75,7 +75,7 @@ const Reviews = (props: Props) => {
                     ))}
                   </div>
                 )}
-                {isEmpty && (
+                {reviewsStatus === EStateGeneric.SUCCEEDED && isEmpty && (
                   <div className="flex flex-col justify-center items-center p-4 gap-4 sm:gap-2">
                     <p className="text-5xl sm:text-8xl">
                       <MdCommentsDisabled />

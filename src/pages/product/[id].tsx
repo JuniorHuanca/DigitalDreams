@@ -396,7 +396,7 @@ const Detail = (props: Props) => {
                     >
                       <BsFillHeartFill
                         className={`w-8 h-8 fill-white icon ${
-                          isFavorite ? "fill-[#ec4899] scale-125" : "fill-white"
+                          isFavorite ? "fill-[#ea3f94] scale-125" : "fill-white"
                         }`}
                       />
                       FAVORITE
@@ -412,7 +412,7 @@ const Detail = (props: Props) => {
                     >
                       <BsFillHeartFill
                         className={`w-8 h-8 fill-white icon ${
-                          isFavorite ? "fill-[#ec4899] scale-125" : "fill-white"
+                          isFavorite ? "fill-[#ea3f94]  scale-125" : "fill-white"
                         }`}
                       />
                       FAVORITE

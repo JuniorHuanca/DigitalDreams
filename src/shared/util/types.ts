@@ -278,6 +278,16 @@ export interface IReview {
   product?: IProduct;
 }
 
+export interface IOrder {
+  id: number;
+  userId: string;
+  checkoutSession: string;
+  cost: number;
+  createdAt: Date;
+  updatedAt: Date;
+  products: IProduct[];
+}
+
 export interface IFavorite {
   id: number;
   userId: string;

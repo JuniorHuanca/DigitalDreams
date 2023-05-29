@@ -12,6 +12,7 @@ import {
 } from "@/state/products/product/productSlice";
 import EditReview from "./EditReview";
 import { getAllReviews } from "@/state/profile/profile/profileSlice";
+import { formatDate } from "@/shared/util/backend";
 type Props = {
   review: IReview;
   userId: string;
@@ -37,16 +38,6 @@ const CardReviewProfile = ({ review, userId }: Props) => {
     description: review.description,
     rating: review.rating,
   });
-  const formatDate = (value: string | Date) => {
-    const date = new Date(value);
-    const formattedDate = `${date.getDate()}/${
-      date.getMonth() + 1
-    }/${date.getFullYear()}`;
-    const formattedTime = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-
-    return `${formattedDate} ${formattedTime}`;
-  };
-
   const handleDelete = async () => {
     try {
       const response: any = await dispatch(deleteOneReview(review.id));
@@ -115,9 +106,9 @@ const CardReviewProfile = ({ review, userId }: Props) => {
             />
             <p>{review.product?.name}</p>
           </a>
-          <div className="text-sm dark:text-white text-gray-700">
+          <p className="text-sm h-24 dark:text-white text-gray-700">
             {review.description}
-          </div>
+          </p>
           <div className="flex flex-wrap items-center">
             <Rating
               value={review.rating}

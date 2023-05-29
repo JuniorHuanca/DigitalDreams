@@ -3,6 +3,9 @@ import axios from "axios";
 export const getFavoritesUserByApi = (userId: string) =>
   axios.get(`/api/favorite?userId=${userId}`);
 
+export const getOrdersUserByApi = (userId: string) =>
+  axios.get(`/api/orders?userId=${userId}`);
+
 export const getReviewsUserByApi = (userId: string) =>
   axios.get(`/api/review?userId=${userId}`);
 
