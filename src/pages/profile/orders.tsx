@@ -53,7 +53,7 @@ const Orders = (props: Props) => {
         <LayoutProfile>
           <div className="w-full h-full">
             <div className="flex flex-col items-center h-full">
-              <div className="flex flex-col w-full h-full bg-slate-100 dark:bg-primary-500 rounded-lg">
+              <div className="flex flex-col w-full h-full bg-slate-200 dark:bg-primary-500 rounded-lg">
                 <h1 className="p-4 text-xl sm:text-4xl font-bold mb-4">
                   My Orders
                 </h1>

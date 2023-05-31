@@ -66,7 +66,7 @@ const Settings = (props: Props) => {
         <LayoutProfile>
           <div className="w-full sm:h-full">
             <div className="flex flex-col items-center sm:h-full">
-              <div className="flex flex-col w-full sm:h-full py-4 p-2 sm:p-8 bg-slate-100 dark:bg-primary-500 rounded-lg">
+              <div className="flex flex-col w-full sm:h-full py-4 p-2 sm:p-8 bg-slate-200 dark:bg-primary-500 rounded-lg">
                 <h1 className="text-xl sm:text-4xl font-bold mb-4">
                   My profile
                 </h1>

@@ -101,7 +101,7 @@ const Password = (props: Props) => {
                 <LayoutProfile>
                     <div className="w-full h-full">
                         <div className="flex flex-col items-center h-full">
-                            <div className="flex flex-col w-full  h-full p-8 bg-slate-100 dark:bg-primary-500 rounded-lg">
+                            <div className="flex flex-col w-full  h-full p-8 bg-slate-200 dark:bg-primary-500 rounded-lg">
                                 <h2 className="text-xl sm:text-4xl font-bold mb-4">My password <button onClick={() => setShowForm(!showForm)} className="animate-bell-swing"><FaPencilAlt /></button></h2>
                                 {showForm ? <form className='flex flex-col justify-center sm:justify-start' encType="multipart/form-data" onSubmit={formik.handleSubmit}>
                                     <label className="text-center w-full my-4">Current password</label>
