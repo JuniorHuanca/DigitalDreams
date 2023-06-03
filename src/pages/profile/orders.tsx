@@ -2,7 +2,9 @@ import CardOrder from "@/components/Card/CardOrder";
 import Layout from "@/components/Layouts/Layout";
 import LayoutProfile from "@/components/Layouts/LayoutProfile";
 import Loader from "@/components/Loaders/Loader";
+import Pagination from "@/components/Pagination";
 import { EStateGeneric } from "@/shared/util/types";
+import { selectCurrentPage, setCurrentPage } from "@/state/globalSlice";
 import {
   cleanUpOrders,
   getAllOrders,
@@ -26,8 +28,16 @@ const Orders = (props: Props) => {
   const ordersStatus = useSelector(selectAllOrdersStatus);
   const orders = useSelector(selectAllOrders);
   const isEmpty = orders.length === 0;
+
+  const itemsPerPage = 9;
+  const currentPage = useSelector(selectCurrentPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = orders.slice(indexOfFirstItem, indexOfLastItem);
+
   useEffect(() => {
     setMounted(true);
+    dispatch(setCurrentPage(1));
     (async () => {
       if (ordersStatus === EStateGeneric.IDLE) {
         await dispatch(getAllOrders(session?.user.id));
@@ -59,7 +69,7 @@ const Orders = (props: Props) => {
                 </h1>
                 {ordersStatus === EStateGeneric.SUCCEEDED && !isEmpty && (
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3  overflow-y-auto scroll-white">
-                    {orders.map((order) => (
+                    {currentItems.map((order) => (
                       <CardOrder
                         key={order.id}
                         order={order}
@@ -67,6 +77,13 @@ const Orders = (props: Props) => {
                       />
                     ))}
                   </div>
+                )}
+                {orders.length > itemsPerPage && (
+                  <Pagination
+                    items={orders}
+                    itemsPerPage={itemsPerPage}
+                    currentPage={currentPage}
+                  />
                 )}
                 {ordersStatus === EStateGeneric.SUCCEEDED && isEmpty && (
                   <div className="flex flex-col justify-center items-center p-4 gap-4 sm:gap-2">
