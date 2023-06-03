@@ -30,17 +30,21 @@ export default async function handler(
               id: user.id,
             },
           });
+          if (userFind && userFind.email === "DigitalDreams@gmail.com") {
+            return res.status(401).json({
+              msg: "The credentials of this account are protected, please try another account.",
+              success: false,
+            });
+          }
           const verifyPassword = await compare(
             user?.currentPassword ?? "",
             userFind?.password ?? ""
           );
           if (!verifyPassword) {
-            return res
-              .status(401)
-              .json({
-                msg: "Password is incorrect. To change it, it is necessary to enter the current password.",
-                success: false,
-              });
+            return res.status(401).json({
+              msg: "Password is incorrect. To change it, it is necessary to enter the current password.",
+              success: false,
+            });
           }
           const passwordhash = await hash(user.newPassword, 5);
           const userUpdate = await prisma.user.update({
