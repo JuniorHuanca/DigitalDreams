@@ -17,6 +17,7 @@ import { Toaster, toast } from "react-hot-toast";
 import Head from "next/head";
 import LoaderModal from "@/components/Loaders/LoaderModal";
 import useMediaQuery from "@/shared/util/useMediaQuery";
+import { IUser } from "@/shared/util/types";
 interface ISession {
   data: any;
   status: string;
@@ -27,7 +28,7 @@ type Props = {
 
 const Settings = (props: Props) => {
   const [fileImg, setFileImg] = useState(null);
-  const [seletUser, setSeletUser] = useState(null);
+  const [seletUser, setSeletUser] = useState<IUser | null>(null);
   const [errorImage, setErrorImage] = useState(false);
   const [pathImage, setPathImage] = useState<any>();
   const { data: session, status }: ISession = useSession();
@@ -44,7 +45,7 @@ const Settings = (props: Props) => {
       await dispatch(getOneUser(session?.user.email));
     })();
   }, [session, dispatch]);
-  const handleImageProfile = async (e: any) => {
+  const handleImageProfile = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const response: any = await dispatch(updateImageOneUser(userUpdateImage));
@@ -66,8 +67,8 @@ const Settings = (props: Props) => {
         <LayoutProfile>
           <div className="w-full sm:h-full">
             <div className="flex flex-col items-center sm:h-full">
-              <div className="flex flex-col w-full sm:h-full py-4 p-2 sm:p-8 bg-slate-200 dark:bg-primary-500 rounded-lg">
-                <h1 className="text-xl sm:text-4xl font-bold mb-4">
+              <div className="flex flex-col w-full sm:h-full py-4  sm:p-8 bg-slate-200 dark:bg-primary-500 rounded-lg">
+                <h1 className="p-4 text-xl sm:text-4xl font-bold mb-4">
                   My profile
                 </h1>
                 <div className="flex flex-col sm:flex-row items-center gap-4">
@@ -163,12 +164,14 @@ const Settings = (props: Props) => {
                       {user?.name}
                     </p>
                   </div>
-                  <div className="flex flex-col sm:flex-row gap-4 w-full">
-                    <h3 className="w-[30%]">Username:</h3>
-                    <p className="border-2 border-slate-200 dark:border-primary-400 py-2 px-4">
-                      {user?.username}
-                    </p>
-                  </div>
+                  {user.provider === "local" && (
+                    <div className="flex flex-col sm:flex-row gap-4 w-full">
+                      <h3 className="w-[30%]">Username:</h3>
+                      <p className="border-2 border-slate-200 dark:border-primary-400 py-2 px-4">
+                        {user?.username}
+                      </p>
+                    </div>
+                  )}
                   <div className="flex flex-col sm:flex-row gap-4 w-full">
                     <h3 className="w-[30%]">Email:</h3>
                     <p className="border-2 border-slate-200 dark:border-primary-400 py-2 px-4 overflow-hidden">

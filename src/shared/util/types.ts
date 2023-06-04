@@ -337,7 +337,7 @@ export interface IUser {
   country?: string;
   occupation?: string;
   phoneNumber?: string;
-  provider: string;
+  provider?: string;
   role: string;
   createdAt: Date;
   updatedAt: Date;

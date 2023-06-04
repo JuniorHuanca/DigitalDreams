@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getUserByApi, updateUserByApi, updateUserImageByApi } from "./userApi";
-import { EStateGeneric } from "@/shared/util/types";
+import { EStateGeneric, IUser } from "@/shared/util/types";
 import { RootState } from "@/state/store";
 
 export const getOneUser = createAsyncThunk(
@@ -40,7 +40,7 @@ export const updateImageOneUser = createAsyncThunk(
 );
 
 interface IUserState {
-  user: any;
+  user: IUser;
   oneUserStatus: EStateGeneric;
 }
 const initialState = {
