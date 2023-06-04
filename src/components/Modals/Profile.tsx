@@ -54,6 +54,7 @@ const Profile = ({ user, setSeletUser }: Props) => {
   });
   async function onSubmit(values: any) {
     try {
+      console.log(values)
       const response: any = await dispatch(updateOneUser(values));
       if (response?.error) {
         toast.error("An error occurred", { duration: 3000 });
@@ -69,45 +70,46 @@ const Profile = ({ user, setSeletUser }: Props) => {
   }
 
   return (
-    <div className="absolute w-screen h-screen bg-black/50 top-0 left-0 flex justify-center items-center z-30">
+    <div className="absolute w-full h-screen bg-black/50 top-0 left-0 flex justify-center items-center z-30">
       <form
-        className="flex flex-col gap-4 w-[50%] bg-primary-500 rounded-md p-6"
+        className="flex flex-col gap-4 w-full sm:w-[50%] bg-white dark:bg-primary-500 rounded-md p-6"
         onSubmit={formik.handleSubmit}
       >
         <h2 className="flex  gap-4 text-2xl font-bold">Update profile</h2>
         {user?.provider === "local" && (
-          <div className="flex flex-col justify-center w-full ">
+          <div className="flex flex-col justify-center w-full items-center">
             <label className="text-base font-bold">username</label>
             <input
-              className={`bg-primary-400 w-3/4 md:w-2/4  focus:outline-none text-white p-4 rounded-md`}
+              className={`dark:bg-primary-400 bg-slate-200 w-full sm:w-3/4 focus:outline-none dark:text-white p-4 rounded-md`}
               {...formik.getFieldProps("username")}
               type="text"
             />
           </div>
         )}
-        <div className="flex flex-col justify-center w-full ">
+        <div className="flex flex-col justify-center w-full items-center">
           <label className="text-base font-bold">name</label>
           <input
-            className={`bg-primary-400 w-3/4 md:w-2/4  focus:outline-none text-white p-4 rounded-md`}
+            className={`dark:bg-primary-400 bg-slate-200 w-full sm:w-3/4 focus:outline-none dark:text-white p-4 rounded-md`}
             {...formik.getFieldProps("name")}
             type="text"
           />
         </div>
-        {/* <div className="flex flex-col justify-center w-full ">
+        {/* <div className="flex flex-col justify-center w-full items-center">
                     <label className="text-base font-bold">image</label>
-                    <input className={`bg-primary-400 w-3/4 md:w-2/4  focus:outline-none text-white p-4 rounded-md`}
+                    <input className={`dark:bg-primary-400 bg-slate-200 w-full sm:w-3/4 focus:outline-none dark:text-white p-4 rounded-md`}
                         {...formik.getFieldProps('image')}
                         type="text" />
                 </div> */}
         <div className="flex justify-evenly">
           <button
-            className="py-2 px-4 bg-white dark:bg-primary-600 rounded-lg"
+            className="py-2 px-4 bg-indigo-700 text-white rounded-lg"
             type="submit"
           >
             Update
           </button>
           <button
-            className="py-2 px-4 bg-white dark:bg-primary-600 rounded-lg"
+            type="button"
+            className="py-2 px-4 bg-red-500 text-white rounded-lg"
             onClick={() => setSeletUser(null)}
           >
             Cancel
