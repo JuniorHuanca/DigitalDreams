@@ -37,7 +37,7 @@ const Profile = ({ user, setSeletUser }: Props) => {
   const formik = useFormik({
     initialValues: {
       id: user.id,
-      username: user.username,
+      username: user.username || user.name,
       name: user.name,
       image: user.image,
       password: user.password,
@@ -54,7 +54,6 @@ const Profile = ({ user, setSeletUser }: Props) => {
   });
   async function onSubmit(values: any) {
     try {
-      console.log(values)
       const response: any = await dispatch(updateOneUser(values));
       if (response?.error) {
         toast.error("An error occurred", { duration: 3000 });
@@ -73,7 +72,15 @@ const Profile = ({ user, setSeletUser }: Props) => {
     <div className="absolute w-full h-screen bg-black/50 top-0 left-0 flex justify-center items-center z-30">
       <form
         className="flex flex-col gap-4 w-full sm:w-[50%] bg-white dark:bg-primary-500 rounded-md p-6"
-        onSubmit={formik.handleSubmit}
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (!formik.values.name || !formik.values.username) {
+            return toast.error(
+              "Please complete all fields before submitting the form"
+            );
+          }
+          formik.handleSubmit();
+        }}
       >
         <h2 className="flex  gap-4 text-2xl font-bold">Update profile</h2>
         {user?.provider === "local" && (
