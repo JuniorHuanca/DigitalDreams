@@ -73,7 +73,7 @@ const Cart = () => {
               <div className="mt-1 mb-3">
                 <div className="flex justify-between items-center">
                   <p className="text-gray-500 dark:text-gray-200">Sub Total</p>
-                  <p className="font-semibold">$ {totalPrice}</p>
+                  <p className="font-semibold">$ {totalPrice.toFixed(2)}</p>
                 </div>
                 <div className="flex justify-between items-center">
                   <p className="text-gray-500 dark:text-gray-200">Descuento</p>
@@ -81,7 +81,7 @@ const Cart = () => {
                 </div>
                 <div className="flex justify-between items-center mt-3">
                   <p className="text-gray-500 dark:text-gray-200">Total</p>
-                  <p className="font-semibold">$ {totalPrice}</p>
+                  <p className="font-semibold">$ {totalPrice.toFixed(2)}</p>
                 </div>
               </div>
               {session && (
