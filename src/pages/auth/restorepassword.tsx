@@ -111,13 +111,13 @@ const RestorePassword = (props: Props) => {
           </div>
           <div className="flex justify-evenly w-full">
             <button
-              className="bg-sky-900 py-4 px-10 rounded-3xl border hover:scale-125 transition-transform"
+              className="bg-sky-900 text-white py-4 px-10 rounded-3xl border hover:scale-125 transition-transform"
               type="submit"
             >
               Continue
             </button>
             <Link href={"/auth/SignIn"}>
-              <div className="bg-rose-800 py-4 px-10 rounded-3xl border hover:scale-125 transition-transform">
+              <div className="bg-rose-800 text-white py-4 px-10 rounded-3xl border hover:scale-125 transition-transform">
                 Cancel
               </div>
             </Link>

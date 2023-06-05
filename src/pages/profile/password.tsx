@@ -377,7 +377,7 @@ const Password = (props: Props) => {
                       <div className="flex justify-evenly w-full py-6">
                         <button
                           type="submit"
-                          className="bg-slate-400 dark:bg-primary-600 py-4 px-3 xs:px-10 rounded-lg hover:scale-110 transition-all "
+                          className="bg-indigo-700 text-white py-4 px-3 xs:px-10 rounded-lg hover:scale-110 transition-all "
                         >
                           Submit
                         </button>
