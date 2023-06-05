@@ -11,6 +11,7 @@ import {
   selectPostReportReviewStatus,
   selectDeleteReviewStatus,
   selectPutReviewStatus,
+  cleanUpReviews,
 } from "@/state/products/product/productSlice";
 import { useAppDispatch } from "@/state/store";
 import { useEffect, useState } from "react";
@@ -194,6 +195,8 @@ const Detail = (props: Props) => {
         dispatch(cleanUpProduct());
       }
       dispatch(cleanUpProductFavorite());
+      dispatch(cleanUpReviews());
+
     };
   }, [router.query.id, status]);
   const description = product?.description?.map((ele: Record<string, any>) => {

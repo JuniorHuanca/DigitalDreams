@@ -324,10 +324,15 @@ const productSlice = createSlice({
     cleanUpProduct: (state) => {
       return {
         ...state,
-        reviews: [],
         oneProductStatus: EStateGeneric.IDLE,
-        allReviewsStatus: EStateGeneric.IDLE,
         product: {} as IProduct,
+      };
+    },
+    cleanUpReviews: (state) => {
+      return {
+        ...state,
+        reviews: [],
+        allReviewsStatus: EStateGeneric.IDLE,
       };
     },
     // filterByDate: (state, action) => {
@@ -503,6 +508,7 @@ export const allSubcategorias = (store: RootState) =>
 
 export const {
   cleanUpProduct,
+  cleanUpReviews,
   // filterByDate,
   // filterByRating
 } = productSlice.actions;
