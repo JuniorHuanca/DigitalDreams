@@ -324,6 +324,7 @@ const productSlice = createSlice({
     cleanUpProduct: (state) => {
       return {
         ...state,
+        reviews: [],
         oneProductStatus: EStateGeneric.IDLE,
         allReviewsStatus: EStateGeneric.IDLE,
         product: {} as IProduct,

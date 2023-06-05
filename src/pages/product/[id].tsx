@@ -191,9 +191,9 @@ const Detail = (props: Props) => {
     }
     return () => {
       if (currentProductId === router.query.id) {
-        // dispatch(cleanUpProduct());
+        dispatch(cleanUpProduct());
       }
-      // dispatch(cleanUpProductFavorite());
+      dispatch(cleanUpProductFavorite());
     };
   }, [router.query.id, status]);
   const description = product?.description?.map((ele: Record<string, any>) => {
@@ -396,7 +396,7 @@ const Detail = (props: Props) => {
                     >
                       <BsFillHeartFill
                         className={`w-8 h-8 fill-white icon ${
-                          isFavorite ? "fill-[#ec4899] scale-125" : "fill-white"
+                          isFavorite ? "fill-rose-700 scale-125" : "fill-white"
                         }`}
                       />
                       FAVORITE
@@ -412,7 +412,7 @@ const Detail = (props: Props) => {
                     >
                       <BsFillHeartFill
                         className={`w-8 h-8 fill-white icon ${
-                          isFavorite ? "fill-[#ec4899]  scale-125" : "fill-white"
+                          isFavorite ? "fill-rose-700 scale-125" : "fill-white"
                         }`}
                       />
                       FAVORITE
