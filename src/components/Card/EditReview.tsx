@@ -1,14 +1,15 @@
+import { IReview } from "@/shared/util/types";
 import { Rating } from "@mui/material";
 import { useEffect, useState } from "react";
 
 type Props = {
-  editReview: any;
+  editReview: IReview;
   labels: any;
-  formattedCreatedAt: any;
-  formattedUpdatedAt: any;
+  formattedCreatedAt: string;
+  formattedUpdatedAt: string;
   reviewFields: any;
   handleEdit: () => void;
-  setEditReview: (value: any) => void;
+  setEditReview: (value: IReview | null) => void;
   setReviewFields: (value: any) => void;
 };
 

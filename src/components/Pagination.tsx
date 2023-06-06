@@ -14,8 +14,8 @@ import {
 import { toast } from "react-hot-toast";
 type Props = {
   items: any;
-  itemsPerPage: any;
-  currentPage: any;
+  itemsPerPage: number;
+  currentPage: number;
 };
 function Pagination({ items, itemsPerPage, currentPage }: Props) {
   const dispatch = useAppDispatch();
@@ -26,7 +26,7 @@ function Pagination({ items, itemsPerPage, currentPage }: Props) {
   const minPageNumLim = useSelector(selectMinPageNumLim);
   const maxPageNumLim = useSelector(selectMaxPageNumLim);
   const pages = [];
-  const inputRef = useRef<any>(null);
+  const inputRef = useRef(null);
   for (let i = 1; i <= Math.ceil(items.length / itemsPerPage); i++) {
     pages.push(i);
   }
@@ -42,7 +42,7 @@ function Pagination({ items, itemsPerPage, currentPage }: Props) {
         toast.dismiss();
       }
     };
-    const handleKeyDown = (event: any) => {
+    const handleKeyDown = (event: React.KeyboardEvent) => {
       if (event.keyCode === 13) {
         handleSubmit();
       }

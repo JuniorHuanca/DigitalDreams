@@ -19,12 +19,12 @@ import { useAppDispatch } from "@/state/store";
 import EditReview from "./EditReview";
 import { useSelector } from "react-redux";
 import Reports from "../Modals/Reports";
-import { EStateGeneric } from "@/shared/util/types";
+import { EStateGeneric, IReview, IUser } from "@/shared/util/types";
 import LoaderModal from "../Loaders/LoaderModal";
 
 type Props = {
-  review: any;
-  user: any;
+  review: IReview;
+  user: IUser;
 };
 const labels: { [index: string]: string } = {
   0.5: "Useless",
@@ -46,8 +46,8 @@ const CardReview = ({ review, user }: Props) => {
   const [errorImage, setErrorImage] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showModalReport, setShowModalReport] = useState<boolean>(false);
-  const [deleteModal, setDeleteModal] = useState(null);
-  const [editReview, setEditReview] = useState(null);
+  const [deleteModal, setDeleteModal] = useState<null | IReview>(null);
+  const [editReview, setEditReview] = useState<null | IReview>(null);
   const [reviewFields, setReviewFields] = useState({
     reviewId: review.id,
     description: review.description,
@@ -68,8 +68,8 @@ const CardReview = ({ review, user }: Props) => {
       const response: any = await dispatch(deleteOneReview(review.id));
       if (response.payload.success) {
         toast.success("Review successfully removed", { duration: 3000 });
-        await dispatch(getOneProduct(review.productId));
-        await dispatch(getAllReviewsProduct(review.productId));
+        await dispatch(getOneProduct(review.productId.toString()));
+        await dispatch(getAllReviewsProduct(review.productId.toString()));
         setDeleteModal(null);
       }
     } catch (error) {
@@ -81,8 +81,8 @@ const CardReview = ({ review, user }: Props) => {
       const response: any = await dispatch(putOneReview(reviewFields));
       if (response.payload.success) {
         toast.success("Review successfully updated", { duration: 3000 });
-        await dispatch(getOneProduct(review.productId));
-        await dispatch(getAllReviewsProduct(review.productId));
+        await dispatch(getOneProduct(review.productId.toString()));
+        await dispatch(getAllReviewsProduct(review.productId.toString()));
         setEditReview(null);
       }
     } catch (error) {
