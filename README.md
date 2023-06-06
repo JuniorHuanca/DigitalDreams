@@ -53,8 +53,11 @@ Instala las dependencias del proyecto:
 
 Para ejecutar este proyecto, deberá agregar las siguientes variables de entorno a su archivo .env
 
-### Autenticación con GitHub:
-
+<details>
+  <summary>
+    <b style="font-size: 18px">Autenticación con GitHub:</b>
+  </summary>
+  
 - Visita https://github.com/settings/developers en tu navegador y asegúrate de iniciar sesión en tu cuenta de GitHub.
 
 - Haz clic en "New OAuth App" para crear una nueva aplicación OAuth.
@@ -75,9 +78,12 @@ Para ejecutar este proyecto, deberá agregar las siguientes variables de entorno
   `GITHUB_CLIENT_ID=YOUR_CLIENT_ID`
 
   `GITHUB_CLIENT_SECRET=YOUR_CLIENT_SECRET`
+</details>
 
-### Autenticación con Google:
-
+<details>
+  <summary>
+    <b style="font-size: 18px">Autenticación con Google:</b>
+  </summary>
 - Visita https://console.developers.google.com/apis/credentials en tu navegador y asegúrate de iniciar sesión en tu cuenta de Google.
 
 - Crea un nuevo proyecto o selecciona uno existente.
@@ -102,8 +108,12 @@ Para ejecutar este proyecto, deberá agregar las siguientes variables de entorno
   `GOOGLE_ID=YOUR_GOOGLE_ID`
 
   `GOOGLE_SECRET=YOUR_GOOGLE_SECRET`
+</details>
 
-### Autenticación con Spotify:
+<details>
+  <summary>
+    <b style="font-size: 18px">Autenticación con Spotify:</b>
+  </summary>
 
 - Visita https://developer.spotify.com/dashboard/applications en tu navegador y asegúrate de iniciar sesión en tu cuenta de Spotify o crear una cuenta nueva si aún no la tienes.
 
@@ -123,8 +133,11 @@ Para ejecutar este proyecto, deberá agregar las siguientes variables de entorno
   `SPOTIFY_CLIENT_ID=TU_CLIENT_ID_DE_SPOTIFY`
 
   `SPOTIFY_CLIENT_SECRET=TU_CLIENT_SECRET_DE_SPOTIFY`
-
-### Cloudinary
+</details>
+<details>
+  <summary>
+    <b style="font-size: 18px">Cloudinary:</b>
+  </summary>
 
 - Visita https://cloudinary.com en tu navegador y asegúrate de iniciar sesión en tu cuenta de Cloudinary o crear una cuenta nueva si aún no la tienes.
 
@@ -147,8 +160,11 @@ Para ejecutar este proyecto, deberá agregar las siguientes variables de entorno
   `CLOUDINARY_API_KEY=TU_CLAVE_DE_API_CLOUDINARY`
 
   `CLOUDINARY_API_SECRET=TU_SECRETO_DE_API_CLOUDINARY`
-
-### Stripe
+</details>
+<details>
+  <summary>
+    <b style="font-size: 18px">Stripe:</b>
+  </summary>
 
 - Visita https://dashboard.stripe.com en tu navegador y accede a tu cuenta de Stripe o crea una cuenta nueva si no tienes una.
 
@@ -168,8 +184,11 @@ Para ejecutar este proyecto, deberá agregar las siguientes variables de entorno
   `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=TU_CLAVE_DE_PUBLICACIÓN`
 
   `STRIPE_SECRET_KEY=TU_CLAVE_SECRETA`
-
-### NEXTAUTH_SECRET
+</details>
+<details>
+  <summary>
+    <b style="font-size: 18px">NEXTAUTH_SECRET:</b>
+  </summary>
 
 - Visita https://generate-secret.vercel.app/32 en tu navegador.
 
@@ -182,10 +201,12 @@ Para ejecutar este proyecto, deberá agregar las siguientes variables de entorno
   Ejemplo de archivo `.env`:
 
   `NEXTAUTH_SECRET=TU_SECRETO_GENERADO`
-
-### NodeMailer
-
-Para que Nodemailer funcione y pueda enviar correos electrónicos, necesitarás utilizar las credenciales de una cuenta de correo de Google. Sigue los siguientes pasos para obtener las credenciales necesarias:
+</details>
+<details>
+  <summary>
+    <b style="font-size: 18px">NodeMailer:</b>
+  </summary>
+  Para que Nodemailer funcione y pueda enviar correos electrónicos, necesitarás utilizar las credenciales de una cuenta de correo de Google. Sigue los siguientes pasos para obtener las credenciales necesarias:
 
 - Abre un navegador web y visita la página de "Contraseñas de aplicaciones" de Google en https://myaccount.google.com/apppasswords.
 
@@ -206,14 +227,17 @@ Para que Nodemailer funcione y pueda enviar correos electrónicos, necesitarás 
   `GOOGLE_EMAIL=TU_GOOGLE_EMAIL`
 
   `GOOGLE_PASSWORD=TU_GOOGLE_PASSWORD`
-
-### Base de Datos ( postgreSQL)
-
+</details>
+<details>
+  <summary>
+    <b style="font-size: 18px">Base de Datos ( postgreSQL):</b>
+  </summary>
 Agrega la siguiente línea al archivo `.env` para configurar la variable de entorno
 
 Ejemplo de archivo `.env`:
 `DATABASE_URL=postgresql://postgres:password@localhost:5432/digitaldreams?schema=public`
 
+</details>
 
 ## Tu archivo debería verse así:
 
@@ -234,27 +258,66 @@ Ejemplo de archivo `.env`:
     GOOGLE_PASSWORD=TU_GOOGLE_PASSWORD
     DATABASE_URL=postgresql://postgres:password@localhost:5432/digitaldreams?schema=public
 
+## Ejecutar localmente
 
+Para ejecutar el proyecto localmente, sigue estos pasos:
 
+- Abre una terminal en la raíz del proyecto.
+- Ejecuta el siguiente comando para aplicar las migraciones de la base de datos:
 
+```bash
+  npx prisma migrate dev
+```
 
+- Se te pedirá que le des un nombre a la migración. Ingresa un nombre descriptivo y presiona Enter.
+- Luego, ejecuta el siguiente comando para iniciar el servidor de desarrollo:
 
+```bash
+  npm run dev
+```
 
+- Abre tu navegador web y ve a la URL http://localhost:3000.
+  Ahora deberías poder ver y utilizar la aplicación localmente en tu navegador.
 
+## Ingresar datos en la aplicación
 
+- La aplicación no tiene datos inicialmente, por lo que existen dos formas de ingresar productos:
 
+1. La primera forma es a través de la interfaz de usuario.
+   - Dirígete a http://localhost:3000/auth/SignIn y regístrate.
+   - Una vez registrado, inicia sesión. Al ser la primera cuenta registrada, tendrás el rol de "Admin". Con este rol, puedes ir a http://localhost:3000/dashboard y hacer clic en el botón "POST DATA".
+   - Si ves una alerta de éxito en la parte izquierda de la pantalla que dice "all data in the app! refresh page to get data", puedes ir nuevamente a http://localhost:3000 y ver la aplicación funcionando correctamente.
+2. La segunda forma es usando `Postman` o `Thunder Client` en Visual Studio Code.
+   - Haz una solicitud de tipo `POST` a `http://localhost:3000/api/data`
 
+## Respuesta exitosa
 
+Código: `200`
 
+Contenido: Objeto JSON
 
+```json
+{
+  "brands": 48,
+  "categories": 16,
+  "countries": 250,
+  "subcategories": 34,
+  "products": 830
+}
+```
 
+## Respuesta de error
 
+Código: `400`
 
+Contenido: Objeto JSON
 
-
-
-
-
+```json
+{
+  "success": false,
+  "message": "the data exists"
+}
+```
 
 # EN | Digital Dreams
 
@@ -307,33 +370,110 @@ Install the project dependencies:
 
 ## Demo
 
-https://digitaldreams.vercel.app/
+https://digitaldreams.vercel.app
 
-## Author
+# API Reference
 
-- [@Junior Huanca](https://github.com/JuniorHuanca)
+## Overview
 
-## API Reference
+The API reference provides detailed information on how to interact with our API endpoints. It includes the endpoint structure, supported parameters, HTTP methods, and expected responses. Use this documentation to understand our API.
 
-Endpoints created:
+## Base URL
 
-#### Get all products
+All API endpoints are accessed via the following base URL:
 
 ```http
-  Get /api/products
+  http://localhost:3000
 ```
 
-| Parameter | Type  | Description               |
-| :-------- | :---- | :------------------------ |
-| `none`    | `any` | All products in the store |
+## Endpoints
 
-#### Get product
+### Products
+
+- GET all products
+
+```http
+  GET /api/products
+```
+
+| Parameter | Type   | Description                           |
+| :-------- | :----- | :------------------------------------ |
+| `none`    | `none` | You get all the products in the store |
+
+- GET all products recommended
+
+```http
+  GET /api/products?recommended=true
+```
+
+| Parameter | Type   | Description                          |
+| :-------- | :----- | :----------------------------------- |
+| `none`    | `none` | You get all the recommended products |
+
+- GET all products by brand
+
+```http
+  GET /api/products?brand=${brand}
+```
+
+| Parameter | Type     | Description                          |
+| :-------- | :------- | :----------------------------------- |
+| `brand`   | `string` | **Required**. brand of item to fetch |
+
+- GET one product of each brand
+
+```http
+  GET /api/products?brands=true
+```
+
+| Parameter | Type   | Description                     |
+| :-------- | :----- | :------------------------------ |
+| `none`    | `none` | You get a product of each brand |
+
+- GET all the best selling products
+
+```http
+  GET /api/products?mostSelling=true
+```
+
+| Parameter | Type   | Description                           |
+| :-------- | :----- | :------------------------------------ |
+| `none`    | `none` | You get all the best selling products |
+
+- GET all related products
+
+```http
+  GET /api/products?related=${name}&id=${id}
+```
+
+| Parameter | Type     | Description                                           |
+| :-------- | :------- | :---------------------------------------------------- |
+| `name`    | `string` | **Required**. element name to search for its related  |
+| `id`      | `string` | **Required**. id of the element to not bring the same |
+
+- GET all the products of the category
+
+```http
+  GET /api/products?category=${category}
+```
+
+| Parameter  | Type     | Description                            |
+| :--------- | :------- | :------------------------------------- |
+| `category` | `string` | **Required**. category of item to fetch |
+
+### Product
+
+- GET product by id
 
 ```http
   GET /api/products/${id}
 ```
 
-#### Get data
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `id`      | `string` | **Required**. id of item to fetch |
+
+#### GET data
 
 ```http
   GET /api/data
@@ -342,3 +482,7 @@ Endpoints created:
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
 | `id`      | `string` | **Required**. Id of item to fetch |
+
+## Author
+
+- [@Junior Huanca](https://github.com/JuniorHuanca)
