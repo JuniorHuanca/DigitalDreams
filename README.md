@@ -27,7 +27,40 @@ En resumen, el proyecto busca proporcionar una experiencia de compra en línea c
 - Pendrives
 - Impresoras
 
-## Instalación
+## Tecnologías Utilizadas
+
+Lista de las tecnologías más relevantes utilizadas en este proyecto:
+
+
+<div align="center">  
+<a href="https://reactjs.org/" target="_blank"><img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/react-original-wordmark.svg" alt="React" height="50" /></a>  
+<a href="https://nextjs.org/" target="_blank"><img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/nextjs.png" alt="NextJS" height="50" /></a>  
+<a href="https://www.typescriptlang.org/" target="_blank"><img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/typescript-original.svg" alt="TypeScript" height="50" /></a>  
+<a href="https://mui.com/" target="_blank"><img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/mui.png" alt="Material UI" height="50" /></a>  
+<a href="https://redux.js.org/" target="_blank"><img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/redux-original.svg" alt="Redux" height="50" /></a>  
+<a href="https://www.prisma.io/" target="_blank"><img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/prisma.png" alt="Prisma" height="50" /></a>  
+<a href="https://nodejs.org/" target="_blank"><img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/nodejs-original-wordmark.svg" alt="Node.js" height="50" /></a>  
+<a href="https://www.tailwindcss.com/" target="_blank"><img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/tailwindcss.svg" alt="Tailwind CSS" height="50" /></a>  
+<a href="https://www.postgresql.org/" target="_blank"><img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/postgresql-original-wordmark.svg" alt="PostgreSQL" height="50" /></a>  
+<a href="https://github.com/" target="_blank"><img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/git-scm-icon.svg" alt="Git" height="50" /></a>  
+</div>
+
+## Características de la Aplicación
+
+- Autenticación de Terceros: Permite a los usuarios registrarse e iniciar sesión utilizando sus cuentas de terceros, como Google o Facebook.
+- Carrito de Compras: Los usuarios pueden agregar productos al carrito de compras, ajustar las cantidades y realizar el proceso de compra.
+- Reseñas y Puntuaciones: Los usuarios pueden dejar reseñas y puntuaciones para los productos, lo que ayuda a otros usuarios a tomar decisiones de compra informadas.
+- Favoritos: Los usuarios pueden guardar productos en su lista de favoritos para poder acceder fácilmente a ellos más tarde.
+- Pasarela de Pagos: Integración de una pasarela de pagos para permitir a los usuarios realizar transacciones seguras y completar el proceso de compra.
+- Filtros y Ordenamientos: Los usuarios pueden aplicar filtros y ordenamientos para refinar su búsqueda de productos en la tienda.
+- Barra de Búsqueda: Los usuarios pueden realizar búsquedas de productos utilizando palabras clave y obtener resultados relevantes.
+- Gestión de Usuarios: Funcionalidad para administrar y gestionar la información de los usuarios, como editar perfiles, cambiar contraseñas, etc.
+- Gestión de Productos: Permite a los administradores agregar, editar y eliminar productos en el catálogo de la tienda.
+- Gestión de Reseñas: Los administradores pueden moderar y gestionar las reseñas de los productos, como aprobarlas, eliminarlas o responder a ellas. También se incluye un apartado de reportes para los malos comentarios.
+- Gráficos (Dashboard): Ofrece un panel de control con gráficos y estadísticas visuales para proporcionar información sobre el rendimiento de ventas, análisis de productos, etc.
+
+
+## Instalación 💻
 
 Sigue estos pasos para instalar el proyecto "DigitalDreams" utilizando npm.
 
@@ -49,7 +82,7 @@ Instala las dependencias del proyecto:
   npm install
 ```
 
-## Configuración de Variables de Entorno
+## Configuración de Variables de Entorno 🛠️
 
 Para ejecutar este proyecto, deberá agregar las siguientes variables de entorno a su archivo .env
 
@@ -240,7 +273,7 @@ Ejemplo de archivo `.env`:
 
 </details>
 
-## Tu archivo debería verse así:
+## Tu archivo debería verse así: 📄
 
     BASE_URL="http://localhost:3000/"
     GITHUB_CLIENT_ID=TU_CLIENT_ID
@@ -259,7 +292,7 @@ Ejemplo de archivo `.env`:
     GOOGLE_PASSWORD=TU_GOOGLE_PASSWORD
     DATABASE_URL=postgresql://postgres:password@localhost:5432/digitaldreams?schema=public
 
-## Ejecutar localmente
+## Ejecutar localmente 🏃‍♀️
 
 Para ejecutar el proyecto localmente, sigue estos pasos:
 
@@ -280,7 +313,7 @@ Para ejecutar el proyecto localmente, sigue estos pasos:
 - Abre tu navegador web y ve a la URL http://localhost:3000.
   Ahora deberías poder ver y utilizar la aplicación localmente en tu navegador.
 
-## Ingresar datos en la aplicación
+## Ingresar datos en la aplicación 📝
 
 - La aplicación no tiene datos inicialmente, por lo que existen dos formas de ingresar productos:
 
@@ -328,7 +361,7 @@ With this e-commerce platform, customers will be able to explore various categor
 
 In summary, the project aims to provide a convenient and secure online shopping experience for technology enthusiasts and those interested in computer-related products.
 
-### Available product categories:
+### Available product categories: 💻
 
 - Built Computers (Equipos armados)
 - Consoles (Consolas)
@@ -347,7 +380,40 @@ In summary, the project aims to provide a convenient and secure online shopping 
 - Pendrives (Memorias USB)
 - Printers (Impresoras)
 
-## Installation
+## Technologies Used
+
+List of the most relevant technologies used in this project:
+
+
+<div align="center">  
+<a href="https://reactjs.org/" target="_blank"><img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/react-original-wordmark.svg" alt="React" height="50" /></a>  
+<a href="https://nextjs.org/" target="_blank"><img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/nextjs.png" alt="NextJS" height="50" /></a>  
+<a href="https://www.typescriptlang.org/" target="_blank"><img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/typescript-original.svg" alt="TypeScript" height="50" /></a>  
+<a href="https://mui.com/" target="_blank"><img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/mui.png" alt="Material UI" height="50" /></a>  
+<a href="https://redux.js.org/" target="_blank"><img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/redux-original.svg" alt="Redux" height="50" /></a>  
+<a href="https://www.prisma.io/" target="_blank"><img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/prisma.png" alt="Prisma" height="50" /></a>  
+<a href="https://nodejs.org/" target="_blank"><img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/nodejs-original-wordmark.svg" alt="Node.js" height="50" /></a>  
+<a href="https://www.tailwindcss.com/" target="_blank"><img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/tailwindcss.svg" alt="Tailwind CSS" height="50" /></a>  
+<a href="https://www.postgresql.org/" target="_blank"><img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/postgresql-original-wordmark.svg" alt="PostgreSQL" height="50" /></a>  
+<a href="https://github.com/" target="_blank"><img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/git-scm-icon.svg" alt="Git" height="50" /></a>  
+</div>
+
+## Application Features
+
+- Third-Party Authentication: Allows users to register and log in using their third-party accounts, such as Google or Facebook.
+- Shopping Cart: Users can add products to the shopping cart, adjust quantities, and complete the checkout process.
+- Reviews and Ratings: Users can leave reviews and ratings for products, helping other users make informed purchasing decisions.
+- Favorites: Users can save products to their favorites list for easy access later.
+- Payment Gateway: Integration of a payment gateway to enable secure transactions and complete the purchasing process.
+- Filters and Sorting: Users can apply filters and sorting options to refine their product search in the store.
+- Search Bar: Users can search for products using keywords and get relevant results.
+- User Management: Functionality to manage and handle user information, such as profile editing, password changing, etc.
+- Product Management: Allows administrators to add, edit, and delete products in the store's catalog.
+- Reviews Management: Administrators can moderate and manage product reviews, including approving, deleting, or responding to them. It also includes a section for reporting bad comments.
+- Dashboard and Analytics: Provides a control panel with visual charts and statistics to offer insights into sales performance, product analysis, etc.
+
+
+## Installation 🛠️
 
 Follow these steps to install the "DigitalDreams" project using npm.
 
@@ -369,7 +435,7 @@ Install the project dependencies:
   npm install
 ```
 
-## Environment Variables Configuration
+## Environment Variables Configuration 📄
 
 To run this project, you will need to add the following environment variables to your .env file:
 
@@ -570,7 +636,7 @@ Ejemplo de archivo `.env`:
 
 
 
-## Your file should look like this:
+## Your file should look like this: 🏃‍♀️
 
     BASE_URL="http://localhost:3000/"
     GITHUB_CLIENT_ID=YOUR_CLIENT_ID
@@ -590,7 +656,7 @@ Ejemplo de archivo `.env`:
     DATABASE_URL=postgresql://postgres:password@localhost:5432/digitaldreams?schema=public
 
 
-## Run Locally
+## Run Locally 📝
 
 To run the project locally, follow these steps:
 
@@ -869,3 +935,17 @@ https://digitaldreams.vercel.app
 ## Author
 
 - [@Junior Huanca](https://github.com/JuniorHuanca)
+
+<br />
+
+## Connect with me  
+<div align="center">
+<a href="https://github.com/JuniorHuanca" target="_blank">
+<img src=https://img.shields.io/badge/github-%2324292e.svg?&style=for-the-badge&logo=github&logoColor=white alt=github style="margin-bottom: 5px;" />
+</a>
+<a href="https://linkedin.com/in/junior-huanca-697582254" target="_blank">
+<img src=https://img.shields.io/badge/linkedin-%231E77B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white alt=linkedin style="margin-bottom: 5px;" />
+</a>  
+</div>  
+
+<br />
