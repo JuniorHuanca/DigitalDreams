@@ -16,7 +16,6 @@ export default async function handler(
     case "PATCH":
       try {
         const { id, field, value } = req.body;
-        console.log(id, field, value);
         if (session.user.role !== "Admin") {
           return res.status(403).json({
             message: "You need the administrator role to make changes.",
@@ -39,9 +38,12 @@ export default async function handler(
           },
         });
         res
-          .status(201)
-          .json({ userUpdate, message: "It was successfully updated." });
-        res.status(200).json({ success: true });
+          .status(200)
+          .json({
+            success: true,
+            message: "It was successfully updated.",
+            userUpdate,
+          });
       } catch (error: any) {
         res.status(400).json({ success: false, error: error });
       }

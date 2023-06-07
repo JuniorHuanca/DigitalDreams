@@ -157,7 +157,7 @@ const Customers = (props: Props) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.status) {
+        if (data.status === 200) {
           return toast.error(data.message);
         }
         return toast.success(data.message);

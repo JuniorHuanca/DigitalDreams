@@ -304,26 +304,168 @@ const Navbar = ({ user, isSidebarOpen, setIsSidebarOpen }: Props) => {
           </div>
         </Toolbar>
       ) : (
-        <div className="flex justify-between p-3">
-          <FlexBetween>
-            <Image
-              src={Logo}
-              alt=""
-              width={40}
-              priority
-              height={55}
-              className="rounded-full"
-            ></Image>
-            <Link href="/" className="font-extrabold text-sm ml-1">
-              DIGITAL DREAMS
-            </Link>
-          </FlexBetween>
-          <button
-            className="rounded-full bg-primary-500 dark:bg-secondary-200 p-2"
-            onClick={() => setIsMenuToggled(!isMenuToggled)}
-          >
-            <AiOutlineBars className="h-6 w-6 dark:text-black text-white" />
-          </button>
+        <div className="nav">
+          <input type="checkbox" id="nav-check" />
+          <div className="nav-header">
+            <div className="nav-title">
+              <div className="flex items-center">
+                <IconButton onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+                  <MenuIcon />
+                </IconButton>
+                <FlexBetween
+                  backgroundColor={themeM.palette.background.alt}
+                  borderRadius="9px"
+                  p="0.1rem 1.5rem"
+                  className="w-[70%] relative"
+                >
+                  <InputBase
+                    placeholder="Search..."
+                    value={search}
+                    onChange={(e) => {
+                      handleChange(e);
+                    }}
+                  />
+                  <IconButton
+                    onClick={() => {
+                      setSearch("");
+                      setVisible(false);
+                    }}
+                  >
+                    {visible ? <Clear /> : <Search />}
+                  </IconButton>
+                  {productsSearchNav.length && visible ? (
+                    <div className="absolute right-0 top-8 bg-white text-black dark:text-white dark:bg-primary-600 w-full max-h-[420px] h-[420px] overflow-y-auto z-[210] rounded-b-[9px] overflow-hidden hide-scrollbar">
+                      <div className="w-full h-[87%] overflow-y-auto z-[210] overflow-hidden hide-scrollbar">
+                        {productsSearchNav.map((product, index) => (
+                          <div
+                            key={index}
+                            className="flex p-2 hover:dark:bg-indigo-500/40 hover:bg-slate-300 font-semibold text-sm items-center"
+                          >
+                            <Link
+                              className="relative h-24 w-[30%] p-1"
+                              href={`/product/${product.id}`}
+                            >
+                              <Image
+                                src={product.image}
+                                alt={product.name}
+                                fill
+                                sizes="(max-width: 768px) 100vw, 700px"
+                                priority
+                              />
+                            </Link>
+                            <Link
+                              href={`/product/${product.id}`}
+                              className="w-[70%] p-4 font-semibold hover:text-primary-500 dark:hover:text-secondary-500 transition-all hover:scale-105"
+                            >
+                              {product.name}
+                            </Link>
+                          </div>
+                        ))}
+                      </div>
+                      <Link
+                        href={`/products/search?products=${search}`}
+                        className="block h-[13%] font-semibold text-center py-4 text-base dark:bg-indigo-500/40 bg-slate-300"
+                      >
+                        See al products
+                      </Link>
+                    </div>
+                  ) : null}
+                </FlexBetween>
+              </div>
+            </div>
+          </div>
+          <div className="nav-btn">
+            <label htmlFor="nav-check">
+              <span className="border-t-2 dark:border-white border-primary-600"></span>
+              <span className="border-t-2 dark:border-white border-primary-600"></span>
+              <span className="border-t-2 dark:border-white border-primary-600"></span>
+            </label>
+          </div>
+
+          <div className="nav-links bg-white dark:bg-primary-700">
+            <div className="flex w-full justify-center items-center">
+              <Image
+                src={Logo}
+                alt=""
+                width={40}
+                height={55}
+                priority
+                className="rounded-full"
+              ></Image>
+              <Link href="/" className="font-extrabold text-sm ml-1">
+                DIGITAL DREAMS
+              </Link>
+            </div>
+            <div
+              className={`flex items-center cursor-pointer hover:bg-slate-300 hover:dark:bg-primary-600 rounded-lg`}
+              onClick={() => {
+                dispatch(setMode());
+                setTheme(theme === "light" ? "dark" : "light");
+              }}
+            >
+              <NavButton
+                title=""
+                color={themeM.palette.secondary[200]}
+                icon={
+                  themeM.palette.mode === "dark" ? (
+                    <BsMoon />
+                  ) : (
+                    <WiSolarEclipse />
+                  )
+                }
+                dotColor={undefined}
+                // customFunc={() => {
+                //   dispatch(setMode());
+                //   setTheme(theme === "light" ? "dark" : "light");
+                // }}
+                customFunc={() => null}
+                selected={undefined}
+              />
+              <span style={{ color: themeM.palette.secondary[200] }}>
+                {themeM.palette.mode === "dark" ? "Dark" : "Light"}
+              </span>
+            </div>
+            <div
+              className={`${
+                isClicked.cart ? selectModalColor : null
+              } flex items-center cursor-pointer hover:bg-slate-300 hover:dark:bg-primary-600 rounded-lg`}
+              onClick={() => {
+                handleModal("cart");
+                setIsMenuToggled(!isMenuToggled);
+              }}
+            >
+              <NavButton
+                title="Cart"
+                color={themeM.palette.secondary[200]}
+                icon={<FiShoppingCart />}
+                dotColor={undefined}
+                customFunc={() => null}
+                selected={undefined}
+              />
+              <span style={{ color: themeM.palette.secondary[200] }}>Cart</span>
+            </div>
+            <div
+              className={`${
+                isClicked.userProfile ? selectModalColor : null
+              } flex items-center cursor-pointer hover:bg-slate-300 hover:dark:bg-primary-600 rounded-lg`}
+              onClick={() => {
+                handleModal("userProfile");
+                setIsMenuToggled(!isMenuToggled);
+              }}
+            >
+              <NavButton
+                title="Person"
+                color={themeM.palette.secondary[200]}
+                icon={<BsFilePersonFill />}
+                dotColor={undefined}
+                customFunc={() => null}
+                selected={undefined}
+              />
+              <span style={{ color: themeM.palette.secondary[200] }}>
+                Settings
+              </span>
+            </div>
+          </div>
         </div>
       )}
       {!isAboveMediumScreens && isMenuToggled && (
