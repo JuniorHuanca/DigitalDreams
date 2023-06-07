@@ -75,7 +75,6 @@ const NewProduct = (props: Props) => {
   ) {
     try {
       const res = await dispatch(postOneProduct({ ...values, image }));
-      console.log(res);
       if (res.payload.success) {
         toast.success("Product created successfully");
         resetForm();
@@ -96,7 +95,6 @@ const NewProduct = (props: Props) => {
       }
     })();
   }, []);
-  console.log(formik.values);
   return (
     <div>
       <Header title="NEW PRODUCT" subtitle="add a new product to the list" />

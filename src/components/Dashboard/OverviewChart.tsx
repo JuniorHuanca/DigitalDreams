@@ -27,7 +27,6 @@ const OverviewChart = ({ isDashboard = false, view }: Props) => {
       data: [],
     };
 
-    console.log(monthlyData);
     Object.values(monthlyData).reduce(
       (acc: Acc, { month, totalSales, totalUnits }: MonthlyData) => {
         const curSales = acc.sales + totalSales;

@@ -32,13 +32,10 @@ const Success = (props: Props) => {
       runFireworks();
       (async () => {
         const res = await getTransactionApi(checkoutSession as string);
-        console.log(res);
         if (res.data.transaction) {
           return router.push("/");
         } else {
           const response = await postTransationApi(checkoutSession, cart);
-          console.log(response);
-
           if (response.data.success) {
             dispatch(setItemsCart(0));
             localStorage.clear();

@@ -58,10 +58,6 @@ const Transactions = (props: Props) => {
         `$${Number(params.value).toFixed(2)}`,
     },
   ];
-
-
-  console.log(search)
-  console.log(searchInput)
   return (
     <LayoutDashboard title={"Transactions - Dashboard"}>
       <Box m="1.5rem 2.5rem">

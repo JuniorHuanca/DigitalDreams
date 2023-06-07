@@ -77,7 +77,6 @@ export default async function handler(
             },
           },
         });
-        console.log(todayStats);
         const {
           totalCustomers,
           yearlyTotalSoldUnits,
