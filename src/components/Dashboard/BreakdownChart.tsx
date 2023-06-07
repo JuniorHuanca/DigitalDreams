@@ -14,16 +14,27 @@ const BreakdownChart = ({ isDashboard = false }: Props) => {
   if (!data || isLoading) return <Loader />;
 
   const colors = [
-    theme.palette.secondary[500],
-    theme.palette.secondary[300],
-    theme.palette.secondary[300],
-    theme.palette.secondary[500],
-    theme.palette.secondary[500],
-    theme.palette.secondary[300],
-    theme.palette.secondary[300],
-    theme.palette.secondary[500],
-    theme.palette.secondary[500],
-    theme.palette.secondary[300],
+    // theme.palette.secondary[500],
+    // theme.palette.secondary[300],
+    // theme.palette.primary[300],
+    // theme.palette.primary[500],
+    // theme.palette.secondary[600],
+    // theme.palette.secondary[400],
+    // theme.palette.secondary[700],
+    // theme.palette.secondary[800],
+    // theme.palette.secondary[500],
+    // theme.palette.secondary[300],
+    "#9e0142",
+    "#d53e4f",
+    "#f46d43",
+    "#fdae61",
+    "#fee08b",
+    "#ffffbf",
+    "#e6f598",
+    "#abdda4",
+    "#66c2a5",
+    "#3288bd",
+    "#5e4fa2",
   ];
   const formattedData = Object.entries(data.salesByCategory).map(
     ([category, sales], i) => ({
@@ -140,7 +151,7 @@ const BreakdownChart = ({ isDashboard = false }: Props) => {
         }}
       >
         <Typography variant="h6">
-          {!isDashboard && "Total:"} ${data.yearlySalesTotal}
+          {!isDashboard && "Total:"} $12
         </Typography>
       </Box>
     </Box>
