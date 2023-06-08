@@ -22,8 +22,8 @@ const Success = (props: Props) => {
   const [mounted, setMounted] = useState<boolean>(false);
 
   useEffect(() => {
-      setMounted(true);
-      dispatch(setAllModals());
+    setMounted(true);
+    dispatch(setAllModals());
   }, [router.query.checkoutSession]);
 
   useEffect(() => {
@@ -35,12 +35,10 @@ const Success = (props: Props) => {
         if (res.data.transaction) {
           return router.push("/");
         } else {
-          const response = await postTransationApi(checkoutSession, cart);
-          if (response.data.success) {
-            dispatch(setItemsCart(0));
-            localStorage.clear();
-            dispatch(clearCart());
-          }
+          postTransationApi(checkoutSession, cart);
+          dispatch(setItemsCart(0));
+          localStorage.clear();
+          dispatch(clearCart());
         }
       })();
     }

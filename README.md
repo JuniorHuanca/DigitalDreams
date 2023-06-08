@@ -303,7 +303,6 @@ Para ejecutar el proyecto localmente, sigue estos pasos:
   npx prisma migrate dev
 ```
 
-- Se te pedirá que le des un nombre a la migración. Ingresa un nombre descriptivo y presiona Enter.
 - Luego, ejecuta el siguiente comando para iniciar el servidor de desarrollo:
 
 ```bash
@@ -667,7 +666,6 @@ To run the project locally, follow these steps:
 npx prisma migrate dev
 ```
 
-- You will be prompted to provide a name for the migration. Enter a descriptive name and press Enter.
 - Then, run the following command to start the development server:
 
 ```bash

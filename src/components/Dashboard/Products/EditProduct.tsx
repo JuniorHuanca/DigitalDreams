@@ -135,7 +135,9 @@ const EditProduct = ({ item, cancel }: Props) => {
               <Image
                 src={pathImage || Logo}
                 alt="Logo"
-                fill
+                width={500}
+                height={500}
+                priority
                 sizes="(max-width: 768px) 100vw, 700px"
               />
             </div>
