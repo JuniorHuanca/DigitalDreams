@@ -38,6 +38,7 @@ import { AiOutlineCloudUpload } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { getDataApi, postDataApi } from "@/shared/util/dataApi";
 import { toast } from "react-hot-toast";
+import { dataPDF, generatePDFReport } from "@/shared/util/reports";
 type Props = {};
 
 const Dashboard = (props: Props) => {
@@ -81,7 +82,18 @@ const Dashboard = (props: Props) => {
                 // maxWidth: "170px",
               }}
             >
-              {dataValues && <pre>{JSON.stringify(dataValues, null, 2)}</pre>}
+              {data && !isLoading && (
+                <div onClick={() => generatePDFReport(dataPDF)}>
+                  <DownloadOutlined sx={{ mr: "10px" }} />
+                  Download Reports
+                </div>
+              )}
+              {!data && isLoading && (
+                <div onClick={() => generatePDFReport(dataPDF)}>
+                  <DownloadOutlined sx={{ mr: "10px" }} />
+                  Download Reports
+                </div>
+              )}
               {!dataValues && (
                 <div onClick={handlePostData}>
                   <AiOutlineCloudUpload size={28} /> POST DATA
