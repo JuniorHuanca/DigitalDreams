@@ -1,6 +1,6 @@
 import prisma from "@/lib/prismadb";
 import { emailOrderConfirmation } from "@/shared/util/emails/orderConfirmation";
-import { IProductCart } from "@/shared/util/types";
+import { IProductCart, date, month, year } from "@/shared/util/types";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
 export default async function handler(
@@ -8,21 +8,6 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const session: any = await getSession({ req });
-  // const session: any = {
-  //   user: {
-  //     name: "Brayan_libra1@hotmail.com",
-  //     email: "Brayan_libra1@hotmail.com",
-  //     image: "",
-  //     id: "clh6wpes00000t3h4esi2gmi0",
-  //     role: "Admin",
-  //   },
-  //   expires: "2023-06-01T00:08:52.277Z",
-  // };
-  const year = new Date().getFullYear();
-  const date = new Date().toLocaleDateString();
-  const month = new Date().toLocaleString("default", {
-    month: "long",
-  });
   const { method } = req;
   if (!session) {
     return res.status(403).send("forbidden");
@@ -312,8 +297,6 @@ export default async function handler(
             await prisma.monthlyData.update({
               where: { id: existingMonthlyData.id },
               data: {
-                // totalSales: { increment: totalSalesMonthly },
-                // totalUnits: { increment: totalUnitsMonthly },
                 totalSales: totalSalesMonthly,
                 totalUnits: totalUnitsMonthly,
               },
@@ -343,10 +326,8 @@ export default async function handler(
             await prisma.dailyData.update({
               where: { id: existingDailyData.id },
               data: {
-                // totalSales: { increment: totalSalesDataDaily },
-                // totalUnits: { increment: totalUnitsDataDaily },
-                totalSales: totalSalesMonthly,
-                totalUnits: totalUnitsMonthly,
+                totalSales: totalSalesDataDaily,
+                totalUnits: totalUnitsDataDaily,
               },
             });
           } else {
