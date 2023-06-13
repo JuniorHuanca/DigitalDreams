@@ -82,21 +82,18 @@ const Dashboard = (props: Props) => {
                 // maxWidth: "170px",
               }}
             >
-              {data && !isLoading && (
-                <div onClick={() => generatePDFReport(dataPDF)}>
-                  <DownloadOutlined sx={{ mr: "10px" }} />
-                  Download Reports
-                </div>
-              )}
               {!dataValues ? (
                 <div onClick={handlePostData}>
                   <AiOutlineCloudUpload size={28} /> POST DATA
                 </div>
               ) : (
-                <div onClick={() => generatePDFReport(dataPDF)}>
-                  <DownloadOutlined sx={{ mr: "10px" }} />
-                  Download Reports
-                </div>
+                data &&
+                !isLoading && (
+                  <div onClick={() => generatePDFReport(dataPDF)}>
+                    <DownloadOutlined sx={{ mr: "10px" }} />
+                    Download Reports
+                  </div>
+                )
               )}
             </Button>
           </Box>

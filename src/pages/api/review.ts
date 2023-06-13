@@ -14,7 +14,7 @@ export default async function handler(
           const reviews = await prisma.review.findMany({
             where: {
               productId: parseInt(productId as string),
-              // reports: { none: {} },
+              reports: { none: {} },
               // reports: {
               //   has: false,
               //   count: { lt: 3 },
@@ -29,7 +29,7 @@ export default async function handler(
           const reviews = await prisma.review.findMany({
             where: {
               userId: userId as string,
-              // reports: { none: {} },
+              reports: { none: {} },
               // reports: {
               //   has: false,
               //   count: { lt: 3 },
