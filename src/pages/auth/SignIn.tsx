@@ -121,8 +121,7 @@ function SignIn({ session }: Props) {
       });
       if (response?.ok) {
         resetForm();
-        // router.back();
-        router.push('/')
+        router.push(router.query.callbackUrl as string);
       }
       if (response?.error) {
         setNumLoginAttempts(numLoginAttempts + 1);
@@ -184,11 +183,13 @@ function SignIn({ session }: Props) {
 }
 
 export const getServerSideProps = async (context: any) => {
+  const { callbackUrl } = context.query;
+  const referer = callbackUrl || "/";
   const session = await getSession(context);
   if (session) {
     return {
       redirect: {
-        destination: "/",
+        destination: referer,
         permanent: false,
       },
     };
